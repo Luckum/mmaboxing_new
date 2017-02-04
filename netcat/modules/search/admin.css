@@ -1,0 +1,531 @@
+table.list {
+    width: 100%;
+}
+
+table.list tr.disabled td {
+    color: #999999;
+    font-style: italic;
+}
+
+table.list .icon_spacer {
+    width: 8px;
+    display: inline-block;
+    /* IE HACK for display: inline-block */
+    zoom: 1;
+    *display: inline;
+}
+
+a img {
+    border: none;
+}
+
+form.search .ncf_caption, form.search .ncf_value {
+    float: none;
+    font-size: 100%;
+    width: 100%;
+}
+
+form.search .ncf_caption {
+    padding: 4px 0 2px 2px;
+}
+
+form.search .ncf_value {
+    padding: 0 0 4px ;
+}
+
+form.search .ncf_default {
+    display: none;
+}
+
+form.search .ncf_value input, form.search .ncf_value select {
+    width: 350px;
+    max-width: 100%;
+}
+
+#synonym_list .word, #add_synonym_row {
+    margin: 0 0 4px;
+}
+
+#synonym_list .word input {
+    width: 350px;
+}
+
+form.search .delete_word img {
+    vertical-align: middle;
+    margin: -5px 4px 0 6px;
+}
+
+
+#add_synonym_row span, form.search .delete_word {
+    cursor: pointer;
+}
+
+#add_synonym_row img {
+    vertical-align: bottom;
+    margin-right: 4px;
+}
+
+#synonym_filter_row {
+    margin: 15px 0 0 -4px;
+}
+
+.inline_help_mark, .search_rule .show_details, .query_filter #clear_timespan {
+    font-size: 80%;
+    font-weight: bold;
+    cursor: pointer;
+    color: #7CA4BD;
+    margin-left: 10px;
+}
+
+.inline_help {
+    display: none;
+    position: absolute;
+    border: 1px solid #999999;
+    background-color: #fffdef;
+    padding: 0 10px;
+    margin: 20px 0 0 35px;
+    width: 350px;
+}
+
+.inline_help code {
+    background: #fffacd;
+    padding: 0 3px;
+    font-weight: bold;
+}
+
+.search_rule .show_details {
+    margin-left: 6px;
+}
+
+.live_filter {
+    /*background: url("../../admin/skins/default/img/idtab_bg2.gif") repeat-x scroll #F2F2F2;
+    border: 1px solid #CCCCCC;*/
+    color: black;
+    margin-bottom: 10px;
+    _margin-bottom: -10px;
+}
+
+.live_filter img {
+    vertical-align: top;
+}
+
+.live_filter input, .live_filter select {
+    vertical-align: top;
+    margin-right: 4px;
+    padding: 3px;
+}
+
+.live_filter input {
+    width: 200px;
+    padding: 4px;
+}
+
+.live_filter .icon img {
+    margin: 1px 6px 0 -3px;
+}
+.live_filter .icon {
+    display: none;
+}
+
+.live_filter .reset {
+    display: none;
+    cursor: pointer;
+}
+
+form.search .stopword_variants code {
+    font-size: 125%;
+    font-weight: bold;
+    background: #fffacd;
+    padding: 0 3px;
+}
+
+form.search .space_before {
+    margin-top: 6px;
+}
+
+form.search .rule_radio, form.search .rule_interval_row {
+    margin-left: 10px;
+}
+
+form.search .rule_interval_row {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+form.search .rule_interval_row_last {
+    margin-top: 0;
+}
+
+form.search textarea.rule_area  {
+    margin: 4px 0 0 34px;
+    width: 316px;
+    height: 100px;
+}
+
+form.search .rule_time input, form.search .rule_interval_input {
+    width: 25px;
+    margin: 0 2px;
+    text-align: center;
+}
+
+div.search_indexing .log_entry {
+    margin: 4px 0;
+    padding: 4px 10px;
+    background-color: #F7F6F5;
+}
+
+div.search_indexing .log_entry .type {
+    color: #999999;
+    padding: 0 8px;
+}
+
+a.ajax, a.internal {
+    text-decoration: none;
+    border-bottom: 1px dotted #0075BA;
+}
+
+.search_rule .actions {
+    margin-top: 8px;
+}
+
+.search_rule .details {
+    margin: 2px 0 4px;
+    padding: 8px 12px 2px;
+    background-color: #EEEEEE;
+    display: none;
+}
+
+.search_rule .details .site, .search_rule .details .list, .search_rule .details .schedule {
+    margin-bottom: 8px;
+}
+
+.search_rule .details .list .item {
+    margin: 2px 0 2px 10px;
+}
+
+.search_rule .details .list .item a {
+    padding: 0 2px;
+}
+
+.query_filter {
+    width: 100%;
+    /* background: url("../../admin/skins/default/img/idtab_bg2.gif") repeat-x scroll #F2F2F2; */
+    border: 1px solid #CCCCCC;
+    color: black;
+}
+
+.query_filter td {
+    padding: 3px 15px 3px 6px;
+    white-space: nowrap;
+    vertical-align: bottom;
+    word-spacing: 3px;
+    width: 10%;
+}
+
+.query_filter td.fragment_cell {
+    width: 30%;
+}
+
+.query_filter .caption {
+    margin-bottom: 4px;
+    font-weight: normal;
+    word-spacing: 2px;
+}
+
+.query_filter td.submit {
+    width: 50%;
+    text-align: right;
+    padding-right: 6px;
+}
+
+.query_filter input.fragment {
+    width: 100%;
+}
+
+input.i2 {
+    text-align: center !important;
+    width: 2em;
+}
+
+input.i3 {
+    text-align: center !important;
+    width: 2.5em;
+}
+
+input.i4 {
+    text-align: center !important;
+    width: 3em;
+}
+
+input.i7 {
+    text-align: center !important;
+    width: 5.5em;
+}
+
+.query_filter #clear_timespan {
+    visibility: hidden;
+    margin-left: 3px;
+}
+
+.query_filter .timespan input {
+    margin: 0 2px;
+}
+
+.query_sort {
+    text-align: right;
+    margin: 0 3px 30px 0;
+}
+
+.query_details_header {
+    margin-bottom: 8px;
+}
+
+.area_hint .area_description {
+    text-align: left;
+    padding: 8px 16px;
+    width: 250px;
+    margin: 0;
+}
+
+.area_hint .area_description .header {
+    margin-bottom: 4px;
+}
+
+.settings {
+    line-height: 180%;
+}
+
+.settings legend {
+    line-height: 150%;
+}
+
+.settings label {
+    padding: 4px;  /* for highlighting */
+    margin: 0 -3px;
+    _padding: 0 1px;
+    _margin: -1px 0;
+}
+
+.settings .caption {
+    padding: 8px 0 6px;
+}
+
+.settings input {
+    margin-left: 0; /* align checkboxes */
+    margin-bottom: 5px !important;
+}
+
+.settings input[type=text] {
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+}
+
+.settings input, .settings select {
+    font-size: 11px;
+    vertical-align: baseline;
+}
+
+.settings blockquote {
+    margin: 0 22px 3px;
+    padding: 0;
+}
+
+.settings #purge_now {
+    display: none;
+}
+
+.settings .subgroup {
+    margin-top: 3px;
+}
+
+.settings .submit_button {
+    margin: 6px 21px 0;
+}
+
+.settings textarea {
+    margin-bottom: 8px;
+    width: 400px;
+    height: 80px;
+}
+
+.settings textarea.code {
+    margin: 0;
+    width: 100%;
+    height: 300px;
+}
+
+.fields textarea {
+    margin: 0;
+    width: 100%;
+}
+
+.fields .tag_weight {
+    margin: 2px 0;
+}
+
+.fields .tag_weight input {
+    margin: 0 4px;
+}
+
+.fields .tag_weight .query {
+    width: 350px;
+}
+
+
+.fields #add_tag_weight {
+    margin: 6px 4px 4px 2px;
+    cursor: pointer;
+    line-height: 120%;
+}
+
+.fields #add_tag_weight img {
+    vertical-align: bottom;
+    margin-right: 2px;
+    _margin-top: -2px;
+}
+
+.custom_field {
+    padding: 4px 0px;
+    margin: 1px 8px 8px 1px;
+    width: 450px;
+    float: left;
+}
+
+.custom_field input, .custom_field textarea, .custom_field select {
+    width: 450px;
+}
+.custom_field .input{
+    border: none;
+}
+.custom_field_checkboxes {
+    margin: 6px 0 0 2px;
+    _margin: 6px 0 0 0;
+}
+
+.custom_field .settings_cb input {
+    width: auto;
+}
+
+.custom_field_delete_hover {
+    /* broken */
+}
+
+#add_custom_field {
+    clear: both;
+    cursor: pointer;
+}
+
+.result_count {
+    margin: 6px 3px;
+}
+
+.broken_link_list {
+    line-height: 150%;
+}
+
+.broken_link_list ul {
+    margin-bottom: 6px;
+}
+.broken_link_list li {
+    padding: 5px 0px;
+}
+
+.stat .legend {
+    font-weight: normal;
+    font-size: 15px;
+    color: #4F4F4F;
+    font-size: 15px;
+    margin: 0;
+    padding: 28px 0px 14px 0px;
+}
+
+.stat table.list {
+    margin-bottom: 16px;
+}
+
+.stat .param {
+    margin: 2px 0;
+}
+
+#index_custom_area {
+    /*border: 1px solid #CCCCCC;
+    background-color: #F2F2F2;*/
+    color: black;
+    padding: 5px 8px;
+}
+
+#index_custom_area table {
+    width: 100%;
+    _width: 0;
+}
+
+#index_custom_area table td {
+    white-space: nowrap;
+}
+
+#index_custom_area table .caption {
+    padding-right: 3px;
+}
+
+
+#index_custom_area .input {
+    width: 90%;
+    border: none;
+}
+
+#index_custom_area .input input {
+    width: 100%;
+}
+
+.system_settings .ncf_default {
+    display: none;
+}
+
+.system_settings .ncf_caption {
+    font-size: 11px;
+    width: 170px;
+    text-align: right;
+    padding: 7px 30px 2px 30px;
+}
+.system_settings .ncf_value{
+    padding-left: 30px;
+}
+.system_settings .ncf_value input {
+    width: 300px;
+}
+
+.extension_cb_row {
+    margin: 6px 0 3px -3px;
+}
+
+.log_settings form {
+    margin: 0;
+}
+
+.log_settings #settings_visible, .log_settings #settings_hidden {
+    cursor: pointer;
+}
+
+.log_settings #settings_visible {
+    display: none;
+}
+
+.log_settings #settings_hidden {
+}
+
+.log_settings .submit_row {
+    margin-top: 6px;
+}
+
+table.log_entries {
+    margin-top: 6px;
+}
+
+table.log_entries tr {
+    vertical-align: top;
+    text-align: center;
+}
+
+#enable_search_checkbox {
+    margin: 0 0 8px 2px;
+}

@@ -1,0 +1,28 @@
+/*$Id: admin.css 4356 2011-03-27 10:24:29Z denis $*/
+/* скидки*/
+#add, .del { cursor: pointer;}
+.discount { margin-bottom: 10px; }
+.discount select,.discount input { margin: 0px 5px; }
+.del { margin-left: 5px;}
+.dellabel { position: relative; top: -3px;}
+#value_null, #error_from_to, #error_range, #error_overlap { display: none;}
+.error_input { border: 2pt solid red}
+
+/* статистика заказов */
+.stat { width: 90%; margin: 10px 0px; }
+.stat > tbody > tr > th { text-align: center; font-weight: normal; }
+.stat .type { text-align: left; }
+.stat .info { text-align: center; }
+
+/* системные настройки */
+#systemSettings input { width: 100%;}
+
+/* форма изменения заказа*/
+#edit_form #add { cursor: pointer; margin-bottom: 30px; margin-left: 5px;}
+#edit_form .row { margin: 5px 0px;}
+#edit_form .row div { float: left;}
+#edit_form .title div { text-align: center; font-weight: bold;}
+#edit_form .row br { clear:both;}
+#edit_form .row input { margin: 0px 5px; width: 90%;}
+#edit_form #ordercost input { margin: 0px 5px; padding: 0px;}
+
