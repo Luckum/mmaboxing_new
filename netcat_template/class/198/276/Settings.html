@@ -1,0 +1,10 @@
+$Pay = array('rur'=>'руб.','usd'=>'$','eu'=>'&euro;','no'=>'','other'=>$cc_settings['OtherPay']);
+$Pay = $Pay[$cc_settings['Pay']];
+
+global $init_order;
+global $cc_order;
+if ( !$init_order ) {
+   $init_order = 1;
+   $cc_order = $db->get_row("SELECT `Class_ID` as class, `Sub_Class_ID` as cc, `Subdivision_ID` as sub FROM `Sub_Class` WHERE `Subdivision_ID` = '".intval($cc_settings['OrderSub'])."'", ARRAY_A);
+}
+?>

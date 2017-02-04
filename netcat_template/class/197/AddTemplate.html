@@ -1,0 +1,45 @@
+<?
+echo $warnText ? "<div class='warnText'>$warnText</div>" : NULL;
+$res = $db->get_var("SELECT CustomSettings FROM Sub_Class WHERE Sub_Class_ID=$cc");
+( $res ? eval("\$cc_settings = $res") : $cc_settings = NULL );
+$res = $db->get_var("SELECT CustomSettingsTemplate FROM Class WHERE Class_ID=$classID");
+eval("\$default_cc_settings = $res");
+if (!$inside_admin) {
+    ?> <p /> <?
+    echo ( $cc_settings['TextBefore'] ? $cc_settings['TextBefore'] : $default_cc_settings[TextBefore][default_value] );
+    ?>
+    <style type='text/css'>
+        div.textarea { width: 100%; }
+    </style>
+
+    <div class='nc_full nc_mail_from_site'>
+        <form name='adminForm'  method='post' action='<? echo $SUB_FOLDER.$HTTP_ROOT_PATH ?>add.php'>
+    <? $nc_core->token->get_input() ?>
+            <input name='cc' type='hidden' value='<? echo $cc ?>'>
+            <input name='sub' type='hidden' value='<? echo $sub ?>'>
+            <input name='catalogue' type='hidden' value='<? echo $catalogue ?>'>
+            <input type='hidden' name='posting' value='1'>
+
+            <div class='nc_item'>
+                <?= nc_string_field("Name", "maxlength='55' size='10'", $classID, 1); ?>
+            </div> <br />
+
+            <div class='nc_item'>
+                <?= nc_string_field("Email", "maxlength='55' size='10'", $classID, 1); ?>
+            </div> <br />
+
+            <div class='nc_item'>
+                <?= nc_string_field("Subject", "maxlength='55' size='10'", $classID, 1); ?>
+            </div> <br />
+
+            <div class='nc_item'>
+                <?= nc_text_field("Text", "style='width: 100%;'", $classID, 1); ?>
+            </div>
+
+            <div class='nc_description'>
+                Звездочкой (*) отмечены поля, обязательные для заполнения.
+            </div> <br />
+            <div class='nc_submit'><input value='Отправить' type='submit' /></div>
+        </form>
+    </div>
+<? } ?>

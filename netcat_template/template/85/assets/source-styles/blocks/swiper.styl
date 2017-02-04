@@ -1,0 +1,132 @@
+.tpl-block-swiper
+  position: relative
+  clearfix()
+  overflow: hidden
+  @media min
+    overflow: visible
+  .tpl-block-loader
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background: colorWhite
+    z-index: 20
+    opacity: 0
+    visibility: hidden
+    transition: opacity 0.2
+    &.tpl-state-active
+      opacity: 0.95
+      visibility: visible
+  &-container
+    margin: 0 auto
+    position: relative
+    overflow: hidden
+    backface-visibility: hidden
+    z-index: 1
+    // width: 1200px
+    margin-right: -20px
+    transition: opacity 0.3s
+    height: 0
+    @media min
+      margin-right: 0
+    &:before, &:after
+      transition: inherit
+      content: ''
+      display: block
+      position: absolute
+      top: 0
+      height: 100%
+      width: 10px
+      z-index: 100
+      pointer-events: none
+      background-repeat: no-repeat
+      background-size: 1px 100%, 5px 100%
+      visibility: hidden
+      opacity: 0
+      @media min
+        display: none
+    &:before
+      background-image: linear-gradient(transparent,rgba(0,0,0,.2) 25%,rgba(0,0,0,.3) 75%,transparent),radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.4),transparent)
+      background-position: 0 0,0 0
+      left: 0
+    &:after
+      background-image: linear-gradient(transparent,rgba(0,0,0,.2) 25%,rgba(0,0,0,.3) 75%,transparent),radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.4),transparent);
+      background-position: 100% 0,100% 0
+      right: 20px
+    &--grabbing
+      &:before, &:after
+        visibility: visible
+        opacity: 1
+  &-wrapper
+    position: relative
+    width: auto // js
+    height: auto // js
+    transition-property: transform, left, top
+    transition-duration: 0s
+    transform: translate3d(0px, 0, 0)
+    transition-timing-function: ease
+
+  &-free-mode > &-wrapper
+    transition-timing-function: ease-out
+    margin: 0 auto
+  &-item
+    float: left
+    width: auto // js
+    height: auto // js
+    padding-right: 20px
+  &-wp8-horizontal
+    -ms-touch-action: pan-y
+  &-wp8-vertical
+    -ms-touch-action: pan-x
+
+
+  // scrollbar
+  &-scrollbar
+    position: relative
+    -ms-touch-action: none
+    height: 5px
+    background: colorDull
+    margin-top: 20px
+    .swiper-scrollbar-drag
+      height: 100%
+      width: 100%
+      position: relative
+      background: colorBlue
+    .swiper-scrollbar-cursor-drag
+      cursor: move
+
+
+  .tpl-block-prevnext
+    position: absolute
+    right: 0
+    top: 0
+    z-index: 3
+    @media min
+      top: auto
+      bottom: 0
+      width: 100%
+      background: lightblue
+      left: 0
+      &-button
+        width: 90px
+        height: 120px
+        position: absolute
+        bottom: 365px
+        margin: 0
+        background: #fff
+        outline: 1px solid #fff
+        float: none
+        border: none
+        color: #000E52
+        mlink()
+        font-size: 50px
+        line-height: 100px
+        &:hover
+          color: #000E52
+        &:active
+          color: colorRed
+        &--prev
+          left: -50px
+        &--next
+          right: -50px

@@ -1,0 +1,81 @@
+<b>Время показов баннеров:</b><hr size=1>
+<? 
+if ($f_TimeZone1) {
+    ?>00:00 - 01:00<br>
+<?}
+if ($f_TimeZone2) {
+    ?>01:00 - 02:00<br>
+<?}
+if ($f_TimeZone3) {
+    ?>02:00 - 03:00<br>
+<?}
+if ($f_TimeZone4) {
+    ?>03:00 - 04:00<br>
+<?}
+if ($f_TimeZone5) {
+    ?>04:00 - 05:00<br>
+<?}
+if ($f_TimeZone6) {
+    ?>05:00 - 06:00<br>
+<?}
+if ($f_TimeZone7) {
+    ?>06:00 - 07:00<br>
+<?}
+if ($f_TimeZone8) {
+    ?>07:00 - 08:00<br>
+<?}
+if ($f_TimeZone9) {
+    ?>08:00 - 09:00<br>
+<?}
+if ($f_TimeZone10) {
+    ?>09:00 - 10:00<br>
+<?}
+if ($f_TimeZone11) {
+    ?>10:00 - 11:00<br>
+<?}
+if ($f_TimeZone12) {
+    ?>11:00 - 12:00<br>
+<?}
+if ($f_TimeZone13) {
+    ?>12:00 - 13:00<br>
+<?}
+if ($f_TimeZone14) {
+    ?>13:00 - 14:00<br>
+<?}
+if ($f_TimeZone15) {
+    ?>14:00 - 15:00<br>
+<?}
+if ($f_TimeZone16) {
+    ?>15:00 - 16:00<br>
+<?}
+if ($f_TimeZone17) {
+    ?>16:00 - 17:00<br>
+<?}
+if ($f_TimeZone18) {
+    ?>17:00 - 18:00<br>
+<?}
+if ($f_TimeZone19) {
+    ?>18:00 - 19:00<br>
+<?}
+if ($f_TimeZone20) {
+    ?>19:00 - 20:00<br>
+<?}
+if ($f_TimeZone21) {
+    ?>20:00 - 21:00<br>
+<?}
+if ($f_TimeZone22) {
+    ?>21:00 - 22:00<br>
+<?}
+if ($f_TimeZone23) {
+    ?>22:00 - 23:00<br>
+<?}
+if ($f_TimeZone18) {
+    ?>23:00 - 24:00<br>
+<?}?>
+<hr size=1>Исключены показы баннеров:
+<? echo listQuery("SELECT Site,Section,Class,Object FROM Message".$MODULE_VARS[banner][SCRIPT_EXCLUSION_TABLE]." WHERE Script='$f_RowID'",
+               "<li>".opt($data[Site],"Сайт:".$data[Site]).
+                opt($data[Section],"Раздел:".$data[Section]).
+                opt($data[Class],"Компонент в разделе:".$data[Class]).
+                opt($data[Object],"Объект: ".$data[Object]));
+?>

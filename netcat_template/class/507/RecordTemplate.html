@@ -1,0 +1,24 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? echo $f_AdminButtons; ?>
+<?php $count++; ?>
+<div class="slide <?php if (!$first) { echo 'active'; $first = true; } ?>" style="background-image:url('<?php echo $inside_admin ? '' : $f_slide_image ?>')">
+<div class="slide-text">
+    <div class="slide-holder">
+        <h1><?php echo $f_slide_title; ?></h1>
+        <span class="date">
+            <?=$f_date_begin_day . ' ' . $months[(int)$f_date_begin_month] ?>
+            <? if ($f_date_end): ?>
+                — <?=$f_date_end_day . ' ' . $months[(int)$f_date_end_month] . ' ' . $f_date_end_year ?>
+            <? endif ?>
+            <br><?=$f_type ?>
+        </span>
+        <?php echo $f_slide_description; ?>
+        <div class="holder">
+            <a href="<?=$fullLink ?>" <?=nc_ls_display_link('main-section', 0, 'shortpage') ?> class="more">Узнать подробности</a>
+            <a href="<?=$fullLink ?>" <?=nc_ls_display_link('main-section', 0, 'shortpage') ?> class="btn">Я поеду</a>
+        </div>
+    </div>
+</div>
+<div class='author'><?=$f_author ?></div>
+</div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

@@ -1,0 +1,157 @@
+.tpl-block-tabs
+  @media min
+    margin-bottom: 1px
+  &--footer
+    @media min
+      display: none
+  &-row
+    clearfix()
+  &-col
+    float: left
+    margin-right: -100%
+    position: relative
+    width: 50%
+    &--1
+      left: 0
+      padding-right: 50px
+      @media min
+        padding-bottom: 30px
+    &--2
+      left: 50%
+      padding-left: 50px
+      @media min
+        padding-top: 55px
+    @media min
+      float: none
+      margin: 0
+      border-top: 1px solid #C8C7CC
+      width: auto
+      margin: 0 -50px
+      padding-left: 50px
+      padding-right: 50px
+      left: auto
+      &:first-child
+        border: none
+  &-switcher
+    margin-bottom: 40px
+    clearfix()
+    @media min
+      display: none
+  &--footer &-switcher
+    border-bottom: 5px solid colorRed
+    margin-bottom: 0
+  &-tab
+    float: left
+    margin-right: 50px
+    font-size: 24px
+    font-weight: 400
+    color: #7f8c8d
+    text-transform: uppercase
+    cursor: pointer
+    border-bottom: 5px solid transparent
+    transition: color 0.2s, border 0.2s, background-color 0.2s
+    &:hover
+      color: colorRed
+    &.tpl-state-current
+      font-weight: 500
+      color: colorBase
+      border-bottom: 5px solid colorBase
+      // pointer-events: none
+      @media min
+        pointer-events: auto
+      &:hover
+        color: colorBase
+    @media min
+      float: none
+      background: #E1E6EA
+      margin: 0 -80px -1px
+      padding: 22px 80px
+      font-size: 32px
+      font-weight: 400
+      line-height: 41px
+      text-transform: none
+      border-top: 1px solid #C8C7CC
+      border-bottom: 1px solid #C8C7CC
+      color: colorBase
+      position: relative
+      user-select: none
+      mlink()
+      &:before
+        font-family: fontello
+        position: absolute
+        right: 50px
+        content: '\e803'
+        font-size: 1.2em
+        margin-top: 3px
+        color: colorBase
+      &.tpl-state-current
+        pointer-events: all
+        font-weight: 400
+        border-bottom: 1px solid #C8C7CC
+        &:before
+          content: '\e80c'
+
+
+
+  &--footer &-tab
+    background: white
+    color: colorBase
+    font-size: 18px
+    font-weight: 400
+    margin-right: 10px
+    line-height: 40px
+    padding: 0 20px
+    border: none
+    text-transform: none
+    &.tpl-state-current
+      font-weight: 400
+      color: colorWhite
+      background: colorRed
+  &-content
+    // display: none
+    visibility: hidden
+    opacity: 0
+    height: 0
+    overflow: hidden
+    transition: opacity 0.2s
+    &.tpl-state-current
+      // display: block
+      visibility: visible
+      opacity: 1
+      height: auto
+      overflow: auto
+    @media min
+      padding: 45px 0
+  &-wrapper
+    visibility: visible
+    opacity: 1
+    height: auto
+    overflow: auto
+    transition: opacity 0.2s
+    &.tpl-state-hidden
+      visibility: hidden
+      opacity: 0
+      height: 0
+      overflow: hidden
+  &--footer &-wrapper
+    background: #ADB5B5
+    height: 0
+  &--footer .tpl-block-layoutwidth
+    padding: 35px 0
+  &-trigger
+    position: absolute
+    height: 0
+    width: 0
+    right: 20px
+    top: 33px
+    border: 15px solid transparent
+    border-bottom-color: colorRed
+    cursor: pointer
+    transition: border 0.2s, top 0.2s
+    &.tpl-state-active
+      border-color: transparent
+      border-top-color: colorRed
+      top: 48px
+
+
+

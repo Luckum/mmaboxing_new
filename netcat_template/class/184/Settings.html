@@ -1,0 +1,12 @@
+<? 
+
+$Target = ( $cc_settings['OpenInNewWindow'] ? 'target="_blank"' : '');
+
+if($cc_settings['ListDeliver']=='none') {
+    $ListDeliver = '';
+} elseif ($cc_settings['ListDeliver']=='other') { 
+    $ListDeliver = $cc_settings['ListOtherDeliver'];
+} else {
+    $ListDeliver = "<".$cc_settings['ListDeliver'] ."/>";
+}
+?>

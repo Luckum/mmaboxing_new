@@ -1,0 +1,9 @@
+<?= "<?xml version='1.0' encoding='{$nc_core->NC_CHARSET}'?>"; ?>
+                <?= "<?xml-stylesheet type='text/xsl' href='/images/rss.xsl'?>"; ?>
+<rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+                        <channel>
+                            <title><?= htmlspecialchars($system_env["ProjectName"], ENT_QUOTES); ?></title>
+                            <link>http://<?= $_SERVER["HTTP_HOST"]; ?>/</link>
+                            <description><?= htmlspecialchars(strip_tags($current_sub["Description"]), ENT_QUOTES); ?></description>
+                            <yandex:logo>http://mmaboxing.ru/images/logo100x22.png</yandex:logo>
+                            <yandex:logo type="square">http://mmaboxing.ru/images/logo180x180.png</yandex:logo>

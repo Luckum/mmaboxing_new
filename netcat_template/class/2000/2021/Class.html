@@ -1,0 +1,25 @@
+<!-- FormPrefix --><?= "<?xml version='1.0' encoding='{$nc_core->NC_CHARSET}'?>"; ?>
+                <?= "<?xml-stylesheet type='text/xsl' href='/images/rss.xsl'?>"; ?>
+<rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+                        <channel>
+                            <title><?= htmlspecialchars($system_env["ProjectName"], ENT_QUOTES); ?></title>
+                            <link>http://<?= $_SERVER["HTTP_HOST"]; ?>/</link>
+                            <description><?= htmlspecialchars(strip_tags($current_sub["Description"]), ENT_QUOTES); ?></description>
+                            <yandex:logo>http://mmaboxing.ru/images/logo100x22.png</yandex:logo>
+                            <yandex:logo type="square">http://mmaboxing.ru/images/logo180x180.png</yandex:logo>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><item>
+                <title><?= htmlspecialchars($f_myTitle); ?></title>
+                <link>http://<?= $_SERVER["HTTP_HOST"] . $fullLink; ?></link>
+                <description><?= $f_ncDescription ;?></description>
+                <enclosure url="http://<?= $_SERVER["HTTP_HOST"] . $f_myPhoto; ?>" type="image/jpeg"/>
+                <category><?= htmlspecialchars($current_sub["Subdivision_Name"]); ?></category>
+                <pubDate><?= date(DATE_RSS, strtotime($f_Created) ); ?></pubDate>
+                <yandex:genre>message</yandex:genre>
+                <yandex:full-text><?= htmlspecialchars($f_myText); ?></yandex:full-text>
+                
+        </item><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></channel>
+</rss><!-- /FormSuffix -->

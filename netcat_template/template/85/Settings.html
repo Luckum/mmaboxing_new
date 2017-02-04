@@ -1,0 +1,71 @@
+<?
+$registration_url = "/menu/registration/";
+$nc_auth_profile_url = $AUTH_USER_ID && function_exists('nc_auth_profile_url') ? nc_auth_profile_url($AUTH_USER_ID) : '';
+
+$browse_top_menu[0]['prefix'] = '<div class="tpl-block-headermenu">';
+$browse_top_menu[0]['suffix'] = '</div>';
+$browse_top_menu[0]['active'] = '<div class="tpl-block-headermenu-item"><a href="%URL" class="tpl-state-current" title="%NAME">%NAME</a></div>';
+$browse_top_menu[0]['unactive'] = '<div class="tpl-block-headermenu-item"><a href="%URL" title="%NAME">%NAME</a></div>';
+
+$browse_top_menu[1]['prefix'] = "<div class=\"tpl-block-asidemenu\">\n";
+$browse_top_menu[1]['suffix'] = "</div>\n";
+$browse_top_menu[1]['active'] = "\t<div class=\"tpl-block-asidemenu-item\"><a href=\"%URL\" class=\"tpl-state-current\">%NAME</a></div>\n";
+$browse_top_menu[1]['unactive'] = "\t<div class=\"tpl-block-asidemenu-item\"><a href=\"%URL\">%NAME</a></div>\n";
+
+$browse_top_menu_mobile[0]['prefix'] = "<div class='tpl-block-mobilemenu-drop'>\n";
+$browse_top_menu_mobile[0]['suffix'] = "</div>\n";
+$browse_top_menu_mobile[0]['active'] = "<div class='tpl-block-mobilemenu-item'><a href='%URL'>%NAME</a></div>";
+$browse_top_menu_mobile[0]['unactive'] = "<div class='tpl-block-mobilemenu-item'><a href='%URL'>%NAME</a></div>";
+
+$bottom_menu[0]['prefix'] = "<ul id='menu_bottom'>";
+$bottom_menu[0]['suffix'] = "</ul>";
+$bottom_menu[0]['active'] = "<li class='active'><a href='%URL' title='%NAME'>%NAME</a></li>";
+$bottom_menu[0]['unactive'] = "<li><a href='%URL' title='%NAME'>%NAME</a></li>";
+
+$footer_menu[0]['prefix'] = '';
+$footer_menu[0]['suffix'] = '';
+$footer_menu[0]['active'] = '<div class="tpl-block-footerlist-item"><a href="%URL" title="%NAME">%NAME</a></div>';
+$footer_menu[0]['unactive'] = '<div class="tpl-block-footerlist-item"><a href="%URL" title="%NAME">%NAME</a></div>';
+
+// хлебные крошки
+$browse_path['prefix'] = "<div class='tpl-block-breadcrumbs'>";
+$browse_path['suffix'] = "</div>";
+$browse_path['active'] = "<div class='tpl-block-breadcrumbs-item'><a href='%URL' class='tpl-state-current'>%NAME</a></div>";
+$browse_path['unactive'] = "<div class='tpl-block-breadcrumbs-item'><a href='%URL'>%NAME</a></div> ";
+$browse_path['divider'] = "";
+
+
+// хлебные крошки для тайтла
+$browse_path_title['active'] = "%NAME ";
+$browse_path_title['active_link'] = "%NAME";
+$browse_path_title['unactive'] = "%NAME";
+$browse_path_title['divider'] = " / ";
+
+// меню слева
+$browse_sub[1]['prefix'] = "<ul>";
+$browse_sub[1]['suffix'] = "</ul>";
+$browse_sub[1]['active'] = "<li class='active'><a href='%URL'>%NAME</a></li>";
+$browse_sub[1]['unactive'] = "<li><a href='%URL'>%NAME</a></li>";
+
+$browse_sub[0]['prefix'] = "<ul id='menu_left'>";
+$browse_sub[0]['suffix'] = "</ul>";
+$browse_sub[0]['active_link'] = "<li class='active'><a href='%URL'>%NAME</a>%NEXT_LEVEL</li>";
+$browse_sub[0]['active'] = "<li class='active'><a href='%URL'>%NAME</a></li>";
+$browse_sub[0]['unactive'] = "<li><a href='%URL'>%NAME</a></li>";
+
+$mobile_menu = array(
+	'prefix'   => "<ul class='tpl-block-layoutwidth mobile-menu'>",
+	'active'   => "<li><a href='%URL'>%NAME<i class='icon-angle-right'></i></a></li>",
+	'unactive' => "<li><a href='%URL'>%NAME<i class='icon-angle-right'></i></a></li>",
+	'suffix'   => "</ul>",
+);
+
+// шаблон вывода навигации по страницам
+$browse_msg['prefix'] = "";
+$browse_msg['suffix'] = "";
+$browse_msg['active'] = "<b>%PAGE</b>";
+$browse_msg['unactive'] = "<a href=%URL>%PAGE</a>";
+$browse_msg['divider'] = " | ";
+
+$netshop = nc_netshop::get_instance();
+?>

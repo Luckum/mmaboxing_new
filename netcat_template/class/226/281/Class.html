@@ -1,0 +1,79 @@
+<!-- FormPrefix --><?
+echo $f_AdminCommon;
+
+$has_discounts = ($shop->TotalDiscountSum != $shop->CartDiscountSum);
+
+if ($shop->CartCount()) {
+    ?><form method='post' action='<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>modules/netshop/post.php' class='cart_contents' id='netshop_cart_contents'>
+        <input type=hidden id ="redirect_url" name='redirect_url' value='<?= $_SERVER[REQUEST_URI] ?>' />
+
+        <div id="cart">
+            <table border='0' cellspacing='0' cellpadding='0' width='100%'>
+                <?
+                $i = 1;
+                foreach ($shop->CartContents as $row) {
+                ?><tr <?=($i % 2 ? "" : ($i == $shop->CartCount() ? "class='tr_last'" : ""))?>>
+                    <td class='name'>
+                        <div class="title"><a href="<?=$row['URL']?>" target='_blank'><?=$row['Name']?></a></div>
+                        <div><?=NETCAT_MODULE_NETSHOP_ITEM_PRICE?>: <?= $row['ItemPriceF'] ?><?= ($row['Qty']>1 ? " * ".$row['Qty']." = ".$shop->FormatCurrency($row['ItemPrice']*$row['Qty']) : "")?></div>
+                        <?if ($has_discounts) {
+                                if ($row['OriginalPrice'] - $row['ItemPrice']) { ?>
+                                    ?><div><?=NETCAT_MODULE_NETSHOP_DISCOUNT?>: <?=$shop->FormatCurrency($row['OriginalPrice'] - $row['ItemPrice'])?></div><?
+                                }
+                          }
+                        ?>
+                        <div><?=NETCAT_MODULE_NETSHOP_QTY?>:<input type='text' size='2' name="cart<?= $row['RowID'] ?>" value="<?= $row['Qty'] ?>" /> <?= $row['Units'] ?></div>
+                    </td>
+
+                    <td style="text-align: right;">
+                        <a href="#" id="delete<?=$row[RowID]?>" onclick="$('#cart<?=str_replace(array("[", "]"), array("", "_"), $row[RowID])?>').attr('checked', 'checked'); $('#netshop_cart_contents').submit();  return false;">
+                            <img src="/images/mobile_template/i/delete.gif" />
+                            <input id="cart<?=str_replace(array("[", "]"), array("", "_"), $row['RowID'])?>" type='checkbox' name="cart<?= $row['RowID'] ?>" value='-1' style="display: none;" />
+                        </a>
+                    </td>
+
+                </tr><?
+                $i++;} ?>
+            </table>
+            <?
+            if ($shop->CartDiscounts) {
+                foreach ($shop->CartDiscounts as $discount) {
+                    ?><div align='center' class='cart_discount'>
+                        <div class='name'>
+                            <b><?= $discount['Name'] ?></b><?= ($discount['Description'] ? "<br>{$discount['Description']}" : "") ?>
+                        </div>
+                        <div><? echo ($discount['Sum'] > 0 ? "-" : "");
+                            echo $discount['SumF']; ?>
+                        </div>
+                       </div><?
+                }
+            }
+            ?>
+            <div class='totals'>
+                    <?= NETCAT_MODULE_NETSHOP_SUM ?>: <span style="font-weight: bold;"><?= ($shop->FormatCurrency($shop->CartSum())) ?></span>
+            </div>
+            <?
+                if (ini_get("session.use_trans_sid")) {
+                    $sname = session_name();
+                    $sid = "?$sname=$GLOBALS[$sname]";
+                } else {
+                    $sid = "";
+                }
+            ?>
+            <div class='cart_buttons'>
+                <input type='submit' value='Пересчитать' />
+                <input type='button' onclick='window.location="<?= $GLOBALS[NETSHOP][Netshop_OrderURL].$sid; ?>"' value='<?= NETCAT_MODULE_NETSHOP_CART_CHECKOUT ?>' style="float:right;" />
+            </div>
+            <div class="cart_cancel"> <br />
+                <a href="#" onclick='window.location="?ClearCart=1"'>Очистить корзину</a>
+            </div>
+        </div>
+    </form><?
+    } else {
+    echo NETCAT_MODULE_NETSHOP_CART_EMPTY;
+    }
+        ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

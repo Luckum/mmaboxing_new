@@ -1,0 +1,80 @@
+include partials/_includes
+
+
+
++layout
+  // Контент
+  +b.content
+    .tpl-block-layoutwidth
+
+      +b.main--wide
+
+
+        // Хлебные крошки
+        +b.breadcrumbs
+          +e.item: +link Главная
+          +e.item: +link.tpl-state-current Список сравнения
+
+        +sep('s')
+
+        - columns = 5
+
+
+        +b.comparision
+          +e.original
+            table
+              thead
+                tr
+                  th
+                    +e.control
+                      +b.prevnext
+                        +e.button--prev: i.icon-left-open
+                        +e.button--next: i.icon-right-open
+                      | <nobr>5 товаров</nobr>  в списке сравнения
+                  - for(i=1; i<=columns; i++)
+                    td
+                      +e.card
+                        .tpl-field-title Canon EOS 1000D KIT 18-55mm
+                        .tpl-field-image: img(src="tmp/large-1.jpg")
+                        .tpl-field-cost
+                        +e.tocart
+                          +b('span').ibtn--theme_red
+                            i.icon-cart-white
+                            |  В корзину
+                            +e('button').submit
+                        +e.remove
+                          +b('span').ibtn--theme_empty
+                            i.icon-cancel
+                            +e('button').submit
+              tbody
+                // tr: +e('th').title: +t('m') Характеристики
+                - for(i=1; i<=3; i++)
+                  tr
+                    th Разрешение матрицы (Мп)
+                    - for(k=1; k<=columns; k++)
+                      td 12.3
+                  tr
+                    th Разрешение матрицы (точек)
+                    - for(k=1; k<=columns; k++)
+                      td 4288 × 2848
+                  tr
+                    th Максимальная чувствительность ISO
+                    - for(k=1; k<=columns; k++)
+                      td 33200
+
+
+
+
+
+      +b.clearfix
+
+
+
+
+
+
+    +b.notformobile: +sep('xxl')
+
+
+
+

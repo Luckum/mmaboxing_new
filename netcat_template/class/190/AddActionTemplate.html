@@ -1,0 +1,14 @@
+<?
+for ($i=0;$i<count($zone);$i++) {
+mysql_query("INSERT INTO Banner_CampaignZone (Campaign_ID,Zone_ID) VALUES (".$msgID.",".$zone[$i].")",$LinkID);
+}
+
+for ($i=0;$i<count($banner);$i++) {
+mysql_query("INSERT INTO Banner_CampaignBanner (Campaign_ID,Banner_ID) VALUES (".$msgID.",".$banner[$i].")",$LinkID);
+}
+
+echo "
+Рекламная кампания добавлена.
+<br>".$goBack;
+
+?>

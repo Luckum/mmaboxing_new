@@ -1,0 +1,81 @@
+<!-- FormPrefix --><?
+echo $f_AdminCommon;
+?>
+<div class='nc_list nc_site_links'>
+    <?
+    echo ($cc_settings['ShowSearch'] ? $searchForm : "" );
+    
+    if ($cc_settings['ListStyle'] != 'none') {
+        echo "<{$cc_settings['ListStyle']}>";
+    }
+    ?>
+
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+    if ($cc_settings['ListStyle'] != 'none') {
+        ?> <li class='nc_row'> <?
+} else {
+        ?>"<div class='nc_row'><?
+}
+echo $f_AdminButtons;
+    ?>
+
+            <h3> 
+                <?
+                if ($cc_settings['ShowURL']) {
+                    echo $f_Name;
+                } else {
+                    ?><a href='<?= $f_URL; ?>'<?= $Target; ?>><?= $f_Name; ?></a><? }
+                ?>
+            </h3>
+            <? if ($cc_settings['ShowURL']) {
+                ?><a href='<?= $f_URL; ?>' <?= $Target; ?>><?= $f_URL; ?></a><br /> <?
+        }
+        if (!$subList) {
+            if ($f_Comment) {
+                    ?><div class='nc_description'><?= nc_edit_inline('Comment', $f_RowID, $cc); ?></div><?
+        }
+    }
+    echo $ListDeliver;
+    if ($cc_settings['ListStyle'] != 'none') {
+                ?></li><?
+        } else {
+                ?></div><?
+    }
+            ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?
+    if ($cc_settings['ListStyle'] != 'none') {
+                ?></<?= $cc_settings['ListStyle']; ?>><?
+}
+if ($totRows > $f_RowNum) {
+                ?><div class='nc_pagination'>
+    <? if ($cc_settings['PaginationMode'] != 'nums') {
+        ?><div class='nc_prev_next'>
+                <span class='nc_prev_link'><?
+        if ($prevLink) {
+            ?><a href='<?= $prevLink; ?>'>Назад</a>"<?
+        } else {
+            ?>Назад<?
+        }
+        ?>
+                </span>
+
+                <span class='nc_next_link'> <?
+            if ($nextLink) {
+                ?><a href='<?= $nextLink; ?>'>Далее</a>"<?
+            } else {
+            ?>Далее<?
+        }
+        ?>
+                </span>
+            </div><? }
+    ?>
+    <? if ($cc_settings['PaginationMode'] != 'next_prev') {
+        ?><div class='nc_pagination'>Страницы: <? browse_messages($cc_env, 5) ?></div><?
+    }
+    ?></div><?
+}
+?></div>
+<!-- /FormSuffix -->

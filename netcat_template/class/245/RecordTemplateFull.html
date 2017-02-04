@@ -1,0 +1,15 @@
+<?
+if ($f_BigPhoto_url) {
+    $imgSize = getimagesize($DOCUMENT_ROOT.$f_BigPhoto_url);
+}
+if ($popup) {
+    ?><html><head><title><?= $f_PhotoTitle ?></title></head><body><? } ?>
+        <div class='nc_full nc_photogallery' id='nc_photogallery'> 
+            <? if (!$popup && $f_PhotoTitle) { ?><h3><?= nc_edit_inline('PhotoTitle', $f_RowID, $cc) ?></h3><? } ?>
+            <img src='<?= $f_BigPhoto ?>' alt='<?= $f_PhotoTitle ?>' title='<?= $f_PhotoTitle ?>' <?= $imgSize[3] ?> />
+            <? if (!$popup && $f_Comment) { ?><div class='nc_description'><?= nc_edit_inline('Comment', $f_RowID, $cc) ?></div><? }
+        if (!$popup && $nc_prev_object) { ?><a href='<?= $nc_prev_object ?>'>Назад</a><? }
+        if (!$popup && $nc_prev_object && $nc_next_object) { ?> | <? }
+        if (!$popup && $nc_next_object) { ?><a href='<?= $nc_next_object ?>'>Вперед</a><? } ?>
+        </div>
+<? if ($popup) { ?></body></html><? } ?>

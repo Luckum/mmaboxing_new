@@ -1,0 +1,12 @@
+<!-- FormPrefix --><?=$f_AdminCommon ?>
+<div class="items-grid"><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="item">
+    <?= $f_AdminButtons; ?>
+    <a href="<?= $fullLink ?>" <?=nc_ls_display_link('content', 0, null, null, array('isNaked'=>0)) ?> class="img"><img src="<?= $f_Image_url ?>" alt="<?= $f_Name ?>"></a>
+    <span class="price"><?= $shop_mode == 2 ? $shop->FormatCurrency($f_Price) : $f_Price; ?></span>
+    <a class="caption" href="<?= $fullLink ?>" <?=nc_ls_display_link('content', 0, null, null, array('isNaked'=>0)) ?>><?= $f_Name ?></a>
+    <?=cart_link($f_RowID, $f_Name, $f_Price, $fullLink, $shop_mode) ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

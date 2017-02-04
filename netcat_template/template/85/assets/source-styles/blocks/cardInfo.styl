@@ -1,0 +1,164 @@
+.tpl-block-cardinfo
+  position: relative
+  border: 5px solid colorBlue
+  padding: 20px 25px 8px
+
+
+  @media min
+    border: none
+    // background: pink
+    margin: 0 -50px
+    padding: 50px 50px 55px
+    height: 770px
+    position: relative
+    border-top: 1px solid #C8C7CC
+    &:after
+      content: ''
+      position: absolute
+      z-index: 1
+      height: 290px
+      left: 50px
+      right: 50px
+      bottom: 55px
+      border: 10px solid colorBlue
+
+  &-row
+    position: relative
+    margin-bottom: 17px
+    @media min
+      position: static
+      margin: 0
+
+  // Цена
+  .tpl-field-cost
+    font-size: 36px
+    font-weight: 600
+    line-height: 1.15
+    margin-bottom: -5px
+    z-index: 2
+    @media min
+      font-size: 57px
+      font-weight: 400
+      position: absolute
+      left: 105px
+      right: 105px
+      top: 470px
+      text-align: center
+
+  // Полоса
+  &-line
+    border-top: 5px solid colorBlue
+    margin: 10px 0 20px
+    @media min
+      display: none
+
+  // Старая цена
+  .tpl-field-oldcost
+    display: inline-block
+    color: colorGray
+    position: relative
+    font-size: 18px
+    line-height: 20px
+    vertical-align: bottom
+    &:after
+      content: ''
+      border-bottom: 2px solid colorRed
+      left: 0
+      top: 54%
+      width: 100%
+      height: 0
+      position: absolute
+    @media min
+      display: none
+    .rouble:after
+      vertical-align: baseline
+
+  // Наличие
+  .tpl-field-instock
+    position: absolute
+    right: 0
+    bottom: 0
+    display: inline-block
+    color: colorBlue
+    font-weight: 400
+    font-size: 12px
+    line-height: 20px
+    &--nope
+      color: colorRed
+    i
+      margin-top: -3px
+    @media min
+      display: none
+
+  // Комплектация
+  &-complect
+    //
+
+  // Цвет
+  &-colors
+    padding-bottom: 7px
+    @media min
+      position: absolute
+      width: 90px
+      z-index: 3
+      top: auto
+      margin-top: 30px
+
+  // Количество
+  &-amount
+    width: 120px
+    @media max
+      width: 140px
+    @media min
+      position: absolute
+      left: 190px
+      margin-top: 30px
+      width: 170px
+
+  // Размер
+  &-size
+    position: absolute
+    left: 130px
+    width: 80px
+    top: 0
+    @media min
+      position: absolute
+      left: 420px
+      top: auto
+      width: 170px
+      margin-top: 30px
+
+  // В корзину
+  &-tocart
+    padding-top: 15px
+    width: 120px
+    z-index: 2
+    @media min
+      width: auto
+      position: absolute
+      left: 105px
+      right: 105px
+      top: 565px
+      text-align: center
+    .tpl-block-ibtn
+      padding-left: 0
+      padding-right: 0
+    @media screen and (min-width: 321px) and (max-width: 1150px)
+      width: 85px
+      i
+        display: none
+
+
+  // Купить сразу
+  &-buynow
+    position: absolute
+    bottom: 0
+    width: 110px
+    left: 130px
+    @media min
+      display: none
+    .tpl-block-ibtn
+      padding: 0
+    @media screen and (min-width: 321px) and (max-width: 1150px)
+      left: 100px
+

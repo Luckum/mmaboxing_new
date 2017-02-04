@@ -1,0 +1,23 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<?php
+    $f_Email = $f_Email ? $f_Email : $current_catalogue['Email'];
+    $f_Address = $f_Address ? $f_Address : $current_catalogue['CompanyAddress'];
+    $f_PhoneNumber = $f_PhoneNumber ? $f_PhoneNumber : $current_catalogue['Contacts'];
+?>
+<img src="<?= $f_Plan; ?>" height="400" alt="" />
+<div class="section-info holder">
+    <div class="l-side">
+        <div class="contact">
+            <span class="phone">Для связи: <span><?= $f_PhoneNumber; ?></span></span>
+            <div class="email"><a href="mailto:<?= $f_Email; ?>"><?= $f_Email; ?></a></div>            
+            <?= $current_catalogue['Social'];  ?>
+        </div>
+    </div>
+    <div class="address">
+        <?= $f_Address; ?>
+    </div>					
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

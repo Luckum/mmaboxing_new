@@ -1,0 +1,19 @@
+<!-- FormPrefix --><? echo $f_AdminCommon ?> 
+<ul><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><li><b><? echo $f_Name ?></b>, #<?  echo $f_RowID ?><br>
+<font size=-2>
+<? 
+if ($f_Start) { ?> Дата старта: <? echo $f_Start?><br><? } 
+if ($f_Stop) { ?> Дата окончания: <? echo $f_Stop?><br><? } 
+if ($f_Shows) { 
+    ?> Количество показов: <? echo $f_Shows?> (уже показано: <? echo $f_Showed ?><br><? 
+} else {
+    ?>Показано: <? echo $f_Showed ?><br><?
+}
+if ($f_Main) { ?> <font color=gray>Все пересекающиеся рекламные кампании приостановлены</font><br> <? } ?>
+</font>
+<? echo $f_AdminButtons ?> 
+<br><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></ul><!-- /FormSuffix -->

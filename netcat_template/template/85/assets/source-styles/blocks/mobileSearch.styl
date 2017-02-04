@@ -1,0 +1,24 @@
+.tpl-block-mobilesearch
+  padding: 55px 50px
+  position: relative
+  // line-height: 67px
+  .tpl-block-itext
+    background: colorWhite
+    @media min
+      border: none
+      &:focus
+        box-shadow: 0 0 5px rgba(colorBase, 0.3)
+  .tpl-block-ibtnimage
+    position: absolute
+    right: 50px
+    top: 55px
+    line-height: 75px
+    height: 85px
+    padding: 0 10px
+    color: colorBase
+    font-size: 2em
+    opacity: 0.2
+    mlink(true, colorRed, colorBase)
+    transition: opacity 0.2s, transform 0.2s
+    &:active
+      opacity: 0.5

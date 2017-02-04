@@ -1,0 +1,18 @@
+<!-- FormPrefix --><div class="tpl-block-newslist">
+        <div class="tpl-block-newslist-title"><a href="<?= $nc_core->SUB_FOLDER; ?><?= $nc_core->subdivision->get_by_id(153, 'Hidden_URL'); ?>" class="tpl-link-more">все новости</a>
+            <div class="tpl-block-title tpl-block-title--size_l tpl-block-title--bright color-red">Новости</div>
+        </div><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons ?>
+<div class="tpl-block-newslist-item">
+    <!-- Отдельная новость-->
+    <div class="tpl-block-newsbox">
+        <div class="tpl-field-date"><?= $f_Date_day . "." . $f_Date_month . "." . $f_Date_year ?></div>
+        <a href="<?= $fullLink; ?>" class="tpl-field-title"><?= $f_NewsTitle; ?></a>
+
+        <div class="tpl-field-text"><?= $f_Announce; ?>  <a href="<?= $fullLink; ?>" class="tpl-link-more">Читать полностью</a>
+        </div>
+    </div>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

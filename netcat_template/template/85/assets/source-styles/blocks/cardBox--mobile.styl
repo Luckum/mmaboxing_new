@@ -1,0 +1,119 @@
+cardMobile()
+  border: 10px solid #000E52 !important
+  background: #fff
+  padding: 370px 40px 230px
+  // margin-top: 55px
+  width: auto
+  height: auto
+  width: 540px
+  height: 855px
+  .tpl-block-cardbox-overlay,
+  .tpl-block-cardbox-menu,
+  .tpl-block-cardbox-buy,
+  .tpl-block-variants,
+  .tpl-field-text
+    display: none
+  .tpl-field-title
+    display: block
+    position: static
+    overflow: visible
+    text-overflow: visible
+    white-space: normal
+    text-align: left
+    font-weight: 600
+    font-size: 42px
+    line-height: 1.2
+  .tpl-field-description
+    display: block
+    position: static
+    overflow: visible
+    text-overflow: visible
+    white-space: normal
+    margin: 10px 0 0
+    font-size: 24px
+    line-height: 1.2
+    font-weight: 400
+    text-align: left
+    &:after
+      display: none
+  .tpl-field-image
+    display: block
+    position: absolute
+    left: 40px
+    right: 40px
+    top: 40px
+    height: 300px
+    width: auto
+    line-height: 300px
+    text-align: center
+  .tpl-block-rating
+    display: block
+    position: static
+    width: 100%
+    left: auto
+    right: auto
+    top: auto
+    margin-top: 20px
+    text-align: left
+    font-size: 2em
+  .tpl-field-cost
+    display: block
+    position: absolute
+    left: 40px
+    margin-top: 10px
+    top: auto
+    bottom: auto
+    right: auto
+    font-size: 57px
+    line-height: 1.2
+    width: 50%
+    text-align: left
+    font-weight: 400
+  .tpl-field-oldcost
+    display: block
+    position: absolute
+    top: auto
+    left: auto
+    right: 40px
+    margin-top: 15px
+    font-size: 35px
+    line-height: 1.2
+    width: auto
+    text-align: right
+    font-weight: 400
+    &:after
+      content: ''
+      border-bottom: 2px solid colorRed
+      left: 0
+      top: 52%
+      width: 100%
+      height: 0
+      position: absolute
+  .tpl-block-cardbox-link
+    display: block
+    text-decoration: none
+    color: colorBase
+    &:hover
+      color: colorBase
+      .tpl-field-title
+        color: colorBase
+    &:active
+      .tpl-field-title
+        color: colorRed
+  &:hover
+    .tpl-block-cardbox-overlay
+      display: none
+  .tpl-block-cardbox-tocart
+    display: block
+    position: absolute
+    bottom: 40px
+    left: 40px
+    right: 40px
+    .tpl-block-ibtn
+      mlink()
+      &:hover
+        color: colorWhite
+      &:active
+        color: colorWhite
+
+

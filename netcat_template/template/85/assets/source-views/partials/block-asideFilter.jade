@@ -1,0 +1,54 @@
++b('form').asidefilter(action="/")
+  +e.box
+    +e.title--style_red Производитель
+    p: label <input type="checkbox" name="brand" /> Все
+    p: label <input type="checkbox" name="brand" /> Alcatel
+    p: label <input type="checkbox" name="brand" /> Apple
+    p: label <input type="checkbox" name="brand" /> BB-mobile
+    p: label <input type="checkbox" name="brand" /> BlackBerry
+    p: label <input type="checkbox" name="brand" /> Fly
+    p: label <input type="checkbox" name="brand" /> Google Nexus с надписью на несколько<br>строк
+    p: label <input type="checkbox" name="brand" /> Gresso
+    p: label <input type="checkbox" name="brand" /> Hong Kang
+    p: label <input type="checkbox" name="brand" /> HTC
+    p: label <input type="checkbox" name="brand" /> LG
+    p: label <input type="checkbox" name="brand" /> Mobiado
+    p: label <input type="checkbox" name="brand" /> Nokia
+    p: label <input type="checkbox" name="brand" /> Panasonic
+    p: label <input type="checkbox" name="brand" /> Philips
+    p: label <input type="checkbox" name="brand" /> RugGear
+    p: label <input type="checkbox" name="brand" /> Samsung
+    p: label <input type="checkbox" name="brand" /> Sonim
+    p: label <input type="checkbox" name="brand" /> Swarovski
+    p: label <input type="radio" name="brand" /> The Q
+    p: label <input type="radio" name="brand" /> Tonino Lamborghini
+    p: label <input type="radio" name="brand" /> БиЛайн
+    p: +b.pseudolink
+      u Ещё
+      i.icon-angle-down
+  +e.box
+    +e.title Цена
+    +b.range
+      +b('table').table--style_clean
+        tr
+          td(width="20%") От:
+          td: +b('input').itext(type="text", value="0").tpl-block-range-min.tpl-block-price
+        tr
+          td До:
+          td: +b('input').itext(type="text", value="10000").tpl-block-range-max.tpl-block-price
+      +sep('s')
+      // Если указаны start-min / start-max, то стартовые значения берутся отсюда.
+      // Если нет — из инпутов.
+      +e.slider(data-step="1000", data-resolution="0.01", data-start-min="1000")
+  +e.box
+    p: label <input type="checkbox" /> В наличии
+    p: label <input type="checkbox" /> По предзаказу
+    p: label <input type="checkbox" /> Новинка
+  +e.box
+    +e.title Другие параметры
+    p: label <input type="checkbox" /> Параметр
+    p: label <input type="checkbox" /> Параметр 1
+    p: label <input type="checkbox" /> Параметр 2
+    p: +b.pseudolink
+      u По популярности
+      i.icon-angle-down

@@ -1,0 +1,12 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<div class="video-item">
+		    <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 160, 100, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=100&w=160")?>" title="<?=$f_myTitle?>" alt="<?=$f_myTitle?>"><br>
+		        <a class="play" href="<?= $fullLink ?>" rel="nofollow">
+		            <img src="/images/icon_play.png" title="Воспроизвести" alt="Воспроизвести">
+		        </a>
+		    <a class="video-item-title" href="<?= $fullLink ?>"><?=$f_myTitle?></a>
+		</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

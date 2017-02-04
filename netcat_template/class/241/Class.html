@@ -1,0 +1,27 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+echo $f_AdminButtons;
+
+if (similar_text($f_File_type, "image/") >= 6) {
+    $t = 1;
+}
+if (image_type_to_mime_type(IMAGETYPE_SWF) == $f_File_type) {
+    $t = 2;
+}
+
+if ($cc_settings['Shows'] == 'on') {
+    $db->query("UPDATE `Message".$classID."` SET `ShowNum` = `ShowNum`+1 WHERE `Message_ID` = '".$f_RowID."'  ");
+}
+if ($t == 1) {
+    ?><a target='_blank' href='<?= $fullLink ?>'><img border='0' src='<?= $f_File ?>' alt='<?= $f_Name ?>' /></a><? }
+if ($t == 2) { ?>
+    <a target='_blank' href='<?= $fullLink ?>'>
+        <object>
+            <param name='movie' value='<?= $f_File ?>'>
+            <embed src='<?= $f_File ?>'></embed>
+        </object>
+    </a>
+<? } ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

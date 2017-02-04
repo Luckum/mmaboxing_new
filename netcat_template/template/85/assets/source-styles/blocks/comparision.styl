@@ -1,0 +1,175 @@
+.tpl-block-comparision
+
+  position: relative
+  overflow: hidden
+
+
+
+
+
+  table
+    width: 100%
+    table-layout: fixed
+
+  &-original
+    position: relative
+    z-index: 1
+    width: 100%
+    overflow: hidden
+    position: relative
+
+  &-doubler
+    position: absolute
+    left: 0
+    top: 0
+    z-index: 5
+    width: 230px
+    overflow: hidden
+    @media max
+      width: 310px
+    &:before, &:after
+      position: absolute
+      content: ''
+      pointer-events: none
+      display: block
+      top: 0
+      height: 100%
+    &:before
+      left: 0
+      width: 220px
+      height: 100%
+      background: #FFF
+      @media max
+        width: 300px
+    &:after
+      z-index: 30
+      transition: inherit
+      right: 0px
+      width: 10px
+      background-repeat: no-repeat
+      background-size: 1px 100%, 5px 100%
+      background-image: linear-gradient(transparent,rgba(0,0,0,.2) 25%,rgba(0,0,0,.3) 75%,transparent),radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.4),transparent)
+      background-position: 0 0,0 0
+      opacity: 0.7
+    table
+      // width: auto !important
+      position: relative
+      z-index: 2
+      td
+        width: auto !important
+
+
+  tr:hover
+    background: transparent
+  td, th
+    padding: 11px 20px
+    font-weight: 300
+    text-align: left
+    line-height: 1.2
+    &:last-child
+      text-align: left
+  td
+    width: 320px
+  th
+    width: 220px
+    padding-left: 0
+    font-weight: 400
+    @media max
+      width: 300px
+
+  thead
+    border-bottom: 5px solid colorBlue
+    th, td
+      vertical-align: top
+      border: none
+      padding-bottom: 20px
+
+  tbody
+    th.tpl-block-comparision-title
+      padding: 30px 0 0
+      border-bottom: none
+    td, th
+      border-bottom: 1px solid #DAE0E5
+    td:hover
+      color: colorWhite
+      background: colorRed
+      font-weight: 300
+
+
+
+  &-control
+    height: 165px
+    width: 200px
+    position: relative
+    font-weight: 300
+    font-size: 18px
+    @media max
+      width: 285px
+  .tpl-block-prevnext
+    font-size: 30px
+    float: left
+    margin-right: -100%
+    position: relative
+    bottom: -50px
+    &-button:hover
+      color: colorRed
+      border-color: colorRed
+    @media max
+      float: right
+      margin-right: 0
+      bottom: 0
+  &-card
+    position: relative
+    width: 280px
+    height: 165px
+    .tpl-field-title
+      font-size: 18px
+      line-height: 1.4
+      font-weight: 300
+      width: 240px
+    .tpl-field-image
+      position: absolute
+      bottom: 0
+      left: 0
+      width: 125px
+      height: 95px
+      line-height: 95px
+      img
+        max-width: 100%
+        max-height: 100%
+        line-height: 1
+        vertical-align: bottom
+    .tpl-field-cost
+      position: absolute
+      right: 0
+      width: 140px
+      text-align: center
+      bottom: 55px
+  &-remove
+    position: absolute
+    right: 0
+    top: 0
+    .tpl-block-ibtn
+      cursor: pointer
+      display: block
+      width: 30px
+      height: 30px
+      color: colorDull
+      border: 5px solid colorDull
+      transition: color 0.2s, border 0.2s, opacity 0.2s
+      font-size: 15px
+      user-select: none
+      line-height: 16px !important
+      &:hover
+        color: colorRed
+        border-color: colorRed
+  &-tocart
+    position: absolute
+    right: 0
+    bottom: 0
+    width: 140px
+    .tpl-block-ibtn
+      display: block
+      padding-left: 0
+      padding-right: 0
+

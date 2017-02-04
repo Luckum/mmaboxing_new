@@ -1,0 +1,11 @@
+<? echo $f_AdminCommon; ?>
+<script type='text/javascript'>$(document).ready(function(){ $("a[rel='person']").colorbox(); });</script>
+<div class='nc_list nc_personalities'>
+    <? if ($cc_settings['ShowSearch']) {
+        ?>
+        <form class='nc_search' name='nc_search' method='get' action=''>
+            <input class='nc_string' type='text' name='srchPat[0]' value='<? echo htmlspecialchars(stripcslashes($srchPat[0]), ENT_QUOTES) ?>' />
+            <input class='nc_button' type='submit' value='Найти' />
+        </form>
+    <? } ?>
+    <div class='nc_table'>

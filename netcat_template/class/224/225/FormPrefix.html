@@ -1,0 +1,61 @@
+<?= $f_AdminCommon ?>
+<?php
+
+    $netshop_forms = nc_netshop::get_instance($catalogue)->forms->get_objects();
+
+?>
+<div class="nc-bg-lighten nc-padding-10" style="border-bottom: 1px solid #DDD">
+    <form class="nc-form nc--horizontal" method="get">
+        <!-- при использовании в качестве обычного шаблона инфоблока: -->
+        <input type='hidden' name='admin_mode' value='<?= $admin_mode ?>'/>
+        <input type='hidden' name='inside_admin' value='<?= (int)$inside_admin ?>'/>
+        <input type='hidden' name='catalogue' value='<?= $catalogue ?>'>
+        <input type='hidden' name='sub' value='<?= $sub ?>'>
+        <input type='hidden' name='cc' value='<?= $cc ?>'>
+        <!-- для работы внутри панели управления модулем: -->
+        <input type="hidden" name="controller" value="order">
+        <input type="hidden" name="action" value="index">
+
+        <label style="padding: 0 5px"><?= NETCAT_MODULE_NETSHOP_ORDER_STATUS ?></label>
+        <select name="order_status" onchange="this.form.submit();">
+            <option value="-1"><?= NETCAT_MODULE_NETSHOP_ORDER_ANY ?></option>
+            <option value="0"<?=(isset($order_status) && $order_status == 0) ? " selected" : "" ?>>
+                <?= NETCAT_MODULE_NETSHOP_ORDER_NEW ?>
+            </option>
+            <?= listQuery("SELECT ShopOrderStatus_ID, ShopOrderStatus_Name FROM Classificator_ShopOrderStatus",
+                          "<option value='\$data[ShopOrderStatus_ID]'\" .
+                           (\$data['ShopOrderStatus_ID']==\$_GET['order_status'] ? ' selected' : '') .
+                           \">\$data[ShopOrderStatus_Name]</option>\\n")
+            ?>
+        </select>
+        <table class="nc--wide"><tr>
+                <td class="nc--wide">
+                    <input type="text" name="text_filter" class="nc--wide"
+                           style="padding:4px 6px 3px; margin:0; height: 30px"
+                           placeholder="<?=htmlspecialchars(NETCAT_MODULE_NETSHOP_ORDER_SEARCH) ?>"
+                           value="<?=htmlspecialchars($text_filter) ?>">
+                    <i class="nc-icon nc--remove"
+                       style="position: absolute; margin:5px 0 0 -25px; cursor: pointer; display: none">
+                </td>
+                <td>
+                    <button type="submit" style="height: 30px">OK</button>
+                </td>
+        </tr></table>
+        <script>
+            (function() {
+                var input = $nc('input[name=text_filter]'),
+                    clearButton = input.next(".nc--remove");
+
+                input.on('change keyup', function() {
+                    clearButton.css('display', (this.value ? '' : 'none'));
+                }).change();
+
+                clearButton.on('click', function() {
+                    input.val('');
+                    if (input.attr('value')) { input.closest('form').submit(); }
+                    else { input.change(); }
+                });
+            })();
+        </script>
+    </form>
+</div>

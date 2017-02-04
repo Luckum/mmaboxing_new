@@ -1,0 +1,13 @@
+<?
+if( !isset($nc_num_cols) ) $nc_num_cols = &$cc_settings['CollsNum'];
+else $nc_num_cols = (int)$nc_num_cols ;
+if( !isset($nc_sub) ) $nc_sub = $sub;
+else $nc_sub = (int)$nc_sub;
+$colWidth = 'style=\'width:'.floor(100/$nc_num_cols).'%\'';
+$browse_sub[prefix] = '<table width=\'100%\'>".str_repeat("<col '.$colWidth.' />",'.$nc_num_cols.')."<tr>';
+$browse_sub[suffix] = '".( ($i%'.$nc_num_cols.') ? str_repeat("<td>&nbsp;</td>",('.$nc_num_cols.'-($i%'.$nc_num_cols.'))) : NULL)."</tr></table>';
+$browse_sub[unactive] = '".( !($i%'.$nc_num_cols.') && $i ? "</tr><tr>" : NULL)."<td class=\'nc_row\'><div class=\'nc_menu_item\'><a href=%URL>%NAME</a></div></td>';
+$browse_sub[active] = '".( !($i%'.$nc_num_cols.') && $i ? "</tr><tr>" : NULL)."<td class=\'nc_row\'><div class=\'nc_menu_item nc_current\'><a href=%URL>%NAME</a></div></td>';
+$browse_sub[active_link] = '".( !($i%'.$nc_num_cols.') && $i ? "</tr><tr>" : NULL)."<td class=\'nc_row\'><div class=\'nc_menu_item nc_current\'><a href=%URL>%NAME</a></div></td>';
+$browse_sub[divider] = '';
+?>

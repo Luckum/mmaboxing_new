@@ -1,0 +1,238 @@
+<style type='text/css'>
+    .error { color: red; }
+    .order_head .order_body { padding: 5px; }
+    .order_body .left {text-align: left; width: 65%; display: inline-block;}
+    .order_body .right {text-align: right; width: 30%; display: inline-block;}
+    .order_head .num {font-weight: normal; font-size: 150%;}
+    #qiwiPhoneD { padding-left: 1px; margin-left: 25px; display:none; padding:5px;}
+</style>
+<?
+$shop->LoadOrder($message);
+
+echo $f_AdminButtons;
+?>
+
+<div style='padding:5px;'>
+    <div class='order_head'>
+        <div class='num'>Заказ №<?= $f_RowID; ?></div>
+        <div>от <?= $f_Created_day . " " . $months[(int) $f_Created_month] . " " . $f_Created_year; ?> года</div>
+    </div>
+
+    <br />
+
+    <div class='order_body'>
+        <div style='background-color: #CCC; padding: 5px;'>
+            <div class='left' style='padding-bottom: 0px;'><b>Продукт/услуга</b></div>
+            <div class='right'><b>Стоимость</b></div>
+        </div>
+
+        <div style='padding: 5px;'>
+
+            <?
+
+            foreach ($shop->CartContents as $position) {
+                ?>
+                <div class='left'>
+                    <?
+                    if ($position['URL']) {
+                        ?>
+                        <a href='<?= $position['URL'] ?>'>
+                            <?= $position['Name'] ?>
+                        </a>
+                        <?
+                    } else {
+                        echo $position['Name'];
+                    }
+                    ?>
+                </div>
+
+                <div class='right'>
+                    <?= $position['Qty'] . " * <b>" . $shop->FormatCurrency($position['Price'] * $position['Qty']) . "</b>" ?>
+                </div>
+
+                <? }
+            ?>
+        </div>
+
+        <?
+
+        if ($shop->CartDiscounts) {
+            $discounts = null;
+            foreach ($shop->CartDiscounts as $val) {
+                $discounts .= "
+                            <div class='left'>{$val['Name']}</div><div class='right'>
+                                <b>-" . $shop->FormatCurrency($val['Sum']) . "</b>
+                            </div>";
+            }
+            $res .= "<div style='background-color: #EEE; padding: 5px;'>$discounts</div>";
+        }
+
+        $res .= "
+                <div style='padding: 5px;'>
+                    <div class='left'>
+                        Общая стоимость заказа:
+                    </div>
+                    <div class='right'>
+                        <b>" . $shop->FormatCurrency($shop->CartSum()) . "</b>
+                    </div>
+                </div><br />";
+
+        $res .= "<div style='padding: 5px;'>";
+
+        if ($f_Address) {
+            $res .= "<div>Адрес:  $f_Address </div><br />";
+        }
+
+        if ($shop->Order['DeliveryMethod']) {
+            $SQL = "SELECT `Name` as Delivery
+                FROM `Message{$shop->delivery_methods_table}`
+                    WHERE Message_ID = {$shop->Order['DeliveryMethod']}";
+
+            $methods = $db->get_row($SQL);
+
+            if ($methods->Delivery) {
+                $res .= "<div>Вариант доставки:  {$methods->Delivery}</div>";
+            }
+        } else {
+            $res .= "<div>Вариант доставки: не указан</div>";
+        }
+
+        $end = '';
+        $qiwi_js = "if('' == $('#qiwiPhone').val()) { $('#qiwiPhoneS').addClass('error'); return false; } else { $('#qiwiPhoneS').removeClass('error'); }";
+        $qiwi_check_num_js = '';
+
+        $isChange = '';
+
+        if (1011 != $f_PaymentMethod) {
+            $isChange = "AND `isChange` = 1";
+        }
+
+        $SQL = "SELECT M.`Message_ID`,
+                       M.`Name`,
+                       M.`Interface`,
+                       M.`isChange`
+            FROM Message{$shop->payment_methods_table} as M,
+                 Sub_Class as SC
+                WHERE M.`Checked` = 1
+                  AND M.Sub_Class_ID = SC.Sub_Class_ID
+                  AND SC.Catalogue_ID = " . $catalogue;
+
+        $methods = $db->get_results($SQL);
+
+        $phase = 0;
+
+        if ($methods) {
+            $phase = 1;
+            foreach ($methods as $method) {
+                if (!$method->isChange && ($method->Message_ID == $f_PaymentMethod)) {
+                    $phase = 0;
+                }
+            }
+        }
+
+        if ($phase) {
+            $case_js = '';
+            $adm_message = array();
+
+            $res .= '<br />';
+            foreach ($methods as $method) {
+                $pay_error = $shop->check_payment_errors($method->Interface);
+                if ($pay_error) {
+                    $adm_message[] = "<b>" . $method->Name . "</b>" . " ($pay_error)";
+                    continue;
+                }
+                $pay_method .= "<div><input type='radio' " . ($method->Message_ID == $f_PaymentMethod ? " checked " : "") . "
+                            name='f_PaymentMethod'
+                            value='$method->Message_ID'
+                            id='$method->Interface' />
+                    <label for='$id'>{$method->Name}</label>";
+                if ($method->Interface) {
+                    $qiwi_check_num_js = '';
+                    if ('qiwi' == $method->Interface) {
+                        $qiwi_id = $method->Message_ID;
+                        $pay_method .= "<div id='qiwiPhoneD'>
+                                         <span id='qiwiPhoneS'>Введите номер своего кошелька в системе QIWI (*):</span><br />
+                                         <input type='text' id='qiwiPhone' value='' name='qiwiPhone' />
+                                     </div>";
+                        $qiwi_check_num_js = $qiwi_js;
+                    }
+                    echo $shop->Payment($method->Interface, 'create_bill', true);
+                    $hash = md5($method->Message_ID . $message . $nc_core->get_settings('SecretKey', 'system'));
+                    $case_js .= "case '{$method->Message_ID}':
+                                         $qiwi_check_num_js
+                                         $.post('', 'pm={$method->Message_ID}&order_id=$message&hash=$hash', function(response){
+                                             $('#f{$method->Interface}').submit();
+                                         });
+                                         break; \n";
+                }
+                $pay_method .= "</div>";
+            }
+
+        } else {
+            $SQL = "SELECT `Message_ID`,
+                           `Name`,
+                           `Interface`
+                        FROM `Message{$shop->payment_methods_table}`
+                            WHERE Message_ID = $f_PaymentMethod";
+
+            $method = $db->get_row($SQL);
+            $pay_method .= $method->Name;
+
+            if ($method->Interface && 'cash' != $method->Interface) {
+                if ('qiwi' == $method->Interface) {
+                    $qiwi_id = $method->Message_ID;
+                    $pay_method .= "
+                            <div>
+                                <span id='qiwiPhoneS'>Введите номер своего кошелька в системе QIWI (*):</span>
+                                <input type='text' id='qiwiPhone' value='' name='qiwiPhone' />
+                            </div>";
+                    $qiwi_check_num_js = $qiwi_js;
+                }
+                echo $shop->Payment($method->Interface, 'create_bill', true);
+                $hash = md5($method->Message_ID . $message . $nc_core->get_settings('SecretKey', 'system'));
+                $no_radio_js = $qiwi_check_num_js . " $('#f{$method->Interface}').submit();";
+            }
+        }
+        $end = "</div>";
+        $res .= $pay_method ? "<br /><div>Способ оплаты: " . $pay_method . $end . "</div>" : '';
+
+
+        ?>
+        <script>
+            $(document).ready(function(){
+                $('#pay').click(function(){
+                    $('#to').val($('#qiwiPhone').val());
+<?
+if ($no_radio_js) {
+    echo $no_radio_js;
+} else {
+    ?>
+                switch ($(':radio[name=f_PaymentMethod]').filter(':checked').val()) {
+    <?= $case_js ?>
+                    }<? } ?>
+            });
+<? if ($qiwi_id) { ?>
+            $(':radio[name=f_PaymentMethod]').click(function(){
+                if(this.value == $qiwi_id) {
+                    $('#qiwiPhoneD').show();
+                } else {
+                    $('#qiwiPhoneD').hide();
+                }
+            });<? } ?>
+    });
+        </script> <?
+echo $res;
+?>
+    </div>
+    <br />
+    <div>
+        <? if ('cash' != $method->Interface && $pay_method) { ?><input id='pay' type='button' value='Оплатить'><? } ?>
+    </div>
+</div>
+
+<? if (is_object($perm) && $perm->isSupervisor() && $adm_message[0]) { ?>
+    <br />
+    <div style="background-color: #EEE; border: 1px solid #999; padding: 5px;">
+        <b>Администратору:</b><br /><br />Платежные системы <?= join(", ", $adm_message) ?> будут доступны после ввода корректных настроек
+    </div>
+<? } ?>

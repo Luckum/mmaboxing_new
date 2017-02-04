@@ -1,0 +1,24 @@
+<?php
+
+if (!nc_module_check_by_keyword("netshop")) {
+    die (NETCAT_MODULE_NETSHOP_MODULEUNCHECKED);
+}
+
+// Показывать в списке отключенные товары, если у них имеются включенные варианты:
+if (!$admin_mode) {
+    $ignore_check = true;
+    $query_where = "(a.`Checked` = 1 OR (a.`Checked` = 0 AND (" .
+        "SELECT `Message_ID` FROM `Message$classID` as `child` " .
+        " WHERE `child`.`Parent_Message_ID` = a.`Message_ID` AND `child`.`Checked` = 1 " .
+        " LIMIT 1" .
+        ")))";
+}
+
+$f_Slider_tpl = array(
+    'prefix' => "<div class='catalogue_full_animate'>",
+    'record' => "<div class='tpl-field-slider block'><div class='display_table'><div class='display_table_row'><div class='display_table_cell'>
+	         <a href='%Path%'><img src='%Preview%' alt='' /></a>
+	     </div></div></div></div>",
+    'divider' => '',
+    'suffix' => '</div>',
+);

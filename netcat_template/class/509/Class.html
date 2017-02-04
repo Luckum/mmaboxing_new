@@ -1,0 +1,21 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<?php
+    $i = 0;
+?>
+<h3 class="faces">Лица компании</h3>
+<ul class="collective"><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<?php $i++; ?>
+<li class="<?php echo $i == 3 ? 'active' : ''; ?>">
+    <img src="<?= $f_photo; ?>" alt="<?= $f_name; ?>" />
+    <div class="description">
+        <strong><?= $f_name; ?></strong>
+        <span><?= $f_office; ?></span>
+        <p><?= $f_description; ?></p>
+    </div>
+</li><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></ul>
+<a href="#" class="btn-prev">previous</a>
+<a href="#" class="btn-next">next</a><!-- /FormSuffix -->

@@ -1,0 +1,13 @@
+<!-- FormPrefix --><h1><?= $current_sub['Subdivision_Name']; ?></h1><div class="s_cb_i">
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="item">
+        <p>
+            <a href="mailto:<?= $f_Email; ?>"><?= $f_Name; ?></a>:
+            <?= nc_edit_inline('Text', $f_RowID, $cc); ?><?= $f_Link ? " <a href='$f_Link'>$f_Link</a>" : ''; ?>
+        </p>
+        <div class="date"><?= "$f_Created_day.$f_Created_month.$f_Created_year"; ?></div>
+    </div><br /><br /><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+<!-- /FormSuffix -->

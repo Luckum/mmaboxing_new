@@ -1,0 +1,71 @@
+.tpl-block-reviews
+  .tpl-block-review
+    margin-bottom: 20px
+
+.tpl-block-review
+  &-header
+    overflow: hidden
+  &-title
+    display: inline-block
+    font-size: 18px
+    font-weight: 500
+    color: #000
+    line-height: 20px
+  &-meta
+    display: inline-block
+    color: #9c9c9c
+    font-size: 85%
+    line-height: 20px
+    margin-left: 10px
+    position: relative
+    top: 2px
+    a
+      color: inherit
+      font-weight: 400
+      &:hover
+        color: colorRed
+  &-text
+    margin: 15px 0
+  .tpl-block-rating
+    color: colorBlue
+    font-size: 13px
+
+.tpl-block-reviewform
+  border: 5px solid #DAE0E5
+  padding: 35px 35px 15px
+  width: 100%
+  @media min
+    width: auto
+    border: none
+    padding: 0
+  p
+    margin-bottom: 20px
+  .tpl-block-ibtn
+    font-size: 18px
+    margin-top: 30px
+    @media min
+      display: block
+      font-size: 36px
+
+
+.tpl-block-helpfulness
+  &-title
+    display: inline-block
+    font-size: 90%
+    margin-right: 5px
+  &-button
+    display: inline-block
+    width: 20px
+    height: 20px
+    font-weight: 400
+    text-align: center
+    cursor: pointer
+    line-height: 17px
+    font-size: 14px
+    border: 1px solid #6D7A7A
+    color: #6D7A7A
+    margin-left: 5px
+    transition: color 0.2s, border 0.2s
+    &:hover
+      color: colorRed
+      border-color: colorRed

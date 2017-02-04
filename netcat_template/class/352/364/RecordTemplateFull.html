@@ -1,0 +1,55 @@
+<?
+echo $f_AdminCommon;
+/* Если мы в режиме редактирования, то убираем "корзину" */
+if (!$admin_mode) {
+    ?>
+    <div style='text-align:right; float:right; color:#333; padding:8px 12px 8px 60px; margin:5px 0; background:#EDEFF0 url(<?= $ADMIN_TEMPLATE ?>img/i_module_netshop_big.gif) no-repeat 10px 50%'>
+        <?= $GLOBALS['Netshop_CartSum'] ?><br>
+        <?= $GLOBALS['Netshop_OrderLink'] ?>
+    </div>
+    <div style='clear:both'></div><? }
+
+if ($f_Image) {
+        ?><img src='<?= $f_Image_url ?>' align=right><? } ?>
+
+<h3><?= $f_Name ?></h3>
+<? if ($f_Description) { ?> <b><?= nc_edit_inline('Description', $f_RowID, $cc) ?></b><br /><br /><?
+}
+if ($f_Details) {
+    echo $f_Details
+    ?><br /><? } ?>
+<b>Цена: <?= $shop_mode == 2 ? $shop->FormatCurrency($f_Price) : $f_Price . '.-'; ?></b><?
+?><br /><br />
+<?
+switch ($shop_mode) {
+    case 2:
+        ?>
+        <form method='post' id='netshop_<?= $f_RowID; ?>' action='<?= $SUB_FOLDER . $HTTP_ROOT_PATH; ?>modules/netshop/post.php' style='margin: 0px'>
+            <input type='hidden' name='redirect_url' value='<?= $GLOBALS['uri_path']; ?>' />
+            <input type='hidden' name='cart_mode' value='add' />
+            <input type='hidden' name='cart[<?= $classID; ?>][<?= $f_RowID; ?>]' value='1' />
+            <a href="#" onclick="document.getElementById('netshop_<?= $f_RowID; ?>').submit()" class="in_cart"></a>
+        </form>
+        <?
+        break;
+
+    case 1:
+        echo $nc_minishop->show_put_button($f_Name, $f_Price, $fullLink);
+        break;
+
+    default:
+        ?>
+        <form method='post' id='simple_shop_<?= $f_RowID; ?>' action='<?= $SUB_FOLDER . $orders_href ?>' style='margin: 0px'>
+            <input name='Sub_ID' type='hidden' value='<?= $cc ?>' />
+            <input name='Goods_ID' type='hidden' value='<?= $f_RowID ?>' />
+            <input name='Goods_Title' type='hidden' value='<?= $f_Name ?>' />
+            <input name='Cost' type='hidden' value='<?= $f_Price ?>' />
+            <input name='token' type='hidden' value='<?= md5($cc . "net(^_^)cat" . $f_Price . $f_RowID . $f_Name) ?>' />
+            <a href="#" onclick="document.getElementById('simple_shop_<?= $f_RowID; ?>').submit()" >Заказать</a>
+        </form>
+        <?
+        break;
+}
+?>
+<br />
+<? echo nc_objects_list($cc_settings['idSubPhotoGallery'], $cc_settings['idCCPhotoGallery'], "good_album_id=" . $message . '000' . $cc); ?>

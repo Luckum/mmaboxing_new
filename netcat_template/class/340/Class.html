@@ -1,0 +1,73 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<div class='nc_list nc_file_list'>
+<?=($cc_settings['ListStyle']!='none' ? "<".$cc_settings['ListStyle'].">" : '')?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+echo ( $cc_settings['ListStyle'] != 'none' ? "<li class='nc_row'>" : "<div class='nc_row'>");
+echo $f_AdminButtons;
+?>
+<h3>
+    <?
+    if (!$cc_settings['ShowIcons']) {
+        ?><img class='nc_icon' src='<?= $ADMIN_TEMPLATE ?>img/i_file.gif' alt='<?= $f_File_name ?>' /><?
+}
+if ($cc_settings['DownloadLink'] != 'download') {
+    ?>
+        <a href='<?= $f_File ?>'><?
+    }
+    echo ( $cc_settings['ShowRealName'] ? $f_File_name : $f_Name );
+    if ($cc_settings['DownloadLink'] != 'download') {
+        ?>
+        </a><? }
+    ?>
+</h3>
+<? if (!$cc_settings['ShowFileExt'] && preg_match('/[.]+([w]{3,5})$/', $f_File_name, $FileExt)) {
+    ?><div class='nc_item'>
+        <span class='nc_title'>Тип файла: </span>
+        <span class='nc_value'><?= strtoupper($FileExt[1]) ?></span>
+    </div><?
+}
+if (!$cc_settings['ShowFileSize']) {
+    ?>
+    <div class='nc_item'>
+        <span class='nc_title'>Размер: </span>
+        <span class='nc_value'><?= nc_bytes2size($f_File_size) ?></span>
+    </div><?
+}
+if ($f_Comment) {
+    ?><div class='description'><?= $f_Comment ?></div><?
+}
+if ($cc_settings['DownloadLink'] != 'name') {
+    ?>
+    <div class='nc_more'><a href='<?= $f_File ?>'>Скачать</a></div> <?
+}
+if ($cc_settings['ListStyle'] != 'none') {
+    ?></li> <? } else {
+    ?>
+    </div><?
+}
+?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?
+if ($cc_settings['ListStyle'] != 'none') {
+    ?></<?= $cc_settings['ListStyle'] ?>><?
+}
+
+if ($totRows > $f_RowNum && !$srchPat) {
+    ?>
+    <div class='nc_pagination'>
+    <? if ($cc_settings['PaginationMode'] != 'nums') { ?>
+            <div class='nc_prev_next'>
+                <span class='nc_prev_link'><?= opt_case($prevLink, "<a href='$prevLink'>Назад</a>", "Назад") ?></span>
+                <span class='nc_next_link'><?= opt_case($nextLink, "<a href='$nextLink'>Далее</a>", "Далее") ?></span>
+            </div>
+        <?
+        }
+        if ($cc_settings['PaginationMode'] != 'next_prev') {
+            ?><div class='nc_pagination'>Страницы: <?= browse_messages($cc_env, 5) ?></div>
+    <? } ?>
+    </div>
+<? } ?>
+</div>
+
+<!-- /FormSuffix -->

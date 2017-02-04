@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=<?=$nc_core->NC_CHARSET?>" />
+
+<? /* Блок SEO */ ?>
+<? /* Запрос заголовка через ядро системы, если нету, то выводим хлебные крошки */ ?>
+<title><?=( ($title = $nc_core->page->get_title()) ? $title : strip_tags(s_browse_path($browse_path_title)))?></title>
+<? /* Запрос description через ядро системы */ ?>
+<?=( ($description=$nc_core->page->get_description()) ? "<meta name='description' content='".$description."'>" : "" )?>
+<? /* Запрос Keywords через ядро системы */ ?>
+<?=( ($keywords=$nc_core->page->get_keywords()) ? "<meta name='Keywords' content='".$keywords."'>" : "" )?>
+<link rel="stylesheet" rev="stylesheet" type="text/css" href="/images/template1/css/main.css" />
+<? /* Блок подключения стилей CSS в зависимости от настроек макета дизайна */ ?>
+<link rel="stylesheet" rev="stylesheet" type="text/css" href="/images/template1/css/template_<?=$template_settings['color_scheme']?>.css" />
+<script type="text/javascript" src="<?=$HTTP_TEMPLATE_PATH?>jquery/jquery.min.js"></script>
+<?= nc_js(); ?>
+<script type="text/javascript" src="/images/template1/css/lib.js"></script>
+</head>
+<body>
+<div id="wrap">
+
+
+	

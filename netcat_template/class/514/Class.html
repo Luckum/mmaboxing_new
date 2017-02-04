@@ -1,0 +1,35 @@
+<!-- FormPrefix --><?=$f_AdminCommon ?>
+<? if ( ! $admin_mode): ?>
+<div id='slider' class='slider'>
+
+    <div class='slider-nav'></div>
+
+    <div class="slider-items">
+        <div class="slider-wrapper">
+<? endif ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?=$f_AdminButtons ?>
+<? if ($admin_mode): ?>
+<b><?=nc_edit_inline('PhotoTitle', $f_RowID, $cc) ?></b>
+<?=nc_edit_inline('Comment', $f_RowID, $cc) ?>
+<div class="nc-clearfix"></div>
+<? else: ?>
+
+<div class='slider-row' style='background-image: url("<?=$f_BigPhoto ?>")'>
+    <div class='slider-content'>
+        <a class="slider-header" href="<?=$f_Link ?>" <?=nc_ls_display_link(null, 0, null, null, array('ShowTemplate'=>1, 'isNaked' => 0)) ?>><?=nc_edit_inline('PhotoTitle', $f_RowID, $cc) ?></a>
+        <a class="slider-text" href="<?=$f_Link ?>" <?=nc_ls_display_link(null, 0, null, null, array('ShowTemplate'=>1, 'isNaked' => 0)) ?>><?=nc_edit_inline('Comment', $f_RowID, $cc) ?></a>
+    </div>
+    <div class='slider-copyright'><?=$f_copyright ?></div>
+</div>
+<!-- /.slider-row -->
+<? endif ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? if ( ! $admin_mode): ?>
+        </div>
+        <!-- /.slider-wrapper -->
+    </div>
+    <!-- /.slider-items -->
+</div>
+<!-- /.slider -->
+<? endif ?><!-- /FormSuffix -->

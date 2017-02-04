@@ -1,0 +1,63 @@
+.tpl-block-colors
+  margin: -5px -10px 0 0
+  overflow: hidden
+  @media min
+    margin: 0
+    padding-top: 85px
+    background: pink
+    position: relative
+    height: 85px
+    overflow: hidden
+    &.tpl-state-active
+      // overflow: visible
+      &:after
+        content: '\e80c'
+    &:after
+      font-family: fontello
+      content: '\e803'
+      font-size: 50px
+      position: absolute
+      height: 85px
+      line-height: 85px
+      left: 0
+      top: 0
+      width: 100%
+      text-align: center
+      text-shadow: 0 0 2px rgba(#fff, .9)
+      pointer-events: none
+
+  &-item
+    display: block
+    float: left
+    margin: 10px 10px 0 0
+    cursor: pointer
+    padding: 0
+    text-indent: 0
+    @media min
+      float: none
+      margin: 0
+      font-weight: 300
+      font-size: 32px
+      line-height: 41px
+      background: #EAEFF2
+      text-align: center
+  &-color
+    display: block
+    width: 40px
+    height: 40px
+    border: 5px solid transparent
+    transition: border 0.2s
+    @media min
+      display: block
+      width: 90px
+      height: 85px
+  &-radio
+    visibility: hidden
+    opacity: 0
+    position: absolute !important
+  &-radio:checked + &-color
+    border: 5px solid colorDull
+    @media min
+      position: absolute
+      top: 0
+      border: none

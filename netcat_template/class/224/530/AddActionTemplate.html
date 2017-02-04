@@ -1,0 +1,23 @@
+<?
+
+$shop->SaveOrder($msgID);
+
+while (ob_end_clean());
+
+if ($isNaked) {
+    echo 'OK';
+} else {
+    $EN = nc_Core::get_object()->sub_class->get_by_id($cc_settings['myorder_sub_id'], 'EnglishName');
+    $HU = nc_Core::get_object()->sub_class->get_by_id($cc_settings['myorder_sub_id'], 'Hidden_URL');
+    header("Location: {$HU}{$EN}_$msgID.html");
+}
+
+if (!$AUTH_USER_ID) {
+    $hash = md5((mt_rand(1, 1000) * mt_rand(1, 100) + mt_rand(1, 10000)) / mt_rand(1, 10));
+    $SQL = "update Message$classID set user_hash = '$hash' where Message_ID = " . $msgID;
+    $db->query($SQL);
+    $_SESSION['user_hash'] = $hash;
+}
+
+exit;
+?>

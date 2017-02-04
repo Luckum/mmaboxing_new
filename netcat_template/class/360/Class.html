@@ -1,0 +1,34 @@
+<!-- FormPrefix -->
+<span class='nc_prev_link'>
+    <? echo ($prevLink ? "<a href='$prevLink'>Назад</a>" : "") ?> &nbsp;
+</span>
+
+<span class='nc_pagination'>
+    &nbsp; <? echo browse_messages($cc_env, 5) ?> &nbsp;
+</span>
+
+<span class='nc_next_link'>
+    <? echo ($nextLink ? "<a href='$nextLink'>Далее </a>" : "") ?>
+</span>
+<br /><br />
+<?= $prevLink || $nextLink ? "<hr />" : ""; ?>
+
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+    echo $f_AdminButtons;
+    $cc_goods = $db->get_row("SELECT `Subdivision_ID` as sub_id, `Sub_Class_Name` as cc_name FROM Sub_Class where Sub_Class_ID = ".+$f_Sub_ID, ARRAY_A);
+    ?>
+
+<div>Заказ №<b><?= $f_RowID; ?></b></div>
+<div>Идентификатор раздела с товаром: <?= $cc_goods['sub_id']; ?></div>
+<div>Название компонента в разделе: <?= $cc_goods['cc_name']; ?></div>
+<div>Товар: <?= $f_Goods_Title; ?></div>
+<div>Стоимость: <?= $f_Cost; ?></div>
+<div>ФИО: <?= $f_Surname." ".$f_Name; ?></div>
+<div>Телефон: <?= $f_Phone; ?></div>
+<div>Email: <?= $f_Email; ?></div>
+<div>Адрес доставки: <?= $f_Adress ? $f_Adress : 'не указан'; ?></div>
+<hr /><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,42 @@
+<?
+global $LinkID;
+$album_sql = "SELECT a.Checked, a.Sub_Class_ID,a.Class_ID FROM Sub_Class as a WHERE a.Sub_Class_ID='".$cc_settings['AlbumCC']."'";
+$resAlbum = mysql_query($album_sql, $LinkID);
+list($useAlbum,$AlbumCC,$AlbumClass) = mysql_fetch_row($resAlbum);
+echo"
+".($warnText ? $warnText : "")."
+<form name='adminForm' id='adminForm' enctype='multipart/form-data' method='post' action='$SUB_FOLDER/netcat/message.php'>
+<input name='admin_mode' type='hidden' value='$admin_mode'>
+<input name='catalogue' type='hidden' value='$catalogue'>
+<input name='cc' type='hidden' value='$cc'>
+<input name='sub' type='hidden' value='$sub'>
+<input name='message' type='hidden' value='$message'>
+<input name='posting' type='hidden' value='1'>
+<input name='curPos' type='hidden' value='$curPos'>
+" . $nc_core->token->get_input() . "
+<input name='f_Parent_Message_ID' type='hidden' value='$f_Parent_Message_ID'>".($admin_mode && !$systemTableID ? "<table border='0' cellpadding='2' cellspacing='0'>
+<tr valign='top'><td>".NETCAT_MODERATION_OBJADDED.":</td><td>".$f_Created."<br><font size='-2'>".BEGINHTML_USER.": ".$f_UserID." (".$f_IP.")</font><br><br></td></tr>".($f_LastUserID ? "<tr valign='top'><td>".NETCAT_MODERATION_OBJUPDATED.":</td><td>".$f_LastUpdated."<br><font size='-2'>".BEGINHTML_USER.": ".$f_LastUserID." (".$f_LastIP.")</font><br><br></td></tr>" : "")."
+<tr><td>".NETCAT_MODERATION_PRIORITY.":</td><td><input name='f_Priority' type='text' size='5' maxlength='5' value='".$f_Priority."'>
+".( CheckUserRights($current_cc['Sub_Class_ID'], "moderate", $posting) ?
+"<input id='chk' name='f_Checked' type='checkbox' value='1' ".($f_Checked ? "checked" : "")."> <label for='chk'>".NETCAT_MODERATION_TURNON."</label>" :
+"<input id='chk' name='f_Checked' type='hidden' value='".($f_Checked ? 1 : 0)."'>")."
+</td></tr>
+<tr><td>".CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_KEYWORD.":</td><td><input name='f_Keyword' type='text' size='20' maxlength='255' value='".$f_Keyword."'></td></tr></table>
+<hr size=1>
+" : "")."
+".($useAlbum ? "
+  <select name='f_AlbumID'>
+  <option value=''>-- Выберите альбом --</option>
+  ".opt($GLOBALS[f_AlbumID]=$f_AlbumID,"")."
+  ".listQuery("SELECT Message_ID, Name FROM Message$AlbumClass WHERE Sub_Class_ID='$AlbumCC' ORDER BY Priority DESC","<option value='\$data[Message_ID]'\".opt(\$GLOBALS[f_AlbumID]==\$data[Message_ID],\" selected\").\">\$data[Name]</option>")."
+  </select><br><br>
+":"
+<input type='hidden' name='f_AlbumID' value='$f_AlbumID'>
+")."
+".nc_text_field("Descrition", "", $classID, 1)."<br>
+<br>
+".nc_file_field("Picture", "size='50'", $classID, 1)."<br>
+<br>".NETCAT_MODERATION_INFO_REQFIELDS."<br><br>
+".nc_submit_button(NETCAT_MODERATION_BUTTON_CHANGE)."
+</form>";
+?>

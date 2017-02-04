@@ -1,0 +1,23 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<div class='nc_list nc_addresses'><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'>
+    <? echo $f_AdminButtons; ?>
+    <h3><? echo nc_edit_inline('Titl', $f_RowID, $cc); ?></h3>
+    <? if ($f_Adress) {
+        ?><div class='nc_item'><span class='nc_title'>Адрес: </span><span class='nc_value'><? echo nc_edit_inline('Adress', $f_RowID, $cc); ?></span></div><?
+}
+    ?><div class='nc_item'><span class='nc_title'>Телефон: </span><span class='nc_value'><? echo nc_edit_inline('PhoneNumber', $f_RowID, $cc); ?></span></div><?
+    if ($f_Email) {
+        ?><div class='nc_item'><span class='nc_title'>Email: </span><span class='nc_value'><a href='mailto:<? echo $f_Email ?>'><? echo $f_Email ?></a></span></div><?
+}
+if ($f_Description) {
+        ?><div class='nc_description'>Пояснение (как добраться):<? echo nc_edit_inline('Description', $f_RowID, $cc); ?></div><?
+}
+if ($f_Plan) {
+        ?><br /><img src='<? echo $f_Plan ?>' alt='' /><?
+    } ?>
+    <div style='clear:both'></div>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

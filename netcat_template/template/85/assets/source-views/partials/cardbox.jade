@@ -1,0 +1,89 @@
+mixin cardbox(i, mods, popup)
+  - mods = mods || 'wide'
+  - c = ''
+  - mod = mods.split(' ')
+  - for (k = 0; k < mod.length; k++)
+    - c += ' tpl-block-cardbox--' + mod[k]
+
+  mixin linkContent()
+    // Заголовок
+    +t('ml'): .tpl-field-title <nobr>Встроенная память</nobr> 16 Гб, SDHC
+    // Описание
+    .tpl-field-description ##{i} 2-x спальная палатка с откидным верхом и черным ходом
+    // Картинка
+    .tpl-field-image: img(src="tmp/large-#{i}.jpg")
+
+  // Карточка
+  +b.cardbox(class="#{c}")
+
+    if popup
+      +elink("catalog-popup.html").link
+        +linkContent
+        // Обложка
+        +e.overlay: u Быстрый просмотр
+    else
+      +elink.link
+        +linkContent
+
+    include rating
+
+    // Цена
+    .tpl-field-cost 9 549 <span class="tpl-block-rubl">Р</span>
+
+
+    // У карточки может быть указана либо старая цена, либо варианты.
+    // Просто нужно выбрать какой-то из следующих двух блоков
+
+    // Старая цена
+    .tpl-field-oldcost 10 549 <span class="tpl-block-rubl">Р</span>
+
+    // Варианты
+    +b.variants
+      +b.pseudolink: u Варианты
+      +e.popup
+        +e.item Красные сопаги 45 размера с пластмассовой окантовкой
+        +e.item Зелёный цвет
+        +e.item Новосибирск
+        +e.item іВстроенная память 16 Гб, SDHC
+
+    // Текст
+    .tpl-field-text.
+      This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.
+      Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis
+      sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi
+      accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a  bibendum auctor, nisi elit a a a a a
+
+    // Меню
+    +e.menu
+      +jrow
+        +jcol: +link: i.icon-down-blue
+        +jcol: +link: i.icon-flag-blue
+        +jcol: +link: i.icon-cart-red
+
+    // Купить сразу
+    +e.buy: +blink.ibtn Купить сразу
+
+    // В корзину
+    +e.tocart
+      +b('span').ibtn--theme_red
+        i.icon-cart-white
+        |  В корзину
+        +e('button').submit
+
+    // Удалить
+    +e.remove
+      +b('span').ibtn--theme_empty
+        i.icon-trash
+        +e('button').submit
+
+    // Категория
+    +link.tpl-field-category Фототехника
+      +e.overlay: u Быстрый просмотр
+
+    // Количество
+    +e.amount
+      +b.amountchoice
+        +e.value <span>1</span> шт.
+        +e.buttons
+          +e.button--more: i.icon-angle-up
+          +e.button--less: i.icon-angle-down

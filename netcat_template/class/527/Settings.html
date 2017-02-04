@@ -1,0 +1,71 @@
+<?php
+
+if (!nc_module_check_by_keyword("netshop")) {
+    die (NETCAT_MODULE_NETSHOP_MODULEUNCHECKED);
+}
+
+$netshop = nc_netshop::get_instance();
+
+// Параметр request_type установлен, если страница запрошена скриптом переключения варианта товара
+$request_type = $nc_core->input->fetch_get_post('request_type');
+
+$pages_template['prefix'] = "";
+$pages_template['suffix'] = "";
+$pages_template['active'] = "<div class=\"tpl-block-pages-item tpl-state-current\"><a href=\"%URL\">%PAGE</a></div>";
+$pages_template['unactive'] = "<div class=\"tpl-block-pages-item\"><a href=\"%URL\">%PAGE</a></div>";
+$pages_template['divider'] = " ";
+
+$subdivision = $nc_core->subdivision->get_by_id($sub);
+
+// Показывать в списке отключенные товары, если у них имеются включенные варианты:
+$ignore_check = true;
+$query_where = "(a.`Checked` = 1 OR (a.`Checked` = 0 AND (" .
+    "SELECT `Message_ID` FROM `Message$classID` as `child` " .
+    " WHERE `child`.`Parent_Message_ID` = a.`Message_ID` AND `child`.`Checked` = 1 " .
+    " LIMIT 1" .
+    ")))";
+
+$filter_fields = array(
+    'Vendor' => array(
+        'field' => 'checkbox',
+    ),
+    'Price' => array(
+        'field' => 'range',
+    ),
+);
+
+$netshop->filter->init_fields($filter_fields);
+$netshop->filter->query_where($query_where);    
+
+$sortBy = $nc_core->input->fetch_get('sortBy');
+$sortDesc = (int)$nc_core->input->fetch_get('sortDesc');
+
+$sorting_methods = array(
+    '' => array('field' => 'Name', 'title' => 'По алфавиту'),
+    'price' => array('field' => 'Price', 'title' => 'По цене'),
+);
+
+if (isset($sorting_methods[$sortBy])) {
+    $query_order = '`' . $sorting_methods[$sortBy]['field'] . '`' . ($sortDesc ? ' DESC' : '');
+}
+
+$f_Slider_tpl = array(
+    'prefix' => "<div class='catalogue_full_animate'>",
+    'record' => "<div class='block'><div class='display_table'><div class='display_table_row'><div class='display_table_cell'>
+	         <a href='%Path%'><img src='%Preview%' alt='' /></a>
+	     </div></div></div></div>",
+    'divider' => '',
+    'suffix' => '</div>',
+);
+
+if (!function_exists('current_link')) {
+    function current_link($params, $val = null) {
+        if (!is_array($params)) {
+            $params = array($params => ($val == '' ? null : $val));
+        }
+        if ($get = nc_core('input')->fetch_get()) {
+            $params = array_merge($get, $params);
+        }
+        return nc_infoblock_path($GLOBALS['cc'], 'index', 'html', null, $params);
+    }
+}

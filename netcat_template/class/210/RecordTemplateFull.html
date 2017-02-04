@@ -1,0 +1,29 @@
+<div class='nc_full nc_projects'><?
+if ($cc_settings['Group'] == 'date' && $groupHeader = ( $curDep == $f_Date_day ? NULL : $curDep = $f_Date_day )) {
+   ?><h3 class='nc_group'><? echo $groupHeader.".".$f_Date_month.".".$f_Date_year ?></h3><?
+}
+if ($cc_settings['Group'] == 'month' && $groupHeader = ( $curDep == $f_Date_month ? NULL : $curDep = $f_Date_month )) {
+   ?><h3 class='nc_group'><? echo $groupHeader.".".$f_Date_year ?></h3><?
+}
+if ($f_Title) {
+   ?><h2><? echo nc_edit_inline('Title', $f_RowID, $cc) ?></h2><? }
+if ($f_Description) { ?> <div class='nc_description'><? echo nc_edit_inline('Description', $f_RowID, $cc) ?></div><? }
+if ($f_File) { ?> <a href='<? echo $f_File ?>'>Скачать файл...</a><?
+}
+if ($cc_settings['DateStyle'] != 'disable') {
+   ?> <div class='nc_datetime'> <?
+        if ($cc_settings['FullLink'] == 'date' && ($f_Text || $f_ExtLink)) {
+       ?> <a href='<? echo ($f_Text ? $fullLink : $f_ExtLink) ?>'><?
+        }
+        if ($cc_settings['DateStyle'] != 'time') {
+       ?><span class='nc_date'><? echo $f_Date_day.".".$f_Date_month.".".$f_Date_year ?></span><?
+        }
+        if ($cc_settings['DateStyle'] != 'date') {
+       ?><span class='nc_time'><? echo $f_Date_hours.":".$f_Date_minutes ?></span><?
+        }
+        if ($cc_settings['FullLink'] == 'date' && ($f_Text || $f_ExtLink)) {
+       ?></a><?
+        }
+   ?></div><?
+    }
+?></div>

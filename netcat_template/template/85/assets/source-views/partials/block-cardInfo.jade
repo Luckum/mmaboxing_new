@@ -1,0 +1,93 @@
+
+// Блок с синей рамкой и информацией
++b('form').cardinfo(action="/")
+  +e.row
+    // Цена
+    .tpl-field-cost 154 990 <span class="tpl-block-rubl">Р</span>
+
+  +e.row
+    // Старая цена
+    .tpl-field-oldcost 162 780 <span class="tpl-block-rubl">Р</span>
+
+    // В наличии / Нет → span.tpl-field-instock.tpl-field-instock--nope
+    .tpl-field-instock <i class="icon-check"></i> В наличии
+
+  +e.line
+
+  +e.row
+    // Комплектация
+    +e.complect
+      +t('s') Комплектация
+      select.tpl-block-iselect
+        option(selected="selected") KIT 18-105mm
+        option KIT 18-105mm
+        option KIT 90-270mm
+        option KIT 150-270mm
+        option KIT 18-700mm
+
+  +e.row
+    // Цвет
+    +e.colors
+      +t('s') Цвет
+      +b.colors
+        +e('label').item
+          +e('input').radio(type="radio", name="color")
+          +e.color(style="background: #E1E6EA")
+        +e('label').item
+          +e('input').radio(type="radio", name="color")
+          +e.color(style="background: #00A187")
+        +e('label').item
+          +e('input').radio(type="radio", name="color")
+          +e.color(style="background: #F1C442")
+        +e('label').item
+          +e('input').radio(type="radio", name="color")
+          +e.color(style="background: #000000")
+        +e('label').item
+          +e('input').radio(type="radio", name="color", checked="checked")
+          +e.color(style="background: #EB4942").tpl-state-current
+        +e('label').item
+          +e('input').radio(type="radio", name="color")
+          +e.color(style="background: #7E8C8D")
+        +e('label').item
+          +e('input').radio(type="radio", name="color")
+          +e.color(style="background: #9241A7")
+        +e('label').item
+          +e('input').radio(type="radio", name="color")
+          +e.color(style="background: #34495C")
+        +e('label').item
+          +e('input').radio(type="radio", name="color")
+          +e.color(style="background: #2780B5")
+
+  +e.row
+    // Количество
+    +e.amount
+      +t('s') Количество
+      +b.amountchoice
+        +e.value <span>1</span> шт.
+        +e.buttons
+          +e.button--more: i.icon-angle-up
+          +e.button--less: i.icon-angle-down
+
+    // Размер
+    +e.size
+      +t('s') Размер
+      select.tpl-block-iselect
+        option(selected="selected") XL
+        option L
+        option M
+        option S
+        option XS
+
+  +e.row
+    // В корзину
+    +e.tocart
+      +b('span').ibtn--block.tpl-block-ibtn--theme_red
+        i.icon-cart-white
+        |  В корзину
+        +e('button').submit
+
+    // Купить сразу
+    +e.buynow
+      +b('span').ibtn--block
+        | Купить сразу
+        +e('button').submit

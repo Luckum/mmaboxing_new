@@ -1,0 +1,56 @@
++b('form').asidefilter(action="/")
+  +e.trigger Фильтр
+  +e.state
+  +e.box
+    +e.title--style_red Производитель
+    p(style="font-weight: bold"): label <input type="checkbox" name="brand" /> Все
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Alcatel
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Apple
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> BB-mobile
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> BlackBerry
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Fly
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Google Nexus с надписью на несколько<br>строк
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Gresso
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Hong Kang
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> HTC
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> LG
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Mobiado
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Nokia
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Panasonic
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Philips
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> RugGear
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Samsung
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Sonim
+    p: label.tpl-block-ichlabel <input type="checkbox" name="brand" /> Swarovski
+    p: label.tpl-block-ichlabel <input type="radio" name="brand" /> The Q
+    p: label.tpl-block-ichlabel <input type="radio" name="brand" /> Tonino Lamborghini
+    p: label.tpl-block-ichlabel <input type="radio" name="brand" /> БиЛайн
+    p: +b.pseudolink
+      u Ещё
+      i.icon-angle-down
+  +e.box
+    +e.title Цена
+    +b.range
+      +b('table').table--style_clean
+        tr
+          td(width="20%") От:
+          td: +b('input').itext(type="text", value="0").tpl-block-range-min.tpl-block-price
+        tr
+          td До:
+          td: +b('input').itext(type="text", value="10000").tpl-block-range-max.tpl-block-price
+      +sep('s')
+      // Если указаны start-min / start-max, то стартовые значения берутся отсюда.
+      // Если нет — из инпутов.
+      +e.slider(data-step="1", data-resolution="0.01", data-start-min="1000", data-min=500, data-max="5000")
+  +e.box
+    p: label.tpl-block-ichlabel <input type="checkbox" /> В наличии
+    p: label.tpl-block-ichlabel <input type="checkbox" /> По предзаказу
+    p: label.tpl-block-ichlabel <input type="checkbox" /> Новинка
+  +e.box
+    +e.title Другие параметры
+    p: label.tpl-block-ichlabel <input type="checkbox" /> Параметр
+    p: label.tpl-block-ichlabel <input type="checkbox" /> Параметр 1
+    p: label.tpl-block-ichlabel <input type="checkbox" /> Параметр 2
+    p: +b.pseudolink
+      u По популярности
+      i.icon-angle-down

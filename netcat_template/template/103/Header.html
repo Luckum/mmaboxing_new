@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JeepTravels</title>
+	<link media="all" rel="stylesheet" href="<?= $nc_parent_template_folder_path; ?>static/css/all.css">
+	<!--[if lt IE 9]><script src="<?= $nc_parent_template_folder_path; ?>static/js/html5.js"></script><![endif]-->
+    <script type="text/javascript" src="<?=$HTTP_TEMPLATE_PATH?>jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="<?=$HTTP_TEMPLATE_PATH?>jquery/jquery.nclsdisplay.js"></script>
+    <?= nc_js(); ?>
+    <script src="<?= $nc_parent_template_folder_path; ?>static/js/script.js"></script>
+    <!--[if lte IE 8]>
+    <style type="text/css">
+        .collective li { float: left; }
+    </style>
+    <![endif]-->
+</head>
+<body>
+	<div class="page">
+        <div class="contact-holder">
+                <?= nc_objects_list(356, 566); ?>				
+                <div class="write-us">
+                    <?= nc_objects_list(357, 567); ?>
+				</div>
+			</div>
+		<header class="header">			
+			<div class="wrapper">
+				<strong class="logo"><a href="/" <?php echo nc_ls_display_link(332, 0, null, 'function() { $(this).closest(".wrapper").find("NAV LI").removeClass("active");  }'); ?>>jeep travels</a></strong>
+				<div class="search-form">
+					<form action="/search/" method="get">
+						<fieldset>
+							<input type="text" name="search_query" placeholder="Найти" />
+							<input type="submit" value="search" />
+						</fieldset>
+					</form>
+				</div>
+				<nav>
+					<ul>
+                        <?php echo nc_browse_level(0, $browse_template); ?>
+						<li><a href="#" class="contacts-button">Контакты</a></li>
+					</ul>
+				</nav>
+			</div>
+		</header>

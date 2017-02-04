@@ -1,0 +1,92 @@
+.tpl-block-pages
+  @extend .tpl-block-journal
+  position: relative
+  font-weight: 400
+  @media min
+    padding: 0 60px
+    margin: 55px 0 10px
+  &-item
+    @extend .tpl-block-journal-column
+    padding: 5px 0 1px
+    line-height: 1.4
+    @media min
+      font-size: 48px
+      font-weight: 100
+      &:nth-child(1n+8)
+        display: none
+      &:last-child
+        display: inline-block
+
+    &.tpl-state-current
+      border-bottom: 5px solid colorBlue
+      @media min
+        border: none
+        font-weight: 600
+    a
+      display: block
+      text-decoration: none
+      color: colorBase
+      padding: 0 2px
+      &:hover
+        color: colorRed
+        @media min
+          color: colorBase
+      @media min
+        mlink()
+
+    &--prev,
+    &--next
+      position: absolute
+      padding: 0
+      top: 0
+      background: green
+      @media min
+        width: 70px
+        height: 73px
+      a
+        width: 30px
+        height: 30px
+        position: absolute
+        border: 5px solid colorDull
+        transition: color 0.2s, border 0.2s, opacity 0.2s
+        line-height: 16px
+        text-align: center
+        font-size: 15px
+        user-select: none
+        color: colorDull
+
+        @media min
+          height: auto
+          width: auto
+          border: none
+          line-height: 70px
+          font-size: 40px
+          color: colorBase
+          position: absolute
+        &:hover
+          color: colorBlue
+          border-color: colorBlue
+          @media min
+            color: colorBase
+        i
+          margin-left: -2px
+          @media min
+            margin-left: 5px
+      &.tpl-state-disabled a
+        opacity: 0.3
+        pointer-events: none
+        color: colorDull
+        border-color: colorDull
+        cursor: default
+        @media min
+          border: none
+    &--prev
+      right: -15px
+      @media min
+        left: -25px
+    &--next
+      right: -55px
+      @media min
+        right: -25px
+
+

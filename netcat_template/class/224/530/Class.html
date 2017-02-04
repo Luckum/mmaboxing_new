@@ -1,0 +1,46 @@
+<!-- FormPrefix --><div style='padding: 5px;'><form method='post'>Статус заказа: <select name='order_status'>
+<option selected value='0'>все</option>
+<option value='new'>новый</option><?
+foreach ($status as $row) {
+    ?><option value='<?=$row->ID?>' <?=($row->ID == $s_status ? 'selected' : '')?>><?=$row->Name?></option><?
+}
+?></select>
+        <style type='text/css'> span.for_front { padding-left: 30px; } </style>
+        <span<?= $inside_admin ? '' : " class='for_front'"; ?>><input type='submit' value='Показать'></span></form></div>
+<br />
+<div><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><style type='text/css'>
+.order_header div { display: inline-block; }
+.order_body { padding: 5px; }
+.order_body .left {text-align: left; width: 65%; display: inline-block;}
+.order_body .right {text-align: right; width: 30%; display: inline-block;}
+</style>
+<?
+$cart_data = $shop->LoadDisplayOrder($f_RowID);
+?>
+<form action='<?=$SUB_FOLDER?>/netcat/message.php' method='post'>
+<div style='padding: 5px; <?=($f_RowNum % 2 ? '' : 'background-color: #EEE;')?>'>
+<div class='order_header'>
+  <div style='width: 70%;'>
+    <h3 style='margin-top: 5px; padding: 0px;'><a href='<?=$fullLink?>'>Заказ №<?=$f_RowID?></a> от <?=$f_Created_day; echo " ".$months[(int)$f_Created_month]; echo " ".$f_Created_year; ?> года</h3>
+  </div>
+  <div style='width: 25%; text-align: right;'>
+      <span>Статус заказа: </span><b><?=($f_Status ? $order_status[$f_Status] : "Новый")?></b>
+  </div>
+</div>
+</form>
+<?=$f_AdminButtons ?>
+<div class='order_body'><div class='left'><?
+$result_tmp = array();
+
+foreach ($cart_data['items'] as $position) {
+    $result_tmp[] = $position['URL'] ? "<a href='".$position['URL']."'>".$position['Name']."</a>" : $position['Name'] . ($position['Qty'] > 1 ? " ({$position['Qty']})" : "");
+    $cart_sum += $position['Price'];
+}
+echo join(', ', $result_tmp);
+?></div><div class='right'><b><?=$shop->FormatCurrency($cart_data['total'])?></b></div>
+</div>
+<br /></div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

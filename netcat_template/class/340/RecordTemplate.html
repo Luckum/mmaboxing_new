@@ -1,0 +1,47 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?
+echo ( $cc_settings['ListStyle'] != 'none' ? "<li class='nc_row'>" : "<div class='nc_row'>");
+echo $f_AdminButtons;
+?>
+<h3>
+    <?
+    if (!$cc_settings['ShowIcons']) {
+        ?><img class='nc_icon' src='<?= $ADMIN_TEMPLATE ?>img/i_file.gif' alt='<?= $f_File_name ?>' /><?
+}
+if ($cc_settings['DownloadLink'] != 'download') {
+    ?>
+        <a href='<?= $f_File ?>'><?
+    }
+    echo ( $cc_settings['ShowRealName'] ? $f_File_name : $f_Name );
+    if ($cc_settings['DownloadLink'] != 'download') {
+        ?>
+        </a><? }
+    ?>
+</h3>
+<? if (!$cc_settings['ShowFileExt'] && preg_match('/[.]+([w]{3,5})$/', $f_File_name, $FileExt)) {
+    ?><div class='nc_item'>
+        <span class='nc_title'>Тип файла: </span>
+        <span class='nc_value'><?= strtoupper($FileExt[1]) ?></span>
+    </div><?
+}
+if (!$cc_settings['ShowFileSize']) {
+    ?>
+    <div class='nc_item'>
+        <span class='nc_title'>Размер: </span>
+        <span class='nc_value'><?= nc_bytes2size($f_File_size) ?></span>
+    </div><?
+}
+if ($f_Comment) {
+    ?><div class='description'><?= $f_Comment ?></div><?
+}
+if ($cc_settings['DownloadLink'] != 'name') {
+    ?>
+    <div class='nc_more'><a href='<?= $f_File ?>'>Скачать</a></div> <?
+}
+if ($cc_settings['ListStyle'] != 'none') {
+    ?></li> <? } else {
+    ?>
+    </div><?
+}
+?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

@@ -1,0 +1,18 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+
+    <?
+    echo $f_AdminButtons;
+    $cc_goods = $db->get_row("SELECT `Subdivision_ID` as sub_id, `Sub_Class_Name` as cc_name FROM Sub_Class where Sub_Class_ID = ".+$f_Sub_ID, ARRAY_A);
+    ?>
+
+<div>Заказ №<b><?= $f_RowID; ?></b></div>
+<div>Идентификатор раздела с товаром: <?= $cc_goods['sub_id']; ?></div>
+<div>Название компонента в разделе: <?= $cc_goods['cc_name']; ?></div>
+<div>Товар: <?= $f_Goods_Title; ?></div>
+<div>Стоимость: <?= $f_Cost; ?></div>
+<div>ФИО: <?= $f_Surname." ".$f_Name; ?></div>
+<div>Телефон: <?= $f_Phone; ?></div>
+<div>Email: <?= $f_Email; ?></div>
+<div>Адрес доставки: <?= $f_Adress ? $f_Adress : 'не указан'; ?></div>
+<hr />
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

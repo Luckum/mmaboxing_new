@@ -1,0 +1,15 @@
+<?
+echo $f_AdminCommon;
+
+/* Если мы в режиме редактирования, то убираем "корзину" */
+if (!$admin_mode) {
+   ?>
+<div style='text-align:right; float:right; color:#333; padding:8px 12px 8px 60px; margin:5px 0; background:#EDEFF0 url(<?= $ADMIN_TEMPLATE ?>img/i_module_netshop_big.gif) no-repeat 10px 50%'>
+        <?= $GLOBALS['Netshop_CartSum'] ?><br>
+        <?= $GLOBALS['Netshop_OrderLink'] ?>
+    </div>
+    <div style='clear:both'></div><? } ?>
+
+<? $RowNum = 0; ?>
+<table class='nc_table' cellpadding='10' cellspacing='1'><?= ( $NumCols > 1 ? str_repeat("<col $ColWidth />", $NumCols) : NULL ) ?>
+    <tr valign='top'>

@@ -1,0 +1,88 @@
+<?
+
+$maxRows = 50; // записей на странице
+$query_where = "1";
+$query_order = "a.`Message_ID` DESC";
+
+$ignore_sub = 1;
+$ignore_cc = 1;
+
+
+/**
+ * text_filter: «поиск»
+ */
+ 
+$text_filter = trim($text_filter);
+if (strlen($text_filter)) {
+
+    $db = nc_db();
+    $query_where_conditions = array(0);
+
+    // (a) Возможно, ID заказа (+игнорировать order_status)
+    if (is_numeric($text_filter)) {
+        $order_table = nc_netshop::get_instance($catalogue)->get_order_table_name();
+        $last_order_status = $db->get_var("SELECT MAX(`Message_ID`) FROM `$order_table`");
+        if ($text_filter <= $last_order_status) {
+            $query_where_conditions[] = "a.`Message_ID` = " . (int)$text_filter;
+            $order_status = -1;
+        }
+    }
+
+    // (б) Возможно, номер телефона (начиная с шестизначного)
+    if (strlen($text_filter) > 5 && preg_match('/^[\d\s\-\.\(\)\+]+$/', $text_filter)) {
+        $phone_digits = preg_split('//', preg_replace('/\D/', '', $text_filter));
+        $phone_regexp = join('[^0-9]*', $phone_digits);
+        $query_where_conditions[] = "a.`Phone` REGEXP '$phone_regexp'";
+    }
+
+    $text_filter_escaped = $db->escape($text_filter);
+
+    // (в) Email?
+
+    if (strpos($text_filter, "@") !== false) {
+        $query_where_conditions[] = "a.`Email` LIKE '%$text_filter_escaped%'";
+    }
+
+    // (г) может, это логин?
+    $auth_by = nc_core('AUTHORIZE_BY');
+    $user_id = $db->get_var("SELECT `User_ID` FROM `User` WHERE `$auth_by` = '$text_filter_escaped'");
+    if ($user_id) {
+        $query_where_conditions[] = "a.`User_ID` = $user_id";
+    }
+
+    // (д) имя клиента?
+    if (!is_numeric($text_filter)) {
+        $query_where_conditions[] = "a.`ContactName` LIKE '%$text_filter_escaped%'";
+    }
+
+    $query_where = "(" . join(" OR ", $query_where_conditions) . ")";
+}
+
+/*
+ * order_status:
+ *   -1:  любые заказы
+ *   0:   новые заказы
+ *   >0:  ID статуса заказа
+ */
+
+if (!isset($order_status)) {
+    $order_status = 0; // "NEW"
+}
+
+if ($order_status != -1) {
+    if ($order_status > 0) {
+        $query_where .= " AND a.Status = " . (int)$order_status;
+    }
+    else {
+        $query_where .= " AND (a.Status IS NULL OR a.Status = 0)"; // new orders
+    }
+}
+
+if (!is_object($perm) || !$perm->isSupervisor()) {
+    if ($AUTH_USER_ID) {
+        $query_where .= " AND a.User_ID = {$AUTH_USER_ID} ";
+    } else {
+        $query_where .= " AND 1 = 0";
+    }
+    
+}

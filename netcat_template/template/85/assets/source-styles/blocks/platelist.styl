@@ -1,0 +1,29 @@
+.tpl-block-platelist
+  &-button
+    cursor: pointer
+    display: block
+    width: 30px
+    height: 30px
+    color: colorDull
+    transition: color 0.2s, border 0.2s, opacity 0.2s
+    margin-left: 10px
+    float: left
+    line-height: 26px
+    text-align: center
+    padding-right: 2px
+    font-size: 22px
+    user-select: none
+    &:first-child
+      margin-left: 0
+    &:hover
+      color: colorBlue
+      border-color: colorBlue
+    &.tpl-state-disabled
+      opacity: 0.3
+      pointer-events: none
+      color: colorDull
+      border-color: colorDull
+      cursor: default
+    &.tpl-state-active
+      color: colorBlue
+      pointer-events: none

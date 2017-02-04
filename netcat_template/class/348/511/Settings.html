@@ -1,0 +1,37 @@
+<?
+
+require $nc_parent_field_path;
+
+$shop_mode = $nc_core->get_settings('nc_shop_mode_' . $catalogue);
+if ($shop_mode == 2) {
+    global $shop;
+}
+
+if ( ! function_exists( 'cart_link' ) ) {
+    function cart_link($f_RowID, $f_Name, $f_Price, $fullLink, $shop_mode, $classID) {
+        global $cc, $nc_core, $nc_minishop, $orders_href;
+        global $SUB_FOLDER, $HTTP_ROOT_PATH;
+        switch ($shop_mode) {
+            case 2:
+                return "<form method='post' action='{$SUB_FOLDER}{$HTTP_ROOT_PATH}modules/netshop/post.php'>
+                    <input type='hidden' name='redirect_url' value='{$GLOBALS['uri_path']}' />
+                    <input type='hidden' name='cart_mode' value='add' />
+                    <input type='hidden' name='cart[{$classID}][{$f_RowID}]' value='1' />
+                    <a href='#' onclick='$(this).parent().submit(); return false' class='cart_link'><i class='icon icon-cart'></i></a>
+                </form>";
+
+            case 1:
+                return $nc_minishop->show_put_button($f_Name, $f_Price, $fullLink);
+
+            default:
+                return "<form method='post' action='{$SUB_FOLDER}{$orders_href}'>
+                    <input name='Sub_ID' type='hidden' value='{$cc}' />
+                    <input name='Goods_ID' type='hidden' value='{$f_RowID}' />
+                    <input name='Goods_Title' type='hidden' value='{$f_Name}' />
+                    <input name='Cost' type='hidden' value='{$f_Price}' />
+                    <input name='token' type='hidden' value='".md5($cc . $nc_core->get_settings('SecretKey') . $f_Price . $f_RowID . $f_Name) ."' />
+                    <a href='#' onclick='$(this).parent().submit(); return false' class='cart_link'><i class='icon icon-cart'></i></a>
+                </form>";
+        }
+    }
+}

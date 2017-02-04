@@ -1,0 +1,21 @@
+<form method="post" action="<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>modules/auth/index.php" class="tpl-block-authpopup tpl-block-popup" >
+    <div class="tpl-block-authpopup-title">Авторизация</div>
+    <p><input name="AUTH_USER" type="text" placeholder="<?= NETCAT_MODULE_AUTH_LOGIN ?>" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>' class="tpl-block-itext tpl-block-itext--style_dull" ></p>
+    <p><input name="AUTH_PW" type="password" placeholder="<?=NETCAT_MODULE_AUTH_PASSWORD ?>" class="tpl-block-itext tpl-block-itext--style_dull"></p>
+    <p>
+        <? if ($ADMIN_AUTHTYPE == "manual" && $AUTHORIZATION_TYPE == "cookie") : ?>
+            <label><input type='checkbox' name='loginsave' /> <?= NETCAT_MODULE_AUTH_SAVE ?></label>
+        <? endif; ?>
+    </p>
+    <div class="tpl-block-authpopup-actions">
+        <a href="/netcat/modules/auth/password_recovery.php" class="tpl-block-ibtn">Забыли пароль?</a>
+        <span class="tpl-block-ibtn tpl-block-ibtn--theme_blue">Войти<input type="submit" class="tpl-block-ibtn-submit" value=""></span>
+    </div>
+
+    <input type='hidden' name='AuthPhase' value='1' />
+    <input type='hidden' name='REQUESTED_FROM' value='<?= htmlspecialchars($REQUESTED_FROM, ENT_QUOTES) ?>' />
+    <input type='hidden' name='REQUESTED_BY' value='<?= htmlspecialchars($REQUESTED_BY, ENT_QUOTES) ?>' />
+    <input type='hidden' name='catalogue' value='<?= $catalogue ?>' />
+    <input type='hidden' name='sub' value='<?= $sub ?>' />
+    <input type='hidden' name='cc' value='<?= $cc ?>' />
+</form>

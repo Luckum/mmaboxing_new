@@ -1,0 +1,142 @@
+include partials/_includes
+
+
+
++layout
+  // Контент
+  +b.content
+    .tpl-block-layoutwidth
+
+      +b.main--wide
+
+        +sep
+        +b.shoppinglist
+          +e.row
+            +e.col--1: +t('m') Вам доставят:
+            +e.col--2: +e.edit: +link Редактировать заказ
+          +e.row
+            +e.col--1
+              +t('s') Nikon D90 KIT 18-105mm
+              +e.desc Зеркальный цифровой фотоаппарат
+            +e.col--2
+              +e.cost 21 000 <span class="tpl-block-rubl">Р</span>
+          +e.row
+            +e.col--1
+              +t('s') Nikon D90 KIT 18-105mm
+              +e.desc Зеркальный цифровой фотоаппарат
+            +e.col--2
+              +e.cost 21 000 <span class="tpl-block-rubl">Р</span>
+          +e.row
+            +e.col--1
+              +t('s') Apple iPhone 5s 32 Гб Silver
+              +e.desc Мобильный телефон
+            +e.col--2
+              +e.cost 19 990 <span class="tpl-block-rubl">Р</span>
+          +e.row
+            +e.col--1
+              | Итого
+            +e.col--2
+              +e.cost--summary 21 000 <span class="tpl-block-rubl">Р</span>
+
+
+
+        +sep
+
+        // Хлебные крошки
+        +b.breadcrumbs--steps
+          +e.item: +link Магазин
+          +e.item: +link Заказ
+          +e.item: +link.tpl-state-current Адрес доставки
+          +e.item: +link.tpl-state-disabled Варианты доставки
+          +e.item: +link.tpl-state-disabled Варианты оплаты
+          +e.item: +link.tpl-state-disabled Оплата
+          +e.item: +link.tpl-state-disabled Радость обладания
+
+        +sep('s')
+        +b('fieldset').order
+          +e('legend').title Адрес доставки и данные покупателя
+          +e.legalphysical
+            +b('label').ichlabel
+              input(type="radio", name="legalphysical")
+              | Физическое лицо
+            +b('label').ichlabel
+              input(type="radio", name="legalphysical", checked="checked")
+              | Юридическое лицо
+          +e.row
+            +e.col--half_1
+              +t('s') Данные заказчика
+              p: +b('label').itextlabel
+                +e('span').title E-mail
+                +b('input').itext--style_dull(type="text", value="konstantinopolsky@yandex.ru")
+              p: +b('label').itextlabel
+                +e('span').title Имя
+                +b('input').itext--style_dull(type="text", value="Константин Викторович")
+              p: +b('label').itextlabel
+                +e('span').title Телефон
+                +b('input').itext--style_dull(type="text", value="+7 906 965 56 23")
+            +e.col--half_2
+              +t('s') Адрес доставки
+              p: +b('label').itextlabel
+                +e('span').title Город
+                span.tpl-block-order-city
+                  select.tpl-block-iselect
+                    option(selected="selected") Нижний новгород
+                    option Москва
+                    option Екатеринбург
+                    option Челябинск
+                    option Уфа
+              p: +b('label').itextlabel
+                +e('span').title Улица, дом
+                +b('input').itext--style_dull(type="text", value="Карла Маркаса, д.52", style="width: 75%")
+              p: +b('label').itextlabel
+                +e('span').title Увартира/Офис
+                +b('input').itext--style_dull(type="text", value="82", style="width: 25%")
+          +sep('xl')
+          +e.row
+            +e.col--half_1
+              +t('s') Данные организации
+              p: +b('label').itextlabel
+                +e('span').title Наименование
+                +b('input').itext--style_dull(type="text", value="konstantinopolsky@yandex.ru")
+              p: +b('label').itextlabel
+                +e('span').title Юр. адрес
+                +b('input').itext--style_dull(type="text", value="ул. Жуковского, 56, оф.1")
+              p: +b('label').itextlabel
+                +e('span').title ИНН
+                +b('input').itext--style_dull(type="text", value="6545 9874 6551 3213 4567")
+              p: +b('label').itextlabel
+                +e('span').title КПП
+                +b('input').itext--style_dull(type="text", value="4568 55465 654654 321")
+              p: +b('label').itextlabel
+                +e('span').title Банк
+                +b('input').itext--style_dull(type="text", value="ОАО «Сберегательный банк России»")
+            +e.col--half_2
+              +t('s') &nbsp;
+              p: +b('label').itextlabel
+                +e('span').title Бик
+                +b('input').itext--style_dull(type="text", value="konstantinopolsky@yandex.ru")
+              p: +b('label').itextlabel
+                +e('span').title Корр. счёт
+                +b('input').itext--style_dull(type="text", value="Константин Викторович")
+              p: +b('label').itextlabel
+                +e('span').title Расчётный счёт
+                +b('input').itext--style_dull(type="text", value="654 654 654 66666 5447 88 7")
+              p: +b('label').itextlabel
+                +e('span').title ОКПО
+                +b('input').itext--style_dull(type="text", value="987987 9879 87987 98799963221")
+          +e.actions
+            +blink.ibtn--theme_blue Следующий шаг
+
+
+      +b.clearfix
+
+
+
+
+
+
+    +b.notformobile: +sep('xxl')
+
+
+
+

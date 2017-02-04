@@ -1,0 +1,26 @@
+   <tr>
+      <td bgcolor='#FFFFFF' colspan='4'>
+          <font size='-2' color='gray'>В текущей папке: <?=opt($format_file_name=nc_format_file_name("file", $f_file_count), $f_file_count." ".$format_file_name)." (".opt($counted_file_size=nc_bytes2size($f_folder_size), $counted_file_size)."), ".opt($format_file_name=nc_format_file_name("folder", $totRows-$f_file_count), $totRows-$f_file_count." ".$format_file_name)?></font>
+      </td>
+   </tr>
+   </table>
+   </td>
+</tr>
+</table>
+<br>
+<form enctype='multipart/form-data' method='post' action='<?=$SUB_FOLDER.$HTTP_ROOT_PATH?>add.php'>
+<input type='hidden' name='admin_mode' value='1'>
+<input type='hidden' name='f_Parent_Message_ID' value='<?=$parent?>'>
+<input type='hidden' name='cc' value='<?=$cc?>'>
+<input type='hidden' name='isNaked' value='<?=$isNaked?>'>
+<input type='hidden' name='virtualMode' value='<?=$virtualMode?>'>
+<input type='hidden' name='sub' value='<?=$sub?>'>
+<input type='hidden' name='catalogue' value='<?=$catalogue?>'>
+<input type='hidden' name='posting' value='1'>
+<input type='hidden' name='f_Checked' value='1'>
+<font color='gray'>
+Закачать файл в эту папку:<br><input type='file' name='f_file' size='40'> <input type='submit' value='Закачать'><br><br>
+Создать новую папку:<br><input type='text' name='f_folder' size='20' maxlength='255'> <input type='submit' value='Создать'>
+</font>
+</form>
+<? if ($virtualMode) { ?></body></html><? } ?>

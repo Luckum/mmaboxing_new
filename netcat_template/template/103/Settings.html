@@ -1,0 +1,7 @@
+<?php
+$browse_template['prefix']   = "";
+$browse_template['suffix']   = "";
+$browse_template['active']   = "<li class='active'><a href='%URL' " . nc_ls_display_link('%SUB', 200, null, 'function() { $(this).closest("LI").addClass("active").siblings().removeClass("active");  }') . ">%NAME</a></li>";
+$browse_template['unactive'] = "<li><a href='%URL' " . nc_ls_display_link('%SUB', 200, null, 'function() { $(this).closest("LI").addClass("active").siblings().removeClass("active");  }') . ">%NAME</a></li>";
+
+?>

@@ -1,0 +1,19 @@
+<div class='nc_full nc_vacancies'>
+
+<?
+if ($f_City) {
+    ?><p> <b>Город: </b> <? echo  $f_City; ?> </p> <?
+}
+if ($f_Pay) {
+    ?><p> <b>Зарплата: </b><? echo nc_edit_inline('Pay', $f_RowID, $cc)." ".$pay; ?> </p> <?
+}
+if ($f_Obligation) {
+    ?><p> <b>Обязанности: </b> <? echo nc_edit_inline('Obligation', $f_RowID, $cc); ?> </p> <?
+}
+if ($f_Demands) {
+    ?><p> <b>Требования: </b> <? echo nc_edit_inline('Demands', $f_RowID, $cc); ?> </p> <?
+}
+if ($f_Conditions) {
+    ?><p> <b>Условия: </b> <? echo nc_edit_inline('Conditions', $f_RowID, $cc); ?> </p> <?
+} ?>
+</div>

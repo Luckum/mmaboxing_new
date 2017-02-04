@@ -1,0 +1,34 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<style type='text/css'>
+.order_header div { display: inline-block; }
+.order_body { padding: 5px; }
+.order_body .left {text-align: left; width: 65%; display: inline-block;}
+.order_body .right {text-align: right; width: 30%; display: inline-block;}
+</style>
+<?
+$cart_data = $shop->LoadDisplayOrder($f_RowID);
+?>
+<form action='<?=$SUB_FOLDER?>/netcat/message.php' method='post'>
+<div style='padding: 5px; <?=($f_RowNum % 2 ? '' : 'background-color: #EEE;')?>'>
+<div class='order_header'>
+  <div style='width: 70%;'>
+    <h3 style='margin-top: 5px; padding: 0px;'><a href='<?=$fullLink?>'>Заказ №<?=$f_RowID?></a> от <?=$f_Created_day; echo " ".$months[(int)$f_Created_month]; echo " ".$f_Created_year; ?> года</h3>
+  </div>
+  <div style='width: 25%; text-align: right;'>
+      <span>Статус заказа: </span><b><?=($f_Status ? $order_status[$f_Status] : "Новый")?></b>
+  </div>
+</div>
+</form>
+<?=$f_AdminButtons ?>
+<div class='order_body'><div class='left'><?
+$result_tmp = array();
+
+foreach ($cart_data['items'] as $position) {
+    $result_tmp[] = $position['URL'] ? "<a href='".$position['URL']."'>".$position['Name']."</a>" : $position['Name'] . ($position['Qty'] > 1 ? " ({$position['Qty']})" : "");
+    $cart_sum += $position['Price'];
+}
+echo join(', ', $result_tmp);
+?></div><div class='right'><b><?=$shop->FormatCurrency($cart_data['total'])?></b></div>
+</div>
+<br /></div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

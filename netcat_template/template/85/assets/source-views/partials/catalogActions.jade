@@ -1,0 +1,42 @@
+// Управление каталогом
++b.catalogactions
+  +e.row
+    +e.col--1
+      include breadcrumbs
+    // По популярности
+    +e.col--2.tpl-block-notformobile
+      +b('span').pseudolink.color-base
+        u По популярности
+        i.icon-angle-down
+      +b('span').pseudolink.color-base: u: i.icon-lowtohight
+      +b('span').pseudolink.color-base: u: i.icon-highttolow
+
+    // Показывать по 20
+    +e.col--3.tpl-block-notformobile
+      +b('span').pseudolink.color-base
+        u Показывать по 20
+        i.icon-angle-down
+    // Список / плитка
+    +e.col--4.tpl-block-notformobile
+      +b.platelist
+        +e.button--plate.tpl-state-active: i.icon-th
+        +e.button--list: i.icon-list
+  +e.row
+    // Заголовок
+    +e.col--1.tpl-block-notformobile
+      +b.title--bright.--size_l.color-blue Для футбола
+    +e.col--pages
+      +b.pages
+        +e.item--prev.tpl-state-disabled: +link: i.icon-left-open
+        +e.item.tpl-state-current: +link 1
+        +e.item: +link 2
+        +e.item: +link 3
+        +e.item: +link 4
+        +e.item: +link 5
+        +e.item: +link 6
+        +e.item: +link 7
+        +e.item: +link 8
+        +e.item: +link 9
+        +e.item ...
+        +e.item: +link 34
+        +e.item--next: +link: i.icon-right-open

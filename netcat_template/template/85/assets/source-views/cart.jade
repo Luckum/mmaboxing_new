@@ -1,0 +1,59 @@
+include partials/_includes
+
+
+
++layout
+  // Контент
+  +b.content
+    .tpl-block-layoutwidth
+      +b.main--wide
+        +sep
+        // Хлебные крошки
+        +b.breadcrumbs--steps
+          +e.item: +link Магазин
+          +e.item: +link.tpl-state-current Заказ
+          +e.item: +link.tpl-state-disabled Адрес доставки
+          +e.item: +link.tpl-state-disabled Варианты доставки
+          +e.item: +link.tpl-state-disabled Варианты оплаты
+          +e.item: +link.tpl-state-disabled Оплата
+          +e.item: +link.tpl-state-disabled Радость обладания
+
+        +sep('s')
+        +b('fieldset').cart
+          +e('legend').title Товары в наличии
+
+          -for(i=1; i<=3; i++)
+            +e.item
+              +cardbox(i, 'cart')
+
+          +e('fieldset').order
+            +e('legend').ordertitle Товары под заказ
+            -for(i=1; i<=3; i++)
+              +e.item
+                +cardbox(i, 'cart')
+
+          +e.summary
+            +e.summarycost
+              small Итого:
+              +e.cost 154 990 <span class="tpl-block-rubl">Р</span>
+            +e.summarydesc
+              strong Доставка включена в стоимость товара.
+              p Вы сможете выбрать способ оплаты и оставить<br>комментарии к доставке заказа на следующих этапах —<br>оформление заказа.
+
+
+          +e.actions
+            +blink.ibtn--theme_blue Оформить заказ
+
+
+      +b.clearfix
+
+
+
+
+
+
+    +b.notformobile: +sep('xxl')
+
+
+
+

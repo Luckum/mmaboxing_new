@@ -1,0 +1,3 @@
+<div id='nc_mscont_<?= $hash ?>' class='nc_msput'>
+<a  href='/netcat/modules/minishop/index.php?good[<?= $id ?>][name]=<?= $name ?>&good[<?= $id ?>][price]=<?= $price ?>&good[<?= $id ?>][hash]=<?= $hash ?>&good[<?= $id ?>][uri]=<?= $uri ?>' <? if($this->settings['ajax']) : ?> onclick='$.get(this.href,{},function(response){nc_minishop_response(response)}, "json"); return false;' <? endif; ?>>В корзину</a>
+</div>

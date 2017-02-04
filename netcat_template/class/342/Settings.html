@@ -1,0 +1,12 @@
+<?
+if ($cc_settings['GalleryCC'] == 0) { die( "Не проставлен компонент с фотогалерей в визуальных настройках!" ); } 
+
+if ( $action != 'full' ) {
+  // номер компонента Фотогалерея
+  $gal_class_id = $db->get_var("SELECT `Class_ID` FROM `Sub_Class` WHERE `Sub_Class_ID` = '".$cc_settings['GalleryCC']."'");
+  // расширяем запрос, чтобы узнать количество фотографий в альбоме
+  $query_select = " COUNT(b.Message_ID) AS cnt";
+  $query_join = "LEFT JOIN `Message".$gal_class_id."` AS `b` ON b.AlbumID = a.Message_ID";
+  $query_group = "a.Message_ID";
+}
+?>

@@ -1,0 +1,54 @@
+<!-- Header -->
+%Header
+
+    <body class="inner_page">
+        <div class="wrapper">
+            <div class="wrap">
+                <div class="sidebar">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="<?= $template_settings['logotype']['path']; ?>" alt="" />
+                            <span class="logo_text">
+                                <? /* Логотипы указынные в настройках макета */ ?>
+                                <span class="lt1"><?= $template_settings['lt1']; ?></span>
+                                <span class="lt2"><?= $template_settings['lt2']; ?></span>
+                                <span class="lt3"><?= $template_settings['lt3']; ?></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="sb_b menu_m">
+                        <? /* Выводим меню сайта слева, в соответствии с шаблоном $browse_left_menu */ ?>
+                        <?= nc_browse_sub(0, $browse_left_menu); ?>
+                    </div>
+                    <div class="sb_b news_l">
+                        <div class="hl"><?= $template_settings['news_header']; ?></div>
+                        <? /* Если в настройках макета указан ктомпонент, то выводим его объекты */ ?>
+                        <?= $template_settings['news_sub_class'] ? nc_objects_list(0, $template_settings['news_sub_class'], "nc_title=1&recNum=3") : ''; ?>
+                    </div>
+                </div>
+                <div class="content">
+                    <!-- /Header -->
+
+                    <!-- Footer -->
+                </div>
+                    <? /* Используем микроразметку для вывода информации, которая заполняется в визуальных настройках сайта */ ?>
+                    <div class="wr_b">
+                        <div class="conts_b">
+                            <div class="item item1">
+                                <span><?= $template_settings['phone_number_1']; ?></span>
+                                <span class="last"><?= $template_settings['phone_number_2']; ?></span>
+                            </div>
+                            <div class="item item2">
+                                <a href="mailto:<?= $template_settings['email']; ?>"><?= $template_settings['email']; ?></a>
+                            </div>
+                            <div class="item item3">
+                                <?= $template_settings['address']; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="empty"></div>
+        </div>
+        <div class="clear"></div>
+    %Footer<!-- /Footer -->

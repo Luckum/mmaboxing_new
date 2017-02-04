@@ -1,0 +1,9 @@
+<? echo $f_AdminCommon; ?>
+<div class='nc_list nc_person_contacts'>
+    <table class='nc_table'>
+        <?
+        if ($colNums > 1) {
+            echo str_repeat("<col $colWidth />", $colNums);
+        }
+        ?>
+        <tr>

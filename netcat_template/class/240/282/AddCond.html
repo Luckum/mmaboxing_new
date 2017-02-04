@@ -1,0 +1,16 @@
+<? 
+// проверка каптчи
+if( !$AUTH_USER_ID  && !$current_cc["UseCaptcha"] && $nc_core->get_settings('orderform_captcha', 'minishop') && $MODULE_VARS["captcha"] && !nc_captcha_verify_code($nc_captcha_code)  ) {
+  $warnText = NETCAT_MODULE_CAPTCHA_WRONG_CODE;
+  $posting = 0;
+}
+
+// нет смысла оформлять заказ без товаров
+if ( !$nc_minishop->cart_count() ) {
+  $posting=0;
+  $warnText = "Корзина пуста";
+}
+
+// статус заказа по умолчанию
+$f_Status = 1;
+?>

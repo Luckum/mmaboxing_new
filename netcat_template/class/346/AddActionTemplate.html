@@ -1,0 +1,30 @@
+<?
+eval(listQuery("SELECT CustomSettings FROM Sub_Class WHERE Sub_Class_ID='$cc'","\$data[CustomSettings]"));
+  global $nc_core;
+  require_once($nc_core->INCLUDE_FOLDER."classes/nc_imagetransform.class.php");
+  if ($_FILES[f_PhotoLarge][size]!=0 && $_FILES[f_PhotoLarge][type]!='')
+  {
+    $photo_path = $DOCUMENT_ROOT.nc_file_path($classID, $message, 'PhotoLarge', "");
+    if ($photo_path) nc_ImageTransform::imgResize("$photo_path","$photo_path",$CustomSettings[ImgWidthFull],$CustomSettings[ImgHeightFull]);
+  }
+  if ($_FILES[f_PhotoLarge][size]!=0 && $_FILES[f_PhotoLarge][type]!='' && $_FILES[f_PhotoSmall][size]== 0)
+  {
+    nc_ImageTransform::createThumb('PhotoLarge','PhotoSmall',$CustomSettings[ImgWidth],$CustomSettings[ImgHeight]);
+  }
+  if ($_FILES[f_PhotoSmall][size]!=0 && $_FILES[f_PhotoSmall][type]!='')
+  {
+  $photo_path = $DOCUMENT_ROOT.nc_file_path($classID, $message, 'PhotoSmall', "");
+  if ($photo_path) nc_ImageTransform::imgResize("$photo_path","$photo_path",$CustomSettings[ImgWidth],$CustomSettings[ImgHeight]);
+  }
+ 
+// default
+if($inside_admin) {
+ ob_end_clean();
+ header("Location: ".$goBackLink."&inside_admin=1");
+ exit;
+}
+else {
+  echo NETCAT_MODERATION_MSG_OBJADD;  
+  echo "<br><br>".$goBack;
+}
+?>

@@ -1,0 +1,14 @@
+<? echo $f_AdminCommon; ?>
+<a name='comments'></a>
+	<p class="comments-title">Комментарии <span><?= $totRows ?></span></p>
+
+<?php
+if(isset($_GET['back']))
+{
+    echo '<div class="block-white"><p>Публикация новых комментариев возможна только после проверки администратором.</p></div>';
+}
+?>
+
+	<form action="/" method="post" id="comments-form" class="clearfix">
+
+		

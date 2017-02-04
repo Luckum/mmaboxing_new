@@ -1,0 +1,24 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+if ($inside_admin) {
+    echo $f_AdminButtons;
+    ?><div class='nc_item'>От: <a href='mailto:<? echo $f_Email ?>'><?
+    echo $f_Surname;
+    echo $f_Name;
+    echo $f_Patronymic;
+    if ($f_Email) {
+        ?> &lt; <? echo $f_Email & gt; ?></a></div><?
+    }
+    if ($f_CompanyName) {
+        ?><div class='nc_item'>Компания: <? echo $f_CompanyName ?></div><?
+    }
+    if ($f_PhoneNumber) {
+        ?><div class='nc_item'>Телефон: <? echo $f_PhoneNumber ?></div><?
+    }
+    if ($f_Note) {
+        ?><div class='nc_item'>Примечание: <? echo $f_Note ?></div> <?
+    }
+}?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,70 @@
+<!-- FormPrefix --><?
+echo $f_AdminCommon;
+
+/* Если мы в режиме редактирования и в настройках не указано отображение "корзины", то убираем её */
+if (!$admin_mode && $cc_settings['cart']) {
+    ?>
+    <div style='text-align:right; float:right; color:#333; padding:8px 12px 8px 60px; margin:5px 0; background:#EDEFF0 url(<?= $ADMIN_TEMPLATE ?>img/i_module_netshop_big.gif) no-repeat 10px 50%'>
+    <?= $GLOBALS['Netshop_CartSum'] ?><br>
+    <?= $GLOBALS['Netshop_OrderLink'] ?>
+    </div>
+    <div style='clear:both'></div><? } ?>
+<div id="cat_brief_3"><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+    <div class="block">
+        <a class='title' href='<?= $fullLink ?>'><h3><?= $f_Name ?></h3></a>
+        <div class="clear"></div>
+        <? if ($f_Image) { ?>
+            <div class='left'>
+                <div class="display_table"><div class="display_table_row"><div class="display_table_cell">
+                            <img src='<?= $f_Image_url ?>' alt='<?= $f_Name ?>' style='margin-right:10px'>
+                        </div></div></div>
+            </div>
+        <? } ?>
+
+
+        <? if ($f_Description) { ?><div class="center"><?= nc_edit_inline('Description', $f_RowID, $cc) ?></div><? } ?>
+
+        <div class="right">
+            <div class="price_and_cart">
+                <div class="price_product">
+                    <span class="old_price_product"></span><br />
+                    <span class="new_price_product"><?= $shop_mode == 2 ? $shop->FormatCurrency($f_Price) : $f_Price . '.-'; ?></span>
+                </div>
+                <?
+                    switch ($shop_mode) {
+                        case 2:
+                            ?>
+                                <form method='post' id='netshop_<?= $f_RowID; ?>' action='<?= $SUB_FOLDER . $HTTP_ROOT_PATH; ?>modules/netshop/post.php' style='margin: 0px'>
+                                    <input type='hidden' name='redirect_url' value='<?= $GLOBALS['uri_path']; ?>' />
+                                    <input type='hidden' name='cart_mode' value='add' />
+                                    <input type='hidden' name='cart[<?= $classID; ?>][<?= $f_RowID; ?>]' value='1' />
+                                    <a href="#" onclick="document.getElementById('netshop_<?= $f_RowID; ?>').submit(); return false;" class="buy"></a>
+                                </form>
+                            <?
+                            break;
+
+                        case 1:
+                            echo $nc_minishop->show_put_button($f_Name, $f_Price, $fullLink);
+                            break;
+
+                        default:
+                            ?> <form method='post' id='simple_shop_<?= $f_RowID; ?>' action='<?= $SUB_FOLDER.$orders_href; ?>' style='margin: 0px'>
+                                    <input name='Sub_ID' type='hidden' value='<?=$cc?>' />
+                                    <input name='Goods_ID' type='hidden' value='<?=$f_RowID?>' />
+                                    <input name='Goods_Title' type='hidden' value='<?=$f_Name?>' />
+                                    <input name='Cost' type='hidden' value='<?=$f_Price?>' />
+                                    <input name='token' type='hidden' value='<?= md5($cc . $nc_core->get_settings('SecretKey') . $f_Price . $f_RowID . $f_Name); ?>' />
+                                    <a href="#" onclick="document.getElementById('simple_shop_<?= $f_RowID; ?>').submit(); return false;" >Заказать</a>
+                                </form>
+                            <?
+                            break;
+                    }
+                ?>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

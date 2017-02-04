@@ -1,0 +1,139 @@
+// Герой
++b.hero
+  .tpl-block-layoutwidth
+    +b.prevnext--black
+      +e.button--prev: i.icon-left-open
+      +e.button--next: i.icon-right-open
+  +e.slider
+    +e.item
+      style
+        #s1 .tpl-block-layoutwidth {
+          height: 455px;
+        }
+        #s1 .s-circle {
+          width: 506px;
+          height: 388px;
+          position: absolute;
+          top: 0;
+          left: 178px;
+          background: url(assets/i/hero-1-circle.png) 0 0 no-repeat;
+        }
+        #s1 .s-leica {
+          width: 545px;
+          height: 304px;
+          position: absolute;
+          top: 100px;
+          right: 5px;
+          background: url(assets/i/hero-1-leica.png) 0 0 no-repeat;
+        }
+        #s1 .s-cost {
+          position: absolute;
+          bottom: 120px;
+          left: 240px;
+          color: #fff;
+          font-weight: 400;
+          font-size: 93px;
+          line-height: 93px;
+        }
+        #s1 .s-title {
+          position: absolute;
+          bottom: 45px;
+          left: 260px;
+          color: #000;
+          font-size: 34px;
+          line-height: 35px;
+          font-weight: 300px;
+        }
+        #s1 .s-title strong {
+          font-weight: 500;
+          display: block;
+        }
+        @media only screen and (min-width: 1850px) {
+          #s1 .s-circle {
+            left: -19px;
+          }
+          #s1 .s-leica {
+            right: 345px;
+          }
+          #s1 .s-cost {
+            left: 0;
+            color: #000;
+          }
+          #s1 .s-title {
+            left: 20px;
+          }
+        }
+        @media all and (max-width: 640px) {
+          #s1 .tpl-block-layoutwidth {
+            height: 630px;
+            padding: 0;
+            overflow: hidden;
+          }
+          #s1 .s-circle {
+            display: none;
+          }
+          #s1 .s-leica {
+            left: 50%;
+            top: 45px;
+            margin-left: -273px;
+          }
+          #s1 .s-cost {
+            bottom: auto;
+            top: 540px;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            line-height: 90px;
+            font-size: 71px;
+            background: #000;
+            color: #fff;
+            text-align: center;
+            font-weight: 300;
+          }
+          #s1 .s-title {
+            top: 410px;
+            bottom: auto;
+            left: 40px;
+            font-weight: 400;
+            font-size: 24px;
+            line-height: 24px;
+            color: #8f8f8f;
+          }
+          #s1 .s-title strong {
+            font-weight: 100;
+            font-size: 60px;
+            line-height: 60px;
+            color: #000;
+          }
+        }
+      div#s1
+        .tpl-block-layoutwidth
+          .s-circle
+          .s-leica
+          .s-cost 1 300 <span class="tpl-block-rubl">Р</span>
+          .s-title <strong>Leica M1.5 ns</strong>в месяц на 2 года
+
+    +e.item
+      style
+        #s2 {
+          background: pink;
+          height: 495px;
+        }
+      div#s2
+        .tpl-block-layoutwidth привет 2
+    +e.item#s3
+      style
+        #s3 {
+          background: green;
+          height: 495px;
+        }
+      div#s3
+        .tpl-block-layoutwidth привет 3
+    +e.item#s4
+      style
+        #s4 {
+          background: blue;
+          height: 495px;
+        }
+      div#s4
+        .tpl-block-layoutwidth привет 4

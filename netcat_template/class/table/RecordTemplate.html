@@ -1,0 +1,60 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?/* Служебная часть */
+for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {
+    if($fetch_row[$f_RowNum] instanceof Iterator) {
+        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");
+    } else {
+        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");
+    }
+    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {
+        extract($value);
+    }
+    eval($cc_env["convert2txt"]);
+    ob_start();
+/* Конец служебной части */?>
+
+<tr>
+    <td><?= $f_RowID ?></td>
+    <? if ($nc_core->get_settings('PacketOperations')): ?>
+        <td>
+            <input class='nc_multi_check' type='checkbox' onchange='nc_package_obj.select(<?= $f_RowID ?>, <?= $cc ?>)'>
+        </td>
+    <? endif ?>
+    <td>
+        <a href="<?= $f_AdminButtons_check?>" class="nc--wide nc-label nc--<?= $f_Checked ? 'green' : 'red' ?>" title="<?= constant('NETCAT_MODERATION_OBJ_' . ($f_Checked ? 'ON' : 'OFF')) ?>">
+            <?= constant('NETCAT_MODERATION_OBJ_' . ($f_Checked ? 'ON' : 'OFF')) ?>
+        </a>
+    </td>
+
+    <? if (!$table_fields): ?>
+        <td><?= NETCAT_MODULE_COMMENTS_ADMIN_MESSAGE . ' #' . $f_RowID ?></td>
+    <? else: ?>
+        <? foreach ($table_fields as $fieldname => $field): ?>
+            <td<?= $f_Checked ? '' : " class='nc-text-gray'" ?>>
+                <?php
+                    $value = ${'f_'.$fieldname};
+
+                    if($field['type'] == NC_FIELDTYPE_FILE) { // File
+                        if (strpos($field['format'], 'image/')) { // Image
+                            $value = "<img src='{$value}' alt='' style='max-height:80px;max-width:80px'>";
+                        }
+                    }
+                ?>
+
+                <?=$value ?>
+            </td>
+        <? endforeach ?>
+    <? endif ?>
+
+    <? /* ACTIONS */ ?>
+    <td class='nc--action' width="1"><a onclick="window.open('<?= $f_AdminButtons_copy ?>', 'nc_popup_test1', 'width=800,height=500,menubar=no,resizable=no,scrollbars=no,toolbar=no,resizable=yes'); return false;" href="#" title="<?= NETCAT_MODERATION_COPY_OBJECT ?>"><i class='nc-icon nc--copy'></i></a></td>
+    <td class='nc--action' width="1"><a onclick="parent.nc_form(this.href); return false;" href="<?= $f_AdminButtons_change ?>" title="<?= NETCAT_MODERATION_CHANGE ?>"><i class='nc-icon nc--edit'></i></a></td>
+    <td class='nc--action' width="1"><a onclick="parent.nc_action_message(this.href); return false;" href="<?= $f_AdminButtons_delete ?>" title="<?= NETCAT_MODERATION_DELETE ?>"><i class='nc-icon nc--remove'></i></a></td>
+</tr>
+
+
+<?/* Служебная часть */
+    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);
+}
+/* Конец служебной части */?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

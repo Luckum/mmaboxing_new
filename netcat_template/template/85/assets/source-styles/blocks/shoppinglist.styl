@@ -1,0 +1,41 @@
+.tpl-block-shoppinglist
+  display: none
+  font-weight: 24px
+  @media min
+    display: block
+  &-row
+    clearfix()
+    border-bottom: 1px solid #E5EBEF
+    padding: 45px 0 40px
+    &:last-child
+      border-top: 5px solid #0C1B78
+      margin-top: -1px
+  &-col
+    float: left
+    position: relative
+    margin-right: -100%
+    &--1
+      width: 70%
+      left: 0
+    &--2
+      width: 29%
+      left: 70%
+      text-align: right
+  &-cost
+    font-size: 30px
+    font-weight: 400
+    line-height: 1.2
+    &--summary
+      font-size: 36px
+      font-weight: 500
+  &-edit
+    font-size: 14px
+    padding-top: 10px
+    a
+      color: colorBase
+  &-desc
+    font-style: italic
+    font-weight: 18px
+    margin-top: -5px
+  .tpl-block-title--size_s
+    margin-bottom: 0

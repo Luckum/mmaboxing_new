@@ -1,0 +1,51 @@
+<div id="footer">
+<? /* Используем микроразметку для вывода информации, которая заполняется в визуальных настройках сайта */ ?>
+    <div itemscope itemtype="http://schema.org/Organization">
+        <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><div id="adress"><?= $current_catalogue['CompanyAddress'] ?></div></div>
+        <div id="contacts">
+            <?= $current_catalogue['Contacts'] ?>
+            <div>
+                <? /* Если устройство не десктоп, то выводим ссылку на мобильный сайт */ ?>
+                <?= ($nc_core->return_device() != 'desktop' ? '<a href=http://' . $nc_core->subdivision->get_alternative_link() . '>мобильная версия сайта</a>' : ' '); ?>
+            </div>
+        </div>
+        <div id="license"><?= $current_catalogue['Copy']; ?></div>
+    </div>
+
+
+<? /* Форма поиска */ ?>
+    <div id="search_form">
+
+        <?= class_exists('nc_search') ? 
+        nc_search::get_object()->show_form(null, array('prefix' => "<form class='nc_search' action='\$actionurl' method='get'>
+                         <div style='width: 132px;'>
+                             <input class='search_text text' type='text' size='\$inputsize' name='search_query'
+                              id='nc_search_query' value='' />
+                             <div class='left'></div>
+                             <div class='right'></div>
+                         </div>
+	                 <div class='block_right alt_width2'>
+                              <input class='search_submit submit' type='submit' value='\$submitname' />
+                         </div>",
+                'suffix' => "</form>")) : "";
+        ?>
+
+
+    </div>
+
+    <div id="top_100">
+        <div class="block"><?=$current_catalogue['counter']?></div>
+        <div class="block"><?=$current_catalogue['counter']?></div>
+    </div>
+        <? /* Вывести меню в футере, в соответствии с шаблоном $bottom_menu*/ ?>
+        <?= nc_browse_sub (0,$bottom_menu) ?>
+
+</div>
+
+<? /* Всплывающее окно для вывода формы авторизации */ ?>
+<div id="login_form">
+    <a href="#" class="close"></a>
+    <? /* Стандартная форма авторизации */ ?>
+    <?= is_object($nc_auth) ? $nc_auth->auth_form() : "" ;?></div>
+</body>
+</html>

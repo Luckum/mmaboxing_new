@@ -1,0 +1,12 @@
+<!-- FormPrefix --><? echo $f_AdminCommon;
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><main class="content page-text">
+	<h1><? echo nc_edit_inline('textTitle', $f_RowID, $cc);?></h1>
+		<div class="content-inner col-1">
+    <?  echo $f_AdminButtons; ?>
+        <div class="content-top">
+        <?  echo nc_edit_inline('TextArea', $f_RowID, $cc); ?>
+        </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

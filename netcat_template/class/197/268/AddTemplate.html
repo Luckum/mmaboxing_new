@@ -1,0 +1,34 @@
+<? 
+if (!$inside_admin) {
+    echo ( $cc_settings['TextBefore'] ? $cc_settings['TextBefore'] : $cc_settings['TextBefore']['default_value'] );
+    ?>
+    <?=$warnText?>
+    <form name='adminForm'  method='post' action='<?=$SUB_FOLDER.$HTTP_ROOT_PATH ?>add.php' class="form">
+    <? $nc_core->token->get_input() ?>
+            <input name='cc' type='hidden' value='<?=$cc?>' />
+            <input name='sub' type='hidden' value='<?=$sub?>' />   
+            <input name='catalogue' type='hidden' value='<?=$catalogue?>' />
+            <input type='hidden' name='posting' value='1' />
+             <div class="block">
+		<label>Имя (*):</label><br />
+		<input type="text" name="f_Name" value="" />
+            </div>
+            <div class="block">
+		<label>Email (*):</label><br />
+		<input type="text" name="f_Email" value="" />
+            </div>
+            <div class="block">
+		<label>Тема письма (*):</label><br />
+		<input type="text" name="f_Subject" value="" />
+            </div>
+  
+            <div class="block">
+		<label>Текст письма (*):</label><br />
+                <textarea name='f_Text'></textarea>
+            </div>    
+            <?=(!$AUTH_USER_ID && $current_cc['UseCaptcha'] && $MODULE_VARS['captcha'] ? "<div class='captcha_block'>
+".nc_captcha_formfield()."<br/><br/>".NETCAT_MODERATION_CAPTCHA." (*)<br/><input type='text' name='nc_captcha_code' /></div>" : "")?> 
+            <input type="submit" value="Отправить" />
+        </form>
+    </div>
+<? } ?>

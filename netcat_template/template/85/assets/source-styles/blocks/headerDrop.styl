@@ -1,0 +1,30 @@
+.tpl-block-headerdrop
+  position: absolute
+  left: 0
+  top: 145px
+  width: 100%
+  background: #0B135F
+  color: colorWhite
+  z-index: 10
+  display: none
+  // &.tpl-state-active /////////
+  //   display: block
+  &:before
+    content: ''
+    position: absolute
+    border-color: transparent
+    border-style: solid
+    border-width: 15px 25px
+    border-bottom-color: #0B135F
+    bottom: 100%
+    z-index: 5
+  &--menu:before
+    right: 38px
+  &--search:before
+    right: 145px
+  &--cart:before
+    left: 347px
+  &--user:before
+    left: 248px
+  a
+    color: #fff

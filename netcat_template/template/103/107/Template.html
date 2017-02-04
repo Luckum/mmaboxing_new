@@ -1,0 +1,19 @@
+<!-- Header --><?php
+$nc_core = nc_Core::get_object();
+if ($nc_core->get_display_type() == 'traditional') { ?>
+%Header
+<?php } ?>
+<section class="portfolio portfolio-v2">
+    <div class="wrapper">
+        <div class="content">
+            <div class='copy'>© JT 2013 Автор фото: <a href="http://www.flickr.com/photos/london/75856145/">Jon Rawlinson.</a> <a href="http://creativecommons.org/licenses/by/2.0/deed.en">Лицензия</a></div>
+            <h1><br />Портфолио</h1>
+            <div <?php echo nc_ls_display_container('portfolio'); ?>><!-- /Header -->
+
+<!-- Footer --></div>
+</div>
+    </div>
+</section> 
+<?php if ($nc_core->get_display_type() == 'traditional') { ?>
+%Footer
+<?php } ?><!-- /Footer -->

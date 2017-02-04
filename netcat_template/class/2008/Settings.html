@@ -1,0 +1,14 @@
+<?php
+if(is_numeric($_POST['vote_check']))
+{
+    if($_COOKIE["interogation".$_GET['vid']] != md5($_SERVER['REMOTE_ADDR'].$_GET['vid']))
+    {
+        addArrogRes($_GET['vid'], $_GET['cache'], $current_cc['Class_ID']);
+    }
+    else
+    {
+        header('Location: '.$_SERVER['HTTP_REFERER'].'');
+        die();
+    }
+}
+?>

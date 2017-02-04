@@ -1,0 +1,81 @@
+include partials/_includes
+
+
+
++layout
+  // Контент
+  +b.content
+    .tpl-block-layoutwidth
+
+      +b.main--wide
+
+        +sep
+
+        // Хлебные крошки
+        +b.breadcrumbs--steps
+          +e.item: +link Магазин
+          +e.item: +link Заказ
+          +e.item: +link Адрес доставки
+          +e.item: +link.tpl-state-current Варианты доставки
+          +e.item: +link.tpl-state-disabled Варианты оплаты
+          +e.item: +link.tpl-state-disabled Оплата
+          +e.item: +link.tpl-state-disabled Радость обладания
+
+        +sep('s')
+        +b('fieldset').order
+          +e('legend').title Варианты доставки
+          +e.row
+            +e.col--third_1
+              +b('label').ichlabel
+                input(type="radio", name="delivery")
+                | Самовывоз
+                +e('span').desc.
+                  Если вы находитесь в пределах третьего транспортного воронежкского
+                  кольца , можете к нам заехать и забрать заказ. Этот способ доставки
+                  не будет стоить вам ни копейки.
+            +e.col--third_2
+              +b('label').ichlabel
+                input(type="radio", name="delivery")
+                | Курьером по Воронежу
+                +e('span').desc.
+                  Курьер работает в будние дни с 9-00 до 19-00. Курьерская доставка
+                  при заказе больше <strong>4000 р.</strong> осуществляется бесплатно в пределах ВКАД.
+            +e.col--third_3
+              +b('label').ichlabel
+                input(type="radio", name="delivery")
+                | Курьером по области
+                +e('span').desc.
+                  Самый экзотический способ доставки. Его следует выбирать, если
+                  вы действительно настолько нас ненавидите, что хотите послать
+                  в путешествие по области. Да, надо быть готовым посмотреть курьеру
+                  в глаза.
+
+          +sep('l')
+          +t('ml') Комментарии к заказу
+          +b('textarea').itext--style_dull(rows="4") Господа, обращаю ваше внимание на то, что я заказал ботинки именно из кожи нибрасского гипопотама. Иногда его заменяют на уссурийского или сантафедебоготовского. Так вот, я отправлю курьера назад, если это будет не нибрасский, а какой-то другой гиппопотам. Мой размер 46, я не знаю что такое XXXL применительно к обуви. Постарайтесь положить именно 46 размер, инче курьер опять таки отправится по обратному адресу. И последнее, дома я бываю в будние дни не раньше 8 часов вечера, в выходные — с 10 утра до 5 вечера, обидно будет курьеру топтаться под дверью.
+
+          +sep('l')
+          +e.summary
+            +e('span').summarytitle Итоговая цена&nbsp;
+            +e('span').summarydesc c учетом доставки
+            +e('span').summarycolon
+              | :
+            +e('span').summarycost &nbsp;59 000 <span class="tpl-block-rubl">Р</span>
+
+
+          +e.actions
+            +blink('order-2.html').ibtn--theme_blue Следующий шаг
+
+
+      +b.clearfix
+
+
+
+
+
+
+    +b.notformobile: +sep('xxl')
+
+
+
+

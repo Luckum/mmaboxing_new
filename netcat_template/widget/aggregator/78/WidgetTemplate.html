@@ -1,0 +1,12 @@
+<div class='tpl-list-goods'>    
+<? foreach($data as $f_RowNum => $row): ?>
+<? extract($row); ?>
+<? $image_info = explode(':', $f_image) ?>
+<? $image = $image_info ? $nc_core->HTTP_FILES_PATH . $image_info[3] : '' ?>
+<div class='tpl-goods'>
+    <h3><a href="<?=$fullLink ?>"><?=$f_title ?></a></h3>
+    <a href="<?=$fullLink ?>"><img src="<?=$image ?>" /></a>
+    <div class='tpl-price'><?=$f_price ?> руб.</div>
+</div>
+<? endforeach ?>
+</div>

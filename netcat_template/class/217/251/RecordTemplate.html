@@ -1,0 +1,13 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?= $f_AdminButtons ?>
+<div class="tpl-block-newslist-item">
+    <!-- Отдельная новость-->
+    <div class="tpl-block-newsbox">
+        <div class="tpl-field-date"><?= $f_Date_day . "." . $f_Date_month . "." . $f_Date_year ?></div>
+        <a href="<?= $fullLink; ?>" class="tpl-field-title"><?= $f_NewsTitle; ?></a>
+
+        <div class="tpl-field-text"><?= $f_Announce; ?>  <a href="<?= $fullLink; ?>" class="tpl-link-more">Читать полностью</a>
+        </div>
+    </div>
+</div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

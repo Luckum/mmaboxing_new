@@ -1,0 +1,8 @@
+<? echo $f_AdminCommon;?>
+<? if ($f_Image) { ?><img src='<?= $f_Image_url ?>' align=right><? } ?>
+
+<h3><?= nc_edit_inline('Name', $f_RowID, $cc); ?></h3>
+<b>Цена: <?= $f_Price?></b><br><br>
+<? if ($f_Description) { ?> <b><?= nc_edit_inline('Description', $f_RowID, $cc); ?></b><br /><br /><? }
+if ($f_Details) {
+    echo nc_edit_inline('Details', $f_RowID, $cc); ?><br /><? } ?>

@@ -1,0 +1,44 @@
+<?php
+
+if($newsLink)
+{
+    $query_where = " message_link=".$newsLink;
+}
+
+if(is_numeric($_GET['user_id']))
+{
+
+$user_data = getUserData($_GET['user_id']);
+$group = mysql_fetch_row(mysql_query("SELECT PermissionGroup_Name FROM PermissionGroup WHERE PermissionGroup_ID=".$user_data['PermissionGroup_ID']));
+        echo '
+                <!--noindex-->
+                <table width="100%">
+                    <tbody>
+                    <tr>
+                        <td width="100" style="padding:4px;">Полное имя:</td>
+                        <td>'.$user_data['FullName'].'</td>
+                        <td valign="top" class="picz" rowspan="6"><img border="0" src="'.getThumbNow(nc_file_path('User', $_GET['user_id'], 'ForumAvatar', 'h_'), 100, 100, 1, false, 95, -1).'"></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px;">Группа:</td>
+                        <td>'.$group[0].'</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px;">Дата регистрации:</td>
+                        <td>'.$user_data['Created'].'</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px;">Публикаций:</td>
+                        <td> '.$user_data['posts'].' [ <a href="/news/?user_pubs='.$_GET['user_id'].'">Просмотреть все публикации</a> ]</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px;">Комментариев:</td>
+                        <td>'.$user_data['comments'].'</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--/noindex-->';
+        die();
+}
+
+?>

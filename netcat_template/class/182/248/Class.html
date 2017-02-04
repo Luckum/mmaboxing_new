@@ -1,0 +1,16 @@
+<!-- FormPrefix --><? echo $f_AdminCommon;
+if ($totRows) { ?><div class='nc_list nc_text'> <? } ?> <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'>
+    <?
+    echo $f_AdminButtons;
+    if ($f_textTitle) {
+        ?> <div class='h1'> <? echo nc_edit_inline('textTitle', $f_RowID, $cc);?>  </div> <?}  echo nc_edit_inline('TextArea', $f_RowID, $cc); ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?
+if ($totRows) {
+    ?></div><?  
+}
+?>
+<!-- /FormSuffix -->

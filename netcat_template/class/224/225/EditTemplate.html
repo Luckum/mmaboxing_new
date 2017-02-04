@@ -1,0 +1,356 @@
+<?php
+
+if ($warnText) {
+    echo "<div class='warnText'>$warnText</div>";
+}
+
+$netshop = nc_netshop::get_instance($catalogue);
+$order_component_id = $netshop->get_setting('OrderComponentID'); // same as $classID
+$order_component = new nc_component($order_component_id);
+
+$order = $netshop->load_order($message);
+
+$special_fields = array('DeliveryMethod', 'DeliveryCost', 'PaymentMethod', 'PaymentCost');
+
+?>
+
+<style>
+    .nc-netshop-order-tooltip {
+        cursor: default;
+        display: inline-block;
+        margin-left: 5px;
+        position: relative;
+    }
+
+    .nc-netshop-order-tooltip-content {
+        display: none;
+        position: absolute;
+        margin-left: -5px;
+        min-width: 250px;
+        z-index: 100;
+    }
+
+    .nc-netshop-order-tooltip:hover .nc-netshop-order-tooltip-content,
+    .nc-netshop-order-tooltip.hover .nc-netshop-order-tooltip-content {
+        display: block;
+    }
+
+    .nc-netshop-order-items td:last-child {
+        padding-right: 20px;
+    }
+
+    .nc-netshop-order-items input[readonly] {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+</style>
+
+<form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' method='post'
+      action='<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>message.php'>
+    <div id='nc_moderate_form'>
+        <div class='nc_clear'></div>
+        <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>'/>
+        <?= $nc_core->token->get_input() ?>
+        <input name='catalogue' type='hidden' value='<?= $catalogue ?>'/>
+        <input name='cc' type='hidden' value='<?= $cc ?>'/>
+        <input name='sub' type='hidden' value='<?= $sub ?>'/>
+        <input name='message' type='hidden' value='<?= $message ?>'/>
+        <input name='curPos' type='hidden' value='<?= $curPos ?>'/>
+        <input name='posting' type='hidden' value='1'/>
+        <input type='hidden' name='f_Checked' value='<?= $f_Checked ?>' />
+        <input type='hidden' name='previous_status' value='<?= $f_Status ?>' />
+    </div>
+
+    <?php
+
+    // «Стандартные» поля
+    foreach ($order_component->get_fields() as $field_info) {
+        if (in_array($field_info['name'], $special_fields) || $field_info['edit_type'] == 3) {
+            continue;
+        }
+
+        echo '<div style="padding-bottom: 5px">', nc_put_field($field_info['name'], '', $order_component_id, true),
+             '</div>';
+    }
+
+    // Таблица с составом заказа -------------------------------------------
+    ?>
+    <div>
+        <div class="nc--left" style="margin: 10px 0 5px">
+            <?= NETCAT_MODULE_NETSHOP_CURRENCY ?>:
+            <?= $netshop->get_setting('Currencies', $f_OrderCurrency) ?>
+        </div>
+        <div class="nc--right" style="margin: 10px 0 5px">
+            <a href="<?=nc_module_path('netshop') . "export/cml2_orders.php?order_id=$message&amp;catalogue_id=$catalogue" ?>">
+                <?=NETCAT_MODULE_NETSHOP_EXPORT_COMMERCEML ?>
+            </a>
+        </div>
+    </div>
+    <table class="nc-table nc--wide nc--bordered nc-netshop-order-items">
+        <tr>
+            <th style="width: 40%"><?= NETCAT_MODULE_NETSHOP_ITEM ?></th>
+            <th style="width: 12%"><?= NETCAT_MODULE_NETSHOP_ITEM_PRICE ?></th>
+            <th style="width: 1%"><?= NETCAT_MODULE_NETSHOP_DISCOUNT ?></th>
+            <th style="width: 12%"><?= NETCAT_MODULE_NETSHOP_PRICE_WITH_DISCOUNT ?></th>
+            <th style="width: 12%"><?= NETCAT_MODULE_NETSHOP_QTY ?></th>
+            <th style="width: 12%"><?= NETCAT_MODULE_NETSHOP_COST ?></th>
+        </tr>
+        <?php
+
+        foreach ($order->get_items() as $item) {
+            echo "<tr>\n",
+                 // Название
+                 "<td>",
+                    ($item['Article'] ?
+                        "<span class='nc-text-grey'>" . htmlspecialchars($item['Article']) . "</span> &nbsp; "
+                        : ""),
+                    "<a href='$item[URL]' target='_blank'>",
+                    htmlspecialchars($item['Vendor']), " ",
+                    htmlspecialchars($item['Name']), " ",
+                    htmlspecialchars($item['VariantName']),
+                    "</a>",
+                 "</td>\n",
+                 // Цена
+                 "<td>",
+                    "<input type='text' name='item$item[RowID][OriginalPrice]' class='nc--wide'",
+                    " value='$item[OriginalPrice]'>",
+                 "</td>\n",
+                 // Скидка
+                 "<td class='nc--nowrap'>",
+                    "<input type='text' name='item$item[RowID][ItemDiscount]' style='width: 90px'",
+                    " value='$item[ItemDiscount]'>";
+
+            // Дополнительная информация о применённых скидках
+            if ($item['Discounts']) {
+                echo "<div class='nc-netshop-order-tooltip'>",
+                     "<strong class='nc-label nc--blue'>?</strong>",
+                     "<div class='nc-netshop-order-tooltip-content'><div class='nc-box nc--light nc-margin-5'>";
+
+                foreach ($item['Discounts'] as $discount) {
+                    echo "<div>",
+                         ($discount['id']
+                             ? "<a target='_blank' href='" . nc_core('SUB_FOLDER') . "/netcat/admin/#module.netshop.promotion.discount.item.edit($discount[id])'>" .
+                               htmlspecialchars($discount['name']) .
+                               "</a>"
+                             : htmlspecialchars($discount['name'])
+                         ),
+                         " — ",
+                         $netshop->format_price($discount['sum']);
+                    echo "</div>";
+                }
+
+                echo "</div></div></div>";
+            }
+
+            echo "</td>\n",
+                 // Цена со скидкой
+                 "<td class='nc--nowrap'>",
+                    "<input type='text' readonly tabindex='-1' name='item$item[RowID][ItemPrice]' class='nc--wide'",
+                    " value='$item[ItemPrice]'>",
+                 "</td>\n",
+                 // Количество
+                 "<td>",
+                    "<input type='text' name='item$item[RowID][Qty]' class='nc--wide'",
+                    " value='$item[Qty]'>",
+                 "</td>\n",
+                 // Стоимость
+                 "<td>",
+                    "<input type='text' readonly tabindex='-1' name='item$item[RowID][TotalPrice]' ",
+                    " class='nc--wide'",
+                    " value='$item[TotalPrice]'>",
+                 "</td>\n",
+                 "</tr>\n";
+        }
+
+        // Итого по товарам ------------------------------------------------
+        echo "<tr class='nc--grey'>\n",
+             "<td colspan='5'>", NETCAT_MODULE_NETSHOP_ITEM_COST, "</td>\n",
+             "<td>",
+                "<input tabindex='-1' readonly type='text' name='cart_totals' class='nc--wide'",
+                " value='", $order->get_item_totals(), "'>",
+             "</td>\n",
+             "</tr>\n";
+
+        // Скидки на корзину -----------------------------------------------
+        echo "<tr>\n",
+             "<td colspan='5'>", NETCAT_MODULE_NETSHOP_DISCOUNT, " &nbsp; ";
+
+        if ($order->get_cart_discount_sum()) {
+            echo "<div class='nc-netshop-order-tooltip'>",
+                 "<strong class='nc-label nc--blue'>?</strong>",
+                 "<div class='nc-netshop-order-tooltip-content'><div class='nc-box nc--light'>";
+
+            foreach ($order->get_cart_discounts() as $discount) {
+                echo "<div>",
+                     htmlspecialchars($discount['name']),
+                     " — ",
+                     $netshop->format_price($discount['sum']);
+                echo "</div>";
+            }
+
+            echo "</div></div></div>";
+        }
+
+        echo "</td>\n",
+             "<td>",
+                "<input type='text' name='cart_discount_sum' class='nc--wide'",
+                " value='", $order->get_cart_discount_sum(), "'>",
+                "<input type='hidden' name='previous_cart_discount_sum' value='",
+                $order->get_cart_discount_sum(), "'>",
+             "</td>\n",
+             "</tr>\n";
+
+        // Доставка --------------------------------------------------------
+        echo "<tr>\n",
+             "<td colspan='5'>", NETCAT_MODULE_NETSHOP_DELIVERY, ": ";
+
+        if ($f_DeliveryMethod) {
+            try {
+                $delivery_method = new nc_netshop_delivery_method($f_DeliveryMethod);
+                echo $delivery_method->get('name');
+            }
+            catch (nc_record_exception $e) {
+            }
+        }
+
+        echo "</td>\n",
+             "<td>",
+                "<input type='text' name='f_DeliveryCost' class='nc--wide'",
+                " value='", $f_DeliveryCost, "'>",
+             "</td>\n",
+             "</tr>\n";
+
+        // Оплата ----------------------------------------------------------
+        echo "<tr>\n",
+             "<td colspan='5'>", NETCAT_MODULE_NETSHOP_PAYMENT, ": ";
+
+        if ($f_PaymentMethod) {
+            try {
+                $payment_method = new nc_netshop_payment_method($f_PaymentMethod);
+                echo $payment_method->get('name');
+            }
+            catch (nc_record_exception $e) {
+            }
+        }
+
+        echo "</td>\n",
+             "<td>",
+                "<input type='text' name='f_PaymentCost' class='nc--wide'",
+                " value='", $f_PaymentCost, "'>",
+             "</td>\n",
+             "</tr>\n";
+
+        // Общий итог ------------------------------------------------------
+        echo "<tr class='nc--grey'>",
+             "<td colspan='5'><strong>" . NETCAT_MODULE_NETSHOP_SUM . "</strong></td>",
+             "<td>",
+                "<input tabindex='-1' readonly type='text' name='totals' class='nc--wide'",
+                " style='font-weight: bold'",
+                " value='", $order->get_totals(), "'>",
+             "</td>",
+             "</tr>\n";
+
+        ?>
+    </table>
+
+    <?php
+
+    ?>
+
+    <br/>
+    <?= nc_submit_button(NETCAT_MODERATION_BUTTON_CHANGE) ?>
+</form>
+
+<script>
+    (function() {
+        // format number
+        function fnum(num) { return Math.round(new Number(num) * 100) / 100; }
+
+        /**
+         * if 'percent' string contains '%', return sum*percent/100,
+         * otherwise return 'percent' back
+         */
+        function percent(sum, percent) {
+            if (percent.match(/(\-?\d+\.?\d*)\s?%/)) // e.g. discount in percent
+            { return (sum * new Number(RegExp.$1) / 100); }
+            else { return percent; }
+        }
+
+        function get_row_id(input) {
+            var input_item_match = input.name.match(/item(\[\d+\]\[\d+\])/);
+            return (input_item_match ? input_item_match[1] : null);
+        }
+
+        // refresh sums in order.
+        function calc(event) {
+            var f = document.adminForm,
+                row = get_row_id(event.target);
+
+            if (row) // recalculate row
+            {
+                var original_price = f["item" + row + "[OriginalPrice]"].value,
+                    discount = percent(original_price, f["item" + row + "[ItemDiscount]"].value);
+
+                f["item" + row + "[ItemPrice]"].value = fnum(original_price - discount);
+                f["item" + row + "[TotalPrice]"].value = fnum(f["item" + row + "[ItemPrice]"].value * f["item" + row + "[Qty]"].value);
+
+                // get cart sum (without discounts) explicitly
+                var cart_sum = 0;
+                for (var i in item_ids) {
+                    if (typeof item_ids[i] != 'string') {
+                        continue;
+                    }
+                    cart_sum += new Number(f["item" + item_ids[i] + "[TotalPrice]"].value);
+                }
+                f.cart_totals.value = fnum(cart_sum);
+            }
+
+            // recalculate other sums
+
+            // minus cart discount, plus delivery and payment costs
+            var fields = {//'cart_discount_sum': '-',
+                'f_PaymentCost': '+',
+                'f_DeliveryCost': '+' };
+
+            var totals = new Number(f.cart_totals.value),
+                cost_w_discount = totals - percent(totals, f.cart_discount_sum.value),
+                totals = cost_w_discount;
+
+            for (var i in fields) {
+                var multiplier = new Number(fields[i] + "1");
+                totals += fnum(multiplier * percent(cost_w_discount, f[i].value));
+            }
+
+            f.totals.value = fnum(totals);
+        }
+
+        function switch_client_details() {
+            var dst = document.getElementById('client_details');
+            dst.style.display = (dst.style.display == 'none' ? '' : 'none');
+        }
+
+        function convert_item_discount(event) {
+            var f = document.adminForm,
+                row = get_row_id(event.target),
+                original_price = f["item" + row + "[OriginalPrice]"].value;
+            event.target.value = fnum(percent(original_price, f["item" + row + "[ItemDiscount]"].value));
+        }
+
+        function convert_cart_discount(event) {
+            var f = document.adminForm,
+                totals = new Number(f.cart_totals.value);
+            event.target.value = fnum(percent(totals, event.target.value));
+        }
+
+        // INIT
+        var item_ids = <?= json_encode($order->get_items()->each('get', 'RowID')) ?>,
+            inputs = $nc('.nc-netshop-order-items input[type=text]:not([readonly])');
+
+        inputs.on("keyup change", calc);
+        inputs.filter("[name*=ItemDiscount]").blur(convert_item_discount);
+        inputs.filter("[name=cart_discount_sum], [name=f_DeliveryCost], [name=f_PaymentCost]")
+            .blur(convert_cart_discount);
+    })();
+
+</script>

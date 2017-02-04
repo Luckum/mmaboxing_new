@@ -1,0 +1,44 @@
+<!-- FormPrefix --><div class='nc_minishop'>
+
+
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?  $order = new  nc_minishop_order($f_RowID); 
+?>
+<form action='<?=$SUB_FOLDER?>/netcat/message.php' method='post'>
+<div class='order<?=($f_RowNum%2 ? "1" : "2" )?>' >
+<div class='header'>
+  <h3>Заказ №<?=$f_RowID.",".$f_Created_date?></h3> 
+  <div class='status'>
+  <span>Статус заказа: </span><b><?=$f_Status?></b>
+  </div>
+  <div class='line'></div>
+</div>
+</form>
+<? echo $f_AdminButtons;
+
+// вывод позиций заказа
+foreach ( $order->content() as $position ) { 
+ echo $position['uri'] ? "<a href='".$position['uri']."'>".$position['name']."</a>" : $position['name'];
+  echo ", cтоимость: ".$position['price']." * ".$position['quantity']." = <b>".($position['price']*$position['quantity'])." $currency</b>";
+  ?><br /> <?
+}
+?>
+<br/>
+<? if ( $f_Discount) { ?> Сумма без скидки: <?=$f_Cost." ".$currency?>, скидка - <?=$f_Discount?>% <br/><? } ?>
+Итоговая сумма: <b><?=$f_FinalCost." ".$currency?></b> 
+<br/><br/>
+<? if ($f_Delivery) { ?>Вариант доставки:  <?=$f_Delivery?> <br/><? }
+if ($f_Address) { ?>Адрес:  <?=$f_Address?> <br/><? } ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? if ($totRows) { ?><div style='border-top: 1pt solid #ccc;'></div> <? } ?>
+
+<div class='res'>
+    <? if (!$totRows) { ?>Нет заказов<? } else { ?>
+        Всего <? echo $totRows;
+    echo nc_numeral_inclination($totRows, array('заказ', 'заказов', 'заказа'));
+} ?>
+</div>
+
+</div><!-- /FormSuffix -->

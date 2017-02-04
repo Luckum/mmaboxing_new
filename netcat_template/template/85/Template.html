@@ -1,0 +1,527 @@
+<!-- Header --><!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+    <? /* Блок SEO */ ?>
+    <? /* Запрос заголовка через ядро системы, если нету, то выводим хлебные крошки */ ?>
+    <title><?= (($title = $nc_core->page->get_title()) ? $title : strip_tags(s_browse_path($browse_path_title))) ?></title>
+
+    <? /* Запрос description через ядро системы */ ?>
+    <?= (($description = $nc_core->page->get_description()) ? "<meta name='description' content='" . $description . "'>" : "") ?>
+    <? /* Запрос Keywords через ядро системы */ ?>
+    <?= (($keywords = $nc_core->page->get_keywords()) ? "<meta name='Keywords' content='" . $keywords . "'>" : "") ?>
+    <meta name="MobileOptimized" content="640">
+    <meta name="HandheldFriendly" content="true">
+    <!--meta name="viewport" content="width=700, target-densitydpi=device-dpi, initial-scale=1"-->
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=<?= $nc_core->NC_CHARSET ?>"/>
+    <link href="<?= $nc_parent_template_folder_path ?>assets/css/styles.css" rel="stylesheet">
+    <link href="<?= $nc_parent_template_folder_path ?>assets/css/custom.css" rel="stylesheet">
+    <script src="<?= $nc_parent_template_folder_path ?>assets/js/jquery.js"></script>
+</head>
+
+
+<body>
+<!-- Шапка-->
+<header class="tpl-block-header">
+<!-- Мобильная навигация-->
+<div class="tpl-block-mobilenav">
+    <div class="tpl-block-mobilenav-item tpl-block-mobilenav-item--logo">
+        <a href="<?= $nc_core->SUB_FOLDER; ?>/"><i class="icon-mobilenav-logo"></i></a>
+    </div>
+    <div class="tpl-block-mobilenav-item tpl-block-mobilenav-item--user"><a href="#"><i class="icon-mobilenav-user"></i></a>
+    </div>
+    <div class="tpl-block-mobilenav-item tpl-block-mobilenav-item--cart"><a href="#"><i class="icon-mobilenav-cart"></i>
+
+            <div class="tpl-block-mobilenav-counter"><?= $netshop->cart->get_item_count(); ?>
+            </div>
+        </a>
+    </div>
+    <div class="tpl-block-mobilenav-item tpl-block-mobilenav-item--search">
+        <a href="#"><i class="icon-mobilenav-search"></i></a>
+    </div>
+    <div class="tpl-block-mobilenav-item tpl-block-mobilenav-item--menu"><a href="#"><i class="icon-mobilenav-menu"></i></a>
+    </div>
+</div>
+<div class="tpl-block-headerdrop tpl-block-headerdrop--user">
+</div>
+<!-- Мобильный вход-->
+<div class="tpl-block-headerdrop tpl-block-headerdrop--user">
+    <? if (!empty($current_user)): ?>
+        <div class="tpl-block-mobileuser">
+            <div class="tpl-block-mobileuser-row">
+                <a href="<?= $nc_core->SUB_FOLDER; ?>/menu/"><?= $current_user['ForumName'] ?></a>
+                    <a class="tpl-block-ibtn tpl-block-ibtn--theme_red" href='/netcat/modules/auth/?logoff=1&amp;REQUESTED_FROM=<?= $REQUEST_URI ?>&amp;REQUESTED_BY=<?= $REQUEST_METHOD ?>'>Выйти</a>
+            </div>
+        </div>
+    <? else: ?>
+        <form class="tpl-block-mobileuser" action="<?= $SUB_FOLDER . $HTTP_ROOT_PATH ?>modules/auth/index.php" method="post">
+            <div class="tpl-block-mobileuser-row">
+                <input name="AUTH_USER" type="text" placeholder="<?= NETCAT_MODULE_AUTH_LOGIN ?>" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>' class="tpl-block-itext">
+            </div>
+            <div class="tpl-block-mobileuser-row">
+                <input name="AUTH_PW" type="password" placeholder="<?= NETCAT_MODULE_AUTH_PASSWORD ?>" class="tpl-block-itext">
+                <span class="tpl-block-ibtn tpl-block-ibtn--theme_red">Вход<input type="submit" class="tpl-block-ibtn-submit" value=""></span>
+            </div>
+
+            <input type='hidden' name='AuthPhase' value='1'/>
+            <input type='hidden' name='REQUESTED_FROM' value='<?= htmlspecialchars($REQUESTED_FROM, ENT_QUOTES) ?>'/>
+            <input type='hidden' name='REQUESTED_BY' value='<?= htmlspecialchars($REQUESTED_BY, ENT_QUOTES) ?>'/>
+            <input type='hidden' name='catalogue' value='<?= $catalogue ?>'/>
+            <input type='hidden' name='sub' value='<?= $sub ?>'/>
+            <input type='hidden' name='cc' value='<?= $cc ?>'/>
+
+            <div class="tpl-block-mobileuser-row">
+                <a href="<?= $nc_core->SUB_FOLDER; ?>/menu/registration">Регистрация</a></div>
+        </form>
+    <? endif ?>
+</div>
+<?
+$total_items = $netshop->cart->get_item_count(true);
+?>
+<!-- Мобильная корзина-->
+<div class="tpl-block-headerdrop tpl-block-headerdrop--cart">
+    <form class="tpl-block-mobilecart" method="post" action="<?= $netshop->get_add_to_cart_url(); ?>">
+        <div class="tpl-block-mobilecart-info">
+            <? if ($total_items) { ?>
+                В корзине
+                <span class="tpl-field-amount"><?= $total_items; ?> <?= plural_form($total_items, 'товар', 'товара', 'товаров'); ?></span>
+                <br>на сумму
+                <span class="tpl-field-summary"><?= $netshop->format_price($netshop->cart->get_totals()); ?></span>
+            <? } else { ?>
+                Корзина пуста
+            <? } ?>
+        </div>
+        <? foreach ($netshop->cart->get_items() as $item) { ?>
+            <div class="tpl-block-mobilecart-item">
+                <div class="tpl-block-mobilecart-delete"><i class="icon-close">
+                        <button class="tpl-block-ibtn-submit" type="submit" name="cart<?= $item['RowID'] ?>" value="0"></button>
+                    </i></div>
+                <div class="tpl-block-mobilecart-showimage"></div>
+                <div class="tpl-field-title">
+                    <?= $item['Vendor']; ?> <?= $item['Name']; ?>
+                    <? if ($item['VariantName']) { ?>
+                        <div class="tpl-field-variant-values"><?= $item['VariantName']; ?></div>
+                    <? } ?>
+                </div>
+                <div class="tpl-field-description"><?= $item['Note']; ?></div>
+                <div class="tpl-field-image"><img src="<?= $item['BigImage']; ?>"></div>
+                <div class="tpl-field-cost"><?= $item['TotalPriceF']; ?></div>
+            </div>
+        <? } ?>
+        <div class="tpl-block-cart-actions">
+            <a class="tpl-block-ibtn tpl-block-ibtn--theme_red" href="<?= $nc_core->SUB_FOLDER; ?>/orders/add_orders.html">Оформить заказ</a>
+        </div>
+    </form>
+</div>
+<!-- Мобильный поиск-->
+<div class="tpl-block-headerdrop tpl-block-headerdrop--search">
+    <form class="tpl-block-mobilesearch" action="/search/">
+        <input type="hidden" name="area" value="site<?=$catalogue ?>">
+        <input type="text" name="search_query" class="tpl-block-itext" placeholder="поиск"><span class="tpl-block-ibtnimage"><i class="icon-angle-right"></i>
+            <input type="submit" class="tpl-block-ibtnimage-submit" value=""></span>
+    </form>
+</div>
+<!-- Мобильный каталог-->
+<div class="tpl-block-headerdrop tpl-block-headerdrop--menu">
+    <div class="tpl-block-mobilemenu">
+        <div class="tpl-block-mobilemenu-category">
+            <div class="tpl-block-mobilemenu-title">Каталог</div>
+            <?= nc_browse_sub(370, $browse_top_menu_mobile); ?>
+        </div>
+    </div>
+</div>
+<? /*
+<!-- Мобильная выпадайка с гордами и телефонами-->
+<div class="tpl-block-mobilecity">
+    <div class="tpl-block-mobilecity-drop">
+        <div class="tpl-block-mobilecity-state">
+        </div>
+        <div class="tpl-field-city">
+            <div class="tpl-field-caption tpl-state-current">Москва</div>
+            <div class="tpl-field-value">7 (123) 456-78-90</div>
+        </div>
+        <div class="tpl-field-city">
+            <div class="tpl-field-caption">Stolz<br>вторая строка</div>
+            <div class="tpl-field-value">7 (123) 456-78-90</div>
+        </div>
+        <div class="tpl-field-city ">
+            <div class="tpl-field-caption">Ёstaloka</div>
+            <div class="tpl-field-value">7 (123) 456-78-90</div>
+        </div>
+        <div class="tpl-field-city">
+            <div class="tpl-field-caption">Kofra</div>
+            <div class="tpl-field-value">7 (123) 456-78-90</div>
+        </div>
+        <div class="tpl-field-city">
+            <div class="tpl-field-caption">Нижний новгород</div>
+            <div class="tpl-field-value">7 (123) 456-78-90</div>
+        </div>
+    </div>
+</div>
+    */
+?>
+<div class="tpl-block-layoutwidth">
+<div class="tpl-block-header-row tpl-block-header-top-navbar">
+    <div class="tpl-block-header-col tpl-block-header-col--1">
+        <? /*
+        <!-- Выбор города-->
+        <div class="tpl-block-citychoice">
+            <select class="tpl-block-iselect" disabled="disabled">
+                <option>Абакан</option>
+                <option>Архангельск</option>
+                <option>Барнаул</option>
+                <option>Белгород</option>
+                <option>Благовещенск</option>
+                <option>Братск</option>
+                <option>Владивосток</option>
+                <option>Волгоград</option>
+                <option>Воронеж</option>
+                <option>Екатеринбург</option>
+                <option>Казань</option>
+                <option>Краснодар</option>
+                <option>Минеральные Воды</option>
+                <option selected="selected">Москва</option>
+                <option>Нижний Новгород</option>
+                <option>Новосибирск</option>
+                <option>Пермь</option>
+                <option>Ростов-на-Дону</option>
+                <option>Самара</option>
+                <option>Санкт-Петербург</option>
+                <option>Тюмень</option>
+            </select>
+        </div>
+        */ ?>
+    </div>
+    <div class="tpl-block-header-col tpl-block-header-col--3">
+        <!-- Что с заказом--><em><a href="<?= $nc_core->SUB_FOLDER; ?>/help/wheres-my-order/">Что с моим заказом?</a></em>
+    </div>
+    <div class="tpl-block-header-col tpl-block-header-col--4">
+        <div class="tpl-block-headerauth">
+            <? if (!empty($current_user)): ?>
+                <div class="tpl-block-headerauth-item">
+                    <a href="<?= $nc_core->SUB_FOLDER; ?>/menu/"><?= $current_user['ForumName'] ?></a>
+                </div>
+                <div class="tpl-block-headerauth-item">
+                    <a href='/netcat/modules/auth/?logoff=1&amp;REQUESTED_FROM=<?= $REQUEST_URI ?>&amp;REQUESTED_BY=<?= $REQUEST_METHOD ?>'>Выйти</a>
+                </div>
+            <? else: ?>
+                <div class="tpl-block-headerauth-item">
+                    <a href="/netcat/modules/auth/index.php" data-mfp-src="#signin" class="tpl-link-modal">Вход</a>
+                </div>
+                <div class="tpl-block-headerauth-item">
+                    <a href="/menu/registration/" data-mfp-src="#signup" class="tpl-link-modal">Регистрация</a>
+                </div>
+
+                <form class="tpl-block-authpopup tpl-block-mfp-hide tpl-block-popup" action="<?= $SUB_FOLDER . $HTTP_ROOT_PATH ?>modules/auth/index.php" id="signin" method="post">
+                    <div class="tpl-block-authpopup-title">Авторизация</div>
+                    <p>
+                        <input name="AUTH_USER" type="text" placeholder="<?= NETCAT_MODULE_AUTH_LOGIN ?>" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>' class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <p>
+                        <input name="AUTH_PW" type="password" placeholder="<?= NETCAT_MODULE_AUTH_PASSWORD ?>" class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <p>
+                        <? if ($ADMIN_AUTHTYPE == "manual" && $AUTHORIZATION_TYPE == "cookie") : ?>
+                            <label><input type='checkbox' name='loginsave'/> <?= NETCAT_MODULE_AUTH_SAVE ?></label>
+                        <? endif; ?>
+                    </p>
+
+                    <div class="tpl-block-authpopup-actions">
+                        <a href="/netcat/modules/auth/password_recovery.php" data-mfp-src="#recovery" class="tpl-link-modal tpl-block-ibtn">Забыли пароль?</a>
+                        <span class="tpl-block-ibtn tpl-block-ibtn--theme_blue">Войти<input type="submit" class="tpl-block-ibtn-submit" value=""></span>
+                    </div>
+
+                    <input type='hidden' name='AuthPhase' value='1'/>
+                    <input type='hidden' name='REQUESTED_FROM' value='<?= htmlspecialchars($REQUESTED_FROM, ENT_QUOTES) ?>'/>
+                    <input type='hidden' name='REQUESTED_BY' value='<?= htmlspecialchars($REQUESTED_BY, ENT_QUOTES) ?>'/>
+                    <input type='hidden' name='catalogue' value='<?= $catalogue ?>'/>
+                    <input type='hidden' name='sub' value='<?= $sub ?>'/>
+                    <input type='hidden' name='cc' value='<?= $cc ?>'/>
+                </form>
+
+                <form class="tpl-block-authpopup tpl-block-mfp-hide tpl-block-popup" action='<?= $nc_core->SUB_FOLDER ?>/netcat/add.php' method="post" id='signup'>
+                    <div class="tpl-block-authpopup-title">Регистриция</div>
+                    <? if ($warnText): ?>
+                        <div class="tpl-error"><?= $warnText ?></div><? endif ?>
+                    <p>
+                        <input name="f_ForumName" id="f_ForumName" value="<?= htmlspecialchars($f_ForumName) ?>" type="text" placeholder="Имя" class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <p>
+                        <input name="f_Login" id="f_Login" value="<?= htmlspecialchars($f_Login) ?>" type="text" placeholder="Логин*" class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <p>
+                        <input name="f_Email" id="f_Email" value="<?= htmlspecialchars($f_Email) ?>" type="text" placeholder="E-mail*" class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <p>
+                        <input name="Password1" id="Password1" type="password" placeholder="Пароль*" class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <p>
+                        <input name="Password2" id="Password2" type="password" placeholder="Повторите пароль*" class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <div class="tpl-block-authpopup-actions">
+                        <span class="tpl-block-ibtn tpl-block-ibtn--theme_blue">Зарегистрироваться <input type="submit" class="tpl-block-ibtn-submit" value=""></span>
+                    </div>
+
+                    <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>'/>
+                    <input name='catalogue' type='hidden' value='<?= $catalogue ?>'/>
+                    <input name='cc' type='hidden' value='372'/>
+                    <input name='sub' type='hidden' value='257'/>
+                    <input name='posting' type='hidden' value='1'/>
+                    <input name='curPos' type='hidden' value='0'/>
+                </form>
+
+                <form class="tpl-block-authpopup tpl-block-mfp-hide tpl-block-popup" method="post" action="<?= $SUB_FOLDER . $HTTP_ROOT_PATH ?>modules/auth/password_recovery.php" id="recovery">
+                    <div class="tpl-block-authpopup-title">Восстановление пароля</div>
+
+                    <p>
+                        <input name="Login" type="text" placeholder="<?= NETCAT_MODULE_AUTH_LOGIN ?>" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>' class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <p>
+                        <input name="Email" type="text" placeholder="<?= NETCAT_MODULE_AUTH_PRF_EMAIL ?>" value='<?= htmlspecialchars($Email, ENT_QUOTES) ?>' class="tpl-block-itext tpl-block-itext--style_dull">
+                    </p>
+
+                    <p>
+                        <? if ($ADMIN_AUTHTYPE == "manual" && $AUTHORIZATION_TYPE == "cookie") : ?>
+                            <label><input type='checkbox' name='loginsave'/> <?= NETCAT_MODULE_AUTH_SAVE ?></label>
+                        <? endif; ?>
+                    </p>
+
+                    <div class="tpl-block-authpopup-actions">
+                            <span class="tpl-block-ibtn tpl-block-ibtn--theme_blue"><?= NETCAT_MODULE_AUTH_PRF_DOBUTT ?>
+                                <input type="submit" class="tpl-block-ibtn-submit" value=""></span>
+                    </div>
+
+                    <input type='hidden' name='catalogue' value='<?= $catalogue ?>'/>
+                    <input type='hidden' name='sub' value='<?= $sub ?>'/>
+                    <input type='hidden' name='cc' value='<?= $cc ?>'/>
+                    <input type='hidden' name='post' value='1'/>
+                </form>
+            <? endif ?>
+        </div>
+    </div>
+</div>
+<div class="tpl-block-sep"></div>
+<div class="tpl-block-header-row">
+    <div class="tpl-block-header-col tpl-block-header-col--1">
+        <!-- Логотип-->
+        <a href="<?= $nc_core->SUB_FOLDER . '/'; ?>">
+            <div class="tpl-block-headerlogo tpl-state-current">
+                <img src="<?= $current_catalogue['logo_header']; ?>" width="217" height="61">
+            </div>
+        </a>
+    </div>
+    <div class="tpl-block-header-col tpl-block-header-col--2">
+        <!-- Контакты-->
+        <div class="tpl-block-headercontact">
+            <div class="tpl-field-title"><?= $current_catalogue['Phone_1']; ?></div>
+            <div class="tpl-field-description">Бесплатная доставка<br>в течение 3 дней</div>
+        </div>
+    </div>
+    <div class="tpl-block-header-col tpl-block-header-col--3">
+        <!-- Контакты-->
+        <div class="tpl-block-headercontact">
+            <div class="tpl-field-title"><?= $current_catalogue['Phone_2']; ?></div>
+            <div class="tpl-field-description">Консультации<br>по общим вопросам</div>
+        </div>
+    </div>
+    <div class="tpl-block-header-col tpl-block-header-col--4">
+        <!-- Корзина--><a class="tpl-block-headercart" href="<?= $nc_core->SUB_FOLDER; ?>/cart">
+            <div class="tpl-field-image"><i class="icon-cart-blue"></i></div>
+            <div class="tpl-field-title">Корзина товаров</div>
+            <div class="tpl-field-description">
+                <? if ($total_items) { ?>
+                    В корзине
+                    <span class="tpl-field-amount"><?= $total_items; ?> <?= plural_form($total_items, 'товар', 'товара', 'товаров'); ?></span>
+                    <br>на сумму
+                    <? $totals = $netshop->cart->get_totals(); ?>
+                    <span class="<?= $totals ? 'tpl-field-summary' : ''; ?>"><?= $netshop->format_price($totals); ?></span>
+                <? } else { ?>
+                    Корзина пуста
+                <? } ?>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="tpl-block-sep"></div>
+<div class="tpl-block-header-row">
+    <div class="tpl-block-header-col tpl-block-header-col--menu">
+        <!-- Навигация-->
+        <?= nc_browse_sub(0, $browse_top_menu); ?>
+    </div>
+    <div class="tpl-block-header-col tpl-block-header-col--search">
+        <!-- Поиск-->
+        <form class="tpl-block-headersearch tpl-component-search" action="/search/">
+            <input type="hidden" name="area" value="site<?=$catalogue ?>">
+            <!-- Категории-->
+            <div class="tpl-block-headersearch-category">
+                <select class="tpl-block-iselect tpl-block-iselect--theme_red" disabled="disabled">
+                    <option selected="selected">Все товары</option>
+                    <option>Ноутбуки</option>
+                    <option>Средства связи</option>
+                    <option>Настольные ПК</option>
+                    <option>Спортивные товары</option>
+                    <option>Обувь</option>
+                    <option>Верхняя одежда</option>
+                    <option>Пельмени</option>
+                </select>
+            </div>
+            <div class="tpl-block-headersearch-input">
+                <input type="text" name="search_query" class="tpl-block-itext" placeholder="Поиск"><span class="tpl-block-ibtnimage"><i class="icon-search"></i>
+                <input type="submit" class="tpl-block-ibtnimage-submit" value=""></span>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</header>
+<!-- content --><!-- /Header -->
+
+<!-- Footer --><!-- /content -->
+<div class="tpl-block-clearfix">
+</div>
+<div class="tpl-block-notformobile">
+    <div class="tpl-block-sep tpl-block-sep--size_m"></div>
+</div>
+</div>
+</div>
+<div class="tpl-block-tabs tpl-block-tabs--footer">
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="goodslist-favorite-added">
+        Выбранный товар был успешно добавлен в <a class="tpl-block-link" href="#">список "Избранное"</a>.
+    </div>
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="goodslist-compare-added">
+        Выбранный товар был успешно добавлен в <a class="tpl-block-link" href="#">список "Сравнение товаров"</a>.
+    </div>
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="subscriber-added">
+        Вы успешно подписались на рассылку!
+    </div>
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="cart-added-popup">
+        Выбранный товар был успешно добавлен в корзину.
+    </div>
+    <!-- Закрытое положение: +e.trigger / +e.wrapper.tpl-state-hidden-->
+    <!-- Открытое положение: +e.trigger.tpl-state-active / +e.wrapper-->
+    <div class="tpl-block-tabs-switcher">
+        <div class="tpl-block-layoutwidth">
+            <div class="tpl-block-tabs-tab tpl-state-current">Вы недавно смотрели</div>
+            <div class="tpl-block-tabs-tab">Список сравнения</div>
+            <div class="tpl-block-tabs-tab">Избранное</div>
+            <div class="tpl-block-tabs-trigger tpl-state-active">
+            </div>
+        </div>
+    </div>
+    <div class="tpl-block-tabs-wrapper">
+        <div class="tpl-block-layoutwidth">
+            <div class="tpl-block-tabs-content tpl-state-current">
+                <?= $nc_core->widget->show('netshop_recent_goods'); ?>
+            </div>
+            <div class="tpl-block-tabs-content">
+                <?= $nc_core->widget->show('netshop_compare_goods'); ?>
+                <div class="tpl-block-compare-button-container">
+                    <? if (count($netshop->goodslist_compare->get_all()) >= 2) { ?>
+                        <a href="<?= $nc_core->SUB_FOLDER; ?>/compare" class="tpl-block-ibtn tpl-block-ibtn--theme_red">Сравнение товаров &rarr;</a>
+                    <? } ?>
+                </div>
+            </div>
+            <div class="tpl-block-tabs-content">
+                <?= $nc_core->widget->show('netshop_favorite_goods'); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Подвал-->
+<footer class="tpl-block-footer">
+    <div class="tpl-block-layoutwidth">
+        <div class="tpl-block-footermobilemenu">
+            <div class="tpl-block-footermobilemenu-item"><a href="<?= $nc_core->SUB_FOLDER; ?>/help/shipping">Помощь</a>
+            </div>
+            <div class="tpl-block-footermobilemenu-item"><a href="<?= $nc_core->SUB_FOLDER; ?>/about/reviews/">О нас</a>
+            </div>
+        </div>
+        <div class="tpl-block-footermobilesoc">
+            <div class="tpl-block-footermobilesoc-item"><a href="#"><i class="icon-facebook-mobile"></i></a>
+            </div>
+            <div class="tpl-block-footermobilesoc-item"><a href="#"><i class="icon-instagram-mobile"></i></a>
+            </div>
+        </div>
+        <div class="tpl-block-footer-row">
+            <div class="tpl-block-footer-col tpl-block-footer-col--1">
+                <div class="tpl-block-footerlist">
+                    <div class="tpl-block-footertitle">Помощь
+                    </div>
+                    <?= nc_browse_sub(362, $footer_menu); ?>
+                </div>
+            </div>
+            <div class="tpl-block-footer-col tpl-block-footer-col--2">
+                <div class="tpl-block-footerlist">
+                    <div class="tpl-block-footertitle">О нас
+                    </div>
+                    <?= nc_browse_sub(143, $footer_menu); ?>
+                </div>
+            </div>
+            <div class="tpl-block-footer-col tpl-block-footer-col--3">
+                <? if ($current_catalogue['Vk_Link'] || $current_catalogue['Ok_Link'] || $current_catalogue['Twitter_Link']) { ?>
+                    <div class="tpl-block-footerlist">
+                        <div class="tpl-block-footertitle">Мы в соц. сетях
+                        </div>
+                        <? if ($current_catalogue['Vk_Link']) { ?>
+                            <div class="tpl-block-footerlist-item">
+                                <a href="<?= $current_catalogue['Vk_Link']; ?>" target="_blank">Вконтакте</a>
+                            </div>
+                        <? } ?>
+                        <? if ($current_catalogue['Ok_Link']) { ?>
+                            <div class="tpl-block-footerlist-item">
+                                <a href="<?= $current_catalogue['Ok_Link']; ?>" target="_blank">Одноклассники</a>
+                            </div>
+                        <? } ?>
+                        <? if ($current_catalogue['Twitter_Link']) { ?>
+                            <div class="tpl-block-footerlist-item">
+                                <a href="<?= $current_catalogue['Twitter_Link']; ?>" target="_blank">Твиттер</a>
+                            </div>
+                        <? } ?>
+                    </div>
+                <? } ?>
+            </div>
+            <div class="tpl-block-footer-col tpl-block-footer-col--4">
+                <? if ($nc_core->modules->get_by_keyword('subscriber', 0)) { ?>
+                    <form class="tpl-block-footersubscribe" action="<?= $nc_core->SUB_FOLDER; ?>/netcat/subscribe.php" method="post">
+                        <input type="hidden" name="catalogue" value="<?= $catalogue; ?>"/>
+                        <input type="hidden" name="sub" value="153"/>
+                        <input type="hidden" name="cc" value="252"/>
+                        <input type="hidden" name="posting" value="1"/>
+
+                        <div class="tpl-block-footertitle">Подпишитесь на новости
+                        </div>
+                        <input type="email" class="tpl-block-itext" placeholder="e-mail" name="fields[Email]"><span class="tpl-block-ibtnimage"><i class="icon-angle-right"></i>
+                <input type="submit" class="tpl-block-ibtnimage-submit" value=""></span>
+                    </form>
+                <? } ?>
+            </div>
+            <div class="tpl-block-footer-col tpl-block-footer-col--5">
+                <div class="tpl-block-footercards">
+                    <div class="tpl-block-footercards-item">
+                        <img src="<?= $nc_parent_template_folder_path ?>assets/i/card-1.jpg">
+                    </div>
+                    <div class="tpl-block-footercards-item">
+                        <img src="<?= $nc_parent_template_folder_path ?>assets/i/card-2.jpg">
+                    </div>
+                    <div class="tpl-block-footercards-item">
+                        <img src="<?= $nc_parent_template_folder_path ?>assets/i/card-3.jpg">
+                    </div>
+                </div>
+                <div class="tpl-block-footerdevs">Создание сайта — <a href="http://xdesign-nn.ru/" target="_blank">xDesign</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Подгрузка скриптов (build.js / main.js)-->
+<script data-main="<?= $nc_parent_template_folder_path ?>assets/js/main" src="<?= $nc_parent_template_folder_path ?>assets/js/require.js"></script>
+<script src="<?= $nc_parent_template_folder_path ?>assets/js/custom.js"></script>
+</body>
+</html><!-- /Footer -->

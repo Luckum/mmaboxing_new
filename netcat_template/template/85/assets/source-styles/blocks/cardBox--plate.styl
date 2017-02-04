@@ -1,0 +1,126 @@
+
+// Плитка
+cardPlate()
+  text-align: center
+  border: 5px solid colorDull
+  padding: 15px 15px 15px
+  // width: 300px
+  width: 100%
+  height: 340px
+  .tpl-field-title
+    display: block
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    text-align: center
+    font-weight: 400
+  .tpl-field-description
+    display: block
+    position: relative
+    margin: -0.4em 0 0
+    line-height: 1.2
+    z-index: 3
+    text-align: center
+    gbottom()
+    @media min
+      margin-top: 10px
+      font-style: italic
+      font-size: 24px
+      text-align: left
+      font-weight: 400
+  .tpl-field-image
+    display: block
+    position: absolute
+    left: 15px
+    right: 15px
+    height: 135px
+    line-height: 140px
+    top: 115px
+  .tpl-block-rating
+    display: block
+    /*position: absolute*/
+    /*left: 15px*/
+    /*right: 15px*/
+    /*top: 75px*/
+    text-align: center
+    font-size: 14px
+    &-item
+      display inline-block
+      float none
+      max-width 1em
+  .tpl-field-cost
+    display: block
+    position: absolute
+    left: 15px
+    right: 15px
+    text-align: center
+    top: 277px
+    font-size: 32px
+    line-height: 1.2
+    font-weight: 400
+  .tpl-field-oldcost
+    display: block
+    position: absolute
+    top: 252px
+    left: 0
+    right: 0
+    margin-left: auto
+    margin-right: auto
+    width: 73px
+    white-space: nowrap
+    font-size: 18px
+    font-weight: 400
+    color: colorGray
+    &:after
+      content: ''
+      border-bottom: 2px solid colorRed
+      left: 0
+      top: 50%
+      width: 100%
+      height: 0
+      position: absolute
+
+  .tpl-block-cardbox-link
+    display: block
+    text-decoration: none
+    color: colorBase
+     &:hover
+       color: colorBase
+       .tpl-field-title
+         color: colorRed
+  .tpl-block-cardbox-overlay
+    display: block
+    position: absolute
+    left: -5px
+    top: -5px
+    right: -5px
+    bottom: -5px
+    background: rgba(#fff, 0.9)
+    z-index: 5
+    text-align: center
+    color: colorBlue
+    line-height: 300px
+    // cursor: pointer
+    visibility: hidden
+    opacity: 0
+    transition: opacity 0.2s
+    backface-visibility: hidden
+    cursor: pointer
+    u
+      display: inline-block
+      vertical-align: middle
+      line-height: 1.2
+      text-decoration: none
+      border-bottom: 1px dotted colorBlue
+      font-weight: 600
+      font-size: 16px
+    @media min
+      display: none
+      visibility: hidden
+      opacity: 0
+  &:hover
+    .tpl-block-cardbox-overlay
+      visibility: visible
+      opacity: 1
+
+

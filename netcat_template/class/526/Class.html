@@ -1,0 +1,36 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<div class="tpl-block-main tpl-block-main--wide">
+    <div class="tpl-block-sep"></div>
+    <div class="tpl-block-sep tpl-block-sep--size_s"></div>
+    <fieldset class="tpl-block-order">
+        <legend class="tpl-block-order-title">Заказ оформлен
+        </legend>
+        <div class="tpl-block-order-hero">
+            Ваш заказ оформлен!<br>
+            Информация по доставке придет на почту<br>
+            в течение 5 минут.<br><br>
+            Пожалуйста, произведите оплату.          
+            <?
+            $invoice = $nc_core->input->fetch_get('invoice');
+            
+            if ($invoice) {
+                $object = new nc_payment_invoice();
+                $object->load($invoice);
+                
+                $payment_method = nc_payment_factory::create($object['payment_system_id']);
+                echo $payment_method->get_request_form($object);
+            }
+            
+            ?>
+        </div>
+        <div class="tpl-block-order-actions">
+            <a class="tpl-block-ibtn tpl-block-ibtn--theme_blue" href="<?= $nc_core->SUB_FOLDER; ?>/products">Вернуться к покупкам</a>
+        </div>
+    </fieldset>
+</div>
+<div class="tpl-block-clearfix">
+</div><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,46 @@
+<div class='nc_full nc_resume'>
+    <h2><?= nc_edit_inline('Post', $f_RowID, $cc) ?></h2>
+    <? if ($f_City) {
+        echo $f_City;
+    }
+    if ($f_Skill) { ?> 
+        <div class='nc_item'><span class='nc_title'>Навыки: </span><span class='nc_value'><?= nc_edit_inline('Skill', $f_RowID, $cc) ?></span></div><? }
+if ($f_Experience) { ?>
+        <div class='nc_item'>
+            <span class='nc_title'>Опыт работы: </span>
+            <span class='nc_value'><?= nc_edit_inline('Experience', $f_RowID, $cc) ?></span></div><? }
+if ($f_Education) { ?>
+        <div class='nc_item'>
+            <span class='nc_title'>Образование: </span>
+            <span class='nc_value'><?= nc_edit_inline('Education', $f_RowID, $cc) ?></span></div><? }
+if ($f_Pay) { ?>
+        <div class='nc_price'>
+            <span class='nc_title'>Зарплата: </span>
+            <span class='nc_value'><?= nc_edit_inline('Pay', $f_RowID, $cc) ?></span>
+        </div> <? }
+if ($f_Description) { ?>
+        <div class='nc_item'>
+            <span class='nc_title'>Дополнительная информация: </span>
+            <span class='nc_description'><?= nc_edit_inline('Description', $f_RowID, $cc) ?></span>
+        </div><? }
+if ($f_FIO) { ?>
+        <div class='nc_item'>
+            <span class='nc_title'>ФИО: </span>
+            <span class='nc_value'><?= nc_edit_inline('FIO', $f_RowID, $cc) ?></span>
+        </div><? }
+if ($f_PhoneNumber) { ?>
+        <div class='nc_item'>
+            <span class='nc_title'>Телефон: </span>
+            <span class='nc_value'><?= nc_edit_inline('PhoneNumber', $f_RowID, $cc) ?></span>
+        </div><? }
+if ($f_Email) { ?>
+        <div class='nc_item'>
+            <span class='nc_title'>Email: </span>
+            <span class='nc_value'><a href='mailto:<?= $f_Email ?>'><?= $f_Email ?></a></span>
+        </div><? }
+if ($f_Sex) { ?>
+        <div class='nc_item'>
+            <span class='nc_title'>Пол: </span>
+            <span class='nc_value'><?= $f_Sex ?></span>
+        </div><? } ?>
+</div>

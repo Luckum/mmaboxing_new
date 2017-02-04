@@ -1,0 +1,88 @@
+
+<div class='cart_content'>
+<h1>Ваши товары</h1>
+<ul class="nav-filter">
+    <li class='active'><span><?=NETCAT_MODULE_NETSHOP_MAKE_ORDER ?></span></li>
+</ul>
+
+<?=$f_AdminCommon ?>
+
+<? $has_discounts = ($shop->TotalDiscountSum != $shop->CartDiscountSum) ?>
+
+<? if ($shop->CartCount()): ?>
+    <form <?= nc_ls_display_form('content', 0, null, 'refresh_cart_handler') ?> method='post' action='<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>modules/netshop/post.php' class='cart_contents' id='netshop_cart_contents'>
+        <input type=hidden name='redirect_url' value='<?= $GLOBALS[NETSHOP][Netshop_CartURL] ?>?isNaked=0&lsDisplayType=shortpage&skipTemplate=1' />
+
+<div class="items-grid">
+<? foreach ($shop->CartContents as $row): ?>
+    <? $img = '/netcat_files/' . current(array_splice(explode(':',$row['Image']), -1)); ?>
+
+    <div class="item">
+        <a href="<?= $row['URL'] ?>" class="img" <?=nc_ls_display_link('content', 0, null, null, array('isNaked'=>0)) ?>><img src="<?= $img ?>" alt="<?= $row['Name'] ?>"></a>
+
+        <span class="price">
+             <? if ($has_discounts): ?>
+                <? if ($row['OriginalPrice'] - $row['ItemPrice']): ?>
+                    <b><?= $shop->FormatCurrency($row['OriginalPrice'] - $row['ItemPrice']) ?></b>
+                <? endif ?>
+            <? endif ?>
+            <?= $row['ItemPriceF'] ?>
+            <span class='qty'>
+                Кол-во:
+                <input class='qty' type='text' size='2' name='cart<?= $row['RowID'] ?>' value='<?= $row['Qty'] ?>'> <?= $row['Units'] ?>
+            </span>
+            <?//= $row['Qty'] > 1 ? $row['TotalPriceF'] : '' ?>
+        </span>
+        <a class="caption" href="<?= $row['URL'] ?>" <?=nc_ls_display_link('content', 0, null, null, array('isNaked'=>0)) ?>><?= $row['Name'] ?></a>
+
+        <a href="#" class='cart_link' onclick="return cart_remove_item.call(this)">
+            <i class="icon icon-remove"></i>
+        </a>
+    </div>
+
+
+    <!-- <td></td>
+    <td style="text-align: center;"><input type='checkbox' name='cart<?= $row['RowID'] ?>' value='-1'></td> -->
+<? endforeach ?>
+</div>
+<!-- /.items-grid -->
+
+<? if ($shop->CartDiscounts): ?>
+    <? foreach ($shop->CartDiscounts as $discount): ?>
+        <tr align='center' class='cart_discount'><td colspan='<?= ($has_discounts ? 4 : 3) ?>' class='name'>
+        <b>
+        <?= $discount['Name'] ?></b><?= ($discount['Description'] ? "<br>{$discount['Description']}" : "") ?>
+        </td><td>
+        <? echo ($discount['Sum'] > 0 ? "-" : ""); echo $discount['SumF']; ?></td>
+        <td>&nbsp;</td>
+        </tr>
+    <? endforeach ?>
+<? endif ?>
+
+
+<div style="font-size:2em; line-height:2em; padding:30px 0 20px 0">Cумма к оплате: <b><?= ($shop->FormatCurrency($shop->CartSum())) ?></b></div>
+
+<?php if (ini_get("session.use_trans_sid")) {
+    $sname = session_name();
+    $sid = "?$sname=$GLOBALS[$sname]";
+} else {
+    $sid = "";
+}
+?>
+<!-- </table> -->
+
+
+
+<div class='cart_buttons'>
+
+            <a class='btn' href="<?= $GLOBALS[NETSHOP][Netshop_OrderURL].$sid ?>" <?=nc_ls_display_link('content') ?>><?=NETCAT_MODULE_NETSHOP_CART_CHECKOUT ?></a>
+
+            <input class='btn' type='submit' value='Обновить'>
+            <!-- <a class='btn' href="/Netshop/Cart/" <?=nc_ls_display_link('content', 0, null, 'clear_cart_handler', array('ClearCart'=>1)) ?>>Очистить корзину</a> -->
+            <!-- <input type='button' onclick='window.location=""' value='Очистить корзину'> -->
+        </div>
+    </form>
+    <? else: ?>
+        <?=NETCAT_MODULE_NETSHOP_CART_EMPTY ?>
+    <? endif ?>
+</div>

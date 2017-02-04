@@ -1,0 +1,41 @@
+<?
+
+$shop_mode = $nc_core->get_settings('nc_shop_mode_' . $catalogue);
+
+if (!$shop_mode) {
+    $orders_href = $db->get_var("SELECT Hidden_URL FROM Subdivision where Subdivision_ID = ".+$cc_settings['OrderSub']);
+}
+
+// вывод несколько товаров в строке
+$NumCols = &$cc_settings['NumColumns'];
+$ColWidth = ( $NumCols>1 ? 'width="'.(floor(100/$NumCols)).'%"' : NULL );
+
+if ($shop_mode == 2) {
+    global $shop;
+
+    if(!isset($classID)){
+    $classID = $cc_env['Class_ID'];
+    }
+    // если у дочернего объекта не указана цена, берется цена родительского объекта
+    // для этого придется сделать JOIN
+    $query_join = " LEFT JOIN Message$classID as parent ON (a.Parent_Message_ID != 0 AND a.Parent_Message_ID=parent.Message_ID)";
+    $query_select = "IFNULL(a.$shop->PriceColumn, parent.$shop->PriceColumn) as Netshop_Price_Column,
+                     IFNULL(a.$shop->CurrencyColumn, parent.$shop->CurrencyColumn) as Netshop_Currency_Column";
+    
+    $shop->filter->init_fields(array('Genre', 'Price'));
+    $shop->filter->query_where($query_where);
+}
+
+$f_Slider_tpl = array(
+'prefix' => "<div class='catalogue_full_animate'>",
+'record' => "<div class='block'><div class='display_table'><div class='display_table_row'><div class='display_table_cell'>
+	         <a href='%Path%'><img src='%Preview%' alt='' /></a>
+	     </div></div></div></div>",
+'divider' => '',
+'suffix' => '</div>',
+);
+if (nc_module_check_by_keyword("comments")) {
+    $nc_comments = new nc_comments($cc);
+}
+
+?>

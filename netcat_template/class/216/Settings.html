@@ -1,0 +1,11 @@
+<? 
+( !isset($nc_num_cols) ? $colNums = &$cc_settings['CollsNum'] : $colNums = (int)$nc_num_cols );
+$colWidth = ( $colNums>1 ? 'width="'.(floor(100/$colNums)).'%"' : NULL);
+if($cc_settings[Sort]!='no') $query_order = $cc_settings['Sort'];
+if($cc_settings['Group']) $query_order = 'Department'.( $cc_settings['Sort']=='Surname' ? ',Surname' : ',Priority' );
+$curDep = NULL;
+$dNum = 0;
+if( ($cc_settings['ShowContacts']=='auth' && $current_user['User_ID']) || $cc_settings['ShowContacts']=='all' ) $ShowContacts = true;
+else $ShowContacts = false;
+
+?>

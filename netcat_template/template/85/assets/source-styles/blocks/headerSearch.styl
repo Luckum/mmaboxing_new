@@ -1,0 +1,91 @@
+
+
+.tpl-block-headersearch
+  background: colorRed
+  color: colorWhite
+  position: relative
+  height: 40px
+  background: colorRed
+  padding: 5px 0
+  &-category
+    float: left
+    width: 150px
+    display: block
+    height: 40px
+    margin: -5px 0 0 0
+    .chosen-container
+      position: relative
+      display: inline-block
+      user-select: none
+      font-weight: 400
+      &.chosen-with-drop .chosen-single:after,
+      .chosen-single:hover:after
+        color: colorWhite
+      .chosen-single
+        background: colorRed
+        color: colorWhite
+        &:after
+          font-size: 1.2em
+      .chosen-results
+        max-height: 400px
+        li
+          padding: 7px 20px
+          color: colorWhite
+          background: colorRed
+          &.highlighted
+            background: #C3202A
+
+  &-input
+    overflow: hidden
+    position: relative
+    padding: 5px 0 0 5px
+    height: 40px
+    position: relative
+    top: -5px
+    left: -5px
+    // padding: 5px 5px 5px 0
+
+
+  .tpl-block-itext
+    overflow: hidden
+    display: block
+    border: none
+    margin: 0
+    // width: 385px
+    width: 100%
+    height: 30px
+    padding-left: 20px
+    color: colorBase
+    font-size: 14px
+    z-index: 2
+    position: relative
+  ::placeholder
+    color: colorBase
+  .tpl-block-ibtnimage
+    color: colorBase
+    font-size: 1.3em
+    position: absolute
+    right: 0px
+    top: 0
+    z-index: 2
+    line-height: 35px
+    height: 40px
+    padding: 0 10px
+    opacity: 0.2
+    transition: opacity 0.2s
+    backface-visibility: hidden
+    &:hover
+      opacity: 0.5
+
+
+.tpl-block-headersearch ::-webkit-input-placeholder {
+  color: #000;
+}
+
+.tpl-block-headersearch ::-moz-placeholder {
+  color: #000;
+}
+
+.tpl-block-headersearch :-ms-input-placeholder {
+  color: #000;
+}

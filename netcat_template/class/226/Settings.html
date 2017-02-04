@@ -1,0 +1,12 @@
+<?
+if (!is_object($shop)) {
+    $shop = new NetShop();
+}
+
+if (isset($_GET['ClearCart'])) {
+    $shop->ClearCartContents();
+    header("Location: {$GLOBALS['NETSHOP']['Netshop_CartURL']}");
+    exit;
+}
+
+?>

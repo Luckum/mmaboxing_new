@@ -1,0 +1,68 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? if (!($RowNum % $NumCols) && $RowNum) { ?></tr><tr valign='top'><? } ?>
+        <td>
+            <?
+            echo $f_AdminButtons;
+            ?>
+                <table border=0 cellspacing=0 cellpadding=0 width=100%>
+                    <tr valign=top>
+                        <td colspan='2'>
+                            <h3><a href='<?= $fullLink; ?>'><?= $f_Name ?></a></h3>
+                        </td>
+                    </tr>
+                    <tr valign=top>
+                        <td>
+                            <? if ($f_Image) { ?><img src='<?= $f_Image_url ?>' alt='<?= $f_Name ?>' style='margin-right:10px'><? } ?>
+                        </td>
+                        <td align='right' width='100%'>
+                            <b>Цена: <?= $shop_mode == 2 ? $shop->FormatCurrency($f_Price) : $f_Price . '.-'; ?></b> &nbsp;
+                            <?
+                                switch ($shop_mode) {
+                                    case 2:
+                                        ?>
+                                            <form method='post' id='netshop_<?= $f_RowID; ?>' action='<?= $SUB_FOLDER . $HTTP_ROOT_PATH; ?>modules/netshop/post.php' style='margin: 0px'>
+                                                <input type='hidden' name='redirect_url' value='<?= $GLOBALS['uri_path']; ?>' />
+                                                <input type='hidden' name='cart_mode' value='add' />
+                                                <input type='hidden' name='cart[<?= $classID; ?>][<?= $f_RowID; ?>]' value='1' />
+                                                <a href="#" onclick="document.getElementById('netshop_<?= $f_RowID; ?>').submit()" class="buy"></a>
+                                            </form>
+                                        <?
+                                        break;
+
+                                    case 1:
+                                        echo $nc_minishop->show_put_button($f_Name, $f_Price, $fullLink);
+                                        break;
+
+                                    default:
+                                        ?> <form method='post' id='simple_shop_<?= $f_RowID; ?>' action='<?= $SUB_FOLDER.$orders_href?>' style='margin: 0px'>
+                                                <input name='Sub_ID' type='hidden' value='<?=$cc?>' />
+                                                <input name='Goods_ID' type='hidden' value='<?=$f_RowID?>' />
+                                                <input name='Goods_Title' type='hidden' value='<?=$f_Name?>' />
+                                                <input name='Cost' type='hidden' value='<?=$f_Price?>' />
+                                                <input name='token' type='hidden' value='<?= md5($cc . $nc_core->get_settings('SecretKey') . $f_Price . $f_RowID . $f_Name); ?>' />
+                                                <a href="#" onclick="document.getElementById('simple_shop_<?= $f_RowID; ?>').submit()" >Заказать</a>
+                                            </form>
+                                        <?
+                                        break;
+                                }
+                            ?>
+                            <br>
+<? if ($f_Description) { ?><div style='padding:10px 0px; text-align:justify'><?= nc_edit_inline('Description', $f_RowID, $cc) ?><div><? } ?>
+                                    </td>
+                                    </tr>
+                                    </table>
+                                    <?
+                                    /* если мы в режиме редактирования, то далее едёт список дочерних товаров сформированный выше. */
+                                    if ($admin_mode) {
+                                        ?>
+                                        <div style='margin:14px 0px 6px;'>
+                                            <img src='<?= $ADMIN_PATH ?>skins/default/img/i_obj_add.gif' width='16' height='16' style='vertical-align:middle' border='0' alt='Добавить вариант товара'>
+                                            <a href='<?= $add_child_link ?>'>Добавить вариант товара</a>
+                                            </b>
+                                        </div>
+                                        <table cellspacing='0' cellpadding='0' width='100%' style='border-collapse:collapse;'>
+                                        </table><? } ?>
+
+                                    </td>
+<? $RowNum++; ?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

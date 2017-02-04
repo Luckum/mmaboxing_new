@@ -1,0 +1,86 @@
+include _bemto.jade
+
+mixin i()
+  +b('i').icon(class="icon-#{attributes.class}")
+    block
+
+mixin t(size)
+  if size
+    .tpl-block-title(class="tpl-block-title--size_#{size}", attributes)
+      block
+  else
+    .tpl-block-title(attributes)
+      block
+
+mixin sep(size)
+  if size
+    .tpl-block-sep(class="tpl-block-sep--size_#{size}", attributes)
+  else
+    .tpl-block-sep(attributes)
+
+mixin jrow()
+  .tpl-block-journal(attributes)
+    block
+mixin jcol(w)
+  if !w
+    .tpl-block-journal-column(attributes)
+      block
+  else
+    .tpl-block-journal-column(attributes, style="width: #{w}")
+      block
+
+mixin grow()
+  .tpl-block-grid(attributes)
+    block
+mixin gcol(col, span)
+  .tpl-block-grid-module(class="tpl-block-grid-module--col-#{col} tpl-block-grid-module--span-#{span}", attributes)
+    block
+
+mixin button(e)
+  if !e
+    e = 'span'
+
+  if e == 'span'
+    span.input-button(attributes)
+      block
+  if e == 'link'
+    +blink.input-button(attributes)
+      block
+  else if e == 'link submit'
+    +blink.input-button(attributes)
+      block
+      input(type="submit", value="").input-button-submit
+  else if e == 'span submit'
+    span.input-button(attributes)
+      block
+      input(type="submit", value="").input-button-submit
+  else
+    +b(e).input-button(attributes)
+      block
+
+mixin text(placeholder)
+  +b('input').input-text(type="text", placeholder=placeholder, attributes)
+
+mixin textarea(placeholder)
+  textarea.input-text.input-text--textarea(attributes, placeholder=placeholder)
+
+mixin link(url)
+  if !url
+    url = "#"
+  a(attributes, href=url)
+    block
+
+mixin elink(url)
+  if !url
+    url = "#"
+  +e('a')(attributes, href=url)
+    block
+
+mixin blink(url)
+  if !url
+    url = "#"
+  +b('a')(attributes, href=url)
+    block
+
+include _layout
+include cardbox

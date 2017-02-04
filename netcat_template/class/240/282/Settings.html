@@ -1,0 +1,6 @@
+<? $currency = $nc_minishop->get_currency();
+if ( $srchPat[0] === 0 ) unset($srchPat[0]);
+
+// на случай, если в разделе права выставлены неверно
+if ( !is_object($perm) || !$perm->isSubClass($cc, MASK_MODERATE) ) $query_where = " 0 ";
+?>

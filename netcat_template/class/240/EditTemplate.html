@@ -1,0 +1,101 @@
+<? $order = new nc_minishop_order($message); ?>
+<link type='text/css' rel='stylesheet' href='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH ?>modules/minishop/admin.css'>
+<div id='edit_form'>
+    <? if ($warnText) { ?><div class='warnText'><?= $warnText ?></div><? } ?>
+    <h2>Заказ №<?= $message ?>, <?= substr($f_Created,0,10) ?></h2><hr>
+    <form name='adminForm' id='adminForm' enctype='multipart/form-data' method='post' action='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH ?>message.php'>
+        <div id='nc_moderate_form'><div class='nc_clear'></div>
+            <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>' />
+            <? $nc_core->token->get_input(); ?>
+            <input name='catalogue' type='hidden' value='<?= $catalogue ?>' />
+            <input name='cc' type='hidden' value='<?= $cc ?>' />
+            <input name='sub' type='hidden' value='<?= $sub ?>' />
+            <input name='message' type='hidden' value='<?= $message ?>' />
+            <input name='posting' type='hidden' value='1' />
+            <input name='curPos' type='hidden' value='<?= $curPos ?>' />
+            <input name='f_Parent_Message_ID' type='hidden' value='<?= $f_Parent_Message_ID ?>' />
+            <? $nc_core->token->get_input();
+            if ($admin_mode && !$systemTableID) { ?><div id='nc_moderate_settings'>
+                <? if ($admin_mode) { ?> <div class='left'>
+                        <?= CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_KEYWORD ?> <input name='f_Keyword' type='text' size='20' maxlength='255' value='<?= $f_Keyword ?>'>
+                        </div>
+                        <div class='left'>
+                            <img src='<?= $SUB_FOLDER ?>/netcat/admin/images/prior.gif' width='16' height='16' align='left' alt='Приоритет' title='Приоритет' />
+                            <input name='f_Priority' type='text' size='3' maxlength='3' value='<?= $f_Priority ?>' />
+                        </div> <? } ?>
+                    <? if (CheckUserRights($current_cc['Sub_Class_ID'], "moderate", $posting)) { ?>
+                        <div class='left_checkbox'>
+                            <input id='chk' name='f_Checked' type='checkbox' value='1' <?= ($f_Checked ? "checked='checked'" : "") ?> /> <label for='chk'><?=NETCAT_MODERATION_TURNON ?></label>
+                        </div><? } else { ?><input id='chk' name='f_Checked' type='hidden' value='<?= ($f_Checked ? 1 : 0) ?>' /><? } ?>
+                </div>
+                <? }
+                if ($admin_mode) { ?>
+                <div id='nc_moderate_info'><table border='0' cellpadding='0' cellspacing='0' align='right'><tr><td><?= CLASS_TAB_CUSTOM_ADD ?>:</td><td><div class='nc_moderate_info_date'><?= $f_Created ?></div></td><td><div class='nc_idtab_adduser nc_moderate_info_user'><?= ( $f_newAdminInterface_user_add ? $f_newAdminInterface_user_add : $f_AdminButtons_user_add ) ?></div>(<?= $f_IP ?>)</td></tr><? if ($f_LastUserID) { ?>
+                            <tr valign='top'><td><?= CLASS_TAB_CUSTOM_EDIT ?>:</td><td><div class='nc_moderate_info_date'><?= $f_LastUpdated ?></div></td><td><div class='nc_moderate_info_user nc_idtab_adduser'><?= ( $f_newAdminInterface_user_change ? $f_newAdminInterface_user_change : $f_AdminButtons_user_change ) ?></div>(<?= $f_LastIP ?>)</td></tr><? } ?></table></div><? } ?> <div class='nc_clear'></div>
+                    <? if ($admin_mode) { ?>
+                <span class='seo'><a href='#' onclick='nc_toggle("nc_seo_block"); return false;'>SEO</a></span>
+                <div id='nc_seo_block' style='display:none;'>
+                    <div class='item'><?= NETCAT_MODERATION_SEO_TITLE ?>: </div><input type='text' name='f_ncTitle' size='100'  value='<?= $f_ncTitle ?>'><br/><div class='nc_clear'></div>
+                    <div class='item'><?= NETCAT_MODERATION_SEO_KEYWORDS ?>: </div><input type='text' name='f_ncKeywords' size='100'  value='<?= $f_ncKeywords ?>'><br/><div class='nc_clear'></div>
+                    <div class='item'><?= NETCAT_MODERATION_SEO_DESCRIPTION ?>: </div><input type='text' name='f_ncDescription' size='100'  value='<?= $f_ncDescription ?>'><br/><div class='nc_clear'></div>
+                </div><? } ?>  </div>
+
+
+        <h3>Позиции заказа</h3>
+        <div class='row title'>
+            <div style='width: 25%'>Название</div>
+            <div style='width: 30%'>URL</div>
+            <div style='width: 10%'>Кол.</div>
+            <div style='width: 15%'>Цена</div>
+            <div style='width: 25%'></div>
+            <br/>
+        </div>
+        <div id='positions'></div>
+        <div id='add'><img src='<?= $nc_core->ADMIN_TEMPLATE ?>img/i_obj_add.gif' alt='' title='Добавить'/>Добавить</div>
+        <script src='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH ?>modules/minishop/order_edit.js'></script>
+        <script>
+<? foreach ($order->content() as $v)
+    echo "nc_ms_add_row ( ".json_encode($v).");"; ?>
+        </script>
+
+        <h3>Стоимость заказа</h3>
+        <div id='ordercost'>
+            Стоимость без скидки: <input id='Cost' type='text' name='f_Cost' value='<?= doubleval($f_Cost) ?>' size='5' /><?= $nc_minishop->get_currency() ?><br />
+            Скидка: <input type='text' id='Discount' name='f_Discount' value='<?= doubleval($f_Discount) ?>' size='2' />%<br />
+            Окончательная стоимость: <input id='FinalCost' type='text' name='f_FinalCost' value='<?= doubleval($f_FinalCost) ?>' size='5' /><?= $nc_minishop->get_currency() ?><br />
+        </div>
+
+        <h3>Свойства заказа</h3>
+<?= nc_list_field("Status", "", $classID, 1) ?><br />
+        <br />
+<?= nc_list_field("Delivery", "", $classID, 1) ?><br />
+        <br />
+        <?= nc_list_field("Payment", "", $classID, 1) ?><br />
+        <br />
+        <?= nc_text_field("Note", "", $classID, 1) ?><br />
+        <br />
+
+
+        <h3>Контактные данные</h3>
+<?= nc_string_field("Name", "maxlength='255' size='50'", $classID, 1) ?><br />
+        <br />
+<?= nc_string_field("Phone", "maxlength='255' size='50'", $classID, 1) ?><br />
+        <br />
+        <?= nc_string_field("Email", "maxlength='255' size='50'", $classID, 1) ?><br />
+        <br />
+        <?= nc_text_field("Address", "", $classID, 1) ?><br />
+        <br />
+
+        <br/><?= NETCAT_MODERATION_INFO_REQFIELDS ?><br/><br/>
+        <?= nc_submit_button(NETCAT_MODERATION_BUTTON_CHANGE) ?>
+    </form>
+
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('#add').click(function() {nc_ms_add_row()});
+		$('#Cost').change(function() {nc_ms_update_finalcost()});
+		$('#Discount').change(function() {nc_ms_update_finalcost()});
+	});
+</script>

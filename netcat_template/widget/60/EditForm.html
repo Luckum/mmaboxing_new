@@ -1,0 +1,43 @@
+<font color='gray'>Внешний вид:</font><br />
+<select name='f_type'>
+<option value='button' <?=('button' == $f_type ? "selected='selected'" : ""); ?>>кнопка</option>
+<option value='link' <?=('link' == $f_type ? "selected='selected'" : ""); ?>>ссылка</option>
+<option value='icon' <?=('icon' == $f_type ? "selected='selected'" : ""); ?>>иконки и меню</option>
+<option value='none' <?=('none' == $f_type ? "selected='selected'" : ""); ?>>только иконки</option>
+</select><br /><br />
+
+<input name='f_yaru' value='0' type='hidden' />
+<input name='f_yaru' id='f_yaru' value='1' type='checkbox' <?=(1 == $f_yaru ? "checked='checked'" : ""); ?> />
+<label for='f_yaru'><font color='gray'>Я.ру</font><br /></label><br />
+
+<input name='f_vkontakte' value='0' type='hidden' />
+<input name='f_vkontakte' id='f_vkontakte' value='1' type='checkbox' <?=(1 == $f_vkontakte ? "checked='checked'" : ""); ?> />
+<label for='f_vkontakte'><font color='gray'>ВКонтакте</font><br /></label><br />
+
+<input name='f_facebook' value='0' type='hidden' />
+<input name='f_facebook' id='f_facebook' value='1' type='checkbox' <?=(1 == $f_facebook ? "checked='checked'" : ""); ?> />
+<label for='f_facebook'><font color='gray'>Facebook</font><br /></label><br />
+
+<input name='f_twitter' value='0' type='hidden' />
+<input name='f_twitter' id='f_twitter' value='1' type='checkbox' <?=(1 == $f_twitter ? "checked='checked'" : ""); ?> />
+<label for='f_twitter'><font color='gray'>Twitter</font><br /></label><br />
+
+<input name='f_odnoklassniki' value='0' type='hidden' />
+<input name='f_odnoklassniki' id='f_odnoklassniki' value='1' type='checkbox' <?=(1 == $f_odnoklassniki ? "checked='checked'" : ""); ?> />
+<label for='f_odnoklassniki'><font color='gray'>Одноклассники</font><br /></label><br />
+
+<input name='f_moimir' value='0' type='hidden' />
+<input name='f_moimir' id='f_moimir' value='1' type='checkbox' <?=(1 == $f_moimir ? "checked='checked'" : ""); ?> />
+<label for='f_moimir'><font color='gray'>МойМир</font><br /></label><br />
+
+<input name='f_lj' value='0' type='hidden' />
+<input name='f_lj' id='f_lj' value='1' type='checkbox' <?=(1 == $f_lj ? "checked='checked'" : ""); ?> />
+<label for='f_lj'><font color='gray'>Livejournal</font><br /></label><br />
+
+<input name='f_friendfeed' value='0' type='hidden' />
+<input name='f_friendfeed' id='f_friendfeed' value='1' type='checkbox' <?=(1 == $f_friendfeed ? "checked='checked'" : ""); ?> />
+<label for='f_friendfeed'><font color='gray'>Friendfeed</font><br /></label><br />
+
+<input name='f_moikrug' value='0' type='hidden' />
+<input name='f_moikrug' id='f_moikrug' value='1' type='checkbox' <?=(1 == $f_moikrug ? "checked='checked'" : ""); ?> />
+<label for='f_moikrug'><font color='gray'>Мой круг</font><br /></label><br />

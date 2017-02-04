@@ -1,0 +1,23 @@
+<? 
+// меню
+$browse_menu['prefix'] = "<div class='menu'>";
+$browse_menu['suffix'] = "</div>";
+$browse_menu['active'] = "<div class='block\".(\$i == 0 ? \" first\" : ( \$i == count(\$data)-1 ? \" last\" : \"\")).\"'><div class='left'></div><div class='right'></div><a href='%URL' title='%NAME'>%NAME</a></div>";
+$browse_menu['unactive'] = "<div class='block\".(\$i == 0 ? \" first\" : ( \$i == count(\$data)-1 ? \" last\" : \"\")).\"'><div class='left'></div><div class='right'></div><a href='%URL' title='%NAME'>%NAME</a></div>";
+
+// шаблон вывода карты сайта
+$browse_map['prefix'] = "<ul>";
+$browse_map['unactive'] = "<li><a href=%URL>%NAME</a>\".s_browse_sub(\$data[\$i][Subdivision_ID],\$browse_template).\"";
+$browse_map['active'] = "<li><a href=%URL>%NAME</a>\".s_browse_sub(\$data[\$i][Subdivision_ID],\$browse_template).\"";
+$browse_map['suffix'] = "</ul>";
+
+// шаблон вывода навигации по страницам
+$browse_msg['prefix'] = "";
+$browse_msg['suffix'] = "";
+$browse_msg['active'] = "<b>%PAGE</b>";
+$browse_msg['unactive'] = "<a href=%URL>%PAGE</a>";
+$browse_msg['divider'] = " | ";
+
+$parent_sub = $sub_level_count > 1 ? "&sub=" . $parent_sub_tree[$sub_level_count - 1]['Subdivision_ID'] : "";
+$parent_admin_path = $HTTP_ROOT_PATH . "index.php?catalogue=" . $parent_sub_tree[$sub_level_count - 1]['Catalogue_ID'] . $parent_sub;
+?>

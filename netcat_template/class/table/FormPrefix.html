@@ -1,0 +1,30 @@
+<?php
+$table_fields = array();
+foreach ($component->get_fields() as $field) {
+    if ($field['in_table_view']) {
+        $table_fields[$field['name']] = $field;
+    }
+}
+?>
+
+<div id='nc_table_view_<?=$cc ?>' class="nc-padding-20" style='padding-left:0 !important'>
+<table class='nc-table nc--bordered nc--striped nc--wide'>
+    <thead>
+    <tr>
+        <th width='1%'>#</th>
+        <? if ($nc_core->get_settings('PacketOperations')): ?>
+            <th width='1%'></th>
+        <? endif ?>
+        <th width='1%'></th>
+        <? if (!$table_fields): ?>
+            <th></th>
+        <? endif ?>
+        <? foreach ($table_fields as $field): ?>
+            <th><?=$field['description'] ?></th>
+        <? endforeach ?>
+        <th colspan="3" class='nc-text-right'>
+            <a href='#' id='nc_table_view_settings_btn' title=" <?= STRUCTURE_TAB_SETTINGS ?>"><i class='nc-icon nc--settings'></i></a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>

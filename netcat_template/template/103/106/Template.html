@@ -1,0 +1,14 @@
+<!-- Header --><?php
+$nc_core = nc_Core::get_object();
+if ($nc_core->get_display_type() == 'traditional') { ?>
+%Header
+<?php } ?>
+<section class="services">
+    <div class="wrapper" <?php echo nc_ls_display_container('services'); ?>>
+    <div class='copy'>© JT 2013 Права на изображение: www.fethiyedays.com</div><!-- /Header -->
+
+<!-- Footer --></div>
+</section>
+<?php if ($nc_core->get_display_type() == 'traditional') { ?>
+%Footer
+<?php } ?><!-- /Footer -->

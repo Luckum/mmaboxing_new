@@ -1,0 +1,41 @@
+<?
+$registration_url = "/lk/registration/";
+$nc_auth_profile_url = $AUTH_USER_ID && function_exists('nc_auth_profile_url') ? nc_auth_profile_url($AUTH_USER_ID) : '';
+
+$browse_top_menu[1]['prefix'] = "<ul>\n";
+$browse_top_menu[1]['suffix'] = "</ul>\n";
+$browse_top_menu[1]['active'] = "\t<li><a href='%URL' title='%NAME'>%NAME</a></li>\n";
+$browse_top_menu[1]['unactive'] = "\t<li><a href='%URL' title='%NAME'>%NAME</a></li>\n";
+
+
+$browse_top_menu[0]['prefix'] = "<ul id='menu_top'>";
+$browse_top_menu[0]['suffix'] = "</ul>";
+$browse_top_menu[0]['active'] = "<li class='active'><img src='/images/template1/i/images_".$template_settings['color_scheme']."/menu_arrow.png' alt='' class='arrow' /><a href='%URL' title='%NAME'>%NAME</a>%NEXT_LEVEL</li>";
+$browse_top_menu[0]['unactive'] = "<li><img src='/images/template1/i/images_".$template_settings['color_scheme']."/menu_arrow.png' alt='' class='arrow' /><a href='%URL' title='%NAME'>%NAME</a>%NEXT_LEVEL</li>";
+
+$bottom_menu[0]['prefix'] = "<ul id='menu_bottom'>";
+$bottom_menu[0]['suffix'] = "</ul>";
+$bottom_menu[0]['active'] = "<li class='active'><a href='%URL' title='%NAME'>%NAME</a></li>";
+$bottom_menu[0]['unactive'] = "<li><a href='%URL' title='%NAME'>%NAME</a></li>";
+
+// хлебные крошки
+$browse_path['prefix'] = "<div id='trail'>";
+$browse_path['suffix'] = "</div>";
+$browse_path['active'] = "<a href='%URL'>%NAME</a> ";
+$browse_path['active_link'] = "<span>%NAME</span> ";
+$browse_path['unactive'] = "<a href='%URL'>%NAME</a> ";
+$browse_path['divider'] = " / ";
+
+// хлебные крошки для тайтла
+$browse_path_title['active'] = "%NAME ";
+$browse_path_title['active_link'] = "%NAME";
+$browse_path_title['unactive'] = "%NAME";
+$browse_path_title['divider'] = " / ";
+
+// шаблон вывода навигации по страницам
+$browse_msg['prefix'] = "";
+$browse_msg['suffix'] = "";
+$browse_msg['active'] = "<b>%PAGE</b>";
+$browse_msg['unactive'] = "<a href=%URL>%PAGE</a>";
+$browse_msg['divider'] = " | ";
+?>

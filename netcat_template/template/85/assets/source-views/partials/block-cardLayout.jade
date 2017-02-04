@@ -1,0 +1,19 @@
+// Раскладка
++b.cardlayout
+  // Рейтинг, соцкнопки, подменю
+  +e.row
+    +e.col--rating
+      include block-rating
+    +e.col--social
+      include block-socialButtons
+    +e.col--submenu
+      include block-iconTextMenu
+  +sep
+  // Галерея, инфоблок, описание
+  +e.row
+    +e.col--gallery
+      include block-gallery
+    +e.col--info
+      include block-cardInfo
+    +e.col--shortDesc
+      include block-cardShortDesc

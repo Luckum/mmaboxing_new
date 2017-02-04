@@ -1,0 +1,134 @@
+include partials/_includes
+
++layout
+  // Контент
+  +b.content
+    .tpl-block-layoutwidth
+      +t('xl') Карточки товара
+      style
+        table {
+          width: auto;
+        }
+        table tr:hover {
+          background: transparent !important;
+        }
+        table td {
+          padding: 0 40px 20px 0;
+          padding: 0;
+          border: none;
+          text-align: left !important;
+        }
+
+      +sep
+      +t('m'): code narrow
+      +b.cardboxes--narrow
+        +e.item
+          small: code narrow
+          +cardbox(1, 'narrow')
+        +e.item
+          small: code narrow border_blue
+          +cardbox(1, 'narrow border_blue')
+        +e.item
+          small: code narrow border_red
+          +cardbox(1, 'narrow border_red')
+        +e.item
+          small: code narrow border_red
+          +cardbox(1, 'narrow')
+        +e.item
+          small: code narrow border_red
+          +cardbox(1, 'narrow')
+
+
+      +sep
+      +t('m'): code wide
+      +b.cardboxes--wide
+        +e.item
+          small: code wide
+          +cardbox(1, 'wide')
+        +e.item
+          small: code wide border_blue
+          +cardbox(1, 'wide border_blue')
+        +e.item
+          small: code wide border_red
+          +cardbox(1, 'wide border_red')
+        +e.item
+          small: code wide border_red
+          +cardbox(1, 'wide')
+
+      +sep
+      +t('m'): code diffwidth (1020px / 1920px)
+      +b.cardboxes--diffwidth
+        +e.item
+          small: code diffwidth
+          +cardbox(1, 'diffwidth')
+        +e.item
+          small: code diffwidth border_blue
+          +cardbox(1, 'diffwidth border_blue')
+        +e.item
+          small: code diffwidth border_red
+          +cardbox(1, 'diffwidth border_red')
+        +e.item
+          small: code diffwidth border_red
+          +cardbox(1, 'diffwidth')
+        +e.item
+          small: code diffwidth border_red
+          +cardbox(1, 'diffwidth')
+
+
+      +sep
+      +t('m'): code plate
+      +b.cardboxes--plate
+        +e.item
+          small: code plate
+          +cardbox(1, 'plate')
+        +e.item
+          small: code plate border_blue
+          +cardbox(1, 'plate border_blue')
+        +e.item
+          small: code plate border_red
+          +cardbox(1, 'plate border_red')
+        +e.item
+          small: code plate border_red
+          +cardbox(1, 'plate')
+
+
+      +sep
+      +t('m'): code mini
+      +b.cardboxes--mini
+        +e.item
+          small: code mini
+          +cardbox(1, 'mini')
+        +e.item
+          small: code mini bg_white border_dull
+          +cardbox(1, 'mini bg_white border_dull')
+        +e.item
+          small: code mini bg_white border_blue
+          +cardbox(1, 'mini bg_white border_blue')
+        +e.item
+          small: code mini bg_white border_red
+          +cardbox(1, 'mini bg_white border_red')
+
+
+
+      +sep
+      +t('ml'): code list
+      +cardbox(1, 'list', 'popup')
+
+      +sep
+      +t('ml'): code list border_blue
+      +cardbox(1, 'list border_blue', 'popup')
+
+      +sep
+      +t('ml'): code list border_red
+      +cardbox(1, 'list border_red', 'popup')
+
+      +sep
+      +t('ml'): code cart
+      +cardbox(1, 'cart')
+
+      +sep
+      +t('ml'): code mobile
+      p И все карточки при маленьком разрешении
+      +cardbox(1, 'mobile', 'catalog')
+
+      +sep('xl')

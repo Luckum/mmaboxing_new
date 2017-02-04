@@ -1,0 +1,10 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<div class='nc_row'> <? echo $f_AdminButtons ?>
+        <h3>
+<? echo ( $cc_settings['Link'] != 'photo' ? "<a href='$fullLink'>$f_Titl</a>" : $f_Titl ) ?></h3>
+            <?
+            echo ( $f_PhotoSmall ? ( $cc_settings['Link'] != 'title' ? "<a href='$fullLink'><img src='$f_PhotoSmall' class='nc_row_img' alt='$f_Titl' /></a>" : "<img src='$f_PhotoSmall' class='nc_row_img' alt='$f_Titl' />" ) : NULL );
+            echo (!$cc_settings['ShowPrice'] && $f_Price ? "<div class='nc_price'><span class='nc_title'>Цена: </span><span class='nc_value'>$f_Price $Pay</span></div>" : NULL );
+            echo ( $f_Description ? "<div class='nc_description'>" . nc_edit_inline('Description', $f_RowID, $cc) . "</div>" : NULL )
+            ?></div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

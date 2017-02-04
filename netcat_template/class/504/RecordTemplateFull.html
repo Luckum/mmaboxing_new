@@ -1,0 +1,14 @@
+<div class="services-v2">
+    <div class="sidebar">
+        <a href="/service/" <?php echo nc_ls_display_link('services', 0, 'shortpage'); ?> class="back">Вернуться назад</a>
+        <h1>Услуги</h1>
+
+        <h2>Что мы предлагаем:</h2>        
+        <ul>            
+            <?php echo nc_objects_list($sub, $cc, '&currentService=' . $f_RowID); ?>
+        </ul>
+    </div>
+    <div class="content">
+        <?php echo $f_service_description; ?>
+    </div>
+</div>

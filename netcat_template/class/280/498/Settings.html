@@ -1,0 +1,22 @@
+<? 
+global $nc_auth;
+
+if (329 == $sub) {
+	$nc_minishop->put_good_test('Товар', 1000);
+}
+	
+
+if ( $nc_minishop->cart_count() ) {
+  $nc_data = $nc_minishop->cart_content();
+}
+else {
+  $ignore_all = 1;
+  $cart_empty = 1;
+}
+
+$currency = $nc_minishop->get_currency();
+$cc_env['Cache_Access_ID'] = 2;
+
+$h2_order = "<h3>".NETCAT_MODULE_MINISHOP_CHECKOUT."</h3>";
+$h2_auth = "<h3>".NETCAT_MODULE_MINISHOP_AUTH."</h3>";
+?>

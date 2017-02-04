@@ -1,0 +1,123 @@
+<?
+echo $f_AdminCommon;
+?>
+<div id="cat_full_slider_block">
+    <div class="left">
+        <div class="left">
+            <div class="display_table"><div class="display_table_row"><div class="display_table_cell">
+                 <? if (!$f_BigImage) {
+                       if ($f_Image) { 
+                              ?><img src='<?=$f_Image_url?>'/>
+                       <? }
+                    }else { 
+                        ?><img src='<?=$f_BigImage_url?>'/><?
+                    }?>
+                    </div></div></div>
+        </div>
+        <div class="right">
+            <div class="top"></div>
+            <div class="bottom"></div>
+            <div class="catalogue_full_view">
+                <?=$f_Slider?>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="float_block">
+            <div class="left">
+                <div class="price">
+                    <div class="old_price"><?= $shop->FormatCurrency($f_Netshop_Price_Column)*2 ?></div>
+                    <div class="new_price"><?= $shop->FormatCurrency($f_Netshop_Price_Column) ?></div>
+                </div>
+            </div>
+            <div class="right">
+                <a href="#" onclick="document.getElementById('netshop').submit()"  class="in_cart"></a>
+            </div>
+        </div>
+        <div class="float_block float_block_2">
+            <div class="left">
+                <div class="vote_block">
+                   <!-- <div class="star star_1"></div>
+                    <div class="star star_1"></div>
+                    <div class="star star_1"></div>
+                    <div class="star star_2"></div>
+                    <div class="star star_3"></div>
+                    <div class="all">75</div>-->
+                </div>
+                <div class="new_comment">
+                    <!--<a href="#comment_form">Оставить отзыв</a>-->
+                </div>
+            </div>
+            <div class="right">
+                <a href="/delivery">Подробнее о доставке</a>
+            </div>            
+        </div>
+        <div class="block_description">
+            <?  if ($f_Vendor) { ?>
+                <strong>Автор: </strong><?= nc_edit_inline('Vendor', $f_RowID, $cc); ?> <br />
+            <? }
+            ?>
+            <strong>Описание книги</strong><br />
+            <?=nc_edit_inline('Description', $f_RowID, $cc)?>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div id="cat_full_other">
+<div class="title">Сюжет</div>
+<?= nc_edit_inline('Details', $f_RowID, $cc) ?>
+					
+					<!--<div class="title">С этим товаром так же покупают</div>-->
+					
+<?
+// Список подчиненных объектов ------------
+
+$this_item_variants = listQuery("SELECT *
+                                   FROM Message$classID 
+                                  WHERE Parent_Message_ID=$f_RowID
+                                    AND Checked=1
+                                  ORDER BY Priority DESC",
+// шаблон вывода подчиненных объектов:
+        '<tr>
+    <td style=\"border-bottom:1px solid #D3D2C9;\" width=60%>
+        <a href=\"{$SUB_FOLDER}{$GLOBALS[current_sub][Hidden_URL]}" . 
+                opt_case($data["Keyword"], $data["Keyword"], $GLOBALS["current_sub"]["EnglishName"]) .
+           "_$data[Message_ID].html\" target=\"_blank\">$data[Name]</a>
+    </td>
+    <td style=\"border-bottom:1px solid #D3D2C9;\" width=15% align=right><nobr> 
+      " . ($data[$GLOBALS["shop"]->PriceColumn] 
+              ? $GLOBALS["shop"]->FormatCurrency($data[$GLOBALS["shop"]->PriceColumn], $data[$GLOBALS["shop"]->CurrencyColumn])
+              : $GLOBALS["shop"]->FormatCurrency($GLOBALS["Price"], $GLOBALS["Currency"])
+           ) . "</nobr>
+    </td>
+    <td style=\"border-bottom:1px solid #D3D2C9;\">&nbsp;</td>
+    <td align=right style=\"border-bottom:1px solid #D3D2C9;\" width=1%><nobr>
+      <form method=post action=\"'.$SUB_FOLDER.$HTTP_ROOT_PATH.'modules/netshop/post.php\" style=\"margin:0\">
+          <input type=hidden name=redirect_url value=\"$GLOBALS[uri_path]\">
+          <input type=hidden name=cart_mode value=add>
+          <input type=hidden name=\"cart[{$GLOBALS[classID]}][{$data[Message_ID]}]\" value=1> 
+          <!--<input type=submit value=\"в корзину\">-->
+      </form>
+    </td>
+   </tr>
+');
+
+if ($this_item_variants) {
+    ?> <table cellspacing=0 cellpadding=5 width=100% style="border-collapse:collapse; clear: both">
+    <?= $this_item_variants ?>
+    </table><?
+} else { // Если нет вариантов товара, показать одну общую кнопку "в корзину"
+    ?><form method=post id="netshop"  action='<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>modules/netshop/post.php' style='margin:0'>
+        <div align=right style='clear:both'>
+            <input type=hidden name=redirect_url value='<?= $GLOBALS[uri_path] ?>'>
+            <input type=hidden name=cart_mode value=add>
+            <input type=hidden name='cart[<?= $classID ?>][<?= $f_RowID ?>]' value=1> 
+            <!--<input type=submit value='в корзину'>-->
+        </div><?
+}
+?>
+</form>
+</div>
+<? if (nc_module_check_by_keyword("comments")) { ?>
+    <div class='nc_comments'><?= $nc_comments->wall($f_RowID) ?></div><? } ?>

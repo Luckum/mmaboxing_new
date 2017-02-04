@@ -1,0 +1,61 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?php
+
+    $order = new nc_netshop_order($res[$f_RowNum]);
+    $order->set_catalogue_id($catalogue);
+
+?>
+<div style='padding:10px 0'>
+
+    <? $toolbar = $nc_core->ui->toolbar()->left() ?>
+    <? $toolbar->add_text('#' . $f_RowID) ?>
+    <? $toolbar[] = $nc_core->ui->html->li()->div($f_ContactName)->icon('user nc--dark') ?>
+    <? $toolbar->add_btn("mailto:{$f_Email}", $f_Email)->icon('mod-subscriber nc--dark') ?>
+    <? $toolbar->add_btn($SUB_FOLDER . $HTTP_ROOT_PATH . "modules/netshop/export/cml2_orders.php?order_id=" . $f_RowID . "&catalogue_id=" . $catalogue, 'Экспорт в CommerceML2') ?>
+    <div class='nc--clearfix nc-padding-10 nc-bg-lighten'>
+        <div class='nc--right'><?= $f_AdminButtons ?></div>
+        <?= $toolbar ?>
+        <form class='nc-form'
+              action='<?= $SUB_FOLDER . $HTTP_ROOT_PATH ?>modules/netshop/forms.php'
+              target='_blank' method='GET'>
+            <input type='hidden' name='phase' value='print'/>
+            <input type='hidden' name='order' value='<?= $f_RowID ?>'/>
+            <input type='hidden' name='catalogue' value='<?= $catalogue ?>'/>
+            <select name='type' onchange='if(this.value)jQuery(this.parentNode).submit()'>
+                <option value=''>Бланки:</option>
+                <? foreach ($netshop_forms as $k => $form): ?>
+                <option value='<?=$form->keyword ?>'><?=$form->name ?></option>
+                <? endforeach ?>
+            </select>
+        </form>
+        <div class='nc--clearfix'></div>
+        <? if ($f_Phone): ?><span class='nc-label'>Телефон:</span>
+            <span><?= $f_Phone; ?></span><? endif ?>
+        <? if ($f_Phone && $f_Address): ?>&nbsp;&nbsp;&nbsp;<? endif ?>
+        <? if ($f_Address): ?><span
+            class='nc-label'>Адрес:</span> <?=$f_City ?>, <?= $f_Address; ?><? endif ?>
+    </div>
+    <table width='100%' class='nc-table nc--bordered nc--small nc--striped'>
+        <col width='1%'/>
+        <col/>
+        <col width='10%'/>
+        <col width='1%'/>
+        <col width='10%'/>
+        <? foreach ($order->get_items() as $item): ?>
+            <? $item_id = ($item["Article"] ? "$item[Article]" : "[$item[Message_ID]]"); ?>
+            <tr>
+                <td><?= $item_id ?></td>
+                <td><a href='<?=htmlspecialchars($item['URL']) ?>' target='_blank'>
+                        <?= htmlspecialchars($item['Vendor']) . " " .
+                            htmlspecialchars($item['Name']) . " " .
+                            htmlspecialchars($item['VariantName']) ?></a>
+                </td>
+                <td class='nc-text-right'><?= $item['ItemPriceF'] ?></td>
+                <td class='nc-text-right'><span class='nc-label nc--blue'><?= $item['Qty'] ?> <?= $item['Units'] ?></span>
+                </td>
+                <td class='nc-text-right'><?= $item['TotalPriceF'] ?></td>
+            </tr>
+        <? endforeach ?>
+    </table>
+</div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

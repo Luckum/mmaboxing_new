@@ -1,0 +1,37 @@
+<? 
+$browse_left_menu[1]['prefix'] = "<ul>\n";
+$browse_left_menu[1]['suffix'] = "</ul>\n";
+$browse_left_menu[1]['active'] = "\t<li class='active'><a href='%URL' title='%NAME'>%NAME</a></li>\n";
+$browse_left_menu[1]['active_link'] = "\t<li class='active'><a href='%URL' title='%NAME'>%NAME</a></li>\n";
+$browse_left_menu[1]['unactive'] = "\t<li><a href='%URL' title='%NAME'>%NAME</a></li>\n";
+
+
+$browse_left_menu[0]['prefix'] = "<ul>";
+$browse_left_menu[0]['suffix'] = "</ul>";
+$browse_left_menu[0]['active'] = "<li class='active_li'><a href='%URL' title='%NAME'>%NAME</a>%NEXT_LEVEL</li>";
+$browse_left_menu[0]['active_link'] = "<li class='active_li'><a href='%URL' title='%NAME'>%NAME</a>%NEXT_LEVEL</li>";
+$browse_left_menu[0]['unactive'] = "<li><a href='%URL' title='%NAME'>%NAME</a>%NEXT_LEVEL</li>";
+
+
+// хлебные крошки
+$browse_path['prefix'] = "<div id='trail'>";
+$browse_path['suffix'] = "</div>";
+$browse_path['active'] = "<a href='%URL'>%NAME</a> ";
+$browse_path['active_link'] = "<span>%NAME</span> ";
+$browse_path['unactive'] = "<a href='%URL'>%NAME</a> ";
+$browse_path['divider'] = " / ";
+
+
+// хлебные крошки для тайтла
+$browse_path_title['active'] = "%NAME ";
+$browse_path_title['active_link'] = "%NAME";
+$browse_path_title['unactive'] = "%NAME";
+$browse_path_title['divider'] = " / ";
+
+// шаблон вывода навигации по страницам
+$browse_msg['prefix'] = "";
+$browse_msg['suffix'] = "";
+$browse_msg['active'] = "<b>%PAGE</b>";
+$browse_msg['unactive'] = "<a href=%URL>%PAGE</a>";
+$browse_msg['divider'] = " | ";
+?>

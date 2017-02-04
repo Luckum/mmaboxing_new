@@ -1,0 +1,58 @@
+<?=( $warnText ? "<div class='warnText'>$warnText</div>" : NULL )?>
+
+<form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' action=<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>add.php method=post>
+<input type='hidden' name='catalogue' value='<?=intval($catalogue)?>'>
+<input type='hidden' name='sub' value='<?=intval($sub)?>'>
+<input type='hidden' name='cc' value='<?=intval($cc)?>'>
+<input type='hidden' name='posting' value='1'>
+<input type='hidden' name='f_Size' value='<?=intval($f_Size)?>'>
+<input type='hidden' name='f_Checked' value='1'>
+<input type='hidden' name='admin_mode' value='<?=$admin_mode?>'>
+<?= $nc_core->token->get_input() ?>
+<div  class="no_special_style">
+Выберите размер баннеров для рекламной кампании:<br>
+<select name='f_Size' id='nc_select_size' style='width:50%' >
+<?=listQuery("SELECT * FROM `Classificator_BannerSize` ORDER BY `BannerSize_ID`",
+"<option value='\$data[BannerSize_ID]'>\$data[BannerSize_Name]</option>")?>
+<option value='0'>Безразмерные (HTML-баннеры)</option>
+</select>
+<br>
+Название рекламной кампании (*):<br>
+<input type='text' size='50' name='f_Name' value='<?=$f_Name?>'><br><br>
+
+Длительность компании: с 
+<input type='text' size='2' maxlength='2' name='f_Start_day' value='<?=opt_case(!$f_Start_day && !$posting,date("d"),$f_Start_day)?>'>-
+<input type='text' size='2' maxlength='2' name='f_Start_month' value='<?=opt_case(!$f_Start_month && !$posting,date("m"),$f_Start_month)?>'>-
+<input type='text' size='4' maxlength='4' name='f_Start_year' value='<?=opt_case(!$f_Start_year && !$posting,date("Y"),$f_Start_year)?>'> по
+
+<input type='text' size='2' maxlength='2' name='f_Stop_day' value='<?=opt_case(!$f_Stop_day && !$posting,date("d"),$f_Stop_day)?>'>-
+<input type='text' size='2' maxlength='2' name='f_Stop_month' value='<?=opt_case(!$f_Stop_month && !$posting,date("m"),$f_Stop_month)?>'>-
+<input type='text' size='4' maxlength='4' name='f_Stop_year' value='<?=opt_case(!$f_Stop_year && !$posting,date("Y"),$f_Stop_year)?>'>
+<br><br>
+
+Количество показов:<br>
+<input type='text' size='10' name='f_Shows' value='<?=$f_Shows?>'><br><br>
+<font size='-2' color='gray'>Можно указывать длительность кампании и/или количество показов. Должно быть определено как минимум одно значение.</font><br><br>
+
+<input id='maincamp' type='checkbox' value='1' name='f_Main'<?=opt($f_Main," checked")?>> <label for='maincamp'>приостановить все пересекающиеся рекламные кампании до завершения данной кампании</label><br><br>
+<div id='nc_related_banners'></div>
+<script>
+  $nc(function() {
+   $nc("#nc_select_size").change(function(event) {
+     var val = $nc(this).val();
+     var related_banners = $nc.ajax({
+            url: "<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>modules/banner/index.php",
+            type: "POST",
+            data: 'f_Size='+ val,
+            async: false
+        }).responseText;
+     $nc("#nc_related_banners").html(related_banners);
+   });
+ });
+
+
+</script>
+
+<?= nc_submit_button(NETCAT_MODERATION_BUTTON_ADD) ?>
+</div>
+</form>

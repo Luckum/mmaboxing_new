@@ -1,0 +1,16 @@
+<? 
+  if ($_FILES[f_PhotoLarge][size]!=0 && $_FILES[f_PhotoLarge][type]!='') {
+    require_once($INCLUDE_FOLDER."classes/nc_imagetransform.class.php");
+    nc_ImageTransform::createThumb('PhotoLarge','PhotoSmall',$cc_settings[ImgWidth],$cc_settings[ImgHeight]);
+  }
+### default
+if($inside_admin) {
+ ob_end_clean();
+ header("Location: ".$goBackLink."&inside_admin=1");
+ exit;
+}
+else {
+  echo NETCAT_MODERATION_MSG_OBJCHANGED;
+  echo "<br><br>".$goBack;
+}
+?>

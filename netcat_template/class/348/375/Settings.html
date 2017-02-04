@@ -1,0 +1,6 @@
+<?
+
+require $nc_parent_field_path;
+if ($db_Parent_Class_ID && $db_Parent_Message_ID) {
+    $query_where .= "1 AND a.db_Parent_Class_ID = $db_Parent_Class_ID AND a.db_Parent_Message_ID = " . $db_Parent_Message_ID;
+}

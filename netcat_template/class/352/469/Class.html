@@ -1,0 +1,24 @@
+<!-- FormPrefix --><?= nc_multiple_changes_prefix(); ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div>
+	<div>
+		Название:
+	</div>
+	
+	<div>
+		<?= nc_multiple_changes_string('Name', $f_RowID, $f_Name); ?>
+	</div>
+</div>
+
+<div>
+	<div>
+		Цена:
+	</div>
+	
+	<div>
+		<?= nc_multiple_changes_float('Price', $f_RowID, $f_Price); ?>
+	</div>
+</div>
+<br /><br /><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?= nc_multiple_changes_suffix(); ?><!-- /FormSuffix -->

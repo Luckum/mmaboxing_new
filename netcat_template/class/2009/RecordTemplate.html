@@ -1,0 +1,28 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? echo $f_AdminButtons; ?>
+<?php
+$user_data = getUserData($f_UserID);
+
+?>
+
+<div class="comment-item">
+			<img src="<?= getThumbNow(nc_file_path('User', $f_UserID, 'ForumAvatar', 'h_'), 81, 81, 1, false, 95, -1) ?>" alt="s" class="comment-avatar">
+			<div class="comment-right">
+				<div class="comment-info">
+					<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_data['ForumName'])?>');"><?= $user_data['ForumName'] ?></a></span>
+					<span class="date"><?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day.", ".$f_Created_hours.':'.$f_Created_minutes)?></span>
+					<div class="comment-info-right">
+						<div class="ocomm ignore-select">
+			                <span><a href="javascript:void(0);" class="orating_m" title="Не нравится"></a></span>
+		                    <span><a href="javascript:void(0);" class="ocomm_res">0</a></span>
+			                <span><a href="javascript:void(0);" class="orating_p" title="Нравится"></a></span>                
+			            </div>
+					</div>
+				</div>
+				<div class="comment-content">
+                <?= ($admin_mode ? listQuery("SELECT myTitle FROM Message2000 WHERE Message_ID=$f_message_link LIMIT 0,1", "<b> \$data[myTitle]</b><br>") : NULL) ?>
+					<?= strip_tags($f_myText) ?>
+				</div>
+			</div>
+		</div> <!-- end. comment-item -->
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

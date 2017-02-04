@@ -1,0 +1,11 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<?php $subClass = nc_Core::get_object()->sub_class->get_by_id($cc); ?>
+<div class="col">
+    <strong><?php echo $subClass['Sub_Class_Name']; ?></strong>
+    <ul><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<li><a href="<?php echo $fullLink; ?>" <?php echo nc_ls_display_link('portfolio', 0, 'shortpage'); ?>><?php echo $f_portfolio_title; ?></a></li><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->    </ul>
+</div><!-- /FormSuffix -->

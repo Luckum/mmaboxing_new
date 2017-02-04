@@ -1,0 +1,11 @@
+<div style='padding: 5px;'><form method='post'>Статус заказа: <select name='order_status'>
+<option selected value='0'>все</option>
+<option value='new'>новый</option><?
+foreach ($status as $row) {
+    ?><option value='<?=$row->ID?>' <?=($row->ID == $s_status ? 'selected' : '')?>><?=$row->Name?></option><?
+}
+?></select>
+        <style type='text/css'> span.for_front { padding-left: 30px; } </style>
+        <span<?= $inside_admin ? '' : " class='for_front'"; ?>><input type='submit' value='Показать'></span></form></div>
+<br />
+<div>

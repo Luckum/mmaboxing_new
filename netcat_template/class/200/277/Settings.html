@@ -1,0 +1,11 @@
+<? global $init_order;
+if ( !$init_order ) {
+  $init_order = 1;
+  $cc_goods = $db->get_row("SELECT `Class_ID` as class, `Sub_Class_ID` as cc, `Subdivision_ID` as sub FROM `Sub_Class` WHERE `Subdivision_ID` = '".intval($cc_settings['GoodsSub'])."'", ARRAY_A);
+}
+
+$query_select = "goods.Title AS Title, goods.Price AS Prise";
+$query_from = "Message".$cc_goods['class']." as goods";
+$query_where = "goods.Message_ID = a.Goods_ID";
+
+?>

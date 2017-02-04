@@ -1,0 +1,22 @@
+<?php echo $warnText; ?>
+<form name='adminForm' id='adminForm' enctype='multipart/form-data' method='post' action='<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>add.php'>
+<input name='admin_mode' type='hidden' value='<?= $admin_mode ?>' />
+<?= $nc_core->token->get_input() ?>
+<input name='catalogue' type='hidden' value='<?= $catalogue ?>' />
+<input name='cc' type='hidden' value='<?= $cc ?>' />
+<input name='sub' type='hidden' value='<?= $sub ?>' /><input name='posting' type='hidden' value='1' />
+<input name='curPos' type='hidden' value='<?= $curPos ?>' />
+<input name='f_Parent_Message_ID' type='hidden' value='<?= $f_Parent_Message_ID ?>' />
+<?= nc_form_moderate('add', $admin_mode, 0, $systemTableID, $current_cc, (isset($f_Checked) ? $f_Checked  : null), $f_Priority , $f_Keyword, $f_ncTitle, $f_ncKeywords, $f_ncDescription ) ?>
+
+<fieldset>
+    <h2>Напишите нам:</h2>
+    <div class="row">
+        <input type="text" placeholder="Ваш email" name="f_Email" value="<?= $f_Email; ?>" />
+    </div>
+    <div class="row">
+        <textarea cols="30" rows="10" name="f_Text"><?= $f_Text; ?></textarea>
+    <input type="submit" value="send message" />
+    </div>
+</fieldset>
+</form>

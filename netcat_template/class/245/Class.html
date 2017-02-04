@@ -1,0 +1,27 @@
+<!-- FormPrefix --><? if ($popup) { ?>
+    <script src='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_TEMPLATE_PATH ?>jquery/jquery.colorbox-min.js' type='text/javascript'></script>                    
+	<script type='text/javascript'>jQuery(document).ready(function(){ jQuery("a[rel='gallery']").colorbox(); });</script>
+<? }
+echo $f_AdminCommon; ?>
+<div class='nc_list nc_photogallery'>
+    <table class='nc_table'><?= opt($colNums > 1, str_repeat("<col $colWidth />", $colNums)) ?>
+        <tr>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+$BigPhotoSize = getimagesize($DOCUMENT_ROOT.$f_BigPhoto_url);
+if (!($f_RowNum % $colNums) && $f_RowNum) {
+    ?></tr><tr><? } ?>
+    <td class='nc_row'><?= $f_AdminButtons;
+if ($f_PhotoTitle) { ?><h3><?= nc_edit_inline('PhotoTitle', $f_RowID, $cc) ?></h3><? } ?>
+        <a href='<?= $f_BigPhoto ?>' rel='gallery' title='<?= $f_Comment ?>'><img class='nc_row_img' src='<?= $f_SmallPhoto_url ?>' alt='<?= $f_PhotoTitle ?>' /></a>
+<? if ($f_Comment) { ?><div class='nc_description'><?= nc_edit_inline('Comment', $f_RowID, $cc) ?></div><? } ?>
+    </td><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? if ($f_RowNum % $colNums) {
+    echo str_repeat('<td>&nbsp;</td>', $colNums - $f_RowNum % $colNums);
+} ?>
+</tr>
+</table>
+<? if ($totRows > $f_RowNum) {  ?><div class='nc_pagination'>Страницы: <?= browse_messages($cc_env, 5) ?></div> <? } ?>
+</div><!-- /FormSuffix -->

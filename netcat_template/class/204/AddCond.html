@@ -1,0 +1,12 @@
+<?
+if( $current_cc['UseCaptcha'] && !nc_captcha_verify_code($nc_captcha_code, $nc_captcha_hash) ) {
+  $posting = 0;
+  $warnText = "Неправильный код!";
+}
+if ( $AUTH_USER_ID ) {
+  $f_Name = $f_Email = '';
+}
+else {
+  if ( !$f_Name ) $f_Name = 'Гость';
+}
+?>

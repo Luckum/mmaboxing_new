@@ -1,0 +1,26 @@
+gbottom()
+  &:after
+    content: ''
+    position: absolute
+    left: 0
+    top: 100%
+    height: 15px
+    width: 100%
+    background: linear-gradient(to top, rgba(#fff, 0), #fff)
+gright()
+  &:after
+    content: ''
+    position: absolute
+    top: 0
+    right: 0
+    background: linear-gradient(to right, rgba(#fff, 0), #fff)
+    height: 100%
+    width: 100px
+
+titleSize()
+  @media screen and (min-width: 321px) and (max-width: 1220px)
+    font-size: 90%
+  @media screen and (min-width: 321px) and (max-width: 1150px)
+    font-size: 85%
+  @media screen and (min-width: 321px) and (max-width: 1080px)
+    font-size: 80%

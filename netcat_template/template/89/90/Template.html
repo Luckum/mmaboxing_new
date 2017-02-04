@@ -1,0 +1,114 @@
+<!-- Header --><? echo '<?xml version="1.0" encoding="'.$nc_core->NC_CHARSET.'"?>'; ?>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=<?=$nc_core->NC_CHARSET?>" />
+<meta name="viewport" content="width=device-width" />
+<meta name="format-detection" content="telephone=no, address=no" />
+
+<? /* Блок SEO */ ?>
+<title><?= $nc_core->page->get_h1(); ?></title>
+<? /* Запрос description через ядро системы */ ?>
+<?=( ($description=$nc_core->page->get_description()) ? "<meta name='description' content='".$description."'>" : "" )?>
+<? /* Запрос Keywords через ядро системы */ ?>
+<?=( ($keywords=$nc_core->page->get_keywords()) ? "<meta name='Keywords' content='".$keywords."'>" : "" )?>
+
+<? /* Блок RSS, выводит RSS если лента включена */ ?>
+<?=($current_cc['AllowRSS'] ? "<link rel='alternate' type='application/rss+xml' title='RSS 2.0' href='".$current_sub['Hidden_URL'].$current_cc['EnglishName'].".rss' />" : "")?>
+
+<? /* Блок подключения стилей CSS в зависимости от настроек макета дизайна */ ?>
+<link rel="stylesheet" rev="stylesheet" type="text/css" href="/images/mobile_template/css/template_<?=$template_settings['color_scheme']?>.css" />
+<? /* Подключение стилей CSS для автозаполнения формы поиска при наличии модуля "Поиск" */ ?>
+<?=($nc_core->modules->get_by_keyword('search') && $nc_core->get_settings('SuggestMode', 'search') ? "<link rev='stylesheet' rel='stylesheet' type='text/css' href='/netcat/modules/search/suggest/mobile.css' />" : "")?>
+
+<? /* Блок подключения js-скриптов */ ?>
+<script type="text/javascript" src="/images/mobile_template/css/jquery.js"></script>
+<script type="text/javascript" src="/images/mobile_template/css/lib.js"></script>
+
+</head>
+<body>
+<div id="header">
+	<div id="header_block">
+		<div class="block">
+                    <? /* При наличии настройки макета дизайна в настройках сайта выведется картинка из настроек. В противном случае - дефолтная */ ?>
+                    <?= ( $template_settings['homepic']['path'] ? "<a href='".$SUB_FOLDER."/'><img src='".$template_settings['homepic']['path']."' width='35' height='35' alt='На главную' /></a>" : "<a href='".$SUB_FOLDER."/'><img src='/images/mobile_template/i/images_".$template_settings['color_scheme']."/home.jpg' width='35' height='35' alt='На главную' /></a>"  )?>
+                </div>
+
+                <? /* Блок с кнопкой корзины (виден только при наличии модуля Минимагазин или Интернет-магазин) */
+                if ($nc_core->modules->get_by_keyword('minishop') || $nc_core->modules->get_by_keyword('netshop')) {
+                /* Если в корзине модуля Интернет-магазин или Минимагазин есть товар, то выводим картинку полной корзины */
+                if ($shop->CartCount() || $nc_minishop->cart_count()) {
+                   $pic_path = ($template_settings['cartfullpic']['path'] ? $template_settings['cartfullpic']['path'] : "/images/mobile_template/i/images_".$template_settings['color_scheme']."/cart_full.jpg");
+                }
+                else {
+                   $pic_path = ($template_settings['cartpic']['path'] ? $template_settings['cartpic']['path'] : '/images/mobile_template/i/images_'.$template_settings['color_scheme'].'/cart.jpg');
+                } ?>
+                <div class="block">
+                    <a href="<?=($nc_core->modules->get_by_keyword('netshop') ? $GLOBALS[Netshop_CartURL] : $nc_minishop->cart_url())?>"><img src="<?=$pic_path?>" width="35" height="35" alt="Корзина" /></a>
+                </div>
+                <? } ?>
+
+                <? /* При наличии модуля поиска вывод ссылки на страницу поиска (картинка из настроек макета дизайна или дефолтная) */ ?>
+                <? if ($nc_core->modules->get_by_keyword('search')) { ?>
+                <div class="block">
+                    <a href="<?=$SUB_FOLDER?>/search/">
+                        <img src="<?=($template_settings['searchpic']['path'] ? $template_settings['searchpic']['path'] : '/images/mobile_template/i/images_'.$template_settings['color_scheme'].'/search.jpg')?>" width="35" height="35" alt="Поиск" />
+                    </a>
+                </div>
+		<? } ?>
+
+                <? /* При наличии модуля поиска вывод ссылки на страницу поиска (картинка из настроек макета дизайна или дефолтная) */ ?>
+                <? if ($nc_core->modules->get_by_keyword('auth')) { ?>
+                <div class="last"><div style="padding-left: 10px;" class='block block_link'>
+                <? /* Если пользователь не залогинен, то выводим ссылки на авторизацию и регистрацию, в рпотивном случае выводим информацию о пользователе */ ?>
+                <?=(!$AUTH_USER_ID ? $nc_auth->auth_links( null, array('auth_link_form' => '<a href="/netcat/modules/auth/">Вход</a><img src="/images/mobile_template/i/images_'.$template_settings['color_scheme'].'/border.jpg" width="2" height="14" alt="" /><a href="'.nc_auth_regform_url(0, 0).'">Регистрация</a>'))
+                        : "Здравствуйте, <a href='$nc_auth_profile_url'>{$current_user['Login']}</a> (<a href='" . ($MODULE_VARS['auth'] ? $SUB_FOLDER . $HTTP_ROOT_PATH . "modules/auth/?logoff=1&amp;REQUESTED_FROM=" . $REQUEST_URI . "&amp;REQUESTED_BY=" . $REQUEST_METHOD : $ADMIN_PATH . "unauth.php" ) . "'>выход</a>)")?>
+                </div></div>
+                <? } ?>
+	</div>
+</div>
+
+<? /* Блок вывода логотипа */ ?>
+<div id="logo">
+    <? /* Условие нахождения на титульной странице для того, чтобы логотип был ссылкой на главную на других страницах сайта */ ?>
+    <? if ($current_catalogue['Title_Sub_ID']!=$sub) { ?>
+    <a href='<?=$SUB_FOLDER?>/'>
+    <? } ?>
+    <? /* Картинка логотипа берётся из настроек макета дизайна или дефолтная */ ?>
+        <img src="<?=($template_settings['logotype']['path'] ? $template_settings['logotype']['path'] : '/images/mobile_template/i/images_'.$template_settings['color_scheme'].'/logo.jpg')?>" width='228' height='54' alt='Ваша компания' />
+    <? if ($current_catalogue['Title_Sub_ID']!=$sub) { ?>
+    </a>
+    <? } ?>
+</div>
+
+<div id="middle">
+<? /* Ссылка "на раздел выше" на всех страницах, кроме титульной */ ?>
+<?=($sub!=$current_catalogue['Title_Sub_ID'] ? "<div class='back'><a href='".($action == 'full' ? "$subLink" : ($admin_mode ? $parent_admin_path : ($sub_level_count == 1 ? $SUB_FOLDER."/" : $parent_sub_tree[$sub_level_count-1]['Hidden_URL'])))."'>&larr; Вернуться на раздел выше</a></div>" : "")?>
+
+<?
+/* Вывод на главной странице основного меню с заданным шаблоном $browse_menu */
+if ($sub==$current_catalogue['Title_Sub_ID'] && $action == 'index') { echo s_browse_sub (0,$browse_menu);
+    /* Вывод дополнительного меню, если в настройках макета дизайна указан номер раздела для дополнительного меню */
+    if ($template_settings['product_menu_sub'] ) { echo s_browse_sub($template_settings['product_menu_sub'], $browse_menu); }
+}
+/* Показывать меню первого уровня только, если мы находимся на первом уровне */
+echo ($sub_level_count == 1 && $action == 'index' ? s_browse_level (1,$browse_menu) : "");
+?>
+
+<!-- content -->
+<? /* Вывод заголовка страницы на всех, кроме титульной тех разделов, где нет ни одного включённого компонента */ ?>
+<? $cc_ids = $db->get_col("SELECT b.`Sub_Class_ID`
+      FROM `Sub_Class` AS b
+      LEFT JOIN `Class` AS c ON b.`Class_ID` = c.`Class_ID`
+      WHERE b.`Subdivision_ID` = '".$sub."' AND  b.`Checked`= 1"); ?>
+<?=($sub != $current_catalogue['Title_Sub_ID'] && !empty($cc_ids) ? "<h1>" . $nc_core->page->get_h1() . "</h1>" : "")?><!-- /Header -->
+
+<!-- Footer --><!-- /content -->
+<div class="clear"></div>
+</div>
+<div id="footer">
+<?= "<a href='http://".$nc_core->subdivision->get_alternative_link()."'>Полная версия сайта</a>"; ?>
+	<div id="license"><?=$current_catalogue['Copy']?></div>
+</div>
+</body>
+</html><!-- /Footer -->

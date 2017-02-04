@@ -1,0 +1,22 @@
+html, body, div, span, img,
+a, fieldset, form, label, legend,
+table, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+input {margin:0 0 0 0; padding: 0 0 0 0; }
+
+:focus {
+	outline: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}

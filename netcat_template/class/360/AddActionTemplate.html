@@ -1,0 +1,11 @@
+<?php 
+if($inside_admin) {
+	ob_end_clean();
+	header("Location: ".$goBackLink."&inside_admin=1");
+	exit;
+}
+else {
+	echo "Заказ оформлен. Спасибо";
+}
+
+ ?>

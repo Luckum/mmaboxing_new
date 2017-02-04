@@ -1,0 +1,21 @@
+<?php
+
+$fn = 'function(){var a="active",e="li";$(e).removeClass(a);if(this.parentNode.tagName=="LI"){$(this).parents(e).addClass(a);$(e,this.parentNode).first().addClass(a)}}';
+
+$browse_template['prefix']   = "";
+$browse_template['suffix']   = "";
+$browse_template['active']   = "<li class='active'><a href='%URL' " . nc_ls_display_link('content', 200, null, $fn, array('isNaked'=>0)) . "><span>%NAME</span></a></li>";
+$browse_template['unactive'] = "<li><a href='%URL' " . nc_ls_display_link('content', 200, null, $fn, array('isNaked'=>0)) . "><span>%NAME</span></a></li>";
+
+
+$sidebar_menu[0]['prefix'] = "<ul class='nav'>";
+$sidebar_menu[0]['suffix'] = "</ul>";
+$sidebar_menu[0]['active'] = "<li class='active'><a href='%URL' " . nc_ls_display_link('content', 200, null, $fn, array('isNaked'=>0)) . ">%NAME</a>%NEXT_LEVEL</li>";
+$sidebar_menu[0]['unactive'] = "<li><a href='%URL' " . nc_ls_display_link('content', 200, null, $fn, array('isNaked'=>0)) . ">%NAME</a>%NEXT_LEVEL</li>";
+
+$sidebar_menu[1]['prefix'] = "<ul>";
+$sidebar_menu[1]['suffix'] = "</ul>";
+$sidebar_menu[1]['active'] = "<li class='active'><a href='%URL' " . nc_ls_display_link('content', 200, null, $fn, array('isNaked'=>0)) . ">%NAME</a></li>";
+$sidebar_menu[1]['unactive'] = "<li><a href='%URL' " . nc_ls_display_link('content', 200, null, $fn, array('isNaked'=>0)) . ">%NAME</a></li>";
+
+?>

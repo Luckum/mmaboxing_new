@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <? /* Блок SEO */ ?>
+        <? /* Запрос заголовка через ядро системы, если нету, то выводим хлебные крошки */ ?>
+
+        <title>
+            <?= (($title = $nc_core->page->get_title()) ? $title : strip_tags(s_browse_path($browse_path_title))); ?>
+        </title>
+        <script type="text/javascript" src="<?=$HTTP_TEMPLATE_PATH?>jquery/jquery.min.js"></script>
+        <?= nc_js(); ?>
+        <? /* Запрос description через ядро системы */ ?>
+        <?= ($description = $nc_core->page->get_description() ? "<meta name='description' content='$description'>" : ""); ?>
+        <? /* Запрос Keywords через ядро системы */ ?>
+        <?= ($keywords = $nc_core->page->get_keywords() ? "<meta name='keywords' content='$keywords'>" : ""); ?>
+        <meta http-equiv="Content-Type" content="text/html; charset=<?= $nc_core->NC_CHARSET; ?>" />
+        <meta name="author" content=""  />
+
+        <link href="" rel="shortcut icon" />
+        <? /* Блок подключения стилей CSS в зависимости от настроек макета дизайна */ ?>
+        <link href="<?= $nc_parent_template_folder_path; ?>images/css/reset.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="<?= $nc_parent_template_folder_path; ?>images/css/style.min.css" rel="stylesheet" type="text/css" media="all" />
+        <? /* Блок подключения скриптов в зависимости от настроек макета дизайна */ ?>
+        <script src="<?= $nc_parent_template_folder_path; ?>images/javascript/common.js" type="text/javascript"></script>
+        <? /* Блок подключения шрифтов в зависимости от настроек макета дизайна */ ?>
+        <style type="text/css">
+        @font-face {
+            font-family: 'FreeSetCyrillic';
+            src: url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetcyrillicwebfont.eot');
+            src: url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetcyrillicwebfont.eot?#iefix') format('embedded-opentype'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetcyrillicwebfont.woff') format('woff'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetcyrillicwebfont.ttf') format('truetype'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetcyrillicwebfont.svg#FreeSetCyrillic') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'FreeSetBoldCyrillic';
+            src: url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetboldcyrillicwebfont.eot');
+            src: url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetboldcyrillicwebfont.eot?#iefix') format('embedded-opentype'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetboldcyrillicwebfont.woff') format('woff'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetboldcyrillicwebfont.ttf') format('truetype'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/FreeSetC/freesetboldcyrillicwebfont.svg#FreeSetBoldCyrillic') format('svg');
+            font-weight: normal;
+            font-style: normal;
+
+        }
+
+        @font-face {
+            font-family: 'Calibri';
+                src: local('Calibri'),
+                        url('<?= $nc_parent_template_folder_path; ?>images/fonts/calibri.ttf');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Corbelb';
+            src: url('<?= $nc_parent_template_folder_path; ?>images/fonts/corbelb/corbelb.eot');
+            src: local('corbel'),
+                        url('<?= $nc_parent_template_folder_path; ?>images/fonts/corbelb/corbelb.eot?#iefix') format('embedded-opentype'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/corbelb/corbelb.woff') format('woff'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/corbelb/corbelb.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Consolab';
+            src: url('<?= $nc_parent_template_folder_path; ?>images/fonts/consolab/consolab.eot');
+            src: local('consolas'),
+                    url('<?= $nc_parent_template_folder_path; ?>images/fonts/consolab/consolab.eot?#iefix') format('embedded-opentype'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/consolab/consolab.woff') format('woff'),
+                url('<?= $nc_parent_template_folder_path; ?>images/fonts/consolab/consolab.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        </style>
+
+    </head>

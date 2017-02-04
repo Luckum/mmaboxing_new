@@ -1,0 +1,22 @@
+<?= $warnText ?>
+<br>
+<form name='adminForm' enctype='multipart/form-data' method='post' action='<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>add.php'>
+<input name='cc' type='hidden' value='<?= $cc ?>'>
+<input name='sub' type='hidden' value='<?= $sub ?>'>
+<input name='catalogue' type='hidden' value='<?= $catalogue ?>'>
+<input name='curPos' type='hidden' value='<?= $curPos ?>'>
+<input name='posting' type='hidden' value='1'>
+<input name='f_Object_Sub_Class_ID' type='hidden' value='<?= $f_Object_Sub_Class_ID ?>'>
+<input name='f_Object_Parent_ID' type='hidden' value='<?= $f_Object_Parent_ID ?>'>
+" . $nc_core->token->get_input() . "
+<input name='f_Object_ID' type='hidden' value='<?= $f_Object_ID ?>'>
+<?= ($AUTH_USER_ID ?  "" : "Ваше имя: <br><input name='f_Name' type='text' value='<?= $f_Name ?>'><br>Email:<br> <input name='f_Email' type='text' value='<?= $f_Email ?>'><br>" ) ?>
+Сообщение (*):<br>
+<textarea name='f_Message' rows=5 cols=60><?= $f_Message ?></textarea><br><br>
+<?= ($current_cc['UseCaptcha'] ? nc_captcha_formfield()."<br>
+Введите код на картинке:<br>
+<input type='text' name='nc_captcha_code' value=''>" : "") ?>
+<br><br>
+<input value='Добавить' type='submit'> &nbsp; 
+Звездочкой (*) отмечены поля, обязательные для заполнения.
+</form>

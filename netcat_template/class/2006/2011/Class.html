@@ -1,0 +1,15 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+  $sql_f = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID=$f_myFighter")); 
+  $foto = explode(':',$sql_f['myFoto']);
+  $sql_flag = mysql_fetch_assoc(mysql_query("SELECT * FROM Classificator_Country WHERE Country_ID=".$sql_f['myCountry']));
+?>
+
+<div class="rating-item sidebar-item">
+                            <img src="/netcat_files/<?= $foto[3] ?>" class="sidebar-img" title="<?=$sql_f['myName']?>" alt="<?=$sql_f['myName']?>">
+                            <div class="sidebar-item-title"><?=$sql_f['myName']?></div>
+                            <span class="sidebar-item-info"><?=$sql_f['myRating']?></span>
+                        </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

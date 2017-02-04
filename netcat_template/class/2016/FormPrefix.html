@@ -1,0 +1,82 @@
+<? echo $f_AdminCommon; ?>
+<?php
+
+/*    [id] =&gt; 37
+    [autor] =&gt; Phenom
+    [date] =&gt; 2013-07-20 20:51:09
+    [full_story] =&gt; text
+    [title] =&gt; Форрест Гриффин
+    [keywords] =&gt; Форрест, Форреста, который, просто, чтобы, время, говорит, машину, Когда, когда, быстро, сделал, только, против, победить, после, ребенка, Форресту, очень, Стефан
+    [category] =&gt; 5
+    [alt_name] =&gt; forrest-griffin
+    [comm_num] =&gt; 1
+    [tags] =&gt; Форрест Гриффин
+    [metatitle] =&gt; 
+)*/
+
+//INSERT INTO `Message2000` (`Message_ID`, `User_ID`, `Subdivision_ID`, `Sub_Class_ID`, `Priority`, `Keyword`, `ncTitle`, `ncKeywords`, `ncDescription`, `Checked`, `IP`, `UserAgent`, `Parent_Message_ID`, `Created`, `LastUpdated`, `LastUser_ID`, `LastIP`, `LastUserAgent`, `newsType`, `myTitle`, `myPhoto`, `myText`, `myTags`, `myViews`, `myPop`, `oldAuthor`, `exFoto`) VALUES
+//(".$res['id'].", 1, 7, 9, 1, '', '', '', '', 1, '94.199.107.154', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36', 0, '2014-10-23 20:20:33', '2014-11-05 23:54:50', 1, '46.39.231.105', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36', ',2,4,', 'Боб Арум: «Брэдли встретится с Котто или Алварезом»', '1414016560_intervyu-timoti-bredli.jpg:image/jpeg:48382:7/9/1414016560_intervyu_timoti_bredli.jpg', '<p>Судя по всему, бывшего чемпиона WBO в полусреднем весе Тимоти Брэдли (31-1, 12 KO) ждет большой 2015 год, так как генеральный директор TOP Rank Боб Арум серьезно настроен на то, чтобы Тимоти встретился с победителем пары &laquo;Мигель Котто vs. Сауль Алварез&raquo;.</p>\r\n<p>Совсем недавно, Брэдли заявил, что он готов подняться в другую весовую категорию ради больших поединков с именитыми соперниками, такими как Котто и Алварез.</p>\r\n<blockquote>\r\n<p>&laquo;Тимоти Брэдли очень храбрый воин. Он будет драться с любым бойцом. Мне кажется, что самый прибыльный для него бой будет против победителя пары &quot;Котто vs. Алварез&quot;&raquo;, - сказал Арум порталу Boxingscene.com.</p></blockquote>\r\n<p>Свой следующий поединок Брэдли проведет 13 декабря в Лас-Вегасе, штат Невада, где его соперником станет аргентинец Диего Чавез. Это будет первый бой Тимоти с тех пор, как он потерпел поражение единогласным решением судей филиппинцу Мэнни Пакьяо.</p>\r\n<p>Что касается возможного поединка между Мигелем и Саулем, то менеджер мексиканца надеется, что переговоры начнутся уже в следующем месяце.</p>', 'Тимоти Брэдли, чемпион, бокс', 0, 1, NULL, '');
+
+
+$cids[2] = array(6,8,1);
+$cids[3] = array(7,9,2);
+$cids[4] = array(21,41,12);
+$cids[5] = array(15,20,4);
+$cids[6] = array(14,19,8);
+$cids[7] = array(16,21,5);
+$cids[8] = array(20,32,9);
+$cids[9] = array(22,42,13);
+$cids[11] = array(8,10,3);
+$cids[12] = array(20,32,10);
+$cids[13] = array(20,32,11);
+$cids[20] = array(29,40,7);
+
+
+$sql = mysql_query("SELECT * FROM dle_post ORDER BY id");
+while($res = mysql_fetch_assoc($sql))
+{
+$cids_ar = explode(',',$res['category']);
+if($cids[$cids_ar[0]][0]>0){ $sod[0]=$cids[$cids_ar[0]]; }else{ $sod[0] = array(3,1,14); }
+if($cids[$cids_ar[1]][0]>=0 && strstr(',',$res['category'])){ $sod[1]=$cids[$cids_ar[1]]; }else{ if(strstr(',',$res['category'])){ $sod[1] = array(3,1,14); } }
+
+$expr = '/src=\"([\s\S]*?)\"/i';
+preg_match_all($expr,stripslashes($res['full_story']),$parse_image);
+
+   mysql_query("INSERT INTO `Message2000` VALUES(
+    ".$res['id'].",
+    1,
+    ".$sod[0][0].",
+    ".$sod[0][1].",
+    ".$res['id'].",
+    '".$res['alt_name']."',
+    '".$res['title']."',
+    '".$res['keywords']."',
+    '".addslashes($res['metatitle'])."',
+    1,
+    '127.0.0.1',
+    '',
+    0,
+    '".$res['date']."',
+    '',
+    1,
+    '',
+    '',
+    '".$sod[0][2].($sod[1][2]?','.$sod[1][2]:NULL)."',
+    '".addslashes($res['title'])."',
+    '',
+    '".stripslashes($res['full_story'])."',
+    '".$res['tags']."',
+    0,
+    0,
+    '".$res['autor']."',
+    '".$parse_image[1][0]."',
+    ''
+    );");
+
+#print("INSERT INTO `Message2000` VALUES(".$res['id'].", 1, ".$sod[0][0].", ".$sod[0][1].", ".$res['id'].", '".$res['alt_name']."', '".$res['title']."', '".$res['keywords']."', '".addslashes($res['metatitle'])."', 1, '127.0.0.1', '', 0, '".$res['date']."', '', 1, '', '', '".$sod[0][2].($sod[1][2]?','.$sod[1][2]:NULL)."', '', '".$res['title']."', '".stripslashes($res['full_story'])."', '".$res['tags']."', 0, 0, '".$res['autor']."', '".$parse_image[1][0]."');<br><br>");
+
+$sod = array();
+$cids_ar = array();
+$parse_image = array();
+}
+?>

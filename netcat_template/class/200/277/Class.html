@@ -1,0 +1,21 @@
+<!-- FormPrefix --><span class='nc_prev_link'><? echo ($prevLink ? "<a href='$prevLink'>Назад</a>" : "Назад") ?> &nbsp;</span>
+<span class='nc_pagination'>&nbsp; <? echo browse_messages($cc_env, 5) ?>&nbsp;</span>
+<span class='nc_next_link'><? echo ($nextLink ? "<a href='$nextLink'>Далее </a>" : "Вперед") ?></span>
+<br><br><hr><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+echo $f_AdminButtons;
+?>
+Заказ № <b><? echo $f_RowID ?></b><br>
+Товар: <? echo $f_Title ?><br>
+Цена: <? echo $f_Prise ?><br>
+Количество: <? echo $f_Count ?><br>
+Стоимость: <? echo ($f_Count * $f_Prise) ?><br>
+ФИО: <? echo $f_Surname." ".$f_Name ?><br>
+Телефон: <? echo ($f_Phone ? $f_Phone : 'не указан') ?><br>
+email: <? echo ($f_Email ? $f_Email : 'не указан') ?><br>
+Адрес доставки: <? echo ($f_Adress ? $f_Adress : 'не указан') ?><br>
+Предпочтительный способ оплаты: <? echo ($f_PaymentType ? $f_PaymentType : 'не указан') ?><br>
+<hr><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,53 @@
+%Header
+<div id="header">
+    <div id="banner"></div>
+    <div id="header_block">
+        <div id="logo">
+            <a href="/">
+                <img src='<?= $template_settings['logotype'] ? $template_settings['logotype']['path'] : $current_catalogue['logo_header']; ?>' alt='Ваша компания' title='<?= $current_catalogue['logo_title']; ?>' />
+            </a>
+        </div>
+
+        <div id="header_right_block">
+            <? /* Проверяем счетчик интернет-магазина и добавляем стиль */ ?>
+            <?php 
+            switch($nc_core->get_settings('nc_shop_mode_' . $catalogue)) {
+                case 1:
+                    echo '<div class="cart">';
+                    echo $nc_minishop->show_cart_state();
+                    echo '</div>';
+                    break;
+                case 2: ?>
+                        <div class="cart" <? if (!$NETSHOP["Netshop_ItemCount"]) { ?> style="color: rgb(51, 51, 51); padding-top: 17px; font-size: 13px; height: 18px;" <? } ?>>
+                             <? /* Выводим корзину интернет-магазина */ ?>
+                             <?= $GLOBALS['Netshop_CartSum'] ?>
+                        </div>
+                <?php break;
+            }
+            ?>
+            <div class="login_block">
+                <? /* Если пользователь не залогинен, то выводим ссылки на авторизацию и регистрацию, в противном случае выводим информацию о пользователе */ ?>
+                <? if ($AUTH_USER_ID) {
+                    ?>
+                        <p class="auth_text">
+                            Здравствуйте, <a href="<?= $nc_auth_profile_url; ?>"><?=$current_user['Login']?></a> (<a href='<?= ($MODULE_VARS['auth'] ? $SUB_FOLDER . $HTTP_ROOT_PATH . "modules/auth/?logoff=1&amp;REQUESTED_FROM=" . $REQUEST_URI . "&amp;REQUESTED_BY=" . $REQUEST_METHOD : $ADMIN_PATH . "unauth.php" ); ?>'>выход</a>)
+                        </p>
+                <? } else { ?>
+                    <a href="#" class="login_text">Вход</a>
+                    <a href="<?=$SUB_FOLDER.$registration_url?>" class="register_text">Регистрация</a> <? } ?>
+            </div>
+        </div>
+
+        <img src="/images/template1/i/images_<?=$template_settings['color_scheme']?>/banner_text.png" alt="" id="banner_text" />
+        <a href="#" id="banner_more"><img src="/images/template1/i/images_<?=$template_settings['color_scheme']?>/more.png" alt="" /></a>
+        <? /* Выводим верхнее меню сайта в соответствии с шаблоном $browse_top_menu */ ?>
+        <?= nc_browse_sub(0, $browse_top_menu) ?>
+    </div>
+</div>
+<div id="middle">
+    <div id="middle_block">
+        <? /* Выводим "хлебные крошки" в соответствии с шаблоном $browse_path */ ?>
+        <?= nc_browse_path($browse_path) ?>
+        <div class="left_content">
+            <? /* Для полного отображения объекта выводи альтернативный заголовок, если есть */ ?>
+            <h1><?= ($action == 'full' ? $nc_core->page->get_h1() : ($current_sub['AlterTitle'] ? $current_sub['AlterTitle'] : ($nc_core->page->get_h1() == 'Продукты' ? 'Оформление заказа' : $nc_core->page->get_h1()))) ?></h1>

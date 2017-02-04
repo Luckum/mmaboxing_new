@@ -1,0 +1,23 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<div class='nc_list nc_consultants'><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'>
+    <?
+    echo $f_AdminButtons;
+    if ($cc_settings['ViewFormat'] == 'short') {
+        ?> <h3 style='display:inline'><? echo nc_edit_inline('Name', $f_RowID, $cc) ?></h3>"<? if ($f_Email) {
+        echo $ShortDeliver ?><span class='nc_item' style='margin:0 0 4px 0;'><img style='margin:0 4px -5px 0;' src='<? echo $SUB_FOLDER ?>/images/email.gif' alt=''/> <a href='mailto:<? echo $f_Email ?>'><? echo $f_Email ?></a></span><? }
+    if ($f_ICQ) {
+        echo $ShortDeliver ?><span class='nc_item' style='margin:0 0 4px 0;'><img style='margin:0 4px -4px 0;' src='http://status.icq.com/online.gif?icq=<? echo $f_ICQ ?>&amp;img=27' border='0'  alt=''/> <a href='http://www.icq.com/<? echo $f_ICQ ?>#pager' ><? echo $f_ICQ ?></a></span><? }
+    if ($f_Skype) {
+        echo $ShortDeliver ?><span class='nc_item' style='margin:0 0 4px 0;'><img style='margin:0 4px -4px 0;' src='http://status.icq.com/online.gif?icq=<? echo $f_ICQ ?>&amp;img=27' border='0'  alt='' /> <a href='http://www.icq.com/<? echo $f_ICQ ?>#pager' ><? echo $f_ICQ ?></a></span><?
+    }
+} else {
+    ?>
+    <h3><? echo nc_edit_inline('Name', $f_RowID, $cc) ?></h3> <? if ($f_Email) { ?><div class='nc_item' style='margin:0 0 4px 0;'><img style='margin:0 4px -5px 0;' src='<? echo $SUB_FOLDER ?>/images/email.gif' alt='' /><a href='mailto:<? echo $f_Email ?>'><? echo $f_Email ?></a></div><? }
+    if ($f_ICQ) { ?><div class='nc_item' style='margin:0 0 4px 0;'><img style='margin:0 4px -4px 0; border:none;' src='http://status.icq.com/online.gif?icq=<? echo $f_ICQ ?>&amp;img=27'  alt='' /><a href='http://www.icq.com/<? echo $f_ICQ ?>#pager' ><? echo $f_ICQ ?></a></div><? }
+    if ($f_Skype) { ?><div class='nc_item' style='margin:0 0 4px 0;'><img style='margin:0 4px -4px 0;' src='http://mystatus.skype.com/smallicon/<? echo $f_Skype ?>' alt='' /><? echo $f_Skype ?></div><? }
+} ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

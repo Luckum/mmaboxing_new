@@ -1,0 +1,26 @@
+</div>
+<!-- Управление каталогом-->
+<div class="tpl-block-catalogactions">
+    <div class="tpl-block-catalogactions-row">
+        <div class="tpl-block-catalogactions-col tpl-block-catalogactions-col--pages">
+            <div class="tpl-block-pages">
+                <?= nc_browse_messages($cc_env, 10, $pages_template); ?>
+                <? if (strlen($prevLink)): ?>
+                <div class="tpl-block-pages-item tpl-block-pages-item--prev">
+                    <a href="<?= $prevLink; ?>"><i class="icon-left-open"></i></a>
+                </div>
+                <? endif; ?>
+                <? if (strlen($nextLink)): ?>
+                <div class="tpl-block-pages-item tpl-block-pages-item--next">
+                    <a href="<?= $nextLink; ?>"><i class="icon-right-open"></i></a>
+                </div>
+                <? endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="tpl-block-clearfix">
+</div>
+<div class="tpl-block-sep tpl-block-sep--size_xs"></div>

@@ -1,0 +1,38 @@
+<?php
+
+$netshop = nc_netshop::get_instance($catalogue);
+$order = $netshop->load_order($message);
+
+// Сохранить изменения в списке товаров
+/** @var nc_input $input */
+$input = nc_core('input');
+$items = new nc_netshop_item_collection();
+foreach ($input->fetch_post('item') as $class_id => $tmp) {
+    foreach ($tmp as $message_id => $item_data) {
+        $item_data['Class_ID'] = $class_id;
+        $item_data['Message_ID'] = $message_id;
+        $items->add(new nc_netshop_item($item_data));
+    }
+}
+
+$order->save_items($items);
+
+// Сохранить изменение скидки на корзину
+$cart_discount_sum = $input->fetch_post('cart_discount_sum');
+if ($cart_discount_sum != $input->fetch_post('previous_cart_discount_sum')) {
+    $order->update_cart_discount($cart_discount_sum);
+}
+
+// Обработать изменение статуса
+if ($input->fetch_post('previous_status') != $f_Status) {
+    $netshop->mailer->process_order_status_change($order);
+}
+
+if ($inside_admin && !$isNaked) {
+    ob_end_clean();
+    header('Location: ' . $goBackLink . '&inside_admin=1');
+    exit;
+}
+else {
+	  echo NETCAT_MODERATION_MSG_OBJCHANGED, "<br /><br />", $goBack;
+}

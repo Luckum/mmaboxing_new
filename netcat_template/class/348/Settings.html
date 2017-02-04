@@ -1,0 +1,19 @@
+<?
+$shop_mode = $nc_core->get_settings('nc_shop_mode');
+
+if (!$shop_mode) {
+    $orders_href = $db->get_var("SELECT Hidden_URL FROM Subdivision where Subdivision_ID = ".+$cc_settings['OrderSub']);
+}
+
+require_once $nc_class_agregator_path;
+
+$agregator_settings = new nc_class_aggregator_setting();
+
+$agregator_settings->register_fields('Name', 'BigImage', 'Price', 'Property1', 'Property2', 'Property3');
+
+$agregator_settings->add_class(352)->register_fields('Name', 'Image', 'Price', 'Screen', 'ScreenType', 'Camera')->field_as_message_name('Name');
+$agregator_settings->add_class(353)->register_fields('Name', 'Image', 'Price', 'Genre', 'NumberPages', 'Cover')->field_as_message_name('Name');
+$agregator_settings->add_class(354)->register_fields('Name', 'Image', 'Price', 'BodyStyle', 'Engine', 'Year')->field_as_message_name('Name');
+$agregator_settings->add_class(355)->register_fields('Name', 'Image', 'Price', 'Size', 'Material', 'Color')->field_as_message_name('Name');
+
+

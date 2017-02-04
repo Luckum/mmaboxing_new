@@ -1,0 +1,17 @@
+<!-- FormPrefix --><?echo $f_AdminCommon; ?>
+<h1><?= $current_sub['Subdivision_Name']; ?></h1>
+<div class="prop_s">
+<div class="prop_si"><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+<div class="item">
+    <div class="item_pic"><a href="<?= $fullLink; ?>"><img src="<?= $f_Image_url; ?>" alt="<?= $f_Name; ?>" title="<?= $f_Name; ?>" /></a></div>
+    <div class="title"><a href="<?= $fullLink; ?>"><?= $f_Name; ?></a></div>
+    <p><?= nc_edit_inline('Description', $f_RowID, $cc); ?></p>
+</div>
+<?= ($f_RowNum % 2 ? " <div class='clear'><br></div>" : "" ); ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+<br />
+<? if ($totRows > $f_RowNum && !$nc_title) { ?><div class='nc_pagination'>Страницы: <?= browse_messages($cc_env, 5) ?></div><? } ?>
+</div><!-- /FormSuffix -->

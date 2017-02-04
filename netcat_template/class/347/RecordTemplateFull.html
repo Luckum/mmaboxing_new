@@ -1,0 +1,181 @@
+<script type='text/javascript'>
+function nc_change_img(nc_parent_link, small_img, large_img, img_width, img_height){
+ var nc_product_img = document.getElementById('nc_product_img');
+ var nc_link = nc_product_img.getElementsByTagName('A')[0];
+  var nc_img = nc_product_img.getElementsByTagName('IMG')[0]; 
+  
+  nc_link_node = nc_parent_link.parentNode.getElementsByTagName('A');
+ for(var i=0; i<nc_link_node.length; i++) if(nc_link_node[i].className == 'nc_current') nc_link_node[i].className = '';
+  nc_parent_link.className = 'nc_current';
+  
+  nc_img.src = small_img; 
+  if(large_img){
+    nc_link.href = large_img;
+   nc_link.style.cursor = 'pointer';
+   nc_link.onclick = function(){return nc_show_image(this, img_width, img_height);}
+  }else{
+    nc_link.removeAttribute('HREF');
+    nc_link.style.cursor = 'context-menu';
+    nc_link.onclick = function(){return false;}
+ }
+ 
+  return false;
+}
+function nc_show_image(nc_parent_link, img_width, img_height){
+  if( (img_width+30)>screen.width || (img_height+30)>screen.height ){
+   var scroll_on = 'yes';
+    var window_width = Math.floor(screen.width-10);
+   var window_height = Math.floor(screen.height-100);
+    var x_pos = 0;
+    var y_pos = 0;
+  }else{
+    var scroll_on = 'no';
+   var window_width = Math.floor(img_width+20);
+    var window_height = Math.floor(img_height+20);
+    var x_pos = Math.floor(screen.width/2-img_width/2);
+   var y_pos = Math.floor(screen.height/2-img_height/2-40);
+  }
+ var nc_img_title = nc_parent_link.getElementsByTagName('IMG')[0].getAttribute('alt');
+ var nc_window_html = '<html><head><title>' + nc_img_title + '</title></head><body style="margin:0;padding:0;text-align:center"><img src="' + nc_parent_link.getAttribute('href') + '" alt="' + nc_img_title + '" /></body></html>';
+ 
+  nc_img_window = window.open('', '', 'height=' + window_height + ', width=' + window_width + ', location=no, scrollbars=' + scroll_on + ', status=no, menubar=no, toolbar=no, resizable=yes, top=' + y_pos + ', left=' + x_pos );
+  nc_img_window.document.write(nc_window_html);
+ nc_img_window.document.close();
+ return false;
+}
+</script>
+
+
+
+<div class='nc_full nc_adaptive_catalog'>
+
+  <? if ( $f_SmallImg1) {  ?>
+        <div id='nc_product_img' style='float:left'>
+        <? if ( $f_LargeImg1) {
+            ?><a href='<?=$f_LargeImg1?>' onclick='return nc_show_image(this, <?=( $f_LargeImg1 && ($LargeImgSize1=getimagesize($DOCUMENT_ROOT.$f_LargeImg1_url)) ? $LargeImgSize1[0].', '.$LargeImgSize1[1] : '0, 0' )?>);'><?
+        } ?>
+        <img src='<?=$f_SmallImg1?>' alt='<?=$f_Caption?>' class='nc_row_img' />
+        <? if ( $f_LargeImg1) { ?></a><? } 
+        if ( $f_SmallImg1 && $f_Images) { 
+            ?><div class='nc_img_selector'>
+            <?=( $f_SmallImg1 ? "<a href='".$f_LargeImg1."' onclick='return nc_change_img(this, \"".$f_SmallImg1."\", \"".$f_LargeImg1."\", ".( $f_LargeImg1 && ($LargeImgSize1=getimagesize($DOCUMENT_ROOT.$f_LargeImg1_url)) ? $LargeImgSize1[0].', '.$LargeImgSize1[1] : '0, 0' ).")' class='nc_current'>1</a>" : NULL );
+            echo $f_Images; ?>
+            </div><?
+        } ?>
+        </div><?
+  } 
+
+ if ( $f_ShortDescription) { ?>
+    <div class='nc_announce'><?=nc_edit_inline('ShortDescription', $f_RowID, $cc)?></div><?
+ }
+
+ if ( $cc_settings['ManufacturerName'] && $f_Manufacturer) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ManufacturerName]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('Manufacturer', $f_RowID, $cc)?></span>
+    </div><? 
+ }
+if ( $cc_settings['BaseItemName1'] && $f_BaseItem1) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName1]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem1', $f_RowID, $cc)?></span>
+    </div><? 
+}
+if ( $cc_settings['BaseItemName2'] && $f_BaseItem2) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName2]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem2', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['BaseItemName3'] && $f_BaseItem3) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName3]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem3', $f_RowID, $cc)?></span>
+    </div><? 
+}
+if ( $cc_settings['BaseItemName4'] && $f_BaseItem4) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName4]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem4', $f_RowID, $cc)?></span>
+    </div><? 
+}
+if ( $cc_settings['BaseItemName5'] && $f_BaseItem5) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName5]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem5', $f_RowID, $cc)?></span>
+    </div><? 
+}
+if ( $f_FullDescription) { ?>
+    <div class='nc_description'><?=nc_edit_inline('FullDescription', $f_RowID, $cc)?></div><? 
+}
+if ( $cc_settings['ExtraItemName1'] && $f_ExtraItem1) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName1]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem1', $f_RowID, $cc)?></span>
+    </div><? 
+}
+if ( $cc_settings['ExtraItemName2'] && $f_ExtraItem2) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName2]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem2', $f_RowID, $cc)?></span>
+    </div><? 
+} 
+if ( $cc_settings['ExtraItemName3'] && $f_ExtraItem3) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName3]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem3', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['ExtraItemName4'] && $f_ExtraItem4) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName4]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem4', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['ExtraItemName5'] && $f_ExtraItem5) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName5]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem5', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['ExtraItemName6'] && $f_ExtraItem6) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName6]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem6', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['ExtraItemName6'] && $f_ExtraItem7) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName7]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem7', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['ExtraItemName6'] && $f_ExtraItem8) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName8]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem8', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['ExtraItemName6'] && $f_ExtraItem9) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName9]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem9', $f_RowID, $cc)?></span>
+    </div><?
+}  
+if ( $cc_settings['ExtraItemName6'] && $f_ExtraItem10) { ?>
+    <div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[ExtraItemName10]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('ExtraItem10', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $f_Price) { ?>
+    <div class='nc_price'>
+        <span class='nc_title'>Цена: </span>
+        <span class='nc_value'><?=$f_Price." ".$Currency?></span>
+        <? if ( $f_PriceOld) { ?>
+            <span style='text-decoration:line-through'><?=$f_PriceOld." ".$Currency?></span>
+    <? } ?></div><? 
+} 
+echo ( $minishop_allow && $f_Price ? $nc_minishop->show_put_button($f_Caption, $f_Price, 'this') : "" );
+?>
+</div>

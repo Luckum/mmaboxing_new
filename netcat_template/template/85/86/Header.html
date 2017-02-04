@@ -1,0 +1,115 @@
+%Header
+<div class="tpl-block-content tpl-block-content--frontpage">
+<!-- Герой-->
+<div class="tpl-block-hero">
+    <div class="tpl-block-layoutwidth">
+        <div class="tpl-block-prevnext tpl-block-prevnext--black">
+            <div class="tpl-block-prevnext-button tpl-block-prevnext-button--prev"><i class="icon-left-open"></i>
+            </div>
+            <div class="tpl-block-prevnext-button tpl-block-prevnext-button--next"><i class="icon-right-open"></i>
+            </div>
+        </div>
+    </div>
+    <div class="tpl-block-hero-slider">
+        <div class="tpl-block-hero-item">
+            <div class="tpl-block-layoutwidth">
+                <div class="s-circle"></div>
+                <div class="s-product"><img src="<?=$nc_core->HTTP_FILES_PATH ?>multifile/2462/i_3.jpg" alt=""></div>
+                <div class="s-info">
+                    <div class="s-cost"><nobr>1600 <span class="rouble">Р</span></nobr></div>
+                    <div class="s-title"><strong>Leica V-Lux 4</strong>в месяц на 2 года</div>
+                </div>
+            </div>
+        </div>
+        <div class="tpl-block-hero-item">
+            <div class="tpl-block-layoutwidth">
+                <div class="s-circle"></div>
+                <div class="s-product"><img src="<?=$nc_core->HTTP_FILES_PATH ?>multifile/2462/i_2.jpg" alt=""></div>
+                <div class="s-info">
+                    <div class="s-cost"><nobr>2300 <span class="rouble">Р</span></nobr></div>
+                    <div class="s-title"><strong>Pentax K-50</strong>в месяц на 1 год</div>
+                </div>
+            </div>
+        </div>
+        <div class="tpl-block-hero-item">
+            <div class="tpl-block-layoutwidth">
+                <div class="s-circle"></div>
+                <div class="s-product"><img src="<?=$nc_core->HTTP_FILES_PATH ?>multifile/2462/i_0.jpg" alt=""></div>
+                <div class="s-info">
+                    <div class="s-cost"><nobr>1000 <span class="rouble">Р</span></nobr></div>
+                    <div class="s-title"><strong>Nikon D3100</strong>в месяц на 1 год</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?= nc_browse_sub(370, $mobile_menu); ?>
+
+<div class="tpl-block-layoutwidth">
+    <aside class="tpl-block-aside">
+        <?= nc_browse_sub(370, $GLOBALS['browse_top_menu'][1]); ?>
+    </aside>
+    <div class="tpl-block-main">
+        <div class="tpl-block-frontlayout">
+            <!-- Список новостей-->
+            <div class="tpl-block-frontlayout-news">
+                <?= nc_objects_list(153, 252, '&recNum=5'); ?>
+            </div>
+            <!-- Баннер-->
+            <div class="tpl-block-frontlayout-banner">
+                <div class="tpl-block-banner">
+                    <style>
+                        .tpl-block-banner {
+                            width: 100%;
+                            height: 184px;
+                            background: url(<?= $nc_parent_template_folder_path ?>/assets/i/banner620.jpg) no-repeat 0 0
+                        }
+
+                        @media only screen and (min-width: 1850px) {
+                            .tpl-block-banner {
+                                width: 100%;
+                                height: 280px;
+                                background-image: url(<?= $nc_parent_template_folder_path ?>/assets/i/banner940.jpg)
+                            }
+                        }
+                    </style>
+                </div>
+            </div>
+            <!-- Акции-->
+            <div class="tpl-block-frontlayout-stock">
+                <?
+                $GLOBALS['netshop_goods_offers_items'] = array(
+                    array(
+                        'Item_ID' => 1,
+                        'Class_ID' => 521,
+                    ),
+                    array(
+                        'Item_ID' => 4,
+                        'Class_ID' => 521,
+                    ),
+                    array(
+                        'Item_ID' => 3,
+                        'Class_ID' => 524,
+                    ),
+                );
+
+                ?>
+                <?= $nc_core->widget->show('netshop_goods_offers'); ?>
+            </div>
+            <!-- Новое-->
+            <div class="tpl-block-frontlayout-new">
+                <?= $nc_core->widget->show('netshop_new_goods') ?>
+            </div>
+            <div class="tpl-block-clearfix">
+            </div>
+            <!-- Сейчас смотрят-->
+            <?= $nc_core->widget->show('netshop_see_now') ?>
+            <!-- Недавно купили-->
+            <?= $nc_core->widget->show('netshop_recently_bought') ?>
+        </div>
+    </div>
+    <div class="tpl-block-clearfix">
+    </div>
+    <div class="tpl-block-sep tpl-block-sep--size_xs"></div>
+</div>

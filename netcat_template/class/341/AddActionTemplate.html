@@ -1,0 +1,10 @@
+<?
+if ($_FILES['f_file']['tmp_name']) { ?>
+        <span style='padding:5px 25px; border:solid 1px #99CC99; background-color:#BBEEBB;'>
+            <font size='-2' color='#336633'>Файл <b><?=$f_file_name?></b> закачан</font>
+        </span><? } else {
+        ?><span style='padding:5px 25px; border:solid 1px #99CC99; background-color:#BBEEBB;'>
+            <font size='-2' color='#336633'>Папка <b><?=$f_folder_name?></b> создана</font>
+        </span><? } ?>
+<br><br>
+<?= s_list_class($sub,$cc,"&isMainContent=1&parent=".$f_Parent_Message_ID)?>

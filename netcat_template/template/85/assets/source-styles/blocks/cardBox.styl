@@ -1,0 +1,198 @@
+
+
+// Карточка товара
+.tpl-block-cardbox
+  display: block
+  background: colorWhite
+  position: relative
+  // debug(2)
+
+  &--border_dull
+    border: 5px solid colorDull !important
+
+  &--border_blue
+    border: 5px solid colorBlue !important
+
+  &--border_red
+    border: 5px solid colorRed !important
+
+  &--bg_white
+    background: #FFF !important
+
+  .tpl-field-title
+    transition: color 0.2s, font-size 0.2s
+
+  .tpl-field-description
+    background: #FFF
+    transition: font-size 0.2s
+
+
+  .tpl-field-image
+    display: none
+    vertical-align: middle
+    text-align: center
+    img
+      vertical-align: middle
+      display: inline-block
+      max-height: 100%
+      max-width: 100%
+      line-height: 1em
+
+  .tpl-block-ibtn
+    display: block
+    padding-left: 0
+    padding-right: 0
+
+  .tpl-field-description
+  .tpl-field-category
+  .tpl-block-variants
+  .tpl-field-oldcost
+  .tpl-block-rating
+  .tpl-field-title
+  .tpl-field-cost
+  .tpl-field-text
+  &-overlay
+  &-buynow
+  &-tocart
+  &-amount
+  &-remove
+  &-link
+  &-menu
+  &-buy
+    display: none
+
+  .tpl-block-rating,
+  .tpl-block-cost,
+  .tpl-block-text
+    transition: font-size 0.2s
+
+
+
+  &--narrow
+    cardNarrow()
+    .tpl-field-title,
+    .tpl-field-description
+      titleSize()
+    @media min
+      cardMobile()
+
+  &--wide
+    cardWide()
+    .tpl-field-title,
+    .tpl-field-description
+      titleSize()
+    @media min
+      cardMobile()
+
+  &--diffwidth
+    @media screen and (min-width: 321px) and (max-width: 1270px)
+      height: 400px
+    cardNarrow()
+    .tpl-field-title,
+    .tpl-field-description
+      titleSize()
+    @media max
+      cardWide()
+    @media min
+      cardMobile()
+
+  &--plate
+    cardPlate()
+    .tpl-field-title,
+    .tpl-field-description
+      titleSize()
+    @media min
+      cardMobile()
+
+  &--list
+    cardList()
+    @media min
+      cardMobile()
+
+  &--mini
+    cardMini()
+    .tpl-field-title,
+    .tpl-field-description
+      titleSize()
+    @media min
+      cardMobile()
+
+
+  .tpl-block-catalog--view_plate &--switchable
+    cardPlate()
+
+  .tpl-block-catalog--view_list &--switchable
+    cardList()
+
+  .tpl-block-catalog &
+    @media min
+      cardMobile()
+
+  &--mobile
+    cardMobile()
+
+  &--cart
+    cardCart()
+
+
+
+@media screen and (min-width: 321px) and (max-width: 1270px) {
+    .tpl-block-cardbox--diffwidth .tpl-field-image {
+      top: 105px;
+      height: 100px;
+      left: 15px;
+      right: 15px;
+      line-height: 100px;
+      width: auto;
+      float: none;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 1270px) {
+    .tpl-block-cardbox--diffwidth .tpl-block-rating {
+      left: 15px;
+      top: 205px;
+      font-size: 1em;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 1270px) {
+    .tpl-block-cardbox--diffwidth .tpl-field-cost {
+      left: 15px;
+      top: 245px;
+      font-size: 25px;
+      font-weight: 400;
+      line-height: 30px;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 1270px) {
+    .tpl-block-cardbox--diffwidth .tpl-block-variants {
+      right: 15px;
+      top: 238px;
+      line-height: 30px;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 1270px) {
+    .tpl-block-cardbox--diffwidth .tpl-field-oldcost {
+      left: auto;
+      right: 15px;
+      top: 240px;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 1270px) {
+    .tpl-block-cardbox--diffwidth .tpl-block-cardbox-menu {
+      left: 15px;
+      top: 285px;
+      width: 115px;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 1270px) {
+    .tpl-block-cardbox--diffwidth .tpl-block-cardbox-buy {
+      right: auto;
+      left: 15px;
+    }
+}

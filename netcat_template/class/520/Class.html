@@ -1,0 +1,110 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<div class="tpl-block-list tpl-component-goods">
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+
+    $item = new nc_netshop_item($res[$f_RowNum]);
+    echo $f_AdminButtons;
+    echo nc_netshop_item_variant_admin_table($item);
+
+?>
+
+<div class="tpl-block-list-object">
+    <h3 class="tpl-field-name"><a href="<?= $fullLink ?>"><?= $item["Name"] ?></a></h3>
+
+    <?php if ($item["BigImage"]): ?>
+        <div class="tpl-field-big-image">
+            <a href="<?= $fullLink ?>">
+                 <img src="<?= $item["BigImage"] ?>" alt="<?= htmlspecialchars($item["Name"], ENT_QUOTES) ?>" >
+            </a>
+        </div>
+    <?php endif; ?>
+
+    <div class="tpl-field-description">
+        <?= $item["Description"] ?>
+    </div>
+
+    <div class="">
+
+        <?php
+        // Показываем диапазон цен, если это указано в настройках, или у товара нет цены,
+        // или товар отключён: ?>
+        <?php if ($cc_settings["show_price_range"] || !$item["ItemPrice"] || !$item["Checked"]): ?>
+            
+            <?php if ($item["ItemPriceMin"] != $item["OriginalPriceMin"]): ?>
+                <div class="tpl-block-original-price">
+                    <span class="tpl-field-original-price tpl-field-original-price-range"><?= $item["OriginalPriceRange"] ?></span>
+                </div>
+            <?php endif; ?>
+            
+            <div class="tpl-field-price tpl-field-price-range"><?= $item["ItemPriceRange"] ?></div>
+            
+        <?php else: ?>
+
+            <?php if ($item["ItemDiscount"]): ?>
+                <div class="tpl-block-original-price">
+                    <span class="tpl-field-original-price"><?= $item["OriginalPriceF"] ?></span>
+                    <span class="tpl-field-discount-percent">(скидка: <?=$item["DiscountPercent"] ?>&thinsp;%)</span>
+                </div>
+            <?php endif; ?>
+
+            <div class="tpl-field-price"><?= $item["ItemPriceF"] ?></div>
+
+        <?php endif; ?>
+    </div>
+
+    <?php
+        // Нужно ли показывать варианты?
+        $show_variants_setting = $cc_settings["show_variants_in_list"];
+        $show_variants = $show_variants_setting && $show_variants_setting !== 'no' && (count($item["_Variants"]) > 1);
+
+        // Выбор варианта и кнопка добавления товара в корзину
+        if ($cc_settings["show_cart_button_in_list"] && (($item["Checked"] && $item['StockUnits'] !== '0') || $show_variants)) {
+            ?>
+            <form class="tpl-block-cart-put" method="post" action="<?= nc_modules("netshop")->get_add_to_cart_url() ?>">
+            <input type="hidden" name="redirect_url" value="<?=$_SERVER["REQUEST_URI"] ?>" />
+            <input type="hidden" name="cart_mode" value="add" />
+            <?php
+
+            if ($show_variants) {
+            
+                $variants = $item["_Variants"]->where('StockUnits', '0', '!==');
+                echo '<input type="hidden" name="qty" value="1" />';
+                switch ($show_variants_setting) {
+                    // (а) показ вариантов в виде списка с радио-кнопками
+                    case 'radio':
+                        echo '<div class="tpl-block-goods-variants">';
+                        $i = 0;
+                        foreach ($variants as $variant) {
+                            echo '<div class="tpl-block-goods-variant"><label>',
+                                 '<input type="radio" name="items[]" value="' . $variant["_ItemKey"] . '"' . ($i++ == 0 ? " checked" : "") . '> ',
+                                 $variant['VariantName'] ? $variant['VariantName'] : $variant['Name'],
+                                 '</label></div>';
+                        }
+                        echo '</div>';
+                        break;
+                    // (б) показ вариантов в виде выпадающего списка
+                    case 'select':
+                        echo '<select class="tpl-block-goods-variants" name="items[]">';
+                        foreach ($variants as $variant) {
+                            echo '<option value="' . $variant["_ItemKey"] . '">' .
+                                 htmlspecialchars($variant['VariantName'] ? $variant['VariantName'] : $variant['Name'], ENT_QUOTES) .
+                                 '</option>';
+                        }
+                        echo '</select> ';
+                        break;
+                }
+            }
+            else { // без выбора варианта товара
+                ?><input type="hidden" name="cart<?=$item["RowID"] ?>" value="1" /><?php
+            }
+
+            ?><button class="tpl-link-cart-put" type="submit">В корзину</button></form><?php
+
+        } // конец блока «Выбор варианта и кнопка добавления в корзину»
+    ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+<!-- /FormSuffix -->

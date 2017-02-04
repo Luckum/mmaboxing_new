@@ -1,0 +1,35 @@
+<?
+if ((!isset($noadd) || !$noadd) && !$Object_Parent_ID && !$CountComments && !$admin_mode) {
+    ?><div class='comment'>
+        <div id='reply0' class='put_comment'><a onclick='show_comments(0);return false;' href='<? echo $GLOBALS[client_url] ?>?scID=<? echo $scID ?>&amp;objID=<? echo $objID ?>&amp;backlink=<? echo $GLOBALS[client_url] ?>&amp;peID=0#reply0'>оставить комментарий</a></div>
+        <? if (!isset($peID) || $peID > 0) {
+            ?><div id='reply_comments_form_0'></div><? } else {
+            ?><div id='reply_comments_form_0'>
+                <form id='InnerForm' name='adminForm' enctype='multipart/form-data' method='post' action='<? echo $SUB_FOLDER.$HTTP_ROOT_PATH ?>add.php'>
+                    <input name='admin_mode' value='0' type='hidden'>
+                    <input name='cc' value='<? echo $cc ?>' type='hidden'>
+                    <input name='sub' value='<? echo $sub ?>' type='hidden'>
+                    <input name='catalogue' value='<? echo $catalogue ?>' type='hidden'>
+                    <input name='posting' value='1' type='hidden'>
+
+                    <input name='f_Checked' value='1' type='hidden'>
+                    <input name='f_BackLink' value='<? echo $backlink ?>' type='hidden'>
+                    <input name='f_Object_Sub_Class_ID' value='<? echo $scID ?>' type='hidden'>
+                    <input name='f_Object_ID' value='<? echo $objID ?>' type='hidden'>
+                    <input name='f_Object_Parent_ID' id='f_Object_Parent_ID' value='0' type='hidden'>
+
+                    <div><textarea name='f_Message' style='width:100%; height:10em;'></textarea></div>
+                    <? if ($cc_settings['UseCaptcha']) {
+                        ?><div><? echo nc_captcha_formfield() ?></div>
+                        <div>Введите код на картинке:</div>
+                        <div><input type='text' name='nc_captcha_code' value=''></div><? } ?>
+                    <div><input value='отправить' type='submit' class='subutton'></div>
+                </form>
+            </div><? } ?>
+        <br><br>
+    </div>"
+    <?
+} else {
+    echo ($admin_mode && !$CountComments ? "<div>".($prevLink ? "<a href='$prevLink'>назад</a> &nbsp; " : "").($nextLink ? "<a href='$nextLink'>вперёд</a>" : "")."</div>" : "");
+}
+?>

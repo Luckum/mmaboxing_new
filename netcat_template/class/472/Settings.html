@@ -1,0 +1,4 @@
+<?
+( !isset($nc_num_cols) ? $colNums = &$cc_settings['CollsNum'] : $colNums = (int)$nc_num_cols );
+$colWidth = ( $colNums>1 ? 'width="'.(floor(100/$colNums)).'%"' : NULL);
+?>

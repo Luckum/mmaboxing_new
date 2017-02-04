@@ -1,0 +1,19 @@
+<?php 
+
+require_once($INCLUDE_FOLDER."classes/nc_imagetransform.class.php");
+$photo_path = $DOCUMENT_ROOT.nc_file_path($classID, $message, 'BidImage', "");
+if ( $photo_path) {
+nc_ImageTransform::imgResize($photo_path,$photo_path,'180', '700');
+}
+
+echo "";
+if($inside_admin) {
+	ob_end_clean();
+	header("Location: ".$goBackLink."&inside_admin=1");
+	exit;
+}
+else {
+	echo $IsChecked ? NETCAT_MODERATION_MSG_OBJADD : NETCAT_MODERATION_MSG_OBJADDMOD;
+	echo "<br /><br />".$goBack;
+}
+echo ""; ?>

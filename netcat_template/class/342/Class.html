@@ -1,0 +1,20 @@
+<!-- FormPrefix --><?=$f_AdminCommon?>
+<table width='100%' cellpadding='0' cellspacing='10' class='nagr'>
+<tr>
+
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+if ($f_RowNum  &&  !fmod($f_RowNum, $cc_settings['NumCols'])) { ?>
+    </tr><tr><? 
+} ?>
+<td width='<?=floor((100/$cc_settings['NumCols']))?>%'>
+<?=$f_AdminButtons?>
+  <a href='<?=$fullLink?>'><?=$f_Name?></a><br/>
+  <span style='font-weight: normal'>Фотографий:</span> <?=$f_cnt?><br />
+  <a href='<?=$fullLink?>'><img src='<?=$f_Picture?>' alt='<?=$f_Name?>' title='<?=$f_Name?>' /></a>
+</td><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></tr>
+</table>
+<?=($prevLink || $nextLink ? browse_messages($cc_env,10) : "")?><!-- /FormSuffix -->

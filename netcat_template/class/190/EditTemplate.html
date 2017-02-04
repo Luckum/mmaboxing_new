@@ -1,0 +1,42 @@
+<?=( $warnText ? "<div class='warnText'>$warnText</div>" : NULL )?>
+<?=opt($size_name=listQuery("SELECT BannerSize_Name FROM Classificator_BannerSize WHERE BannerSize_ID='$f_Size'","\$data[BannerSize_Name]"),"")?>
+
+<form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' action=<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>message.php method=post>
+
+<input type=hidden name=catalogue value=<?=$catalogue?>>
+<input type=hidden name=sub value=<?=$sub?>>
+<input type=hidden name=cc value=<?=$cc?>>
+<input type=hidden name=message value=<?=$message?>>
+<input type=hidden name=f_Size value='<?=$f_Size?>'>
+<input type=hidden name=f_Checked value=1>
+<input type=hidden name=posting value=1>
+<input type=hidden name=admin_mode value=1>
+<?= $nc_core->token->get_input()?>
+
+Название рекламной кампании (*):<br>
+<input type=text size=50 name=f_Name value='<?=$f_Name?>'><br><br>
+
+Длительность компании: с 
+<input type=text size=2 maxlength=2 name=f_Start_day value='<?=$f_Start_day?>'>-
+<input type=text size=2 maxlength=2 name=f_Start_month value='<?=$f_Start_month?>'>-
+<input type=text size=4 maxlength=4 name=f_Start_year value='<?=$f_Start_year?>'> по
+
+<input type=text size=2 maxlength=2 name=f_Stop_day value='<?=$f_Stop_day?>'>-
+<input type=text size=2 maxlength=2 name=f_Stop_month value='<?=$f_Stop_month?>'>-
+<input type=text size=4 maxlength=4 name=f_Stop_year value='<?=$f_Stop_year?>'>
+<br><br>
+
+Количество показов:<br>
+<input type=text size=10 name=f_Shows value='<?=$f_Shows?>'><br><br>
+<font size=-2 color=gray>Можно указывать длительность кампании и/или количество показов. Должно быть определено как минимум одно значение.</font><br><br>
+
+<input id=maincamp type=checkbox value=1 name=f_Main<?=opt($f_Main," checked")?>> <label for=maincamp>приостановить все пересекающиеся рекламные кампании до завершения данной кампании</label><br><br>
+<hr size=1>
+<?=opt_case($banners2show=listQuery("SELECT a.Message_ID,a.Alt,b.Banner_ID FROM Message".$MODULE_VARS[banner][BANNER_TABLE]." AS a LEFT JOIN Banner_CampaignBanner AS b ON a.Message_ID=b.Banner_ID AND b.Campaign_ID='$message' WHERE a.Size".opt_case($f_Size,"='$f_Size'"," IS NULL AND a.Type=3")." AND a.Status=1","<input type=checkbox value=\$data[Message_ID] id=b\$data[Message_ID] name=banner[]\".opt(\$data[Banner_ID],\" checked\").\"> <label for=b\$data[Message_ID]>#\$data[Message_ID]: \$data[Alt]</label><br>"),"<b>Показывать следующие баннеры:</b><br>".$banners2show,"Не добавлено ни одного баннера с размером $size_name.")?>
+<hr size=1>
+
+<?=opt_case($zone2show=listQuery("SELECT a.Message_ID,a.Name,b.Zone_ID FROM Message".$MODULE_VARS[banner][ZONE_TABLE]." AS a LEFT JOIN Banner_CampaignZone AS b ON a.Message_ID=b.Zone_ID AND b.Campaign_ID='$message' WHERE a.Size".opt_case($f_Size,"='$f_Size'"," IS NULL"),"<input type=checkbox value=\$data[Message_ID] id=z\$data[Message_ID] name=zone[]\".opt(\$data[Zone_ID],\" checked\").\"> <label for=z\$data[Message_ID]>#\$data[Message_ID]: \$data[Name]</label><br>"),"<b>Показывать выбранные баннеры в следующих зонах:</b><br>".$zone2show,"Не создано ни одной рекламной зоны с размером $size_name.")?>
+<hr size=1>
+
+<?= nc_submit_button(NETCAT_MODERATION_BUTTON_ADD) ?>
+</form>

@@ -1,0 +1,44 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<div class='nc_list nc_vacancies'>
+<div class='nc_text_block'>
+    <? echo $cc_settings['TextBefore'] ?>
+</div><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'>
+    <?=$f_AdminButtons ?>
+    <h3>
+        <?
+        if (!$cc_settings['ShowAll'] && ($f_Obligation || $f_Demands || $f_Conditions)) { ?>
+            <a href='<? echo $fullLink; ?>'><? echo $f_Post; ?></a> <?
+        }
+        else {
+            echo nc_edit_inline('Post', $f_RowID, $cc);
+        }?>
+    </h3>
+    <?
+    if ($f_City) { ?><div class='nc_item'>(<? echo $f_City ?>)</div><? }
+    if ($f_Pay) { ?>
+        <div class='nc_price'><span class='nc_title'>Зарплата: </span><span class='nc_value'><? echo nc_edit_inline('Pay', $f_RowID, $cc)." ".$pay; ?>
+        </span></div><?
+    }
+    if ($cc_settings['ShowAll']) {
+        if ($f_Obligation) {
+            ?> <div class='nc_item'><span class='nc_title'>Обязанности: </span><span class='nc_value'><? echo nc_edit_inline('Obligation', $f_RowID, $cc); ?></span></div><?
+        }
+        if ($f_Demands) {
+            ?> <div class='nc_item'><span class='nc_title'>Требования: </span><span class='nc_value'><? echo nc_edit_inline('Demands', $f_RowID, $cc); ?></span></div><?
+        }
+        if ($f_Conditions) {
+            ?> <div class='nc_item'><span class='nc_title'>Условия: </span><span class='nc_value'><? echo nc_edit_inline('Conditions', $f_RowID, $cc); ?></span></div><?
+        }
+    }
+    ?></div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?
+if (!$totRows) { ?>
+    <p class='nc_text_block'><? echo $cc_settings['TextNoVacancy'] ?></p><?
+} ?>
+<br />
+<p class='comment'> <? echo $cc_settings['TextAfter'] ?> </p>
+
+</div><!-- /FormSuffix -->

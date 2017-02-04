@@ -1,0 +1,23 @@
+<script src='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_TEMPLATE_PATH ?>jquery/jquery.colorbox-min.js' type='text/javascript'></script>                    
+<script type='text/javascript'>jQuery(document).ready(function(){ jQuery("a[rel='good']").colorbox(); });</script>
+<div class='nc_full nc_simple_catalog'>
+<? if ($f_PhotoSmall) {
+        if ( $f_PhotoLarge) {
+            ?><a href='<?=$f_PhotoLarge?>' rel='good' title='<?=$f_Caption?>'><?
+        }
+        ?><img src='<?=$f_PhotoSmall?>' class='nc_row_img' align='left' alt='<?=$f_Caption?>' />
+        <? if ( $f_PhotoLarge) { ?></a><? } 
+}
+if ( $f_TextFull) { ?>
+    <div class='nc_full_text'><?=nc_edit_inline('TextFull', $f_RowID, $cc)?></div><?
+}
+if ( $f_Price) { ?>
+    <div class='nc_price'>
+        <span class='nc_title'>Цена: </span>
+        <span class='nc_value'><?=$f_Price." ".$Pay?></span>
+    </div><? 
+} ?>
+<!-- nocache -->
+<?=( $minishop_allow && $f_Price ? $nc_minishop->show_put_button($f_Caption, $f_Price, 'this') : "" )?>
+<!-- /nocache -->
+</div>

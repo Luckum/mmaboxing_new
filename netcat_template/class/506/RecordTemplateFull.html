@@ -1,0 +1,11 @@
+<?php $subClass = nc_Core::get_object()->sub_class->get_by_id($cc); ?>
+<h2><a href="/portfolio/portfolio.html" <?php echo nc_ls_display_link('portfolio', 0, 'shortpage'); ?>>Наши путешествия</a>  / <span><?php echo $subClass['Sub_Class_Name']; ?>, <strong><?php echo $f_portfolio_title; ?></strong></span></h2>
+<div class="img-block">
+    <img src="<?php echo $f_photo ? $f_photo : $nc_parent_template_folder_path . 'static/images/portfolio_photo.jpg'; ?>" alt="" />
+<? if ($f_photo_copyriht): ?>
+    <?=$f_photo_copyriht ?>
+<? else: ?>
+Labadee Haiti Royal Caribbean Cruise
+<span style="float:right">© Ricymar PhotographyS</span>
+<? endif ?>
+</div>

@@ -1,0 +1,78 @@
+<?
+// значения визуальных настроек
+$res = $db->get_var("SELECT CustomSettings FROM Sub_Class WHERE Sub_Class_ID=$cc");
+( $res ? eval("\$cc_settings = $res") : $cc_settings = NULL );
+// значения визуальных настроек по умолчанию
+$res = $db->get_var("SELECT CustomSettingsTemplate FROM Class WHERE Class_ID=$classID");
+eval("\$default_cc_settings = $res");
+$j = sizeof($cc_settings);
+for($i=0; $i<$j; $i++) if(!$cc_settings[$i]) $cc_settings[$i] = $default_cc_settings[$i];
+
+$Currency = array('rur'=>'руб.', 'usd'=>'$', 'eu'=>'&euro;', 'no'=>'', 'other'=>$cc_settings['OtherCurrency']);
+$Currency = $Currency[$cc_settings['Currency']];
+?>
+<?=( $warnText ? "<div class='warnText'>$warnText</div>" : NULL )?>
+<form name='adminForm' id='adminForm' enctype='multipart/form-data' method='post' action='<?=$SUB_FOLDER?>/netcat/message.php'>
+<div id='nc_moderate_form'>
+<div class='nc_clear'></div>
+<input type='hidden' name='admin_mode' value='<?=$admin_mode?>'>
+<input type='hidden' name='catalogue' value='<?=$catalogue?>'>
+<input type='hidden' name='sub' value='<?=$sub?>'>
+<input type='hidden' name='message' value='<?=$message?>'>
+<input type='hidden' name='cc' value='<?=$cc?>'>
+<input type='hidden' name='curPos' value='<?=$curPos?>'>
+<input type='hidden' name='posting' value='1'>
+<?=$nc_core->token->get_input()?>
+<?= nc_form_moderate('change', $admin_mode, 0, $systemTableID, $current_cc, (isset($f_Checked) ? $f_Checked  : null), $f_Priority , $f_Keyword, $f_ncTitle, $f_ncKeywords, $f_ncDescription ) ?>
+</div>
+
+
+<table cellpadding='1'>
+ <tr><td>Название (*):</td><td><input type='text' name='f_Caption' size='50' maxlength='255' value='<?=$f_Caption?>'></td></tr>
+<?=( $cc_settings[ManufacturerName] ? "<tr><td>$cc_settings[ManufacturerName]:</td><td>".nc_list_select($cc_settings[ListName], "Manufacturer", $f_Manufacturer)."</td></tr>" : NULL )?>
+ <tr><td>Цена:</td><td><input type='text' name='f_Price' size='12' maxlength='12' value='<?=$f_Price?>'> <?=$Currency?> <span style='padding-left:20px'>Старая цена: <input type='text' name='f_PriceOld' size='12' maxlength='12' value='<?=$f_PriceOld?>'> <?=$Currency?></span></td></tr>
+</table>
+
+<br>
+
+Краткое описание:<br><textarea name='f_ShortDescription' rows='2' cols='70'><?=$f_ShortDescription?></textarea><br><br>
+Полное описание:<br><textarea name='f_FullDescription' rows='5' cols='70'><?=$f_FullDescription?></textarea><br><br>
+
+<br>
+
+<table cellpadding='1'>
+ <tr><td><b>Большая картинка</b></td><td><b>Превью-картинки</b><?=($cc_settings['ThumbsOn'] ? " (генерируются автоматически)" : NULL )?></td></tr>
+  <tr><td style='padding-right:20px'><?=nc_file_field("LargeImg1", "size=30")?></td><td><?=nc_file_field("SmallImg1", "size=30")?></td></tr>  
+</table>
+<?=$f_Images->settings->resize(300, 300)->preview(100, 100)?>
+<?=$f_Images->form()?><br />
+<br>
+
+<?=( $cc_settings[BaseItemName1] || $cc_settings[ExtraItemName1] ? "<table cellpadding='1'>" : NULL )?>
+<? if ( $cc_settings[BaseItemName1]) { ?>
+ <tr><td colspan='2'><b>Основные характеристики</b></td></tr>
+  <tr><td><?=( $cc_settings[BaseItemName1] ? "$cc_settings[BaseItemName1]: </td><td><input name='f_BaseItem1' type='text' size='50' maxlength='255' value='$f_BaseItem1'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[BaseItemName2] ? "$cc_settings[BaseItemName2]: </td><td><input name='f_BaseItem2' type='text' size='50' maxlength='255' value='$f_BaseItem2'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[BaseItemName3] ? "$cc_settings[BaseItemName3]: </td><td><input name='f_BaseItem3' type='text' size='50' maxlength='255' value='$f_BaseItem3'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[BaseItemName4] ? "$cc_settings[BaseItemName4]: </td><td><input name='f_BaseItem4' type='text' size='50' maxlength='255' value='$f_BaseItem4'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[BaseItemName5] ? "$cc_settings[BaseItemName5]: </td><td><input name='f_BaseItem5' type='text' size='50' maxlength='255' value='$f_BaseItem5'></td></tr>" : NULL )?>
+<? } 
+if ( $cc_settings[ExtraItemName1]) { ?>
+  <tr><td colspan='2'><b>Второстепенные характеристики</b></td></tr>
+  <tr><td><?=( $cc_settings[ExtraItemName1] ? "$cc_settings[ExtraItemName1]: </td><td><input name='f_ExtraItem1' type='text' size='50' maxlength='255' value='$f_ExtraItem1'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName2] ? "$cc_settings[ExtraItemName2]: </td><td><input name='f_ExtraItem2' type='text' size='50' maxlength='255' value='$f_ExtraItem2'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName3] ? "$cc_settings[ExtraItemName3]: </td><td><input name='f_ExtraItem3' type='text' size='50' maxlength='255' value='$f_ExtraItem3'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName4] ? "$cc_settings[ExtraItemName4]: </td><td><input name='f_ExtraItem4' type='text' size='50' maxlength='255' value='$f_ExtraItem4'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName5] ? "$cc_settings[ExtraItemName5]: </td><td><input name='f_ExtraItem5' type='text' size='50' maxlength='255' value='$f_ExtraItem5'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName6] ? "$cc_settings[ExtraItemName6]: </td><td><input name='f_ExtraItem6' type='text' size='50' maxlength='255' value='$f_ExtraItem6'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName7] ? "$cc_settings[ExtraItemName7]: </td><td><input name='f_ExtraItem7' type='text' size='50' maxlength='255' value='$f_ExtraItem7'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName8] ? "$cc_settings[ExtraItemName8]: </td><td><input name='f_ExtraItem8' type='text' size='50' maxlength='255' value='$f_ExtraItem8'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName9] ? "$cc_settings[ExtraItemName9]: </td><td><input name='f_ExtraItem9' type='text' size='50' maxlength='255' value='$f_ExtraItem9'></td></tr>" : NULL )?>
+  <tr><td><?=( $cc_settings[ExtraItemName10] ? "$cc_settings[ExtraItemName10]: </td><td><input name='f_ExtraItem10' type='text' size='50' maxlength='255' value='$f_ExtraItem10'></td></tr>" : NULL );
+}
+echo ( $cc_settings[BaseItemName1] || $cc_settings[ExtraItemName1] ? "</table>" : NULL );
+?>
+          
+Звездочкой (*) отмечены поля, обязательные для заполнения.
+<br><?=nc_submit_button("Изменить")?>
+</form>

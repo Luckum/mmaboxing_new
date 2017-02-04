@@ -1,0 +1,52 @@
+
+
+.tpl-block-cardlayout
+  &-row
+    clearfix()
+  &-col
+    float: left
+    margin-right: -100%
+    position: relative
+    transition: width 0.2s, left 0.2s
+    // background: pink
+    // debug()
+    @media min
+      float: none
+      width: auto
+      margin: 0
+    &--rating
+      left: 0
+      width: 17%
+      font-size: 12px
+      @media min
+        width: auto
+    &--social
+      left: 18%
+      width: 19%
+      padding: 3px 0 0
+      text-align: right
+      @media min
+        display: none
+    &--submenu
+      left: 40%
+      width: 60%
+      @media min
+        display: none
+    &--gallery
+      left: 0
+      width: 37%
+      @media min
+        width: 100%
+    &--info
+      left: 40%
+      width: 27%
+      @media min
+        left: auto
+        width: auto
+    &--shortDesc
+      left: 70%
+      width: 30%
+      padding-top: 20px
+      @media min
+        display: none
+

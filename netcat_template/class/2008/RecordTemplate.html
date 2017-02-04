@@ -1,0 +1,70 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? echo $f_AdminButtons; ?>
+
+<div class="module vote">
+		<h3 class="module-title">Опрос</h3>
+		<div class="module-content">
+			<p class="vote-title"><?= $f_myName ?></p>
+			<form method="post" name="vote" action="/interrogation/?vid=<?= $f_RowID ?>&cache=<?= md5($_SERVER['REMOTE_ADDR'].$f_RowID) ?>">
+			    <div class="answers">
+			        <div id="vote" style='<?= ($_COOKIE["interogation".$f_RowID] ? "display:none;" : NULL) ?>'>
+			        	<?= ($f_var1 ? '<label class="vote"><input name="vote_check" type="radio" checked="checked" value="1"> '.$f_var1.'</label>' : NULL) ?>
+			        	<?= ($f_var2 ? '<label class="vote"><input name="vote_check" type="radio" value="2"> '.$f_var2.'</label>' : NULL) ?>
+			        	<?= ($f_var3 ? '<label class="vote"><input name="vote_check" type="radio" value="3"> '.$f_var3.'</label>' : NULL) ?>
+			        	<?= ($f_var4 ? '<label class="vote"><input name="vote_check" type="radio" value="4"> '.$f_var4.'</label>' : NULL) ?>
+			        	<?= ($f_var5 ? '<label class="vote"><input name="vote_check" type="radio" value="5"> '.$f_var5.'</label>' : NULL) ?>
+			        	<?= ($f_var6 ? '<label class="vote"><input name="vote_check" type="radio" value="6"> '.$f_var6.'</label>' : NULL) ?>
+			        	<?= ($f_var7 ? '<label class="vote"><input name="vote_check" type="radio" value="7"> '.$f_var7.'</label>' : NULL) ?>
+			        	<?= ($f_var8 ? '<label class="vote"><input name="vote_check" type="radio" value="8"> '.$f_var8.'</label>' : NULL) ?>
+			        	<?= ($f_var9 ? '<label class="vote"><input name="vote_check" type="radio" value="9"> '.$f_var9.'</label>' : NULL) ?>
+			        	<?= ($f_var10 ? '<label class="vote"><input name="vote_check" type="radio" value="10"> '.$f_var10.'</label>' : NULL) ?>
+			        	<?= ($f_var11 ? '<label class="vote"><input name="vote_check" type="radio" value="11"> '.$f_var11.'</label>' : NULL) ?>
+			        	<?= ($f_var12 ? '<label class="vote"><input name="vote_check" type="radio" value="12"> '.$f_var12.'</label>' : NULL) ?>
+			        	<?= ($f_var13 ? '<label class="vote"><input name="vote_check" type="radio" value="13"> '.$f_var13.'</label>' : NULL) ?>
+			        	<?= ($f_var14 ? '<label class="vote"><input name="vote_check" type="radio" value="14"> '.$f_var14.'</label>' : NULL) ?>
+			        	<?= ($f_var15 ? '<label class="vote"><input name="vote_check" type="radio" value="15"> '.$f_var15.'</label>' : NULL) ?>
+			        	<?= ($f_var16 ? '<label class="vote"><input name="vote_check" type="radio" value="16"> '.$f_var16.'</label>' : NULL) ?>
+			        	<?= ($f_var17 ? '<label class="vote"><input name="vote_check" type="radio" value="17"> '.$f_var17.'</label>' : NULL) ?>
+			        	<?= ($f_var18 ? '<label class="vote"><input name="vote_check" type="radio" value="18"> '.$f_var18.'</label>' : NULL) ?>
+			        	<?= ($f_var19 ? '<label class="vote"><input name="vote_check" type="radio" value="19"> '.$f_var19.'</label>' : NULL) ?>
+	        		
+        			</div>
+			    </div>
+<?php
+
+$all_answ = interogation_all($f_answers);
+
+?>
+                <div class="answers answRes" style='<?= (!$_COOKIE["interogation".$f_RowID] ? "display:none;" : NULL) ?>'>
+                <div id="dle-vote">
+                        <?= ($f_var1 ? '<div class="vote"><!--colorstart:#333333--><span style="color:#333333"><!--/colorstart-->'.$f_var1.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,1,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,1,true)).'%;" class="vote1">'.interogation_self($f_answers,$all_answ,1,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var2 ? '<div class="vote"><!--colorstart:#FF0000--><span style="color:#FF0000"><!--/colorstart-->'.$f_var2.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,2,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,2,true)).'%;" class="vote2">'.interogation_self($f_answers,$all_answ,2,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var3 ? '<div class="vote"><!--colorstart:#3333FF--><span style="color:#3333FF"><!--/colorstart-->'.$f_var3.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,3,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,3,true)).'%;" class="vote3">'.interogation_self($f_answers,$all_answ,3,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var4 ? '<div class="vote"><!--colorstart:#FF0000--><span style="color:#FF0000"><!--/colorstart-->'.$f_var4.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,4,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,4,true)).'%;" class="vote4">'.interogation_self($f_answers,$all_answ,4,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var5 ? '<div class="vote"><!--colorstart:#FF9966--><span style="color:#FF9966"><!--/colorstart-->'.$f_var5.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,5,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,5,true)).'%;" class="vote5">'.interogation_self($f_answers,$all_answ,5,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var6 ? '<div class="vote"><!--colorstart:#33CC00--><span style="color:#33CC00"><!--/colorstart-->'.$f_var6.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,6,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,6,true)).'%;" class="vote1">'.interogation_self($f_answers,$all_answ,6,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var7 ? '<div class="vote"><!--colorstart:#000000--><span style="color:#000000"><!--/colorstart-->'.$f_var7.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,7,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,7,true)).'%;" class="vote2">'.interogation_self($f_answers,$all_answ,7,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var8 ? '<div class="vote"><!--colorstart:#990000--><span style="color:#990000"><!--/colorstart-->'.$f_var8.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,8,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,8,true)).'%;" class="vote3">'.interogation_self($f_answers,$all_answ,8,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var9 ? '<div class="vote"><!--colorstart:#993300--><span style="color:#993300"><!--/colorstart-->'.$f_var9.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,9,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,9,true)).'%;" class="vote4">'.interogation_self($f_answers,$all_answ,9,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var10 ? '<div class="vote"><!--colorstart:#FF6666--><span style="color:#FF6666"><!--/colorstart-->'.$f_var10.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,10,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,10,true)).'%;" class="vote5">'.interogation_self($f_answers,$all_answ,10,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var11 ? '<div class="vote"><!--colorstart:#000000--><span style="color:#000000"><!--/colorstart-->'.$f_var11.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,11,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,11,true)).'%;" class="vote1">'.interogation_self($f_answers,$all_answ,11,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var12 ? '<div class="vote"><!--colorstart:#33CCFF--><span style="color:#33CCFF"><!--/colorstart-->'.$f_var12.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,12,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,12,true)).'%;" class="vote2">'.interogation_self($f_answers,$all_answ,12,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var13 ? '<div id="dle-vote"><!--colorstart:#333333--><span style="color:#333333"><!--/colorstart-->'.$f_var13.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,13,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,13,true)).'%;" class="vote1">'.interogation_self($f_answers,$all_answ,13,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var14 ? '<div class="vote"><!--colorstart:#FF0000--><span style="color:#FF0000"><!--/colorstart-->'.$f_var14.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,14,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,14,true)).'%;" class="vote2">'.interogation_self($f_answers,$all_answ,14,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var15 ? '<div class="vote"><!--colorstart:#3333FF--><span style="color:#3333FF"><!--/colorstart-->'.$f_var15.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,15,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,15,true)).'%;" class="vote3">'.interogation_self($f_answers,$all_answ,15,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var16 ? '<div class="vote"><!--colorstart:#FF0000--><span style="color:#FF0000"><!--/colorstart-->'.$f_var16.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,16,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,16,true)).'%;" class="vote4">'.interogation_self($f_answers,$all_answ,16,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var17 ? '<div class="vote"><!--colorstart:#FF9966--><span style="color:#FF9966"><!--/colorstart-->'.$f_var17.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,17,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,17,true)).'%;" class="vote5">'.interogation_self($f_answers,$all_answ,17,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var18 ? '<div class="vote"><!--colorstart:#33CC00--><span style="color:#33CC00"><!--/colorstart-->'.$f_var18.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,18,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,18,true)).'%;" class="vote1">'.interogation_self($f_answers,$all_answ,18,true).'%</span></div>' : NULL) ?>
+                        <?= ($f_var19 ? '<div class="vote"><!--colorstart:#000000--><span style="color:#000000"><!--/colorstart-->'.$f_var19.'<!--colorend--></span><!--/colorend-->  - '.interogation_self($f_answers,$all_answ,19,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,19,true)).'%;" class="vote2">'.interogation_self($f_answers,$all_answ,19,true).'%</span></div>' : NULL) ?>
+                    </div>
+                </div>
+
+			    <div class="vote-buttons">
+			    	<?= (!$_COOKIE["interogation".$f_RowID] ? '<input type="submit" class="no-change" value="Голосовать">' : NULL) ?>
+			    	<a href="javascript:void(0);" onClick="showArResults();" class="button no-change">Результаты</a>
+			    </div>
+			</form>
+		</div>
+	</div>
+    
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

@@ -1,0 +1,27 @@
+<?
+$nc_minishop->save_order ( $message ) ;
+
+// отправка писем
+$mailer = new CMIMEMail();
+$settings = $nc_core->get_settings('','minishop');
+$from = $settings['shop_email'] ? $settings['shop_email'] : $system_env['SpamFromEmail'];;
+$fromname = $system_env['SpamFromName'];
+$manager_email = $settings['admin_email'] ? $settings['admin_email'] : $system_env['SpamFromEmail'];;
+
+// отправка письма покупателю
+if ( $settings['notify_mail'] ) {
+  $mailinfo = $nc_minishop->get_mail( 'customer', $message );
+  $mail_body = nc_mail_attachment_attach($mailer, $mailinfo['body'], 'minishop_customer');
+  $mailer->mailbody( strip_tags($mail_body), $mailinfo['html'] ?  $mail_body : "");
+  $mailer->send($f_Email, $from, $manager_email, $mailinfo['subject'],  $fromname);
+}
+
+//отправка письма менеджеру
+if ( $manager_email ) {
+  $mailinfo = $nc_minishop->get_mail( 'admin', $message );
+  $mail_body = nc_mail_attachment_attach($mailer, $mailinfo['body'], 'minishop_admin');
+  $mailer->mailbody( strip_tags($mail_body), $mailinfo['html'] ?  $mail_body : "");
+  $mailer->send($manager_email, $from, $from, $mailinfo['subject'],  $fromname);
+}
+echo $nc_minishop->get_afterorder_text($message); 
+?>

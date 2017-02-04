@@ -1,0 +1,16 @@
+<?
+mysql_query("DELETE FROM Banner_CampaignBanner WHERE Campaign_ID=$message",$LinkID);
+mysql_query("DELETE FROM Banner_CampaignZone WHERE Campaign_ID=$message",$LinkID);
+
+for ($i=0;$i<count($zone);$i++) {
+mysql_query("INSERT INTO Banner_CampaignZone (Campaign_ID,Zone_ID) VALUES (".$message.",".$zone[$i].")",$LinkID);
+}
+
+for ($i=0;$i<count($banner);$i++) {
+mysql_query("INSERT INTO Banner_CampaignBanner (Campaign_ID,Banner_ID) VALUES (".$message.",".$banner[$i].")",$LinkID);
+}
+
+echo "
+Информация о рекламной кампании изменена.
+<br><a href=/netcat/?catalogue=$catalogue&sub=$sub>Вернуться</a>";
+?>

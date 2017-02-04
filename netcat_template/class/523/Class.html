@@ -1,0 +1,361 @@
+<!-- FormPrefix --><aside class="tpl-block-aside">
+    <?= nc_browse_sub($nc_core->subdivision->get_by_id($sub, 'Parent_Sub_ID'), $GLOBALS['browse_top_menu'][1]); ?>
+    <div class="tpl-block-sep tpl-block-sep--size_s"></div>
+    <form class="tpl-block-asidefilter" action="<?= $_SERVER["REQUEST_URI"]; ?>" method="post">
+        <div class="tpl-block-asidefilter-trigger">Фильтр
+        </div>
+        <div class="tpl-block-asidefilter-state">
+        </div>
+        <?
+        $filter_fields = $netshop->filter->get_fields();
+
+        $available_values = array();
+        foreach ($fetch_row as $row) {
+            foreach ($filter_fields as $filter_field => $type) {
+                $type = $type['field'];
+                if (!isset($available_values[$filter_field])) {
+                    $available_values[$filter_field] = array();
+                }
+
+                if ($type == 'checkbox' && !in_array($row[$filter_field], $available_values[$filter_field])) {
+                    $available_values[$filter_field][] = $row[$filter_field];
+                }
+            }
+        }
+
+        $input = nc_core('input');
+
+        $triggers_html = '';
+
+        $i = 0;
+
+        foreach ($filter_fields as $field => $data) {
+            $type = $data['field'];
+            $field_data = $nc_core->get_component($classID)->get_field($field);
+            $field_escaped = $nc_core->db->escape($field);
+
+            if (!$field_data) {
+                continue;
+            }
+
+            $description = $field_data['description'];
+            $field_type = $field_data['type'];
+            $field_list_table = $field_data['table'];
+            
+            if ($type != 'trigger') {
+                ?>
+                <div class="tpl-block-asidefilter-box">
+                <div class="tpl-block-asidefilter-title <?= $i == 0 ? 'tpl-block-asidefilter-title--style_red' : ''; ?>"><?= $description; ?></div>
+            <?
+            }
+            if ($type == 'checkbox') {
+                $filter_field = $netshop->filter->field_value($field);
+
+                $values = array();
+
+                if ($field_type == NC_FIELDTYPE_MULTISELECT || $field_type == NC_FIELDTYPE_SELECT) {
+                    $sql = "SELECT `{$format}_ID` AS `ID`, `{$format}_Name` AS `Name` FROM `Classificator_{$field_list_table}` ORDER BY `{$field_list_table}_Priority` ASC";
+                    foreach ((array)$db->get_results($sql, ARRAY_A) as $row) {
+                        $values[$row['ID']] = $row['Name'];
+                    }
+                } else {
+                    $sql = "SELECT DISTINCT `{$field_escaped}` FROM `Message{$classID}` WHERE `Sub_Class_ID` = {$cc} ORDER BY `{$field_escaped}` ASC";
+                    foreach ((array)$db->get_col($sql) as $value) {
+                        if ($value) {
+                            $values[$value] = $value;
+                        }
+                    }
+                }
+
+                foreach ($values as $index => $value) {
+                    if (in_array($value, $available_values[$field])) {
+                        ?>
+                        <p>
+                            <label class="tpl-block-ichlabel"><input type="checkbox" name="filter_<?= $field; ?>[]" value="<?= $index; ?>" <?= !$skip_filter && $filter_field && in_array($index, $filter_field) ? 'checked="checked"' : ''; ?>/> <?= $value; ?>
+                            </label>
+                        </p>
+                    <?
+                    }
+                }
+            } else if ($type == 'range') {
+                $filter_field = $netshop->filter->field_value($field);
+                $filter_field_from = $filter_field ? (float)$filter_field[0] : '';
+                $filter_field_to = $filter_field ? (float)$filter_field[1] : '';
+
+                $where = "";
+                $fields = $filter_fields;
+                unset($fields[$field]);
+                $netshop->filter->query_where($where, array_keys($fields));
+
+                if ($where) {
+                    $where = ' AND ' . $where;
+                }
+
+                $sql = "SELECT MIN(`{$field_escaped}`) FROM `Message{$classID}` AS a WHERE `Sub_Class_ID` = {$cc}" . $where;
+                $min = (float)$db->get_var($sql);
+
+                $sql = "SELECT MAX(`{$field_escaped}`) FROM `Message{$classID}` AS a WHERE `Sub_Class_ID` = {$cc}" . $where;
+                $max = (float)$db->get_var($sql);
+                
+                $resolution = 1;
+
+                if ($filter_field_from < $min || $filter_field_from > $max) {
+                    $filter_field_from = $min;
+                    if (round($filter_field_from) != $filter_field_from) { $resolution = "0.01"; }
+                }
+
+                if ($filter_field_to < $min || $filter_field_to > $max) {
+                    $filter_field_to = $max;
+                    if (round($filter_field_to) != $filter_field_to) { $resolution = "0.01"; }
+                }
+                
+                ?>
+                <div class="tpl-block-range">
+                    <table class="tpl-block-table tpl-block-table--style_clean">
+                        <tr>
+                            <td width="20%">От:</td>
+                            <td>
+                                <input type="text" class="tpl-block-itext tpl-block-price tpl-block-range-min" name="filter_<?= $field; ?>[]" value="<?= $filter_field_from; ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>До:</td>
+                            <td>
+                                <input type="text" class="tpl-block-itext tpl-block-price tpl-block-range-max" name="filter_<?= $field; ?>[]" value="<?= $filter_field_to; ?>">
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="tpl-block-sep tpl-block-sep--size_s"></div>
+                    <!-- Если указаны start-min / start-max, то стартовые значения берутся отсюда.-->
+                    <!-- Если нет — из инпутов.-->
+                    <div class="tpl-block-range-slider" data-step="1" data-resolution="<?= $resolution ?>" data-start-min="<?= $filter_field_from; ?>" data-start-max="<?= $filter_field_to; ?>" data-min="<?= $min; ?>" data-max="<?= $max; ?>">
+                    </div>
+                </div>
+            <?
+            } else if ($type == 'trigger') {
+                $filter_field = $input->fetch_get("filter_{$field}");
+
+                $triggers_html .= '<p>
+                            <label class="tpl-block-ichlabel"><input type="checkbox" name="filter_' . $field . '[]" value="1" ' . (!$skip_filter && $filter_field ? 'checked="checked"' : '') . '/> ' . $description .
+                    '</label>
+                </p>';
+            }
+
+
+            if ($type != 'trigger') {
+                ?>
+                </div>
+            <?
+            }
+            $i++;
+        } ?>
+        <? if ($triggers_html) { ?>
+            <div class="tpl-block-asidefilter-box">
+                <div class="tpl-block-asidefilter-title">Другие параметры</div>
+                <?= $triggers_html; ?>
+            </div>
+        <? } ?>
+        <div class="tpl-block-asidefilter-buttons">
+            <a class="tpl-block-ibtn tpl-block-ibtn--theme_blue" href="#">
+                Применить фильтр
+                <button type="submit" class="tpl-block-ibtn-submit"></button>
+            </a>
+            <a class="tpl-block-ibtn tpl-block-ibtn--theme_blue" href="#">
+                Сбросить фильтр
+                <button type="submit" class="tpl-block-ibtn-submit" name="nc_filter_reset"></button>
+            </a>
+        </div>
+        <input type="hidden" name="nc_filter_set" value="1">
+    </form>
+</aside>
+
+<div class="tpl-block-main">
+<!-- Управление списком объектов -->
+<div class="tpl-block-catalogactions">
+    <div class="tpl-block-catalogactions-row">
+        <div class="tpl-block-catalogactions-col tpl-block-catalogactions-col--1">
+            <!-- Хлебные крошки-->
+            <?= nc_browse_path_range(0, $sub_level_count, $GLOBALS['browse_path']); ?>
+        </div>
+        <? if ($sorting_methods): ?>
+            <!-- Сотрировка -->
+            <? $sortBy = (string)$nc_core->input->fetch_get('sortBy'); ?>
+            <div class="tpl-block-catalogactions-col tpl-block-catalogactions-col--2 tpl-block-notformobile">
+                <span class="color-base tpl-block-pseudolink tpl-block-dropdown-link" data-target="#ordering_dropdown">
+                    <u><?= $sorting_methods[$sortBy]['title'] ?></u><i class="icon-angle-down"></i>
+                    <ul class="tpl-block-dropdown" id="ordering_dropdown">
+                        <? foreach ($sorting_methods as $key => $row): ?>
+                            <li<?= $sortBy == $key ? " class='tpl-state-active'" : '' ?>>
+                                <a href="<?= current_link('sortBy', $key) ?>"><?= $row['title'] ?></a>
+                            </li>
+                        <? endforeach ?>
+                    </ul>
+                </span>
+                <span class="color-base tpl-block-pseudolink<?= empty($sortDesc) ? ' tpl-state-active' : '' ?>">
+                    <u><a href="<?= current_link('sortDesc', null) ?>" title="По возрастанию"><i class="icon-lowtohight"></i></a></u>
+                </span>
+                <span class="color-base tpl-block-pseudolink<?= !empty($sortDesc) ? ' tpl-state-active' : '' ?>">
+                    <u><a href="<?= current_link('sortDesc', '1') ?>" title="По убыванию"><i class="icon-highttolow"></i></a></u>
+                </span>
+            </div>
+        <? endif ?>
+        <!-- Количество записей на странице -->
+        <div class="tpl-block-catalogactions-col tpl-block-catalogactions-col--3 tpl-block-notformobile">
+            <span class="color-base tpl-block-pseudolink tpl-block-dropdown-link" data-target="#ordering_limit">
+                <u>Показывать по <?= $recNum ?></u><i class="icon-angle-down"></i>
+                <ul class="tpl-block-dropdown" id="ordering_limit">
+                    <? foreach (array(20, 40, 60) as $limit): ?>
+                        <li<?= $limit == $recNum ? " class='tpl-state-active'" : '' ?>>
+                            <a href="<?= current_link('recNum', $limit) ?>">Показывать по <?= $limit ?></a></li>
+                    <? endforeach ?>
+                </ul>
+            </span>
+        </div>
+        <!-- Список / плитка-->
+        <div class="tpl-block-catalogactions-col tpl-block-catalogactions-col--4 tpl-block-notformobile">
+            <div class="tpl-block-platelist">
+                <div class="tpl-block-platelist-button tpl-block-platelist-button--plate tpl-state-active" title="Выводить плиткой">
+                    <i class="icon-th"></i>
+                </div>
+                <div class="tpl-block-platelist-button tpl-block-platelist-button--list" title="Выводить строчками"><i class="icon-list"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tpl-block-catalogactions-row">
+        <!-- Заголовок-->
+        <div class="tpl-block-catalogactions-col tpl-block-catalogactions-col--1">
+            <div class="catalogactions--size_l color-blue tpl-block-title tpl-block-title--bright">
+                <?= $nc_core->subdivision->get_by_id($sub, 'Subdivision_Name'); ?>
+            </div>
+        </div>
+        <div class="tpl-block-catalogactions-col tpl-block-catalogactions-col--pages">
+            <div class="tpl-block-pages">
+                <?= nc_browse_messages($cc_env, 10, $pages_template); ?>
+                <? if (strlen($prevLink)): ?>
+                <div class="tpl-block-pages-item tpl-block-pages-item--prev">
+                    <a href="<?= $prevLink; ?>"><i class="icon-left-open"></i></a>
+                </div>
+                <? endif; ?>
+                <? if (strlen($nextLink)): ?>
+                <div class="tpl-block-pages-item tpl-block-pages-item--next">
+                    <a href="<?= $nextLink; ?>"><i class="icon-right-open"></i></a>
+                </div>
+                <? endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tpl-block-sep tpl-block-sep--size_xs"></div>
+<!-- Каталог-->
+<div class="tpl-block-catalog tpl-block-catalog--view_plate">
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+$item = new nc_netshop_item($res[$f_RowNum]);
+?>
+    <div class="tpl-block-catalog-item">
+        <!-- Карточка-->
+        <div class=" tpl-block-cardbox tpl-block-cardbox--switchable">
+            <a class="tpl-block-cardbox-link" href="<?= $fullLink; ?>">
+                <!-- Заголовок-->
+                <div class="tpl-block-title tpl-block-title--size_ml">
+                    <div class="tpl-field-title">
+                        <?= $item['Vendor']; ?> <?= $item['Name']; ?>
+                    </div>
+                </div>
+                <!-- Описание-->
+                <div class="tpl-field-description"><?= $item['Type']; ?></div>
+                <!-- Картинка-->
+                <div class="tpl-field-image"><img src="<?= $item['BigImage']; ?>"></div>
+            </a>
+            <!-- Рейтинг-->
+            <div class="tpl-block-rating">
+                <?php for ($i = 1; $i <= 5; $i++) { ?>
+                    <?
+                    $rate = $item['RateCount'] ? $item['RateTotal'] / $item['RateCount'] : 0;
+                    $class_name = 'icon-star';
+                    if ($rate < $i && $rate > ($i - 1)) {
+                        $class_name .= '-half-alt';
+                    } else if ($rate < $i) {
+                        $class_name .= '-empty';
+                    }
+                    ?>
+                    <a href="<?= $item->get_rate_link($i); ?>" rel="nofollow" rel="nofollow"><div class="tpl-block-rating-item"><i class="<?= $class_name; ?>"></i></div></a>
+                <? } ?>
+            </div>
+            <!-- Старая без скидки-->
+            <? if ($item['ItemDiscount']) { ?>
+                <div class="tpl-field-oldcost"><?= $item['OriginalPriceF']; ?></div>
+            <? } ?>
+            <!-- Цена для покупателя -->
+            <div class="tpl-field-cost"><?= $item['ItemPriceF']; ?></div>
+            <!-- Текст-->
+            <div class="tpl-field-text">
+                <?= $item['Description']; ?>
+            </div>
+            <form action="<?= $netshop->get_add_to_cart_url() ?>" method="post">
+                <input type="hidden" name="redirect_url" value="<?= $_SERVER["REQUEST_URI"] ?>"/>
+                <input type="hidden" name="cart_mode" value="add"/>
+                <input type="hidden" name="items[]" value="<?= "$item[Class_ID]:$item[Message_ID]" ?>"/>
+                <input type="hidden" name="qty" value="1"/>
+                <!-- Меню-->
+                <div class="tpl-block-cardbox-menu">
+                    <div class="tpl-block-journal">
+                        <div class="tpl-block-journal-column">
+                            <a class="tpl-block-button-compare" href="<?= $netshop->goodslist_compare->get_add_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI'] . '#goodslist-compare-added'); ?>" title="Добавить в сравнение"><i class="icon-down-blue"></i></a>
+                        </div>
+                        <div class="tpl-block-journal-column">
+                            <a class="tpl-block-button-favorite" href="<?= $netshop->goodslist_favorite->get_toggle_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI'] . '#goodslist-favorite-removed'); ?>" title="Переключить в избранном"><i class="icon-flag-blue"></i></a>
+                        </div>
+                        <? if ($item['Checked']): ?>
+                        <div class="tpl-block-journal-column"><a href="#"><i class="icon-cart-red">
+                                    <button class="tpl-block-ibtn-submit tpl-link-cart-put" type="submit" title="В корзину"></button>
+                                </i></a>
+                        </div>
+                        <? endif; ?>
+                    </div>
+                </div>
+                <!-- Купить сразу-->
+                <? if ($item['Checked']): ?>
+                <div class="tpl-block-cardbox-buy"><a class="tpl-block-ibtn" href="#">
+                        Купить сразу
+                        <button type="submit" class="tpl-block-ibtn-submit" name="redirect_url" value="<?= $nc_core->SUB_FOLDER; ?>/orders/add_orders.html"></button>
+                    </a>
+                </div>
+                <? else: ?>
+                <div class="tpl-block-cardbox-buy">
+                    <a class="tpl-block-ibtn" href="<?= $fullLink ?>">Выбрать модель</a>
+                </div>
+                <? endif; ?>
+            </form>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+<!-- Управление каталогом-->
+<div class="tpl-block-catalogactions">
+    <div class="tpl-block-catalogactions-row">
+        <div class="tpl-block-catalogactions-col tpl-block-catalogactions-col--pages">
+            <div class="tpl-block-pages">
+                <?= nc_browse_messages($cc_env, 10, $pages_template); ?>
+                <? if (strlen($prevLink)): ?>
+                <div class="tpl-block-pages-item tpl-block-pages-item--prev">
+                    <a href="<?= $prevLink; ?>"><i class="icon-left-open"></i></a>
+                </div>
+                <? endif; ?>
+                <? if (strlen($nextLink)): ?>
+                <div class="tpl-block-pages-item tpl-block-pages-item--next">
+                    <a href="<?= $nextLink; ?>"><i class="icon-right-open"></i></a>
+                </div>
+                <? endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="tpl-block-clearfix">
+</div>
+<div class="tpl-block-sep tpl-block-sep--size_xs"></div>
+<!-- /FormSuffix -->

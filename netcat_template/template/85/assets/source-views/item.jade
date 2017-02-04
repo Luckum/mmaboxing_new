@@ -1,0 +1,71 @@
+include partials/_includes
+
++layout
+  // Контент
+  +b.content
+    .tpl-block-layoutwidth
+      +b.main--wide
+
+        include partials/breadcrumbs
+
+        +sep('xs')
+
+        // Большой заголовок
+        +b.title--size_xl
+          | Фотоаппарат Nikon D90 KIT 18-105mm
+          +e.desc зеркальный цифровой фотоаппарат
+
+        +sep('s')
+
+        include partials/cardLayout
+        +sep
+
+        // Подробное описание, технические характеристики, отзывы
+        include partials/tabs
+
+        //- +sep('xl')
+        //- +b.notformobile
+        //-   +sep
+        //-   +t('s') Аксессуары
+        //-   +b.cardboxes
+        //-     - for (i=1; i<=4; i++)
+        //-       +e.item
+        //-         +cardbox(i, 'diffwidth')
+        //-   +sep
+        //-   +b.pseudolink: u Ещё аксессуары
+
+        //- +b.notformobile
+        //-   +sep('l')
+        //-   +b.swiper--diffwidth
+        //-     +t('l').tpl-block-title--bright.color-blue С этим товаром обычно покупают
+        //-     +b.prevnext
+        //-       +e.button--prev: i.icon-left-open
+        //-       +e.button--next: i.icon-right-open
+        //-     +b.loader
+        //-     +e.container
+        //-       +e.wrapper
+        //-         - for (a=1; a<=10; a++)
+        //-           +e.item
+        //-             +cardbox(a, 'diffwidth')
+
+        //- +b.notformobile
+        //-   +sep('l')
+        //-   +b.swiper
+        //-     +t('l').tpl-block-title--bright.color-blue.
+        //-       Покупатели, которые выбрали этот товар, также смотрели
+        //-     +b.prevnext
+        //-       +e.button--prev: i.icon-left-open
+        //-       +e.button--next: i.icon-right-open
+        //-     +b.loader
+        //-     +e.container
+        //-       +e.wrapper
+        //-         - for (a=1; a<=10; a++)
+        //-           +e.item
+        //-             +cardbox(a, 'diffwidth')
+
+      +b.clearfix
+      +b.notformobile: +sep('xxl')
+
+
+
+

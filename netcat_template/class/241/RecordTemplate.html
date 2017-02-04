@@ -1,0 +1,25 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?
+echo $f_AdminButtons;
+
+if (similar_text($f_File_type, "image/") >= 6) {
+    $t = 1;
+}
+if (image_type_to_mime_type(IMAGETYPE_SWF) == $f_File_type) {
+    $t = 2;
+}
+
+if ($cc_settings['Shows'] == 'on') {
+    $db->query("UPDATE `Message".$classID."` SET `ShowNum` = `ShowNum`+1 WHERE `Message_ID` = '".$f_RowID."'  ");
+}
+if ($t == 1) {
+    ?><a target='_blank' href='<?= $fullLink ?>'><img border='0' src='<?= $f_File ?>' alt='<?= $f_Name ?>' /></a><? }
+if ($t == 2) { ?>
+    <a target='_blank' href='<?= $fullLink ?>'>
+        <object>
+            <param name='movie' value='<?= $f_File ?>'>
+            <embed src='<?= $f_File ?>'></embed>
+        </object>
+    </a>
+<? } ?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

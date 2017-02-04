@@ -1,0 +1,55 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<div class='nc_list nc_clients'>
+    <div class='nc_table'><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'>
+    <?
+    echo $f_AdminButtons;
+
+    if ($cc_settings[ShowTitle]) {
+        ?><h3><?
+    if ($f_Description || $f_Field) {
+            ?><a href='<? echo $fullLink ?>'><? echo $f_Titl ?></a> <?
+    } else {
+        echo nc_edit_inline('Titl', $f_RowID, $cc);
+    }
+        ?></h3><?
+    }
+    if ($f_Logo) {
+        if (!$cc_settings[ShowTitle] && ($f_Description || $f_Field)) {
+            ?><a href='<?=$fullLink?>'><img class='nc_row_img' src='<? echo $f_Logo ?>' alt='<? echo $f_Titl ?>' style='border: 1px solid #E7E7E7; margin: 3px 7px 7px 0; padding: 3px;'/></a><?
+    } else {
+            ?><img class='nc_row_image' src='<? echo $f_Logo ?>' alt='<? echo $f_Titl ?>' /> <?
+    }
+}
+if ($cc_settings[ShowProjects] && $cc_settings[Sub] && $cc_settings[cc]) {
+    $list .= s_list_class($cc_settings[Sub], $cc_settings[cc], "&nc_clients=1&nc_client_id=$f_RowID");
+}
+    ?></div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+</div><?
+if ($totRows > $f_RowNum) {
+    ?><div class='nc_pagination'><?
+    if ($cc_settings['PaginationMode'] != 'nums') {
+        ?><div class='nc_prev_next'>
+                        <span class='nc_prev_link'><?
+        if ($prevLink) {
+            ?><a href='$prevLink'>Назад</a><?
+        }
+        else { ?>Назад<? } ?>
+        </span>
+         <span class='nc_next_link'><?
+        if ($nextLink) {
+            ?><a href='<? echo $nextLink ?>'>Далее</a><?
+        }
+        else { ?>Далее<? }
+        ?></span>
+                 </div><?
+    }
+    if ($cc_settings['PaginationMode'] != 'next_prev') {
+       ?><div class='nc_pagination'>Страницы: <? echo browse_messages($cc_env, 5) ?></div><?
+    }
+    ?></div><?
+}
+?><!-- /FormSuffix -->

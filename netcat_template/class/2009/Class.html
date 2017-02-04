@@ -1,0 +1,79 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<a name='comments'></a>
+	<p class="comments-title">Комментарии <span><?= $totRows ?></span></p>
+
+<?php
+if(isset($_GET['back']))
+{
+    echo '<div class="block-white"><p>Публикация новых комментариев возможна только после проверки администратором.</p></div>';
+}
+?>
+
+	<form action="/" method="post" id="comments-form" class="clearfix">
+
+		
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<?php
+$user_data = getUserData($f_UserID);
+
+?>
+
+<div class="comment-item">
+			<img src="<?= getThumbNow(nc_file_path('User', $f_UserID, 'ForumAvatar', 'h_'), 81, 81, 1, false, 95, -1) ?>" alt="s" class="comment-avatar">
+			<div class="comment-right">
+				<div class="comment-info">
+					<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_data['ForumName'])?>');"><?= $user_data['ForumName'] ?></a></span>
+					<span class="date"><?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day.", ".$f_Created_hours.':'.$f_Created_minutes)?></span>
+					<div class="comment-info-right">
+						<div class="ocomm ignore-select">
+			                <span><a href="javascript:void(0);" class="orating_m" title="Не нравится"></a></span>
+		                    <span><a href="javascript:void(0);" class="ocomm_res">0</a></span>
+			                <span><a href="javascript:void(0);" class="orating_p" title="Нравится"></a></span>                
+			            </div>
+					</div>
+				</div>
+				<div class="comment-content">
+                <?= ($admin_mode ? listQuery("SELECT myTitle FROM Message2000 WHERE Message_ID=$f_message_link LIMIT 0,1", "<b> \$data[myTitle]</b><br>") : NULL) ?>
+					<?= strip_tags($f_myText) ?>
+				</div>
+			</div>
+		</div> <!-- end. comment-item --><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></form>
+
+<?php
+
+if($current_user)
+{
+?>
+
+    <p class="content-title">Оставить отзыв</p>
+        <div class="makeComment block-white">
+        
+        <?=( $warnText ? "<div class='warnText'>$warnText</div>" : NULL )?>
+<form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' method='post' action='<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>add.php'>
+<div id='nc_moderate_form'>
+<div class='nc_clear'></div>
+<input name='admin_mode' type='hidden' value='<?= $admin_mode ?>' />
+<?= $nc_core->token->get_input() ?>
+<input name='catalogue' type='hidden' value='<?= $catalogue ?>' />
+<input name='cc' type='hidden' value='<?= $cc ?>' />
+<input name='sub' type='hidden' value='<?= $sub ?>' /><input name='posting' type='hidden' value='1' />
+<input name='curPos' type='hidden' value='<?= $curPos ?>' />
+<input name='f_Parent_Message_ID' type='hidden' value='<?= $f_Parent_Message_ID ?>' />
+<?= nc_form_moderate('add', $admin_mode, 0, $systemTableID, $current_cc, (isset($f_Checked) ? $f_Checked  : null), $f_Priority , $f_Keyword, $f_ncTitle, $f_ncKeywords, $f_ncDescription ) ?>
+</div>
+<?= nc_text_field('myText', "", ($class_id ? $class_id : $classID), 1) ?><br />
+<br />
+<input type="hidden" name="f_message_link" value="<?= $newsLink ?>">
+<? if (!$AUTH_USER_ID && $current_cc['UseCaptcha'] && $MODULE_VARS['captcha']) { ?><?= nc_captcha_formfield() ?><br/><br/><?= NETCAT_MODERATION_CAPTCHA ?> (*):<br/><input type='text' name='nc_captcha_code' size='10'><br/><br/><? } ?>
+<div><?= NETCAT_MODERATION_INFO_REQFIELDS ?></div><br/>
+<?= nc_submit_button(NETCAT_MODERATION_BUTTON_ADD) ?>
+</form>   
+            
+    </div> 
+<?php
+}
+?>    <!-- /FormSuffix -->

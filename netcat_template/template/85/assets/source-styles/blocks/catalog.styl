@@ -1,0 +1,25 @@
+.tpl-block-catalog
+  clearfix()
+  position: relative
+  margin-right: -20px
+  @media min
+    width: auto
+    margin: 0
+  &-item
+    float: left
+    width: 33.333%
+    padding-right: 20px
+    margin-bottom: 20px
+    @media max
+      width: 25%
+    @media min
+      float: none
+      margin: 50px 0 0
+      width: auto !important
+      background: blue
+  &--view_list
+    margin-right: 0
+  &--view_list &-item
+    float: none
+    width: 100%
+    padding-right: 0

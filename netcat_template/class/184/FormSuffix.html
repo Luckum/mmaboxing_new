@@ -1,0 +1,33 @@
+<?
+    if ($cc_settings['ListStyle'] != 'none') {
+                ?></<?= $cc_settings['ListStyle']; ?>><?
+}
+if ($totRows > $f_RowNum) {
+                ?><div class='nc_pagination'>
+    <? if ($cc_settings['PaginationMode'] != 'nums') {
+        ?><div class='nc_prev_next'>
+                <span class='nc_prev_link'><?
+        if ($prevLink) {
+            ?><a href='<?= $prevLink; ?>'>Назад</a>"<?
+        } else {
+            ?>Назад<?
+        }
+        ?>
+                </span>
+
+                <span class='nc_next_link'> <?
+            if ($nextLink) {
+                ?><a href='<?= $nextLink; ?>'>Далее</a>"<?
+            } else {
+            ?>Далее<?
+        }
+        ?>
+                </span>
+            </div><? }
+    ?>
+    <? if ($cc_settings['PaginationMode'] != 'next_prev') {
+        ?><div class='nc_pagination'>Страницы: <? browse_messages($cc_env, 5) ?></div><?
+    }
+    ?></div><?
+}
+?></div>

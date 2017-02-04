@@ -1,0 +1,73 @@
+// Мобильная корзина
+.tpl-block-mobilecart
+  font-size: 24px
+  font-weight: 300
+  padding: 55px 50px
+  &-delete
+    position: absolute
+    top: 50px
+    right: 50px
+    cursor: pointer
+    mlink()
+    width: 54px
+    height: 54px
+    padding: 10px
+    margin: -10px
+    display: block
+    background: colorWhite
+    outline: 1px solid white
+    &:before
+      content: ''
+      position: absolute
+      right: 100%
+      top: 0
+      height: 100%
+      width: 50px
+      background: linear-gradient(to right, rgba(#fff, 0), #ffffff);
+
+    i
+      display: block
+  &-info
+    font-weight: 100
+    font-size: 34px
+    line-height: 1.1
+  &-item
+    margin-top: 55px
+    background: #fff
+    color: colorBase
+    padding: 42px 50px 45px
+    position: relative
+  &-showimage
+    position: absolute
+    bottom: 50px
+    right: 50px
+    padding: 10px 20px
+    margin: -10px -20px
+    font-size: 57px
+    line-height: 1em
+    font-family: fontello
+    cursor: pointer
+    mlink()
+  &-showimage:before
+    content: '\e803'
+  &-item.tpl-state-active &-showimage:before
+    content: '\e80c'
+  .tpl-field-title
+    font-size: 48px
+    font-weight: 600
+    line-height: 1
+  .tpl-field-description
+    font-style: italic
+    line-height: 1.2
+    margin-top: 10px
+  .tpl-field-cost
+    margin-top: 40px
+    font-size: 57px
+    font-weight: 400
+    line-height: 57px
+  .tpl-field-image
+    padding-top: 45px
+    display: none
+    img
+      max-width: 100%
+

@@ -1,0 +1,121 @@
+<!-- FormPrefix --><?
+echo $f_AdminCommon;
+
+/* Если мы в режиме редактирования и в настройках не указано отображение "корзины", то убираем её */
+if (!$admin_mode && $cc_settings['cart']) {
+    ?>
+    <div style='text-align:right; float:right; color:#333; padding:8px 12px 8px 60px; margin:5px 0; background:#EDEFF0 url(<?= $ADMIN_TEMPLATE ?>img/i_module_netshop_big.gif) no-repeat 10px 50%'>
+    <?= $GLOBALS['Netshop_CartSum'] ?><br>
+    <?= $GLOBALS['Netshop_OrderLink'] ?>
+    </div>
+    <div style='clear:both'></div><? } ?>
+<div id="cat_brief_1"><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+// если мы в режиме редактирования, то далее следует формирование элементов управление товарами
+if ($admin_mode) {
+    // формируем ссылку на добавление дочернего объекта
+    $add_child_link = $SUB_FOLDER.$HTTP_ROOT_PATH."add.php?catalogue=$catalogue&sub=$sub&cc=$cc&f_Parent_Message_ID=$f_RowID&curPos=$curPos";
+
+    // создаем строки таблицы дочерних товаров если они существуют
+    $f_this_item_variants = listQuery("SELECT * FROM Message$classID WHERE Parent_Message_ID=$f_RowID ORDER BY Priority DESC", ' 
+  <tr>
+		<td style=\'border-bottom:1px solid #D3D2C9; font-size:100%;\' width=\'60%\'>
+        &nbsp; &nbsp; &nbsp;
+        <img src=\''.$ADMIN_PATH.'images/arrow_sec.gif\' width=\'14\' height=\'10\' alt=\'\'>
+        <b>$data[Message_ID].</b> 
+        <a href=\''.$SUB_FOLDER.$HTTP_ROOT_PATH.'full.php?catalogue=$GLOBALS[catalogue]&sub=$GLOBALS[sub]&cc=$GLOBALS[cc]&message=$data[Message_ID]\'>$data[Name]</a>
+		</td>
+		<td style=\'border-bottom:1px solid #D3D2C9; font-size:100%;\' width=\'15%\' align=\'right\'>
+    <nobr> 
+      ($data[$GLOBALS["shop"]->PriceColumn] 
+            ? $GLOBALS["shop"]->FormatCurrency($data[$GLOBALS["shop"]->PriceColumn], $data[$GLOBALS["shop"]->CurrencyColumn])
+            : "цена не указана")."
+          </nobr>
+		</td>
+       <td style=\'border-bottom:1px solid #D3D2C9; font-size:100%;\'>&nbsp;</td>
+       <td align=\'right\' style=\'border-bottom:1px solid #D3D2C9;\' width=\'1%\'>
+        <nobr>
+        <a href=\''.$SUB_FOLDER.$HTTP_ROOT_PATH.'message.php?catalogue=$GLOBALS[catalogue]&sub=$GLOBALS[sub]&cc=$GLOBALS[cc]&message=$data[Message_ID]&curPos=$GLOBALS[curPos]\'>
+        <img src=\''.$ADMIN_PATH.'skins/default/img/i_obj_edit.gif\' border=\'0\' width=\'16\' height=\'16\' alt=\''.NETCAT_MODERATION_CHANGE.'\'></a>
+      
+        <a href=\''.$SUB_FOLDER.$HTTP_ROOT_PATH.'message.php?catalogue=$GLOBALS[catalogue]&sub=$GLOBALS[sub]&cc=$GLOBALS[cc]&message=$data[Message_ID]&delete=1&curPos=$GLOBALS[curPos]\'>
+        <img src=\''.$ADMIN_PATH.'skins/default/img/i_obj_delete.gif\' border=\'0\' width=\'16\' height=\'16\' alt=\''.NETCAT_MODERATION_DELETE.'\'></a>
+      
+        <a href=\''.$SUB_FOLDER.$HTTP_ROOT_PATH.'message.php?catalogue=$GLOBALS[catalogue]&sub=$GLOBALS[sub]&cc=$GLOBALS[cc]&message=$data[Message_ID]&admin_mode=1&posting=1&curPos=$GLOBALS[curPos]&checked=".($data["Checked"] ? 1 : 2)."\'>
+        <img src=\''.$ADMIN_PATH.'skins/default/img/i_obj_turn".($data[Checked] ? "on" : "off").".gif\' border=\'0\' width=\'16\' height=\'16\' alt=\'".($data["Checked"] ? NETCAT_MODERATION_TURNTOON : NETCAT_MODERATION_TURNTOOFF )."\'></a>
+        </nobr>
+       </td>
+    </tr>');
+}
+echo $f_AdminButtons;
+if ($RowNum & 1) {
+    $block = 'block last';
+} else {
+    $block = 'block';
+}
+?>
+<form method=post id="netshop" action='<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>modules/netshop/post.php' style='margin:0'>
+    <div class="<?= $block ?>">
+        <? if ($f_BigImage) { ?>
+            <div class='left'>
+                <div class="display_table"><div class="display_table_row"><div class="display_table_cell">
+                            <a class='title' href='<?= $fullLink ?>'><img src='<?=$f_BigImage_url?>' alt='<?= $f_Name ?>' style='width: 150px;'/></a>
+                        </div></div></div>
+            </div>
+        <? } ?>
+        <div class="right">
+            <a class='title' href='<?= $fullLink ?>'><h3><?= $f_Name ?></h3></a>
+            <div class="description">
+                <? 
+                if ($f_Vendor) { 
+                    ?>Автор: <?= nc_edit_inline('Vendor', $f_RowID, $cc);
+                }
+                ?>
+            </div>
+            <?
+            if (!$admin_mode) {
+                if (($db->get_var("SELECT COUNT(*) as n FROM Message$classID WHERE Parent_Message_ID=$f_RowID AND Checked=1") >> 0)) {
+                    ?><a href='<?= $fullLink ?>'><b>Подробнее...</b></a><? } else { ?>
+                    <input type='hidden' name='redirect_url' value='<?= $GLOBALS[uri_path] ?>'>
+                    <input type='hidden' name='cart_mode' value='add'>
+                    <input type='hidden' name='cart[<?= $classID ?>][<?= $f_RowID ?>]' value='1'>
+                    <!--<button type='submit'><img src='".$SUB_FOLDER."/images/i_cart.gif'></button>-->
+                <? }
+            } ?>
+            <div class="price_and_cart">
+                <div class="right_block"><a href="#" onclick="document.getElementById('netshop').submit()" class="buy"></a></div>
+                <div class="left_block">
+                    <div class="price_product">
+                        <span class="old_price_product"></span><br />
+                        <span class="new_price_product"><?= $shop->FormatCurrency($f_Price, $f_Netshop_Currency_Column, true) ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?
+        if ($RowNum & 1) {
+            ?> <div class='clear'></div>
+        </div> 
+        <div class='clear'></div> <?
+    } else {
+            ?> <div class='clear'></div>
+    </div> <?
+}
+        ?>
+</form>
+<?
+/* если мы в режиме редактирования, то далее идёт список дочерних товаров сформированный выше. */
+if ($admin_mode) {
+    ?>  
+    <div style='margin:14px 0px 6px;'>
+        <img src='<?= $ADMIN_PATH ?>skins/default/img/i_obj_add.gif' width='16' height='16' style='vertical-align:middle' border='0' alt='Добавить вариант товара'>
+        <a href='<?= $add_child_link ?>'>Добавить вариант товара</a>
+    </b>
+    </div>
+    <table cellspacing='0' cellpadding='0' width='100%' style='border-collapse:collapse;'>
+        <?= $f_this_item_variants ?>
+    </table><? } ?>
+<? $RowNum++; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

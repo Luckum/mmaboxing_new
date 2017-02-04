@@ -1,0 +1,9 @@
+<? if(!$f_ContactName) {
+	$posting = 0;
+	$warnText = NETCAT_MODERATION_INFO_REQFIELDS;
+}
+
+if (!$shop->CartCount()) {
+  $posting = 0;
+}
+?>

@@ -1,0 +1,114 @@
+include partials/_includes
+
+
+
++layout
+
+  // Контент
+  +b.content--frontpage
+
+    include partials/hero
+
+    .tpl-block-layoutwidth
+
+      +b('aside').aside
+        include partials/asideMenu
+      +b.main
+        +b.frontlayout
+
+          // Алфавитный список
+          +e.alphabet
+            include partials/alphabet
+
+          // Список новостей
+          +e.news
+            include partials/newsList
+
+          // Баннер
+          +e.banner
+            include partials/banner
+
+          // Акции
+          +e.stock
+            +b.swiper--1or2or3
+              +t('l').tpl-block-title--bright.color-blue Акции
+              +b.prevnext
+                +e.button--prev: i.icon-left-open
+                +e.button--next: i.icon-right-open
+              +b.loader
+              +e.container
+                +e.wrapper
+                  - for (a=1; a<=4; a++)
+                    +e.item
+                      +cardbox(i, 'wide border_blue')
+
+          // Новое
+          +e.new
+            +b.swiper--1or2or4
+              +t('l').tpl-block-title--bright.color-red Новое в магазине
+              +b.prevnext--red
+                +e.button--prev: i.icon-left-open
+                +e.button--next: i.icon-right-open
+              +b.loader
+              +e.container
+                +e.wrapper
+                  - for (a=1; a<=4; a++)
+                    +e.item
+                      +cardbox(i, 'mini')
+
+          +b.clearfix
+
+
+
+          // Сейчас смотрят
+          +b.notformobile
+            +sep
+            +b.swiper--1or3or4
+              +t('l').tpl-block-title--bright.color-blue Сейчас смотрят
+              +b.prevnext
+                +e.button--prev: i.icon-left-open
+                +e.button--next: i.icon-right-open
+              +b.loader
+              +e.container
+                +e.wrapper
+                  - for (a=1; a<=4; a++)
+                    +e.item
+                      +cardbox(i, 'wide')
+
+          // Недавно купили
+          +b.notformobile
+            +sep
+            +b.swiper--1or3or4
+              +t('l').tpl-block-title--bright.color-blue Недавно купили
+              +b.prevnext
+                +e.button--prev: i.icon-left-open
+                +e.button--next: i.icon-right-open
+              +b.loader
+              +e.container
+                +e.wrapper
+                  - for (a=1; a<=4; a++)
+                    +e.item
+                      +cardbox(i, 'wide')
+
+
+
+
+
+
+
+
+      +b.clearfix
+
+      +sep('xs')
+
+
+
+
+
+
+
+    +b.notformobile: +sep('xxl')
+
+
+
+

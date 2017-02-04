@@ -1,0 +1,22 @@
+
+
+// Варианты
+.tpl-block-variants
+  position: relative
+  z-index: 10
+  &-popup
+    opacity: 0
+    visibility: hidden
+    position: absolute
+    background: #EAEFF2
+    width: 200px
+    padding: 5px 20px
+    transition: opacity 0.2s
+  &:hover &-popup
+    opacity: 1
+    visibility: visible
+  &-item
+    font-size: 12px
+    line-height: 14px
+    padding: 5px 0
+    display: block

@@ -1,0 +1,177 @@
+.tpl-block-order
+  border: 5px solid #0C1B78
+  width: 100%
+  padding: 30px 75px 75px
+  margin-bottom: 140px
+  font-weight: 400
+  position: relative
+  @media min
+    padding: 55px 0 0
+    border: none
+    margin-top: 75px
+    margin-bottom: 235px
+  &-title
+    font-size: 24px
+    font-weight: 400
+    padding: 0 20px
+    margin-left: -30px
+    @media min
+      font-size: 36px
+      font-weight: 300
+      line-height: 1.2
+      padding: 0 0 20px
+      margin: 0
+  &-row
+    clearfix()
+  &-col
+    float: left
+    position: relative
+    margin-right: -100%
+    debug()
+    @media min
+      float: none
+      margin: 0
+    &--half_1
+      padding-right: 50px
+      left: 0
+    &--half_2
+      left: 50%
+      padding-left: 50px
+    &--half_1,
+    &--half_2
+      width: 50%
+      @media min
+        left: auto
+        width: auto
+      input, textarea
+        font-weight: 400
+      p
+        margin-bottom: 20px
+    &--third_1
+      left: 0
+    &--third_2
+      left: 33.333%
+    &--third_3
+      left: 66.666%
+    &--third_1,
+    &--third_2,
+    &--third_3
+      width: 33.333%
+      padding-right: 50px
+      @media min
+        width: auto
+        left: auto
+        border-bottom: 1px solid #E5EBEF
+        padding: 40px 0
+
+  &-summary
+    font-size: 36px
+    font-weight: 600
+    line-height: 1
+    margin-bottom: 0.5em
+    display: block
+    position: relative
+    width: 100%
+    @media min
+      display: inline-block
+      position: relative
+      margin-bottom: 0
+      overflow: hidden
+      margin-top: 75px
+  &-summarytitle
+    @media min
+      font-weight: 500
+      font-size: 24px
+      float: left
+      position: relative
+  &-summarycost
+    @media min
+      float: right
+  &-summarycolon
+    @media min
+      display: none
+  &-summarydesc
+    @media min
+      display: block
+      font-size: 14px
+      font-weight: 300
+      position: absolute
+      bottom: 0
+      left: 0
+
+
+
+
+
+  &-actions
+    position: absolute
+    bottom: -100px
+    left: 0
+    width: 100%
+    text-align: center
+    @media min
+      bottom: -175px
+    .tpl-block-ibtn
+      font-size: 18px
+      @media min
+        font-size: 32px
+
+  &-legalphysical
+    padding: 0 75px 35px
+    margin: 0 -75px 45px
+    border-bottom: 1px solid #E5EBEF
+    @media min
+      margin: 0 0 55px
+      padding: 0 0 0
+      border-bottom: none
+    label.tpl-block-ichlabel
+      display: inline-block
+      margin-right: 60px
+      &:last-child
+        margin-right: 0
+      @media min
+        font-size: 24px
+
+  &-hero
+    padding: 50px 0
+    text-align: center
+    font-size: 36px
+    font-weight: 300
+    line-height: 1.2
+
+  &-city
+    width: 75%
+    display: block
+    @media min
+      width: 100%
+
+  .tpl-block-title
+    margin-bottom: 40px
+  .tpl-block-title--size_s
+    @media min
+      margin-top: 75px
+  .tpl-block-title--size_ml
+    margin-bottom: 30px
+    @media min
+      margin-top: 75px
+  .tpl-block-title--size_xl
+    margin-bottom: 0
+  .tpl-block-sep
+    @media min
+      display: none
+  .tpl-block-ichlabel
+    line-height: 1.2
+    padding-left: 30px
+    text-indent: 0
+    position: relative
+    vertical-align: top
+    font-size: 16px
+    @media min
+      font-size: 30px
+      font-weight: 300
+    input
+      position: absolute
+      margin-left: -30px
+      margin-top: 0.2em
+      @media min
+        margin-top: 0.4em

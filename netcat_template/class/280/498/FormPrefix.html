@@ -1,0 +1,19 @@
+<?
+if ($cart_empty) {
+    echo NETCAT_MODULE_MINISHOP_CART_EMPTY_TEXT;
+} else {
+    ?>
+    <style type='text/css'>
+        .nc_mscart {width:650px !important}
+        .nc_mscart th { background: #EEEEEE; color: #595959; padding: 5px; }
+        .nc_mscart .input_text {width: 40px !important; margin:0 auto;}
+        .align-center, .r {text-align: center !important}
+    </style>
+<form method='post' action='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH ?>modules/minishop/index.php' style='margin-bottom: 10px'>
+        <table class='nc_forum'>
+            <tr>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_NAME ?></th>
+                <th class="align-center"><?= NETCAT_MODULE_MINISHOP_CART_DISP_PRICE ?></th>
+                <th class="align-center"><?= NETCAT_MODULE_MINISHOP_CART_DISP_VALUE ?></th>
+                <th class="align-center"><?= NETCAT_MODULE_MINISHOP_CART_DISP_COST ?></th>
+            </tr> <? } ?>

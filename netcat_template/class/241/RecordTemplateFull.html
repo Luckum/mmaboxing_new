@@ -1,0 +1,6 @@
+<?
+if($cc_settings['Clicks'] == 'on') {
+  $db->query("UPDATE `Message".$classID."` SET `ClickNum` = `ClickNum`+1 WHERE `Message_ID` = '".$f_RowID."' ");
+}
+header("Location: ".$f_Link);
+?>

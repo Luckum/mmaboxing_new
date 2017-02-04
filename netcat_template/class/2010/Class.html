@@ -1,0 +1,36 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<? echo $f_AdminButtons; ?>
+<?php if(!$showMain)
+{
+?>
+<main class="content page-text">
+	<h1><?= $current_cc['Sub_Class_Name'] ?></h1>
+		<div class="content-inner col-1">
+    <?  echo $f_AdminButtons; ?>
+        <div class="content-top">
+        
+<div class='fight-calendar'>
+<table width='100%'>
+<tr><th>Дата</th><th>Название</th><th>Место проведения</th><th>Дисциплина</th></tr>
+<?php 
+}
+?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<?php if($showMain)
+{
+echo '<div class="date">'.$f_myDate_year.'.'.$f_myDate_month.'.'.$f_myDate_day.'</div>
+						<a href="'.$fullLink.'" class="link">'.$f_myName.'</a>';
+}
+else
+{
+?>
+<tr>
+<td><?= $f_myDate_year.'.'.$f_myDate_month.'.'.$f_myDate_day ?></td>
+<td><a href="<?=$fullLink?>"><?= $f_myName ?></a></td>
+<td><?= $f_myCountry.' '.$f_myCity ?></td>
+<td><?= $f_myType ?></td>
+</tr>
+<?php } ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if(!$showMain) echo '</table>'; ?><!-- /FormSuffix -->

@@ -1,0 +1,11 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<li class="slide">
+			<a href="<?= ($f_myLink ? $f_myLink : "javascript:void(0);") ?> " target="_blank">
+				<img src="<?=getThumbNow($f_myImage, 980, 280, 1, false, 95, -1)?>" alt="">
+				<p class="slide-title"><?= $f_myName ?></p>
+			</a>
+		</li><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?= s_list_class(3,1,"&nc_ctpl=2019&recNum=4") ?><!-- /FormSuffix -->

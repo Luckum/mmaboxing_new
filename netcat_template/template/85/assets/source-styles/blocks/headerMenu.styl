@@ -1,0 +1,26 @@
+.tpl-block-headermenu
+  border-bottom: 5px solid colorRed
+  height: 40px
+  position: relative
+  margin-right: -50px
+  &:after
+    content: ''
+    position: absolute
+    left: 100%
+    top: 100%
+    border-bottom: 5px solid colorRed
+    width: 80px
+  &-item
+    display: inline-block
+    font-size: 18px
+    margin-right: 20px
+    line-height: 35px
+    color: colorRed
+    a
+      color: colorBase
+      text-decoration: none
+      &:hover
+        color: colorRed
+      &.tpl-state-current
+        color: colorRed
+        pointer-events: none

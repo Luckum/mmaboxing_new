@@ -1,0 +1,10 @@
+include partials/_includes
+.tpl-block-layoutwidth
+  .tpl-block-cardpopup
+    +b.title--size_xl
+      | Фотоаппарат Nikon D90 KIT 18-105mm
+      +e.desc зеркальный цифровой фотоаппарат
+    +sep('s')
+    include partials/cardlayout
+    script
+      $(window).trigger('galleryPopup')

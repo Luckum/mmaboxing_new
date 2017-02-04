@@ -1,0 +1,36 @@
+<?php
+$check_data = md5($_POST['Sub_ID'] . $nc_core->get_settings('SecretKey') . $_POST['Cost'] . $_POST['Goods_ID'] . $_POST['Goods_Title']);
+
+if ($check_data != $_POST['token']){
+    echo "<div class='warnText'>Некорректные данные</div>";
+    echo "<a href='{$_SERVER['HTTP_REFERER']}'>Вернуться в раздел</a>";
+} else {
+    echo "
+    <form name='adminForm' id='adminForm' enctype='multipart/form-data' method='post' action='".$SUB_FOLDER.$HTTP_ROOT_PATH."add.php'>
+    <div id='nc_moderate_form'>
+    <div class='nc_clear'></div>
+    <input name='admin_mode' type='hidden' value='$admin_mode' />
+    ".$nc_core->token->get_input()."
+    <input name='catalogue' type='hidden' value='$catalogue' />
+    <input name='cc' type='hidden' value='$cc' />
+    <input name='sub' type='hidden' value='$sub' />
+    <input name='posting' type='hidden' value='1' />
+    <input name='curPos' type='hidden' value='$curPos' />
+    <input name='f_Sub_ID' type='hidden' value='{$_POST['Sub_ID']}' />
+    <input name='f_Cost' type='hidden' value='{$_POST['Cost']}' />
+    <input name='f_Goods_ID' type='hidden' value='{$_POST['Goods_ID']}' />
+    <input name='f_Goods_Title' type='hidden' value='{$_POST['Goods_Title']}' />
+    <input name='f_Parent_Message_ID' type='hidden' value='$f_Parent_Message_ID' />
+    </div>
+
+    ".nc_string_field("Surname", "maxlength='255' size='50'", $classID, 1)."<br /><br />
+    ".nc_string_field("Name", "maxlength='255' size='50'", $classID, 1)."<br /><br />
+    ".nc_string_field("Phone", "maxlength='255' size='50'", $classID, 1)."<br /><br />
+    ".nc_string_field("Email", "maxlength='255' size='50'", $classID, 1)."<br /><br />
+    ".nc_string_field("Adress", "maxlength='255' size='50'", $classID, 1)."<br /><br />
+
+    ".(!$AUTH_USER_ID && $current_cc['UseCaptcha'] && $MODULE_VARS['captcha'] ? nc_captcha_formfield()."<br/><br/>".NETCAT_MODERATION_CAPTCHA." (*):<br/><input type='text' name='nc_captcha_code' size='10'><br/><br/>" : "")."
+    <br/>".NETCAT_MODERATION_INFO_REQFIELDS."<br/><br/>
+    ".nc_submit_button(NETCAT_MODERATION_BUTTON_ADD)."
+    </form>";
+}

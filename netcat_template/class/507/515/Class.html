@@ -1,0 +1,12 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<ul><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<li>
+    <a href="<?=$fullLink ?>" <?=nc_ls_display_link('main-section', 0, 'shortpage') ?>>
+        <img src="<?= $f_preview_image; ?>" alt="" />
+        <span><?= $f_slide_title; ?></span>
+    </a>
+</li><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></ul><!-- /FormSuffix -->

@@ -1,0 +1,96 @@
+<?
+echo $f_AdminCommon;
+?>
+
+<div id="cat_full_slider_block">
+    <div class="left">
+        <div class="left">
+            <div class="display_table"><div class="display_table_row"><div class="display_table_cell">
+                        <?
+                        if (!$f_BigImage) {
+                            if ($f_Image) {
+                                ?><img src='<?= $f_Image_url ?>' />
+                                <?
+                            }
+                        } else {
+                            ?><img src='<?= $f_BigImage_url ?>' /><? } ?>
+                    </div></div></div>
+        </div>
+        <div class="right">
+            <div class="top"></div>
+            <div class="bottom"></div>
+            <div class="catalogue_full_view">
+                <?= $f_Slider ?>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="float_block">
+            <div class="left">
+                <div class="price">
+                    <div class="old_price"><?= $shop_mode == 2 ? $shop->FormatCurrency($f_Price * 2) : $f_Price * 2 . '.-'; ?></div>
+                    <div class="new_price"><?= $shop_mode == 2 ? $shop->FormatCurrency($f_Price) : $f_Price . '.-'; ?></div>
+                </div>
+            </div>
+            <div class="right">
+                <?
+                switch ($shop_mode) {
+                    case 2:
+                        ?>
+                        <form method='post' id='netshop_<?= $f_RowID; ?>' action='<?= $SUB_FOLDER . $HTTP_ROOT_PATH; ?>modules/netshop/post.php' style='margin: 0px'>
+                            <input type='hidden' name='redirect_url' value='<?= $GLOBALS['uri_path']; ?>' />
+                            <input type='hidden' name='cart_mode' value='add' />
+                            <input type='hidden' name='cart[<?= $classID; ?>][<?= $f_RowID; ?>]' value='1' />
+                            <a href="#" onclick="document.getElementById('netshop_<?= $f_RowID; ?>').submit(); return false;" class="in_cart"></a>
+                        </form>
+                        <?
+                        break;
+
+                    case 1:
+                        echo $nc_minishop->show_put_button($f_Name, $f_Price, $fullLink);
+                        break;
+
+                    default:
+                        ?>
+                        <form method='post' id='simple_shop_<?= $f_RowID; ?>' action='<?= $SUB_FOLDER . $orders_href ?>' style='margin: 0px'>
+                            <input name='Sub_ID' type='hidden' value='<?= $cc ?>' />
+                            <input name='Goods_ID' type='hidden' value='<?= $f_RowID ?>' />
+                            <input name='Goods_Title' type='hidden' value='<?= $f_Name ?>' />
+                            <input name='Cost' type='hidden' value='<?= $f_Price ?>' />
+                            <input name='token' type='hidden' value='<?= md5($cc . "net(^_^)cat" . $f_Price . $f_RowID . $f_Name) ?>' />
+                            <a href="#" onclick="document.getElementById('simple_shop_<?= $f_RowID; ?>').submit(); return false;" >Заказать</a>
+                        </form>
+                        <?
+                        break;
+                }
+                ?>
+            </div>
+        </div>
+        <div class="float_block float_block_2">
+            <div class="left">
+                <div class="vote_block">
+
+                </div>
+                <div class="new_comment">
+                </div>
+            </div>
+            <div class="right">
+                <a href="/delivery">Подробнее о доставке</a>
+            </div>
+        </div>
+        <div class="block_description">
+            <strong>Общие характеристики</strong><br />
+            <?= nc_edit_inline('Description', $f_RowID, $cc) ?>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div id="cat_full_other">
+    <div class="title">Описание</div>
+    <?= nc_edit_inline('Details', $f_RowID, $cc) ?>
+
+</div><br />
+
+<? if (nc_module_check_by_keyword("comments")) { ?>
+    <div class='nc_comments'><?= $nc_comments->wall($f_RowID) ?></div><? } ?>

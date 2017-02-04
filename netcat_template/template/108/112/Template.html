@@ -1,0 +1,17 @@
+<!-- Header --><? if ( ! $nc_core->input->fetch_get('lsDisplayType')): ?>
+%Header
+<div id='content' class='content' <?=nc_ls_display_container('content'); ?>>
+<? endif ?>
+<!-- -->
+
+<script>
+set_cart_count( <?=(int)nc_mod_netshop::get_instance()->cart->count() ?> );
+</script><!-- /Header -->
+
+<!-- Footer --><? if ( ! $nc_core->input->fetch_get('lsDisplayType')): ?>
+</div>
+<!-- /#content -->
+%Footer
+<? else: ?>
+<!-- -->
+<? endif ?><!-- /Footer -->

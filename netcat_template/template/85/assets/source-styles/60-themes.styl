@@ -1,0 +1,209 @@
+.tpl-block-theme--green
+  a, a:hover
+    color: colorGreen
+  .tpl-block-pseudolink
+    &:hover, u, &:hover u, &:after, &:before
+      color: colorGreen
+
+  .color-blue
+    color: colorGreen !important
+
+
+  // ШАПКА
+  .tpl-block-header
+    background: #2DB189
+    font-weight: 300
+    a
+      color: #fff
+    &:before
+      content: ''
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 60px
+      background: #269171
+      z-index: 1
+      @media min
+        display: none
+    .tpl-block-layoutwidth
+      z-index: 2;
+  .tpl-block-headerlogo
+    background-image: url(../i/headerlogo-white.png)
+  .tpl-block-headermenu
+    border-bottom-color: transparent
+    .tpl-state-current
+      opacity: 0.8
+  .tpl-block-headercontact
+    .tpl-field-title
+      color: colorBase
+      font-weight: 400
+    .tpl-field-description
+      color: colorWhite
+  .tpl-block-headercart
+    .tpl-field-title
+      color: colorBase
+      font-weight: 400
+    .tpl-field-description
+      font-style: normal
+      color: colorWhite
+      .tpl-field-summary
+        color: colorBase
+    .icon-cart-blue
+      background-image: inline('../i/inline/icon-cart-white-large.png')
+  .tpl-block-headersearch
+    background: colorWhite
+    &-category
+      .chosen-container
+        &.chosen-with-drop .chosen-single:after,
+        .chosen-single:hover:after
+          color: colorBase
+        .chosen-single
+          background: colorWhite
+          color: colorBase
+        .chosen-results
+          li
+            color: colorWhite
+            background: colorGreen
+            &.highlighted
+              background: #269171
+    .tpl-block-itext
+      background: #E6EAEE
+
+  // Боковое меню
+  .tpl-block-asidemenu
+    background: #F5F5F5
+    &:before
+      border-bottom-color: #F5F5F5
+    &-item
+      color: colorBase
+    a
+      color: colorBase
+      &:hover
+        color: colorGreen
+      &.tpl-state-current
+        opacity: 0.6
+        pointer-events: none
+
+  // Кнопки
+  .tpl-block-ibtn
+    color: colorBase
+  .tpl-block-ibtn--theme_red
+    color: colorWhite
+    &:hover
+      color: colorWhite
+  .tpl-block-ibtn--theme_blue
+    color: colorWhite
+    background: #269171
+    &:hover
+      color: colorWhite
+
+  // Подвал
+  .tpl-block-footer
+    background: #DAE0E5
+    a
+      color: colorBase
+
+  // Табы над подвалом
+  .tpl-block-tabs--footer
+    .tpl-block-tabs-switcher
+      border-bottom: 5px solid colorGreen !important
+    .tpl-block-tabs-tab.tpl-state-current
+      background: colorGreen
+    .tpl-block-tabs-wrapper
+      background: #F5F5F5
+    .tpl-block-tabs-trigger
+      border: 15px solid transparent
+      border-bottom-color: colorGreen
+      &.tpl-state-active
+        border-color: transparent
+        border-top-color: colorGreen
+
+  // scrollbar
+  .tpl-block-swiper-scrollbar
+    background: #DAE0E5
+    .swiper-scrollbar-drag
+      background: colorGreen
+
+
+  // Фильтр
+  .tpl-block-asidefilter
+    &-title--style_red
+      background: colorGreen
+
+  .tpl-block-platelist
+    &-button
+      color: colorBase
+      border-color: transparent
+      &:hover
+        color: colorBase
+        border-color: transparent
+      &.tpl-state-disabled
+        border-color: transparent
+      &.tpl-state-active
+        color: colorDull
+        pointer-events: none
+
+  .tpl-block-prevnext, .tpl-block-pages
+    &-button
+      color: colorDull
+      &:hover
+        color: colorRed
+        border-color: colorRed
+
+
+  .tpl-block-pages
+    &-item
+      a
+        color: colorBase
+      &.tpl-state-current
+        border-bottom: 5px solid colorGreen
+      &--prev,
+      &--next
+        a
+          border: 5px solid colorDull
+          color: colorDull
+          @media min
+            color: colorBase
+          &:hover
+            color: colorRed
+            border-color: colorRed
+          right: -25px
+
+
+  .tpl-block-rangeslider-handle
+    border-color: colorRed
+
+  .tpl-block-cardinfo
+    border-color: #269171
+    &-line
+      border-color: #269171
+
+  .tpl-block-comparision-remove .tpl-block-ibtn
+    color: colorDull
+    &:hover
+      color: colorRed
+
+  .tpl-block-socialbuttons a
+    color: colorBase
+
+  .tpl-block-icontextmenu a
+    color: colorBase
+
+  .tpl-block-cart
+    border-color: #269171
+  .tpl-block-cart-summary
+    border-color: #269171
+  .tpl-block-order
+    border-color: #269171
+
+
+  .tpl-block-breadcrumbs
+    a
+      color: colorBase
+
+
+  .icon-lowtohight,
+  .icon-highttolow
+    color: colorGreen
+

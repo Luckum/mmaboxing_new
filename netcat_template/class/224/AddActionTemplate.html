@@ -1,0 +1,85 @@
+<?php
+
+$order->set_id($msgID);
+$order->offsetUnset('SignUp');
+$email = $order['Email'];
+
+if (!$AUTH_USER_ID) {
+    if (!isset($_SESSION['user_hash'])) {
+        $_SESSION['user_hash'] = md5((mt_rand(1, 1000) * mt_rand(1, 100) + mt_rand(1, 10000)) / mt_rand(1, 10));
+    }
+    $order->set('user_hash', $_SESSION['user_hash']);
+
+    if ($nc_core->input->fetch_post('f_SignUp')) {
+        $user_id = 0;
+
+        if ($nc_core->user->check_login($email) == NC_AUTH_LOGIN_OK) {
+            $alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
+            $length = strlen($alphabet);
+            $password = '';
+
+            for ($i = 0; $i < 8; $i++) {
+                $password .= $alphabet[mt_rand(0, $length - 1)];
+            }
+
+            $registration_code = md5(uniqid('', true));
+
+            try {
+                $user_id = $nc_core->user->add(array(
+                    'Email' => $email,
+                    'Login' => $email,
+                ), 2, $password, array(
+                    'Checked' => 0,
+                ), $registration_code);
+            } catch (Exception $e) {
+
+            }
+        }
+
+        if ($user_id) {
+            $order->set('User_ID', $user_id);
+
+            $auth_settings = $nc_core->get_settings('', 'auth');
+            $system_settings = $nc_core->get_settings('', 'auth');
+            $mailer = new CMIMEMail();
+
+            $mailinfo = $nc_auth->get_confirm_mail($user_id, $password);
+            $mail_body = nc_mail_attachment_attach($mailer, $mailinfo['body'], 'auth_confirm_' . $catalogue);
+            $mailer->mailbody(strip_tags($mail_body), $mailinfo['html'] ? $mail_body : "");
+            $mailer->send($email, $system_settings['SpamFromEmail'], $system_settings['SpamFromEmail'], $mailinfo['subject'], $system_settings['SpamFromName']);
+        }
+    }
+}
+
+$netshop->place_order($order);
+
+$payment_method = new nc_netshop_payment_method($order['PaymentMethod']);
+$payment_system_id = $payment_method['handler_id'];
+
+$invoice = null;
+if ($payment_system_id) {
+    $invoice = new nc_payment_invoice(array(
+        "payment_system_id" => $payment_system_id,
+        "amount" => $order->get_totals(),
+        "description" => "Оплата заказа $msgID",
+        "currency" => $netshop->get_currency_code(),
+        "customer_id" => $AUTH_USER_ID,
+        "customer_name" => (string)$f_ContactName,
+        "customer_email" => (string)$f_Email,
+        "customer_phone" => (string)$f_Phone,
+        "order_source" => 'netshop',
+        "order_id" => $msgID,
+    ));
+    $invoice->save();
+}
+
+while (ob_end_clean()) ;
+
+if ($isNaked) {
+    echo 'OK';
+} else {
+    // Переадресация
+    header("Location: {$nc_core->SUB_FOLDER}/orders/added" . ($invoice ? ("?invoice=" . $invoice->get('id')) : ""));
+}
+
+exit;

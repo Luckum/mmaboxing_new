@@ -1,0 +1,120 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<h1><?= $current_sub['Subdivision_Name'] ?></h1>
+<div class='nc_list nc_news'>
+
+    <div class='nc_feed'>
+        <? if ($rssLink) { ?>
+            <img src='<?= $SUB_FOLDER ?>/images/rss.png' alt='RSS' /> <a style='padding-right: 10px;' href='<?= $rssLink; ?>'>RSS</a><? } ?>
+        <? if ($subscribe_link_text) {
+            ?><img src='<?= $SUB_FOLDER ?>/images/subscribe.jpg' alt='подписаться'/> <a href='<?= $subscribeLink; ?>'><?= $subscribe_link_text; ?></a><? } ?>
+    </div><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons ?>
+    <div class='nc_row item'>
+        <?
+        if ($cc_settings['Group'] == 'date' && $groupHeader = ( $curDep == $f_Date_day ? NULL : $curDep = $f_Date_day )) {
+            ?>
+            <h4 class='nc_group'><?= $groupHeader . "." . $f_Date_month . "." . $f_Date_year; ?></h4>
+            <?
+        }
+
+        if ($cc_settings['Group'] == 'month' && $groupHeader = ( $curDep == $f_Date_month ? NULL : $curDep = $f_Date_month )) {
+            ?>
+            <h4 class='nc_group'><?= $groupHeader . "." . $f_Date_year ?></h4>
+            <?
+        }
+        ?>
+
+        <h2>
+            <?= ($cc_settings['FullLink'] == 'title' && ($f_Full_text || $f_ExtLink) ? "<a href='" . opt_case($f_Full_text, $fullLink, $f_ExtLink) . "'>$f_NewsTitle</a>" : "$f_NewsTitle"); ?>
+        </h2>
+
+        <? if ($f_Announce) {
+            ?>
+            <p class='nc_announce'><?= nc_edit_inline('Announce', $f_RowID, $cc); ?></p>
+            <?
+        }
+
+        if ($f_SourceTitle || $f_SourceLink) {
+            ?>
+            <div class='nc_source'>
+                <span>Источник: </span>
+                <?
+                if ($f_SourceTitle && $f_SourceLink) {
+                    ?>
+                    <a href='<?= $f_SourceLink; ?>'><?= $f_SourceTitle; ?></a>
+                    <?
+                } else {
+                    if (!$f_SourceLink) {
+                        echo $f_SourceTitle;
+                    } else {
+                        ?>
+                        <a href='<?= $f_SourceLink; ?>'><?= $f_SourceLink; ?></a>
+                        <?
+                    }
+                }
+            ?></div><?
+        }
+        ?>
+
+            <?
+            if ($cc_settings['DateStyle'] != 'disable') {
+                ?>
+                <div class='nc_datetime'>
+                    <?
+                    if ($cc_settings['FullLink'] == 'date' && ($f_Full_text || $f_ExtLink)) {
+                        ?>
+                        <a href='<?= ($f_Full_text ? $fullLink : $f_ExtLink); ?>'>
+                        <?
+                    }
+
+                    if ($cc_settings['DateStyle'] != 'time') {
+                        ?>
+                        <span class='nc_date'><?= $f_Date_day . "." . $f_Date_month . "." . $f_Date_year; ?> </span>
+                        <?
+                    }
+
+                    if ($cc_settings['DateStyle'] != 'date') {
+                        ?>
+                        <span class='nc_time'><?= $f_Date_hours . ":" . $f_Date_minutes; ?> </span>
+                        <?
+                    }
+
+                    if ($cc_settings['FullLink'] == 'date' && ($f_Full_text || $f_ExtLink)) {
+                        ?>
+                        </a>
+                        <?
+                    }
+                    ?>
+                </div>
+                <?
+            }
+
+            if ($cc_settings['FullLink'] == 'more' && ($f_Full_text || $f_ExtLink)) {
+                ?>
+                <span class='nc_more'><a href='<?= ($f_Full_text ? $fullLink : $f_ExtLink); ?>'>подробнее...</a></span>")
+                <?
+            }
+            ?>
+    </div>
+<div class='clear'></div><br /><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?
+            if ($totRows > $f_RowNum && $cc_settings['ListingStyle'] == 'fixed') {
+            ?><div class='nc_pagination'>Страницы: <?= nc_browse_messages($cc_env, 5) ?></div><?
+}
+if ($totRows && $cc_settings['ListingStyle'] == 'day') {
+            ?>Архив по дням: <?=
+    listQuery("SELECT DATE_FORMAT(Date,'%Y') AS year, DATE_FORMAT(Date,'%m') AS month, DATE_FORMAT(Date,'%d') AS day FROM Message$classID WHERE Subdivision_ID=$sub AND Sub_Class_ID=$cc AND DATE_FORMAT(Date,'%Y%m')='$year$month' GROUP BY DATE_FORMAT(Date,'%d') ORDER BY Date", '".($i?" | ":NULL).($data[day]==' . $day . '?$data[day]:"<a href=' . $SUB_FOLDER . $current_sub[Hidden_URL] . '$data[year]/$data[month]/$data[day]/>$data[day]</a>")."');
+}
+if ($totRows && $cc_settings['ListingStyle'] == 'month') {
+            ?>Архив по месяцам: <?=
+    listQuery("SELECT DATE_FORMAT(Date,'%Y') AS year, DATE_FORMAT(Date,'%m') AS month FROM Message$classID WHERE Subdivision_ID=$sub AND Sub_Class_ID=$cc AND DATE_FORMAT(Date,'%Y')='$year' GROUP BY DATE_FORMAT(Date,'%m') ORDER BY Date", '".($i?" | ":NULL).($data[month]==' . $month . '?$data[month]:"<a href=' . $SUB_FOLDER . $current_sub[Hidden_URL] . '$data[year]/$data[month]/>$data[month]</a>")."');
+}
+if ($totRows && $cc_settings['ListingStyle'] == 'year') {
+            ?>Архив по годам: <?=
+    listQuery("SELECT DATE_FORMAT(Date,'%Y') AS year FROM Message$classID WHERE Subdivision_ID=$sub AND Sub_Class_ID=$cc GROUP BY DATE_FORMAT(Date,'%Y') ORDER BY Date", '".($i?" | ":NULL).($data[year]==' . $year . '?$data[year]:"<a href=' . $SUB_FOLDER . $current_sub[Hidden_URL] . '$data[year]/>$data[year]</a>")."');
+}
+        ?>
+
+</div><!-- /FormSuffix -->

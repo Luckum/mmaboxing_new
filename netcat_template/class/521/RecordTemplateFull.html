@@ -1,0 +1,349 @@
+<?
+
+$item = new nc_netshop_item($resMsg);
+$netshop->goodslist_recent->add($f_RowID, $classID);
+
+?>
+
+<div class="tpl-block-main tpl-block-main--wide tpl-block-negative-margin">
+<!-- Хлебные крошки-->
+<?= nc_browse_path($browse_path); ?>
+<div class="tpl-block-sep tpl-block-sep--size_xs"></div>
+<!-- Большой заголовок-->
+<div class="tpl-block-title tpl-block-title--size_xl"><?= $item['Vendor']; ?> <?= $item['Name']; ?>
+    <div class="tpl-block-title-desc"><?= $item['Type']; ?></div>
+</div>
+<div class="tpl-block-sep tpl-block-sep--size_s"></div>
+<!-- Раскладка-->
+<div class="tpl-block-cardlayout">
+    <!-- Рейтинг, соцкнопки, подменю-->
+    <div class="tpl-block-cardlayout-row">
+        <div class="tpl-block-cardlayout-col tpl-block-cardlayout-col--rating">
+            <!-- Рейтинг-->
+            <div class="tpl-block-rating">
+                <? for ($i = 1; $i <= 5; $i++): ?>
+                    <?
+                        $rate = $item['RateCount'] ? $item['RateTotal'] / $item['RateCount'] : 0;
+                        $class_name = 'icon-star';
+                        if ($rate < $i && $rate > ($i - 1)) {
+                            $class_name .= '-half-alt';
+                        } else if ($rate < $i) {
+                            $class_name .= '-empty';
+                        }
+                    ?>
+                    <a href="<?= $item->get_rate_link($i); ?>" rel="nofollow" rel="nofollow"><div class="tpl-block-rating-item"><i class="<?= $class_name; ?>"></i></div></a>
+                <? endfor; ?>
+            </div>
+        </div>
+        <div class="tpl-block-cardlayout-col tpl-block-cardlayout-col--social">
+            <!-- Соц. кнопки-->
+            <div class="tpl-block-socialbuttons">
+                <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+                <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir"></div>
+            </div>
+        </div>
+        <div class="tpl-block-cardlayout-col tpl-block-cardlayout-col--submenu">
+            <!-- Меню с иконками-->
+            <div class="tpl-block-icontextmenu">
+                <a class="tpl-block-icontextmenu-item" href="<?= $nc_core->SUB_FOLDER; ?>/guarantee/">
+                    <div class="tpl-field-image"><i class="icon-bluecheck"></i></div>
+                    <div class="tpl-field-title">Гарантия<br>качества</div>
+                </a><a class="tpl-block-icontextmenu-item" href="<?= $nc_core->SUB_FOLDER; ?>/help/shipping/">
+                    <div class="tpl-field-image"><i class="icon-bluetruck"></i></div>
+                    <div class="tpl-field-title">Бесплатная<br>доставка</div>
+                </a><a class="tpl-block-icontextmenu-item" href="<?= $nc_core->SUB_FOLDER; ?>/help/credit/">
+                    <div class="tpl-field-image"><i class="icon-bluecards"></i></div>
+                    <div class="tpl-field-title">Купить<br>в кредит</div>
+                </a><a class="tpl-block-icontextmenu-item" href="<?= $nc_core->SUB_FOLDER; ?>/help/pickup/">
+                    <div class="tpl-field-image"><i class="icon-bluepin"></i></div>
+                    <div class="tpl-field-title">Пункты<br>самовывоза</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="tpl-block-sep"></div>
+    <!-- Галерея, инфоблок, описание-->
+    <div class="tpl-block-cardlayout-row">
+        <div class="tpl-block-cardlayout-col tpl-block-cardlayout-col--gallery">
+            <!-- Галерея-->
+            <div class="tpl-block-gallery">
+                <? if (is_array($item['Slider']->records)): ?>
+                    <? foreach ($item['Slider']->records as $record): ?>
+                        <a href="<?= $record['Path']; ?>"><img height="1" src="<?= $record['Path']; ?>"></a>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </div>
+        </div>
+        <div class="tpl-block-cardlayout-col tpl-block-cardlayout-col--info">
+            <!-- Блок с синей рамкой -->
+            <?
+                $selectors = new nc_netshop_item_variant_selector($item, array('Color'));
+                echo $selectors->init(array(
+                        'on_update' => 'updated_regions.find("SELECT").chosen(); tpl_init_qty_buttons(); tpl_init_cart_buttons();',
+                    ));
+            ?>
+            <form class="tpl-block-cardinfo tpl-variable-part" action="<?= nc_modules("netshop")->get_add_to_cart_url() ?>" method="post">
+                <input type="hidden" name="redirect_url" value="<?= nc_message_link($item['Message_ID'], $item['Class_ID']) ?>"/>
+                <input type="hidden" name="cart_mode" value="add"/>
+                <input type="hidden" name="items[]" value="<?= $item['Class_ID']; ?>:<?= $item['Message_ID']; ?>"/>
+
+                <div class="tpl-block-cardinfo-row">
+                    <!-- Цена-->
+                    <div class="tpl-field-cost"><?= $item['ItemPriceF']; ?></div>
+                </div>
+                <div class="tpl-block-cardinfo-row">
+                    <? if ($item['ItemPrice'] != $item['OriginalPrice']): ?>
+                        <!-- Старая цена-->
+                        <div class="tpl-field-oldcost"><?= $item['OriginalPriceF']; ?></div>
+                    <? endif; ?>
+                    <!-- В наличии / Нет ? span.tpl-field-instock.tpl-field-instock--nope-->
+                    <? if ($item['StockUnits'] !== '0'): ?>
+                        <div class="tpl-field-instock"><i class="icon-check"></i> В наличии</div>
+                    <? else: ?>
+                        <div class="tpl-field-instock--nope">Нет на складе</div>
+                    <? endif; ?>
+                </div>
+                <div class="tpl-block-cardinfo-line">
+                </div>
+                <div class="tpl-block-cardinfo-row">
+                    <div class="tpl-block-cardinfo-complect">
+                        <div class="tpl-block-title tpl-block-title--size_s">Цвет
+                        </div>
+                        <?=
+                        $selectors->by_template('Color', array(
+                            'prefix' => "<select class='tpl-block-iselect'>\n",
+                            'first' => "<option>Выберите цвет</option>",
+                            'active' => "<option value='%URL'>%NAME</option>",
+                            'active_link' => "<option value='%URL' selected>%NAME</option>",
+                            'unactive' => "<option value='%URL' class='tpl-item-variant-unavailable'>%NAME</option>",
+                            'suffix' => "</select>\n",
+                            'divider' => "\n",
+                        )); ?>
+                    </div>
+                </div>
+                <div class="tpl-block-cardinfo-row">
+                    <? if (($item["Checked"] && $item['StockUnits'] !== '0')): ?>
+                    <!-- Количество-->
+                    <div class="tpl-block-cardinfo-amount">
+                        <div class="tpl-block-title tpl-block-title--size_s">Количество
+                        </div>
+                        <div class="tpl-block-amountchoice">
+                            <div class="tpl-block-amountchoice-value">
+                                <input type="hidden" name="qty" value="1"/>
+                                <span>1</span> шт.
+                            </div>
+                            <div class="tpl-block-amountchoice-buttons">
+                                <div class="tpl-block-amountchoice-button tpl-block-amountchoice-button--more">
+                                    <i class="icon-angle-up"></i>
+                                </div>
+                                <div class="tpl-block-amountchoice-button tpl-block-amountchoice-button--less">
+                                    <i class="icon-angle-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <? endif; ?>
+                </div>
+                <div class="tpl-block-cardinfo-row">
+                    <? if (($item["Checked"] && $item['StockUnits'] !== '0')): ?>
+                        <!-- В корзину-->
+                        <div class="tpl-block-cardinfo-tocart">
+                            <span class="tpl-block-ibtn tpl-block-ibtn--block tpl-block-ibtn--theme_red"><i class="icon-cart-white"></i> В корзину</span>
+                            <?
+                               /**
+                                * Обработчик для AJAX-запроса для действия «Положить в корзину»
+                                * определён в файле /netcat_template/template/assets/js/custom.js
+                                */
+                            ?>
+                            <button class="tpl-block-ibtn-submit tpl-link-cart-put" type="submit"></button>
+                        </div>
+                        <!-- Купить сразу-->
+                        <div class="tpl-block-cardinfo-buynow">
+                            <div class="tpl-block-ibtn tpl-block-ibtn--block">Купить сразу
+                            </div>
+                            <button class="tpl-block-ibtn-submit" type="submit" name="redirect_url" value="<?= $nc_core->SUB_FOLDER; ?>/orders/add_orders.html"></button>
+                        </div>
+                    <? endif; ?>
+                </div>
+            </form>
+        </div>
+        <div class="tpl-block-cardlayout-col tpl-block-cardlayout-col--shortDesc">
+            <!-- Краткое Описание-->
+            <div class="tpl-block-cardshortdesc">
+                <div class="tpl-block-title tpl-block-title--size_l">
+                    Описание <?= $item['Vendor']; ?> <?= $item['Name']; ?>
+                </div>
+                <div class="tpl-block-sep tpl-block-sep--size_sm"></div>
+                <p>
+                    <?= $item['Description']; ?>
+                </p>
+
+                <div class="tpl-block-sep tpl-block-sep--size_sm"></div>
+                <p><a href="#" class="tpl-link-more">Подробное описание</a>
+                </p>
+
+                <div class="tpl-block-sep tpl-block-sep--size_sm"></div>
+                <div class="tpl-block-cardactions">
+                    <a href="<?= $netshop->goodslist_favorite->get_add_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI'] . '#goodslist-favorite-added'); ?>" class="tpl-block-cardactions-item tpl-block-button-favorite"><span class="tpl-block-cardactions-image"><i class="icon-flag-black"></i></span><span class="tpl-block-cardactions-title">В избранное</span></a>
+                    <a href="<?= $netshop->goodslist_compare->get_add_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI'] . '#goodslist-compare-added'); ?>" class="tpl-block-cardactions-item tpl-block-button-compare"><span class="tpl-block-cardactions-image"><i class="icon-down-black"></i></span><span class="tpl-block-cardactions-title">Сравнить</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tpl-block-sep"></div>
+<!-- Подробное описание, детальные характеристики, отзывы-->
+<div class="tpl-block-cardlayout-row">
+    <div class="tpl-block-tabs">
+        <div class="tpl-block-tabs-switcher">
+            <div class="tpl-block-tabs-tab tpl-state-current">Подробное описание
+            </div>
+            <div class="tpl-block-tabs-tab">Детальные характеристики
+            </div>
+            <? if (nc_module_check_by_keyword('comments')): ?>
+                <?
+                    $nc_comments = new nc_comments($cc);
+                    $nc_comments_object_id = $f_Parent_Message_ID ? $f_Parent_Message_ID : $f_RowID;
+                    $nc_comments_count = $nc_comments->count($nc_comments_object_id);
+                ?>
+                <div class="tpl-block-tabs-tab">Отзывы (<?= $nc_comments_count ?>)</div>
+            <? endif; ?>
+        </div>
+        <!-- Подробное описание-->
+        <div class="tpl-block-tabs-wrapper">
+            <div class="tpl-block-tabs-content tpl-state-current">
+                <?= $item['Details']; ?>
+            </div>
+            <!-- Детальные характеристики-->
+            <div class="tpl-block-tabs-content">
+                <div class="tpl-block-tabs-row">
+                    <div class="tpl-block-tabs-col tpl-block-tabs-col--1">
+                        <table>
+                            <tr>
+                                <td>Длина, см</td>
+                                <td><?= $item['Length']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Ширина, см</td>
+                                <td><?= $item['Width']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Высота, см</td>
+                                <td><?= $item['Height']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Вес, кг</td>
+                                <td><?= $item['Weight']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Количество входов</td>
+                                <td><?= $item['EntranceCount']; ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tpl-block-tabs-col tpl-block-tabs-col--2">
+                        <table>
+                            <tr>
+                                <td>Количество мест</td>
+                                <td><?= $item['PlaceCount']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Каркас</td>
+                                <td><?= $item['Frame']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Материал тента</td>
+                                <td><?= $item['Material']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Назначение</td>
+                                <td><?= $item['Purpose']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Тип</td>
+                                <td><?= $item['TentType']; ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="tpl-block-sep tpl-block-sep--size_s"></div>
+            </div>
+            <? if (nc_module_check_by_keyword('comments') && $request_type != 'get_variant'): ?>
+                <!-- Отзывы-->
+                <div class="tpl-block-tabs-content">
+                    <div class="tpl-block-tabs-row">
+
+                        <div class="tpl-block-tabs-col tpl-block-tabs-col--1">
+                            <div class="tpl-block-title tpl-block-title--size_m">Отзывы покупателей
+                            </div>
+                            <div class="tpl-block-sep tpl-block-sep--size_s"></div>
+                            <div class="tpl-block-reviews">
+                                <?
+                                    if ($nc_comments_count) {
+                                        echo $nc_comments->wall($nc_comments_object_id, 2);
+                                    }
+                                    else {
+                                        echo 'Нет отзывов об этом товаре. Ваш отзыв может быть первым!';
+                                    }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="tpl-block-tabs-col tpl-block-tabs-col--2">
+                            <div class="tpl-block-title tpl-block-title--size_m">Оставить отзыв
+                            </div>
+                            <div class="tpl-block-sep"></div>
+                            <form method="post" action="<?= $nc_core->SUB_FOLDER; ?>/netcat/modules/comments/add.php">
+                                <input id="message_cc" type="hidden" name="message_cc" value="<?= $cc; ?>">
+                                <input id="message_id" type="hidden" name="message_id" value="<?= $f_RowID; ?>">
+                                <input id="parent_mess_id" type="hidden" name="parent_mess_id" value="0">
+                                <input id="template_id" type="hidden" name="template_id" value="2">
+                                <input id="last_updated" type="hidden" name="last_updated" value="<?= time(); ?>">
+                                <input type="hidden" name="redirect_url" value="<?= nc_message_link($item['Message_ID'], $item['Class_ID']) ?>#comment-added"/>
+                                <p>
+                                    <label class="tpl-block-itextlabel"><span class="tpl-block-itextlabel-title">Имя</span>
+                                        <input type="text" name="nc_comments_guest_name" class="tpl-block-itext tpl-block-itext--style_dull">
+                                    </label>
+                                </p>
+
+                                <p>
+                                    <label class="tpl-block-itextlabel"><span class="tpl-block-itextlabel-title">Эл. адрес</span>
+                                        <input type="text" name="nc_comments_guest_email" class="tpl-block-itext tpl-block-itext--style_dull">
+                                    </label>
+                                </p>
+
+                                <p>
+                                    <label class="tpl-block-itextlabel"><span class="tpl-block-itextlabel-title">Отзыв</span>
+                                        <textarea name="nc_commentTextArea" class="tpl-block-itext tpl-block-itext--style_dull" rows="4"></textarea>
+                                    </label>
+                                </p>
+
+                                <div class="tpl-block-sep"></div>
+                                <p>
+                                    <label class="tpl-block-itextlabel"><span class="tpl-block-ibtn tpl-block-ibtn--theme_blue">Отправить
+                                        <input type="submit" class="tpl-block-ibtn-submit" value=""></span>
+                                    </label>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <? endif; // comments ?>
+        </div>
+    </div>
+</div>
+
+<?
+
+if ($request_type != 'get_variant') {
+    $netshop_also_buy_Item_Class_ID = $item['Class_ID'];
+    $netshop_also_buy_Item_ID = $item['Message_ID'];
+    echo $nc_core->widget->show('netshop_also_buy');
+
+    $netshop_also_see_Item_Class_ID = $item['Class_ID'];
+    $netshop_also_see_Item_ID = $item['Message_ID'];
+    echo $nc_core->widget->show('netshop_also_see');
+
+    $netshop_special_offer_Item_Class_ID = $classID;
+    $netshop_special_offer_Item_ID = $f_RowID;
+    echo $nc_core->widget->show('netshop_special_offer');
+}

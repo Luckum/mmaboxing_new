@@ -1,0 +1,27 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<div class='nc_row'>
+        <?=$f_AdminButtons;?>
+        <h3><?= nc_edit_inline('Surname', $f_RowID, $cc)." ".nc_edit_inline('Name', $f_RowID, $cc)." ".nc_edit_inline('Patronymic', $f_RowID, $cc) ?></h3>
+        <?
+        if ($f_PhotoLarge) {
+            ?><a href='<? echo $f_PhotoLarge_url ?>' rel='person' title='<?= $f_Surname." ".$f_Name." ".$f_Patronymic ?>'><? } ?>
+            <img class='nc_row_img' src='<? echo $f_PhotoSmall_url ?>' alt='<?= $f_Surname." ".$f_Name." ".$f_Patronymic ?>' />
+            <? if ($f_PhotoLarge) { ?></a><? } ?>
+
+        <? if ($f_Department) { ?><h4><b><?= nc_edit_inline('Department', $f_RowID, $cc) ?></b></h4> <? }
+            if ($f_Post) { ?><div class='nc_value'><b><?= nc_edit_inline('Post', $f_RowID, $cc) ?></b></div><? } ?>
+            <? if ($f_Birthday) { ?><div class='nc_item'><span class='nc_title'>Дата рождения: </span><span class='nc_value'><?= nc_edit_inline('Birthday', $f_RowID, $cc) ?></span></div><?
+    }
+    if ($ShowContacts) {
+        if ($f_Email) {
+                    ?><div class='nc_item'><span class='nc_title'>Email: </span><span class='nc_value'><a href='mailto:<?= $f_Email ?>'><?= $f_Email ?></a></span></div><? }
+        if ($f_PhoneHome) { ?><div class='nc_item'><span class='nc_title'>Телефон (домашний): </span><span class='nc_value'><?= nc_edit_inline('PhoneHome', $f_RowID, $cc) ?></span></div><? }
+        if ($f_PhoneWork) { ?><div class='nc_item'><span class='nc_title'>Телефон (рабочий): </span><span class='nc_value'><?= nc_edit_inline('PhoneWork', $f_RowID, $cc) ?></span></div><? }
+        if ($f_PhoneMobile) { ?><div class='nc_item'><span class='nc_title'>Телефон (мобильный): </span><span class='nc_value'><?= nc_edit_inline('PhoneMobile', $f_RowID, $cc) ?></span></div><? }
+        if ($f_Text) { ?><div class='nc_description'><?= nc_edit_inline('Text', $f_RowID, $cc) ?></div><?
+        }
+    }
+    if ($cc_settings[ShowLink]) {
+                ?><span class='nc_more'><a href='<?= $fullLink ?>' >подробнее...</a></span><? } ?>
+    </div><br />
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

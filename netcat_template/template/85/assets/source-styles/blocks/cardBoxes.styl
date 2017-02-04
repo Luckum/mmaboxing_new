@@ -1,0 +1,20 @@
+.tpl-block-cardboxes
+  clearfix()
+  // background: pink
+  margin-right: -20px
+  position: relative
+  &-item
+    padding-right: 20px
+    float: left
+    width: 25%
+    @media min
+      float: none
+      padding-top: 50px
+  &--narrow &-item
+    width: 20%
+  &--diffwidth &-item
+    width: 20%
+    @media max
+      width: 25%
+      &:last-child
+        display: none

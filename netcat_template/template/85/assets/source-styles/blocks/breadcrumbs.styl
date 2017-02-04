@@ -1,0 +1,43 @@
+.tpl-block-breadcrumbs
+  font-weight: 400
+  line-height: 20px
+  // margin-top: 20px
+  @media min
+    font-weight: 300
+    line-height: 1.2
+    background: #EAEFF2
+    margin: 0 -50px 35px
+    padding: 45px 50px !important
+    border-top: 1px solid #C8C7CC
+    position: absolute
+    top: 0
+  &-item
+    display: inline-block
+    &:after
+      content: '/'
+      margin: 0 0.15em 0 0.45em
+      line-height: 20px
+      color: colorGray
+    &:last-child:after
+      display: none
+  a
+    @media min
+      color: colorBase
+      text-decoration: none
+      &:active
+        color: colorRed
+  a.tpl-state-current
+    color: colorBase
+    pointer-events: none
+    text-decoration: none
+  a.tpl-state-disabled
+    color: gray
+    pointer-events: none
+    text-decoration: none
+    font-weight: 400
+
+  &--steps &-item:after
+    content: '→'
+    color: colorGray
+  &--steps a.tpl-state-current
+    font-weight: 500

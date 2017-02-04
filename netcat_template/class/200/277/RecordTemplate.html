@@ -1,0 +1,16 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?
+echo $f_AdminButtons;
+?>
+Заказ № <b><? echo $f_RowID ?></b><br>
+Товар: <? echo $f_Title ?><br>
+Цена: <? echo $f_Prise ?><br>
+Количество: <? echo $f_Count ?><br>
+Стоимость: <? echo ($f_Count * $f_Prise) ?><br>
+ФИО: <? echo $f_Surname." ".$f_Name ?><br>
+Телефон: <? echo ($f_Phone ? $f_Phone : 'не указан') ?><br>
+email: <? echo ($f_Email ? $f_Email : 'не указан') ?><br>
+Адрес доставки: <? echo ($f_Adress ? $f_Adress : 'не указан') ?><br>
+Предпочтительный способ оплаты: <? echo ($f_PaymentType ? $f_PaymentType : 'не указан') ?><br>
+<hr>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

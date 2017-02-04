@@ -1,0 +1,42 @@
+<?/* Служебная часть */
+for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {
+    if($fetch_row[$f_RowNum] instanceof Iterator) {
+        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");
+    } else {
+        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");
+    }
+    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {
+        extract($value);
+    }
+    eval($cc_env["convert2txt"]);
+    ob_start();
+/* Конец служебной части */?>
+
+<?
+if ($cc_settings['Group'] && $GroupHeader = ( $curGr != $f_GroupName ? $curGr = $f_GroupName : NULL)) {
+    ?><tr><td colspan='<?= $col ?>'><h2 class='nc_group'><?= $GroupHeader ?></h2></td></tr><?
+}
+if ($f_AdminButtons) {
+    ?>
+    <tr><td colspan='<?= $col ?>'><?= $f_AdminButtons ?></td></tr><? }
+?>
+<tr class='nc_row nc_<?= ( $trig == 'b' ? $trig = 'a' : $trig = 'b') ?>'>
+    <? if (!$cc_settings['ShowArticul']) { ?>
+        <td><div class='nc_item'><?= nc_edit_inline('Articul', $f_RowID, $cc) ?></div></td><? }
+    ?>
+    <td><h3><?= nc_edit_inline('Caption', $f_RowID, $cc) ?></h3></td>
+    <? if (!$cc_settings['ShowDesc']) {
+        ?> <td><?= nc_edit_inline('Description', $f_RowID, $cc) ?></td><?
+}
+    ?><td><div class='nc_price'><span class='nc_value'><?= $f_Price." ".$Pay ?></span></div>
+    <?= ( $minishop_allow ? $nc_minishop->show_put_button($f_Caption, $f_Price, null, $f_RowID) : "" ) ?>
+    </td>
+    <? if (!$cc_settings['ShowGroup']) { ?>
+        <td><?= $f_GroupName ?></td><? }
+    ?>
+</tr>
+
+<?/* Служебная часть */
+    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);
+}
+/* Конец служебной части */?>

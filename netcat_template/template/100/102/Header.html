@@ -1,0 +1,27 @@
+
+%Header
+
+    <body class="inner_page">
+        <div class="wrapper">
+            <div class="wrap">
+                <div class="sidebar">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="<?= $template_settings['logotype']['path']; ?>" alt="" />
+                            <span class="logo_text">
+                                <span class="lt1"><?= $template_settings['lt1']; ?></span>
+                                <span class="lt2"><?= $template_settings['lt2']; ?></span>
+                                <span class="lt3"><?= $template_settings['lt3']; ?></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="sb_b menu_m">
+                        <?= nc_browse_sub(0, $browse_left_menu); ?>
+                    </div>
+                    <div class="sb_b news_l">
+                        <div class="hl"><?= $template_settings['news_header']; ?></div>
+                        <?= $template_settings['news_sub_class'] ? nc_objects_list(0, $template_settings['news_sub_class'], "nc_title=1&recNum=3") : ''; ?>
+                    </div>
+                </div>
+                <div class="content">
+                    

@@ -1,0 +1,12 @@
+<div class='tpl-block-review'>
+    <div class='tpl-block-review-header'>
+        <div class='tpl-block-review-title'>Отзыв " . preg_replace('/^nc_commentID\d+_\d+_/', '', "%ID") . "
+        </div>
+        <div class='tpl-block-review-meta'>" . date("d.m.Y", %DATE) . " от пользователя
+            ".(%USER_ID ? "%USER_NAME" : ('%GUEST_NAME' ? '%GUEST_NAME' : 'Гость'))."
+        </div>
+    </div>%RATING_BLOCK
+    <div class='tpl-block-review-text'>
+        %COMMENT
+    </div>
+</div>

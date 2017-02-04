@@ -1,0 +1,30 @@
+// watcher arguments   --disable-cache --use nib --out ../css styles.styl
+
+use('./js/inline.js')
+
+@import 'nib'
+vendor-prefixes = moz webkit official
+support-for-ie = false
+
+@import '01-settings'
+
+@import url('font.css')
+@import url('normalize.css')
+@import url('base.css')
+@import url('../fontello/css/fontello.css')
+@import url('plugin-fotorama.css')
+// @import url('plugin-mp.css')
+
+
+@import '00-helpers'
+@import '20-layout'
+@import '40-icons'
+@import '50-blocks'
+//@import '60-themes'
+
+.color-base  { color: colorBase !important; }
+.color-gray  { color: colorGray !important; }
+.color-blue  { color: colorBlue !important; }
+.color-red   { color: colorRed !important; }
+.color-white { color: colorWhite !important; }
+.color-dull  { color: colorDull !important; }

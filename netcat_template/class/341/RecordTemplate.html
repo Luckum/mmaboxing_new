@@ -1,0 +1,49 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?
+$childrenofparent = listQuery("SELECT COUNT(*) AS count FROM Message$classID WHERE Parent_Message_ID=$f_RowID", "$data[count]");
+?>
+<tr>
+    <td bgcolor='#FFFFFF'>
+        <? if (!$f_file) { ?>
+            <font size='-2'>
+            <a target=_self href='<?= $fullLink.opt($isNaked, "&isNaked=1").opt($virtualMode, "&virtualMode=1") ?>'>
+                <img src='<?= $ADMIN_TEMPLATE ?>img/i_folder.gif' width='16' height='16' border='0' alt='<?= $f_folder ?>' style='vertical-align:middle;'></a> 
+            <a target=_self href='<?= $fullLink.opt($isNaked, "&isNaked=1").opt($virtualMode, "&virtualMode=1") ?>'><?= $f_folder ?></a></font> 
+        <? } else { ?>
+            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                <tr>
+                    <td>
+                        <font size='-2'>
+                        <a href='<?= $f_file ?>' target='_blank'>
+                            <img src='<?= $ADMIN_TEMPLATE ?>img/i_file.gif' width='16' height='16' border='0' alt='<?= $f_file_name ?>' style='vertical-align:middle;'></a> 
+                        <a href='<?= $f_file ?>' target='_blank'><?= $f_file_name ?></a>
+                        </font>
+                    </td>
+                    <?
+                    if ($virtualMode) {
+                        ?><td align='right'>
+                            <font size='-2'>
+                            <a href='#' onclick="window.opener.document.forms.f1('address').value='<?= $f_file ?>';window.self.close();">[выбрать]</td><? }
+            ?>
+                </tr></table><? }
+                ?>
+
+    </td>
+    <td bgcolor='#FFFFFF'>
+        <? if ($f_file) { ?> 
+            <font size='-2' color='gray'><?= opt($counted_file_size = nc_bytes2size($f_file_size), $counted_file_size) ?></font> <? } ?>
+    </td>
+    <td bgcolor='#FFFFFF'>
+        <font size='-2' color='gray'><?= opt_case($f_folder, "папка", $f_file_type) ?></font>
+    </td>
+    <td bgcolor='#FFFFFF' align='center'> <? if (!$childrenofparent) { ?>
+            <a href='<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>message.php?catalogue=<?= $catalogue ?>&amp;sub=<?= $sub ?>&amp;cc=<?= $cc ?>&amp;message=<?= $f_RowID ?>&amp;delete=1&amp;posting=1&amp;admin_mode=1&amp;parent=<?= $parent ?>&amp;isNaked=<?= $isNaked.($virtualMode ? "&amp;virtualMode=1" : '') ?>'>'
+                <img src='<?= $ADMIN_TEMPLATE ?>img/i_obj_delete.gif' width='16' height='16' border='0' alt='удалить' ></a><? }
+        ?>
+    </td>
+</tr>
+<?
+$f_folder_size+=$f_file_size;
+$f_file_count = opt_case($f_file, ($f_file_count + 1), $f_file_count);
+?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

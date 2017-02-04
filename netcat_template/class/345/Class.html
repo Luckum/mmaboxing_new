@@ -1,0 +1,84 @@
+<!-- FormPrefix --><?=$f_AdminCommon?>
+<div class='nc_list nc_price_list'>
+<?=( $minishop_allow ? $nc_minishop->mass_put_header() : "" )?>
+
+<table class='nc_table'>
+<? if ( !$cc_settings['ShowTableTitle']) {
+    ?><thead><tr><?
+    if ( !$cc_settings['ShowArticul']) { ?>
+            <td class='column_<?=(++$col)?>'>Артикул</td><?
+    } ?>
+    <td class='column_<?=(++$col)?>'>Название</td>
+    <? if ( !$cc_settings['ShowDesc']) { ?>
+        <td class='column_<?=(++$col)?>'>Описание</td><? 
+    } ?>
+    <td class='column_<?=(++$col)?>'>Цена</td>
+    <? if ( !$cc_settings['ShowGroup'] ) { ?>
+        <td class='column_<?=(++$col)?>'>Группа</td><?
+    } ?>
+    </tr></thead><? 
+} else {  
+        if ( !$cc_settings['ShowArticul']) { ?>
+            <col class='column_<?=(++$col)?>' /> <?
+        } ?>
+        <col class='column_<?=(++$col)?>' />
+        <? if ( !$cc_settings['ShowDesc']) { ?>
+            <col class='column_<?=(++$col)?>' /><?
+        } ?>
+        <col class='column_<?=(++$col)?>' />
+        <? if ( !$cc_settings['ShowGroup']) { ?>
+            <col class='column_<?=(++$col)?>' /><? 
+        } 
+
+ } ?>
+
+<tbody><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+if ($cc_settings['Group'] && $GroupHeader = ( $curGr != $f_GroupName ? $curGr = $f_GroupName : NULL)) {
+    ?><tr><td colspan='<?= $col ?>'><h2 class='nc_group'><?= $GroupHeader ?></h2></td></tr><?
+}
+if ($f_AdminButtons) {
+    ?>
+    <tr><td colspan='<?= $col ?>'><?= $f_AdminButtons ?></td></tr><? }
+?>
+<tr class='nc_row nc_<?= ( $trig == 'b' ? $trig = 'a' : $trig = 'b') ?>'>
+    <? if (!$cc_settings['ShowArticul']) { ?>
+        <td><div class='nc_item'><?= nc_edit_inline('Articul', $f_RowID, $cc) ?></div></td><? }
+    ?>
+    <td><h3><?= nc_edit_inline('Caption', $f_RowID, $cc) ?></h3></td>
+    <? if (!$cc_settings['ShowDesc']) {
+        ?> <td><?= nc_edit_inline('Description', $f_RowID, $cc) ?></td><?
+}
+    ?><td><div class='nc_price'><span class='nc_value'><?= $f_Price." ".$Pay ?></span></div>
+    <?= ( $minishop_allow ? $nc_minishop->show_put_button($f_Caption, $f_Price, null, $f_RowID) : "" ) ?>
+    </td>
+    <? if (!$cc_settings['ShowGroup']) { ?>
+        <td><?= $f_GroupName ?></td><? }
+    ?>
+</tr><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></tbody>
+</table>
+
+<? if ($minishop_allow) { ?>
+    <div style='text-align:right; margin-top: 10px;'><?= $nc_minishop->mass_put_footer() ?></div> <?
+}
+
+if ($totRows > $f_RowNum && !$srchPat) {
+    ?>
+    <div class='nc_pagination'>
+    <? if ($cc_settings['PaginationMode'] != 'nums') { ?>
+            <div class='nc_prev_next'>
+                <span class='nc_prev_link'><?= opt_case($prevLink, "<a href='$prevLink'>Назад</a>", "Назад") ?></span>
+                <span class='nc_next_link'><?= opt_case($nextLink, "<a href='$nextLink'>Далее</a>", "Далее") ?></span>
+            </div>
+        <? }
+        if ($cc_settings['PaginationMode'] != 'next_prev') {
+            ?>
+            <div class='nc_pagination'>Страницы: <?= browse_messages($cc_env, 5) ?></div>
+    <? } ?>
+    </div>
+<? } ?>
+
+</div><!-- /FormSuffix -->

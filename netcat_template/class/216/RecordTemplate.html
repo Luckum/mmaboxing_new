@@ -1,0 +1,48 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?
+if ($cc_settings['Group']) {
+    $depHeader = ( $curDep == $f_Department ? NULL : $curDep = $f_Department );
+    if ($depHeader && $f_RowNum && (($dNum + 1) % $colNums)) {
+        str_repeat('<td>&nbsp;</td>', $colNums - (($dNum + 1) % $colNums));
+    }
+    echo ( $depHeader ? $dNum = 0 : $dNum++ );
+    if ($depHeader && $f_RowNum) {
+        ?></tr><tr><? }
+    if (!($dNum % $colNums) && $dNum) { ?> </tr><tr><? }
+    if ($depHeader) { ?> <td colspan='<? echo $colNums ?>'><br><h4 class='nc_group'><? echo $depHeader ?></h4></td></tr><tr><?
+    }
+} else {
+    if (!($f_RowNum % $colNums) && $f_RowNum) {
+        ?></tr><tr><?
+        }
+    }
+?>
+<td valign='top'>
+    <div itemscope itemtype="http://schema.org/Person">
+        <?
+        echo $f_AdminButtons;
+        if ($f_PhotoLarge) {
+            ?><a href='<?=$f_PhotoLarge_url?>' rel='person' title='<?= $f_Surname." ".$f_Name." ".$f_Patronymic ?>'><? } ?>
+            <img class='nc_row_img' src='<?=$f_PhotoSmall_url?>' alt='<?= $f_Surname." ".$f_Name." ".$f_Patronymic ?>' itemprop='image'  <? if ($colNums == 1) { ?>style='float:left'<? } ?> />
+            <? if ($f_PhotoLarge) { ?></a><? } ?>
+
+        <h4 style="padding-bottom: 5px; line-height: 18px;"><span itemprop="name"><?= nc_edit_inline('Surname', $f_RowID, $cc)." ".nc_edit_inline('Name', $f_RowID, $cc)." ".nc_edit_inline('Patronymic', $f_RowID, $cc) ?></span></h4>
+        <? if (!$cc_settings['Group'] && $f_Department) { ?><b><?= nc_edit_inline('Department', $f_RowID, $cc) ?></b> <? }
+         if ($f_Post) { ?><br /><span itemprop="jobTitle"><b><?= nc_edit_inline('Post', $f_RowID, $cc) ?></b></span><? } ?>
+              <? if ($f_Birthday) { ?><div style="font-size: 11px; line-height: 15px; padding-top: 5px;">Дата рождения: <span itemprop='birthDate'><b><?= nc_edit_inline('Birthday', $f_RowID, $cc) ?></b></span></div><?
+                }
+         if ($ShowContacts) {
+            if ($f_Email) {
+                ?><div style="font-size: 11px; line-height: 15px;">Email: <a itemprop="email" href='mailto:<?= $f_Email ?>'><b><?= $f_Email ?></b></a></div><? }
+                    if ($f_PhoneHome) { ?><div style="font-size: 11px; line-height: 15px;">Телефон (домашний): <span itemprop="telephone"><b><?= nc_edit_inline('PhoneHome', $f_RowID, $cc) ?></b></span></div><? }
+                    if ($f_PhoneWork) { ?><div style="font-size: 11px; line-height: 15px;">Телефон (рабочий): <span itemprop="telephone"><b><?= nc_edit_inline('PhoneWork', $f_RowID, $cc) ?></b></span></div><? }
+                    if ($f_PhoneMobile) { ?><div style="font-size: 11px; line-height: 15px;">Телефон (мобильный): <span itemprop="telephone"><b><?= nc_edit_inline('PhoneMobile', $f_RowID, $cc) ?></b></span></div>
+    </div><? }
+    if ($f_Text) { ?><div style="font-size: 11px; line-height: 15px; padding-top: 5px;"><?= nc_edit_inline('Text', $f_RowID, $cc) ?></div><?
+    }
+}
+        ?><?
+    if ($cc_settings[ShowLink]) {
+            ?><span class='nc_more'><a href='<?= $fullLink ?>' >подробнее...</a></span><? } ?>
+</td>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

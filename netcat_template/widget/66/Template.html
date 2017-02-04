@@ -1,0 +1,147 @@
+<?
+require_once($nc_core->MODULE_FOLDER . 'netshop/function.inc.php');
+$netshop = nc_netshop::get_instance();
+$db = $nc_core->db;
+
+global $netshop_accessories_Item_Class_ID;
+
+$catalogue_id = (int)$nc_core->catalogue->get_current('Catalogue_ID');
+
+$sql = "SELECT `Message_ID` FROM `Message{$netshop_accessories_Item_Class_ID}` AS m " .
+    "LEFT JOIN `Sub_Class` AS sc ON m.`Sub_Class_ID` = sc.`Sub_Class_ID` " .
+    "WHERE sc.`Catalogue_ID` = {$catalogue_id} AND m.`Checked` = 1 AND m.`Parent_Message_ID` = 0";
+$cols = $db->get_col($sql);
+
+if ($cols) {
+    ?>
+    <div class="tpl-block-notformobile">
+        <div class="tpl-block-sep"></div>
+        <div class="tpl-block-title tpl-block-title--size_s">Аксессуары
+        </div>
+        <div class="tpl-block-cardboxes">
+            <? foreach ($cols as $item_id) {
+
+
+            try {
+            $item = new nc_netshop_item(array('Class_ID' => $netshop_accessories_Item_Class_ID, 'Message_ID' => $item_id));
+            } catch (Exception $e) {
+            continue;
+            }
+
+            if (!$item || !$item['Sub_Class_ID']) {
+            continue;
+            }
+                ?>
+                <div class="tpl-block-cardboxes-item">
+                    <!-- Карточка-->
+                    <div class=" tpl-block-cardbox tpl-block-cardbox--wide">
+                        <a class="tpl-block-cardbox-link" href="<?= nc_message_link($item['Message_ID'], $netshop_accessories_Item_Class_ID); ?>">
+                            <!-- Заголовок-->
+                            <div class="tpl-block-title tpl-block-title--size_ml">
+                                <div class="tpl-field-title">
+                                    <?= $item['Vendor']; ?> <?= $item['Name']; ?>
+                                </div>
+                            </div>
+                            <!-- Описание-->
+                            <div class="tpl-field-description"><?= $item['Type']; ?></div>
+                            <!-- Картинка-->
+                            <div class="tpl-field-image"><img src="<?= $item['BigImage']; ?>"></div>
+                        </a>
+                        <!-- Рейтинг-->
+                        <div class="tpl-block-rating">
+                            <?php $rate = $item['RateCount'] ? $item['RateTotal'] / $item['RateCount'] : 0; ?>
+                            <?php for ($i = 1; $i <= 5; $i++) { ?>
+                                <?
+                                $class_name = 'icon-star';
+                                if ($rate < $i && $rate > ($i - 1)) {
+                                    $class_name .= '-half-alt';
+                                } else if ($rate < $i) {
+                                    $class_name .= '-empty';
+                                }
+                                ?>
+                                <a href="<?= $item->get_rate_link($i); ?>" rel="nofollow"><div class="tpl-block-rating-item"><i class="<?= $class_name; ?>"></i></div></a>
+                            <? } ?>
+                        </div>
+                        <!-- Цена-->
+                        <div class="tpl-field-cost"><?= $item['ItemPriceF']; ?></div>
+                        <? if ($item['ItemPrice'] < $item['OriginalPrice']) { ?>
+                            <!-- Старая цена-->
+                            <div class="tpl-field-oldcost"><?= $item['OriginalPriceF']; ?></div>
+                        <? } ?>
+                        <!-- Варианты-->
+                        <div class="tpl-field-variants">
+                            <div class="tpl-block-pseudolink">
+                                <u>Варианты</u>
+                            </div>
+                        </div>
+                        <!-- Текст-->
+                        <div class="tpl-field-text">
+                            <?= $item['Details']; ?>
+                        </div>
+                        <form action="<?= nc_modules("netshop")->get_add_to_cart_url() ?>" method="post">
+                            <input type="hidden" name="redirect_url" value="<?= $_SERVER["REQUEST_URI"] ?>#cart-added"/>
+                            <input type="hidden" name="cart_mode" value="add"/>
+                            <input type="hidden" name="items[]" value="<?= $item['Class_ID']; ?>:<?= $item['Message_ID']; ?>"/>
+                            <input type="hidden" name="qty" value="1"/>
+                            <!-- Меню-->
+                            <div class="tpl-block-cardbox-menu">
+                                <div class="tpl-block-journal">
+                                    <div class="tpl-block-journal-column">
+                                        <a class="tpl-block-button-compare" href="<?= $netshop->goodslist_compare->get_add_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI'] . '#goodslist-compare-added'); ?>" title="Добавить в сравнение"><i class="icon-down-blue"></i></a>
+                                    </div>
+                                    <div class="tpl-block-journal-column">
+                                        <a class="tpl-block-button-favorite" href="<?= $netshop->goodslist_favorite->get_toggle_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI'] . '#goodslist-favorite-added'); ?>" title="Переключить в избранном"><i class="icon-flag-blue"></i></a>
+                                    </div>
+                                    <div class="tpl-block-journal-column"><a href="#"><i class="icon-cart-red">
+                                        <button class="tpl-block-ibtn-submit tpl-link-cart-put" type="submit" title="В корзину">
+                                        </button>
+                                    </i>
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Купить сразу-->
+                            <div class="tpl-block-cardbox-buy">
+                                <a class="tpl-block-ibtn" href="#">
+                                    Купить сразу
+                                    <button type="submit" class="tpl-block-ibtn-submit" name="redirect_url" value="<?= $nc_core->SUB_FOLDER; ?>/orders/add_orders.html"></button>
+                                </a>
+                            </div>
+                            <!-- В корзину-->
+                            <div class="tpl-block-cardbox-tocart"><span class="tpl-block-ibtn tpl-block-ibtn--theme_red"><i class="icon-cart-white"></i> В корзину
+                      <button class="tpl-block-ibtn-submit" type="submit">
+                      </button></span>
+                            </div>
+                            <!-- Удалить-->
+                            <div class="tpl-block-cardbox-remove"><span class="tpl-block-ibtn tpl-block-ibtn--theme_empty"><i class="icon-trash"></i>
+                      <button class="tpl-block-ibtn-submit">
+                      </button></span>
+                            </div>
+                            <!-- Категория--><a href="#" class="tpl-field-category">Фототехника
+                                <div class="tpl-block-cardbox-overlay">
+                                    <u>Быстрый просмотр</u>
+                                </div>
+                            </a>
+                            <!-- Количество-->
+                            <div class="tpl-block-cardbox-amount">
+                                <div class="tpl-block-amountchoice">
+                                    <div class="tpl-block-amountchoice-value"><span>1</span> шт.
+                                    </div>
+                                    <div class="tpl-block-amountchoice-buttons">
+                                        <div class="tpl-block-amountchoice-button tpl-block-amountchoice-button--more">
+                                            <i class="icon-angle-up"></i>
+                                        </div>
+                                        <div class="tpl-block-amountchoice-button tpl-block-amountchoice-button--less">
+                                            <i class="icon-angle-down"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <? } ?>
+        </div>
+        <div class="tpl-block-sep"></div>
+    </div>
+<? } ?>

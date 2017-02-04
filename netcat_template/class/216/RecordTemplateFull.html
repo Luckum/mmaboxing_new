@@ -1,0 +1,15 @@
+<script type='text/javascript'>$(document).ready(function(){ $("a[rel='person']").colorbox(); });</script>
+<div class='nc_full nc_personalities'>
+    <?= opt($f_PhotoLarge, "<a href='$f_PhotoLarge_url' rel='person' title='$f_Surname $f_Name $f_Patronymic'>") ?>
+    <img class='nc_row_img' src='<?=$f_PhotoSmall_url?>' alt='<?= $f_Surname." ".$f_Name." ".$f_Patronymic ?>' style='float:left' />
+    <? if ($f_PhotoLarge) { ?></a><? }
+
+if (!$cc_settings['Group'] && $f_Department) { ?><h4><?= nc_edit_inline('Department', $f_RowID, $cc) ?></h4><? }
+if ($f_Post) { ?><div class='nc_value'><?= nc_edit_inline('Post', $f_RowID, $cc) ?></div><? }
+if ($f_Birthday) { ?><div class='nc_item'><span class='nc_title'>Дата рождения: </span><span class='nc_value'><?= nc_edit_inline('Birthday', $f_RowID, $cc) ?></span></div><? }
+if ($f_Email) { ?><div class='nc_item'><span class='nc_title'>Email: </span><span class='nc_value'><a href='mailto:<?= $f_Email ?>'><?= $f_Email ?></a></span></div><? }
+if ($f_PhoneHome) { ?><div class='nc_item'><span class='nc_title'>Телефон (домашний): </span><span class='nc_value'><?= nc_edit_inline('PhoneHome', $f_RowID, $cc) ?></span></div><? }
+if ($f_PhoneWork) { ?><div class='nc_item'><span class='nc_title'>Телефон (рабочий): </span><span class='nc_value'><?= nc_edit_inline('PhoneWork', $f_RowID, $cc) ?></span></div><? }
+if ($f_PhoneMobile) { ?><div class='nc_item'><span class='nc_title'>Телефон (мобильный): </span><span class='nc_value'><?= nc_edit_inline('PhoneMobile', $f_RowID, $cc) ?></span></div><? }
+if ($f_Text) { ?> <div class='nc_description'><?= nc_edit_inline('Text', $f_RowID, $cc) ?></div><? } ?>
+</div>

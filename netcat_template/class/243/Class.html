@@ -1,0 +1,35 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<div class='nc_list nc_resume'><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'><?= $f_AdminButtons;
+if (!$cc_settings[SimView]) { ?>
+    <h2><?= nc_edit_inline('FIO', $f_RowID, $cc) ?></h2>
+    <h4><?= nc_edit_inline('Post', $f_RowID, $cc) ?></h4><br />
+    <div class='nc_info_keeper'>
+        <table>
+            <tr><td>Email: </td><td><a href='mailto:<?= $f_Email ?>'><?= $f_Email ?></a></td></tr>
+            <tr><td>Телефон: </td><td><?= nc_edit_inline('PhoneNumber', $f_RowID, $cc) ?></td></tr>
+            <tr><td>Проживание: </td><td><?= $f_City ?></td></tr>
+            <tr><td><strong>Примерная зарплата: </strong></td><td><strong><?= ($f_Pay != '' ? nc_edit_inline('Pay', $f_RowID, $cc) : 'не указана') ?></strong></td></tr>
+        </table>
+    </div>
+    <? 
+    if ($f_Education) { ?><div class='nc_item'><h3>Образование</h3><span class='nc_value'><?= nc_edit_inline('Education', $f_RowID, $cc) ?></span></div><br /><? } else { ?><div class='nc_item'><h3>Образование</h3></div><br /><? }
+    if ($f_Experience) { ?><div class='nc_item'><h3>Опыт работы</h3><span class='nc_value'><?= nc_edit_inline('Experience', $f_RowID, $cc) ?></span></div><br /><? } else { ?><div class='nc_item'><h3>Опыт работы</h3></div><br /><? }
+    if ($f_Description) { ?><div class='nc_item'><h3>Дополнительная информация</h3><span class='nc_description'><?= nc_edit_inline('Description', $f_RowID, $cc) ?></span></div><br /><? } else { ?><div class='nc_item'><h3>Дополнительная информация</h3></div><br /><? }
+    if ($f_Skill) { ?><div class='nc_item'><h3>Навыки</h3><span class='nc_value'><?= nc_edit_inline('Skill', $f_RowID, $cc) ?></span></div><br /><? } else { ?><div class='nc_item'><h3>Навыки</h3></div><br /><? }
+} ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? if ($totRows > $f_RowNum) { ?>
+    <div class='nc_pagination'>
+        <? if ($cc_settings['PaginationMode'] != 'nums') { ?>
+            <div class='nc_prev_next'>
+                <span class='nc_prev_link'><?= ($prevLink ? "<a href='$prevLink'>Назад</a>" : "Назад") ?></span>
+                <span class='nc_next_link'><?= ($nextLink ? "<a href='$nextLink'>Далее</a>" : "Далее") ?></span>
+            </div>
+            "<? }
+        if ($cc_settings['PaginationMode'] != 'next_prev') { ?>
+            <div class='nc_pagination'>Страницы: <?= browse_messages($cc_env, 5) ?></div>
+        <? } ?></div> <? } ?>
+</div><!-- /FormSuffix -->

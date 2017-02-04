@@ -1,0 +1,16 @@
+<div class='nc_full nc_work_comments'>
+    <h2><? echo nc_edit_inline('Client', $f_RowID, $cc); ?></h2><?
+if ($f_Person) {
+   ?><h3><? echo nc_edit_inline('Person', $f_RowID, $cc); ?></h3><?
+}
+if ($f_Post) {
+   ?><div class='nc_item'><? echo nc_edit_inline('Post', $f_RowID, $cc); ?></div><? } ?>
+    <div class='nc_description'><? echo nc_edit_inline('Comment', $f_RowID, $cc); ?></div><?
+    if ($f_Picture) {
+        if ($cc_settings[ShowPic] == 'atext') {
+       ?><img class='nc_row_img' src='<? echo $f_Picture ?>' alt='<? echo $f_Client ?>' /><?
+    } else {
+       ?><a href='<? echo $f_Picture ?>' target='_blank'>Прикрепленное изображение</a><?
+    }
+}
+?></div>

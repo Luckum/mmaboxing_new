@@ -1,0 +1,84 @@
+include partials/_includes
+
+
+
++layout
+  // Контент
+  +b.content
+    .tpl-block-layoutwidth
+
+      +b.main--wide
+
+        +sep
+
+        // Хлебные крошки
+        +b.breadcrumbs--steps
+          +e.item: +link Магазин
+          +e.item: +link Заказ
+          +e.item: +link Адрес доставки
+          +e.item: +link Варианты доставки
+          +e.item: +link.tpl-state-current Варианты оплаты
+          +e.item: +link.tpl-state-disabled Оплата
+          +e.item: +link.tpl-state-disabled Радость обладания
+
+        +sep('s')
+        +b('fieldset').order
+          +e('legend').title Варианты оплаты
+          +e.row
+            +e.col--third_1
+              +b('label').ichlabel
+                input(type="radio", name="payment")
+                | Картой Visa или MasterCard
+            +e.col--third_2
+              +b('label').ichlabel
+                input(type="radio", name="payment")
+                | Оплата через Сбербанк
+                +e('span').desc.
+                  (Сроки прохождения платежей составляют 5-7 рабочих дней)
+            +e.col--third_3
+              +b('label').ichlabel
+                input(type="radio", name="payment")
+                | Безналичная оплата через любой банк
+                +e('span').desc.
+                  (в том числе для пользователей интернет-банкинга)
+          +sep('l')
+          +e.row
+            +e.col--third_1
+              +b('label').ichlabel
+                input(type="radio", name="payment")
+                | Картой Visa или MasterCard
+                +e('span').desc.
+                  (если вы хотели бы воспользоваться
+                  другими электронными деньгами, свяжитесь
+                  с нами по адресу store@artlebedev.ru)
+            +e.col--third_2
+              +b('label').ichlabel
+                input(type="radio", name="payment")
+                | Яндекс.Деньгами
+            +e.col--third_3
+              +b('label').ichlabel
+                input(type="radio", name="payment")
+                | PayPal
+          +sep('l')
+          +e.row
+            +e.col--third_1
+              +b('label').ichlabel
+                input(type="radio", name="payment")
+                | QIWI — Мобильный кошелек
+
+          +e.actions
+            +blink('order-2.html').ibtn--theme_blue Следующий шаг
+
+
+      +b.clearfix
+
+
+
+
+
+
+    +b.notformobile: +sep('xxl')
+
+
+
+

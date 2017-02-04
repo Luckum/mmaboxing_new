@@ -1,0 +1,16 @@
+<?
+if ($cart_empty) {
+    echo NETCAT_MODULE_MINISHOP_CART_EMPTY_TEXT;
+} else {
+    ?>
+    <style type='text/css'>
+        .nc_mscart {width:650px !important}
+    </style>
+    <form method='post' action='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH ?>modules/minishop/index.php'>
+        <table class='nc_mscart'>
+            <tr>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_NAME ?></th>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_PRICE ?></th>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_VALUE ?></th>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_COST ?></th>
+            </tr> <? } ?>

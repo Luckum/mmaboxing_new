@@ -1,0 +1,13 @@
+<?
+( !isset($nc_num_cols) ? $colNums = &$cc_settings['colNums'] : $colNums = (int)$nc_num_cols );
+$colWidth = ( $colNums > 1 ? 'width="'.(floor( 100 / $colNums )).'%"' : NULL);
+
+if( $cc_settings['BigImgStyle'] == 'cur_window' ){
+  $popup = false;
+  $isNaked = '';
+}
+else{
+  $popup = true;
+  $isNaked = '?isNaked=1';
+}
+?>

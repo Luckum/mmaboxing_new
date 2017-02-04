@@ -1,0 +1,20 @@
+<div class='nc_full nc_clients'>
+<h1><?=$f_Titl?></h1>
+    <? if ($f_Logo) {
+        ?><img class='nc_row_img' style='float:right; margin: 0 0 5px 5px' src='<? echo $f_Logo ?>' alt='<? echo $f_Titl ?>' /><?
+}
+if ($f_Link) {
+        ?><a href='<? echo $f_Link ?>'><? echo $f_Link ?></a><?
+}
+if ($f_Field) {
+        ?><div class='nc_item'><span class='nc_title'>Сфера деятельности: </span><span class='nc_value'><? echo nc_edit_inline('Field', $f_RowID, $cc); ?></span></div><?
+}
+if ($f_Description) {
+        ?><p class='nc_description'><? echo nc_edit_inline('Description', $f_RowID, $cc); ?></p><?
+}
+if ($cc_settings['ShowProjects'] && $cc_settings['Sub'] && $cc_settings['cc']) {
+    echo s_list_class($cc_settings['Sub'], $cc_settings['cc'], "&nc_clients=1&nc_client_id=$f_RowID");
+}
+    ?>
+    <div style='clear:both'></div>
+</div>

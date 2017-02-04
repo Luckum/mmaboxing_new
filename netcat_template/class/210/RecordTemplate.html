@@ -1,0 +1,32 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? echo $f_AdminButtons; ?>
+<div class='nc_row'> <?
+if ($nc_clients) {
+    ?><div class='nc_item'><a href='<? echo $fullLink ?>'><? echo $f_Titl ?></a></div><?
+} else {
+    if ($f_Titl) {
+        ?><h3><? echo nc_edit_inline('Titl', $f_RowID, $cc) ?></h3><?
+        if ($cc_settings['DateStyle'] != 'disable') {
+            ?><div class='nc_datetime'><?
+            if ($cc_settings['FullLink'] == 'date' && ($f_Text || $f_ExtLink)) {
+                ?><a href='<? echo ($f_Text ? $fullLink : $f_ExtLink) ?>'> <?
+            }
+            if ($cc_settings['DateStyle'] != 'time') {
+                ?> <span class='nc_date'><? echo $f_Date_day.".".$f_Date_month.".".$f_Date_year ?></span><?
+            }
+            if ($cc_settings['DateStyle'] != 'date') {
+                ?><span class='nc_time'><? echo $f_Date_hours.":".$f_Date_minutes ?></span><?
+            }
+            if ($cc_settings['FullLink'] == 'date' && ($f_Text || $f_ExtLink)) {
+                ?></a><? }
+            ?></div><?
+        }
+        if ($f_Description) {
+            ?><div class='nc_description'><? echo nc_edit_inline('Description', $f_RowID, $cc) ?></div><? }
+        if ($f_File) { ?><a href='<? echo $f_File ?>'>Скачать файл</a><?
+        }
+    }
+}
+?>
+</div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

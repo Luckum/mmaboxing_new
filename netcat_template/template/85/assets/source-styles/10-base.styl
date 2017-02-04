@@ -1,0 +1,484 @@
+@import '01-settings'
+// weights:
+// 300 — light
+// 400 — normal/regular
+// 500 — medium
+// 600 — bold
+
+
+body
+  font: fontWeight normal fontSize/lineHeight fontFamily
+  color: colorBase
+  background: bgColor
+  font-smoothing: subpixel-antialiased
+  @media min
+    font-size: fontSizeMobile
+
+h1, h2, h3, h4, h5, h6
+  margin: 0
+  padding: 0
+
+p, blockquote, ul, ol
+  margin: 0 0 0.7em
+  padding: 0
+
+ul, ol
+  padding-left: 15px
+  list-style-position: outside
+  list-style-type: none
+  li
+    margin-bottom: 0.4em
+  li.dashed
+    &:before
+      content: '—'
+      position: absolute
+      margin-left: -15px
+  &.is-clean
+    &, & li
+      padding: 0
+      margin: 0
+      &:before
+        display: none
+
+img
+  border: 0
+
+a, .tpl-link
+  color: colorBlue
+  text-decoration: underline
+  outline: none
+  transition: color .2s
+  -webkit-tap-highlight-color: transparent
+  &:hover
+    color: colorRed
+
+@media min
+  *
+    -webkit-tap-highlight-color: transparent
+
+table
+  width: 100%
+  border-collapse: collapse
+  tr:hover
+    background: #F9F9F9
+  td
+    border: none
+    border-bottom: 1px solid #E1E6EA
+    padding: 10px 20px
+    line-height: 1.2
+    &:last-child
+      text-align: right
+  &.tpl-block-table--style_clean
+    tr:hover
+      background: transparent
+    td
+      padding: 0
+      border: none
+      padding-bottom: 10px
+      @media min
+        padding-bottom: 30px
+
+
+
+.tpl-block-title
+  font-size: 18px
+  font-weight: 500
+  line-height: 1.7
+  &--size_xl
+    font-size: 36px
+    font-weight: 600
+    line-height: 1
+    margin-bottom: 0.5em
+    @media min
+      font-size: 48px
+      font-weight: 400
+      line-height: 1.2
+  &--size_l
+    font-size: 24px
+    font-weight: 500
+    line-height: 1.2
+    margin-bottom: 0.5em
+    text-transform: uppercase
+    @media min
+      font-size: 48px
+  &--size_ml
+    font-size: 20px
+    font-weight: 500
+    line-height: 1.4
+    margin-bottom: 0.5em
+    @media min
+      font-size: 40px
+  &--size_m
+    font-size: 18px
+    font-weight: 500
+    text-transform: uppercase
+    line-height: 1.2
+    margin-bottom: 0.6em
+    @media min
+      font-weight: 300
+      font-size: 36px
+      text-transform: none
+  &--size_s
+    font-size: 18px
+    font-weight: 500
+    line-height: 1.2
+    margin-bottom: 0.6em
+    @media min
+      font-size: 30px
+  &--bright
+    font-size: 25px
+    font-weight: 600
+    text-transform: uppercase
+    @media min
+      font-size: 50px
+  &-desc
+    font-weight: 400
+    font-size: fontSize
+    position: relative
+    margin-top: 0.7em
+    @media min
+      font-size: 28px
+      font-weight: 300
+h1
+  @extend .tpl-block-title--size_xl
+h2
+  @extend .tpl-block-title--size_l
+h3
+  @extend .tpl-block-title--size_m
+h4
+  @extend .tpl-block-title--size_s
+
+.tpl-block-ichlabel
+  line-height: 1.2
+  display: block
+  padding-left: 21px
+  text-indent: -23px
+  &-desc
+    display: block
+    font-size: 12px
+    margin: 20px 0 0
+    line-height: 1.6
+    font-weight: 300
+  @media min
+    padding-left: 33px
+    text-indent: -30px
+    backface-visibility: hidden
+
+.tpl-block-itextlabel
+  display: block
+  padding-left: 160px
+  display: block
+  position: relative
+  // height: 40px
+  @media min
+    height: auto
+    padding-left: 0
+    input
+      width: 100% !important
+
+  &-title
+    display: inline-block
+    float: left
+    position: relative
+    margin-right: -100%
+    left: -160px
+    width: 160px
+    padding: 7px 0
+    line-height: 1.9
+    @media min
+      display: block
+      float: none
+      margin-right: 0
+      left: auto
+      width: auto
+      padding: 0
+      padding-left: 35px
+      font-weight: 300
+      color: colorGray
+
+
+input[type="radio"],
+input[type="checkbox"]
+  position: relative
+  width: 19px
+  padding: 0
+  margin: 0
+  vertical-align: baseline
+  position: relative
+  top: -1px
+  // display: inline-block
+  // width: 1.2em
+  // top: -0.1em
+  // display: block
+  // float: left
+  @media min
+    transform: scale(1.3, 1.3)
+    width: 23px
+    top: -4px
+    backface-visibility: hidden
+
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+textarea
+.tpl-block-itext
+  font: normal fontWeight fontSize/1.9 fontFamily
+  -webkit-tap-highlight-color: transparent
+  border: none
+  border-radius: 0
+  background: #ffffff
+  padding: 7px 15px
+  display: block
+  width: 100%
+  outline: none
+  box-shadow: none
+  transition: box-shadow 0.2s
+  &:focus
+    box-shadow: 0 0 5px rgba(colorBase, 0.3)
+  &.tpl-block-itext--style_dull
+    background: #EAEFF2
+    @media min
+      background: transparent
+    &:focus
+      box-shadow: 0 0 5px rgba(colorBase, 0.6)
+      @media min
+        box-shadow: none
+
+  @media min
+    font-size: 32px
+    line-height: 41px
+    padding: 21px 35px
+    border-top: 1px solid #D2D7DB
+    border-bottom: 1px solid #D2D7DB
+    background: transparent
+    -webkit-appearance: none
+    &:focus
+      box-shadow: none
+
+::placeholder
+  color: #9d9c9c
+
+.tpl-block-ibtn
+  display: inline-block
+  position: relative
+  color: colorBase
+  background: #EAEFF2
+  padding: 0 20px
+  text-align: center
+  cursor: pointer
+  text-decoration: none
+  font-weight: 400
+  line-height: 40px
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+  transition: background 0.2s, color 0.2s, transform 0.2s
+  &:hover
+    background: colorRed
+    color: colorWhite
+  @media min
+    font-weight: 300
+    font-size: 32px
+    line-height: 41px
+    padding: 22px 35px // 22px - border
+    backface-visibility: hidden
+    &:hover
+      background: inherit
+      color: inherit
+    &:active
+      transform: scale3d(0.95, 0.95, 1)
+
+  &-submit
+    position: absolute
+    width: 100%
+    height: 100%
+    left: 0
+    top: 0
+    opacity: 0
+    cursor: pointer
+    border: none
+    background: transparent
+  &--block
+    display: block
+  &--theme_red
+    background: colorRed
+    color: colorWhite
+    &:hover
+      background: colorBlue
+  &--theme_blue
+    background: colorBlue
+    color: colorWhite
+  &--theme_empty
+    background: transparent
+    padding: 0
+    line-height: 2.1
+    color: inherit
+    &:hover
+      background: transparent
+      color: inherit
+  .icon-cart-white
+    margin: -3px 10px 0 -3px
+
+
+
+.tpl-block-ibtnimage
+  position: relative
+  cursor: pointer
+  display: inline-block
+  &-submit
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background: blue
+    border: none
+    cursor: pointer
+    opacity: 0
+
+
+
+select
+  width: 100%
+  display: block
+  opacity: 0
+
+.tpl-block-iselect
+  width: 100%
+  &--size_l + .chosen-container
+    .chosen-single
+      font-size: 18px
+    .chosen-results li
+      font-size: 18px
+
+.chosen-container
+  position: relative
+  display: inline-block
+  user-select: none
+  font-weight: 400
+  width: 100%
+
+  .chosen-single
+    height: 40px
+    padding: 0 20px
+    background: #EAEFF2
+    color: colorBase
+    line-height: 40px
+    cursor: pointer
+    position: relative
+    display: block
+    overflow: hidden
+    text-decoration: none
+    white-space: nowrap
+    transition: color 0.2s
+    width: 100%
+    &:after
+      position: absolute
+      z-index: 20
+      font-family: fontello
+      content: '\e803'
+      top: 0
+      right: 20px
+      font-size: 1.5em
+      transition: inherit
+    @media min
+      font-weight: 300
+      font-size: 32px
+      line-height: 41px
+      padding: 22px 35px
+      height: 85px
+      &:after
+        right: 35px
+        line-height: 50px
+        top: 18px
+    span
+      display: block
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      margin-right: 20px
+
+  &.chosen-with-drop .chosen-single
+    &:after
+      color: colorRed
+      content: '\e80c'
+
+
+  // DROP
+  .chosen-drop
+    position: absolute
+    top: 100%
+    left: -9999px
+    z-index: 1010
+    width: 100%
+    opacity: 0
+    transition: opacity 0.2s
+  &.chosen-with-drop .chosen-drop
+    left: 0
+    opacity: 1
+
+  .chosen-results
+    position: relative
+    overflow-x: hidden
+    overflow-y: auto
+    max-height: 240px
+    -webkit-overflow-scrolling: touch
+    margin: 0
+    padding: 0
+    @media min
+      max-height: 600px
+    li
+      display: none
+      margin: 0
+      padding: 10px 20px
+      line-height: 20px
+      list-style: none
+      background: #EAEFF2
+      color: colorBase
+      transition: color 0.2s, background 0.2s
+      @media min
+        font-weight: 300
+        font-size: 32px
+        line-height: 41px
+        padding: 22px 35px
+        height: 85px
+      &.active-result
+        display: list-item
+        cursor: pointer
+      &.disabled-result
+        display: list-item
+        color: #ccc
+        cursor: default
+      &.highlighted
+        background: #1A2684
+        color: colorWhite
+      &.no-results
+        display: list-item
+        background: #f4f4f4
+      em
+        font-style: normal
+        text-decoration: underline
+
+  .chosen-search
+    position: absolute
+    display: none
+
+  .chosen-disabled
+    opacity: 0.5 !important
+    cursor: default
+    .chosen-single
+      cursor: default
+
+
+
+
+
+
+

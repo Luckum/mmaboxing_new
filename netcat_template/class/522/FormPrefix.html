@@ -1,0 +1,213 @@
+<? /* Отображение корзины */ ?>
+
+<?= $cart->get_quantity_notifications() ?>
+
+<? if ($cart->get_item_count()): ?>
+
+    <? $items = $cart->get_items() ?>
+    <? $has_discount_column = $items->get_field_sum('TotalDiscount') ?>
+
+    <div class="tpl-block-main tpl-block-main--wide">
+    <div class="tpl-block-sep"></div>
+    <!-- Хлебные крошки-->
+    <div class="tpl-block-breadcrumbs tpl-block-breadcrumbs--steps">
+        <div class="tpl-block-breadcrumbs-item">
+            <a href="<?= $nc_core->SUB_FOLDER; ?>/"><?= $nc_core->catalogue->get_current('Catalogue_Name'); ?></a>
+        </div>
+        <div class="tpl-block-breadcrumbs-item"><a href="#" class="tpl-state-current">Корзина</a>
+        </div>
+        <div class="tpl-block-breadcrumbs-item"><a href="#" class="tpl-state-disabled">Адрес доставки</a>
+        </div>
+        <div class="tpl-block-breadcrumbs-item"><a href="#" class="tpl-state-disabled">Варианты доставки</a>
+        </div>
+        <div class="tpl-block-breadcrumbs-item"><a href="#" class="tpl-state-disabled">Варианты оплаты</a>
+        </div>
+        <div class="tpl-block-breadcrumbs-item">
+            <a href="#" class="tpl-state-disabled">Подтверждение</a>
+        </div>
+        <div class="tpl-block-breadcrumbs-item"><a href="#" class="tpl-state-disabled">Оплата</a>
+        </div>
+        <div class="tpl-block-breadcrumbs-item"><a href="#" class="tpl-state-disabled">Радость обладания</a>
+        </div>
+    </div>
+    <div class="tpl-block-sep tpl-block-sep--size_s"></div>
+
+    <form class='tpl-form' method='post' action='<?= nc_modules('netshop')->get_add_to_cart_url(); ?>'>
+        <input type="hidden" name="redirect_url" value="<?= $_SERVER["REQUEST_URI"]; ?>"/>
+
+        <fieldset class="tpl-block-cart">
+            <legend class="tpl-block-cart-title">Корзина
+            </legend>
+            <? foreach ($items as $item) { ?>
+                <div class="tpl-block-cart-item">
+                    <!-- Карточка-->
+                    <div class=" tpl-block-cardbox tpl-block-cardbox--cart">
+                        <a class="tpl-block-cardbox-link" href="<?= nc_message_link($item['Message_ID'], $item['Class_ID']); ?>">
+                            <!-- Заголовок-->
+                            <div class="tpl-block-title tpl-block-title--size_ml">
+                                <div class="tpl-field-title">
+                                    <?= $item['Vendor']; ?> <?= $item['Name']; ?>
+                                    <? if ($item['VariantName']) { ?>
+                                        <div class="tpl-field-variant-values"><?= $item['VariantName']; ?></div>
+                                    <? } ?>
+                                </div>
+                            </div>
+                            <!-- Описание-->
+                            <div class="tpl-field-description"><?= $item['Type']; ?></div>
+                            <!-- Картинка-->
+                            <div class="tpl-field-image"><img src="<?= $item['BigImage']; ?>"></div>
+                        </a>
+                        <!-- Рейтинг-->
+                        <div class="tpl-block-rating">
+                            <div class="tpl-block-rating-item"><i class="icon-star"></i>
+                            </div>
+                            <div class="tpl-block-rating-item"><i class="icon-star"></i>
+                            </div>
+                            <div class="tpl-block-rating-item"><i class="icon-star"></i>
+                            </div>
+                            <div class="tpl-block-rating-item"><i class="icon-star-half-alt"></i>
+                            </div>
+                            <div class="tpl-block-rating-item"><i class="icon-star-empty"></i>
+                            </div>
+                        </div>
+                        <!-- Цена-->
+                        <div class="tpl-field-cost"><?= $item['ItemPriceF']; ?></div>
+                        <? if ($item['ItemPrice'] < $item['OriginalPrice']) { ?>
+                            <!-- Старая цена-->
+                            <div class="tpl-field-oldcost"><?= $item['OriginalPriceF']; ?></div>
+                        <? } ?>
+                        <!-- Варианты-->
+                        <div class="tpl-field-variants">
+                            <div class="tpl-block-pseudolink">
+                                <u>Варианты</u>
+                            </div>
+                        </div>
+                        <!-- Текст-->
+                        <div class="tpl-field-text">
+                            <?= $item['Details']; ?>
+                        </div>
+                        <!-- Меню-->
+                        <div class="tpl-block-cardbox-menu">
+                            <div class="tpl-block-journal">
+                                <div class="tpl-block-journal-column"><a href="#"><i class="icon-down-blue"></i></a>
+                                </div>
+                                <div class="tpl-block-journal-column"><a href="#"><i class="icon-flag-blue"></i></a>
+                                </div>
+                                <div class="tpl-block-journal-column"><a href="#"><i class="icon-cart-red"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Купить сразу-->
+                        <div class="tpl-block-cardbox-buy"><a class="tpl-block-ibtn" href="#">Купить сразу</a>
+                        </div>
+                        <!-- В корзину-->
+                        <div class="tpl-block-cardbox-tocart"><span class="tpl-block-ibtn tpl-block-ibtn--theme_red"><i class="icon-cart-white"></i> В корзину
+                    <button class="tpl-block-ibtn-submit">
+                    </button></span>
+                        </div>
+
+                        <!-- Категория-->
+                        <?
+                        $sub_class_id = $item['Sub_Class_ID'];
+                        $subdivision_id = $nc_core->sub_class->get_by_id($sub_class_id, 'Subdivision_ID');
+                        $subdivision = $nc_core->subdivision->get_by_id($subdivision_id);
+                        ?>
+                        <a href="<?= $nc_core->SUB_FOLDER; ?><?= $subdivision['Hidden_URL']; ?>" class="tpl-field-category"><?= $subdivision['Subdivision_Name']; ?>
+                            <div class="tpl-block-cardbox-overlay">
+                                <u>Быстрый просмотр</u>
+                            </div>
+                        </a>
+                        <!-- Количество-->
+                        <div class="tpl-block-cardbox-amount">
+                            <div class="tpl-block-amountchoice">
+                                <div class="tpl-block-amountchoice-value">
+                                    <input type="hidden" name="cart<?= $item['RowID'] ?>" value="<?= $item['Qty']; ?>"/>
+                                    <span><?= $item['Qty']; ?></span> шт.
+                                </div>
+                                <div class="tpl-block-amountchoice-buttons">
+                                    <div class="tpl-block-amountchoice-button tpl-block-amountchoice-button--more">
+                                        <i class="icon-angle-up"></i>
+                                    </div>
+                                    <div class="tpl-block-amountchoice-button tpl-block-amountchoice-button--less">
+                                        <i class="icon-angle-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Удалить-->
+                        <div class="tpl-block-cardbox-remove"><span class="tpl-block-ibtn tpl-block-ibtn--theme_empty"><i class="icon-trash"></i>
+                    <button class="tpl-block-ibtn-submit" type="submit" name="cart<?= $item['RowID'] ?>" value="0" onclick="return confirm('Действительно желаете удалить товар из корзины?');"></button></span>
+                        </div>
+                    </div>
+                </div>
+            <? } ?>
+            <div class="tpl-block-cart-summary">
+                <div class="tpl-block-cart-summarycost">
+                    <small>Итого:</small>
+                    <div class="tpl-block-cart-cost"><?= $netshop->format_price($cart->get_totals()); ?></div>
+                </div>
+                <div class="tpl-block-cart-summarydesc">
+                    <p>Вы сможете выбрать способ оплаты и оставить<br>комментарии к доставке заказа на следующих этапах —<br>оформление заказа.
+                    </p>
+                </div>
+            </div>
+
+            <div class="tpl-block-cart-actions">
+                <a class="tpl-block-ibtn tpl-block-ibtn--theme_blue" href="#">
+                    Пересчитать корзину
+                    <button class="tpl-block-ibtn-submit" type="submit"></button>
+                </a>
+                <a class="tpl-block-ibtn tpl-block-ibtn--theme_blue" href="<?= $nc_core->SUB_FOLDER; ?>/orders/add_orders.html">Оформить заказ</a>
+            </div>
+        </fieldset>
+        <input type='hidden' name='cart_mode' value=''>
+    </form>
+
+    <fieldset class="tpl-block-cart">
+        <legend class="tpl-block-cart-title">Купоны на скидку
+        </legend>
+        <? /* Сообщения ошибок добавления купона */ ?>
+        <? $alerts = $netshop->promotion->get_coupon_notifications() ?>
+        <? if ($alerts->get_status() == 'error'): ?>
+            <div class="tpl-alert"><?= $alerts ?></div>
+        <? endif ?>
+
+        <? /* Список активных купонов + форма добавления купона */ ?>
+        <form class='tpl-form' method='post'>
+            <? $coupons = $netshop->promotion->get_registered_coupons() ?>
+
+            <table class='tpl-table'>
+                <tr>
+                    <th colspan='2'>Используемые купоны</th>
+                </tr>
+                <? foreach ($coupons as $i => $coupon): ?>
+                    <tr>
+                        <td><?= $coupon['code'] ?></td>
+                        <td>
+                            <a class="tpl-block-ibtn tpl-block-ibtn--theme_blue" href="#">
+                                Сбросить
+                                <button class="tpl-block-ibtn-submit" type="submit" name='coupon_clear[<?= $i ?>]' value='Сбросить'></button>
+                            </a>
+                        </td>
+                    </tr>
+                <? endforeach ?>
+                <tr>
+                    <td><input class='tpl-block-itext tpl-block-itext--style_dull' type='text' name='coupon_add'></td>
+                    <td>
+                        <a class="tpl-block-ibtn tpl-block-ibtn--theme_blue" href="#">
+                            Применить&nbsp;купон
+                            <button class="tpl-block-ibtn-submit" type="submit"></button>
+                        </a>
+                </tr>
+            </table>
+        </form>
+    </fieldset>
+    </div>
+    <div class="tpl-block-clearfix">
+    </div>
+    <? /* Корзина пуста */ ?>
+<? else: ?>
+
+    <div class='tpl-alert'><?= NETCAT_MODULE_NETSHOP_CART_EMPTY ?></div>
+
+<? endif ?>

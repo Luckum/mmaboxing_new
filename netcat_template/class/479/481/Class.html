@@ -1,0 +1,15 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="cb_<?= $f_RowNum & 1 ? 'r' : 'l'; ?>">
+    <div class="cb_i">
+        <h2><?= nc_edit_inline('Name', $f_RowID, $cc); ?></h2>
+        <p><?= nc_edit_inline('Announce', $f_RowID, $cc); ?></p>
+        <div class="more">
+            <a href="<?= $fullLink; ?>">
+                <span>Подробнее</span>
+            </a>
+        </div>
+    </div>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

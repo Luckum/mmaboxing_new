@@ -1,0 +1,30 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? if (!($f_RowNum % $colNums) && $f_RowNum) { ?> </tr><tr> <? } ?>
+
+    <td class='nc_row'> <? echo $f_AdminButtons; ?>
+        <h4><? echo nc_edit_inline('Name', $f_RowID, $cc) ?></h4>
+        <? if ($f_Address) {
+            ?><div class='nc_item'><span class='nc_title'>Адрес: </span><span class='nc_value'><? echo nc_edit_inline('Address', $f_RowID, $cc) ?></span></div><?
+    }
+    if ($f_PhoneHome) {
+            ?><div class='nc_item'><span class='nc_title'>Телефон домашний: </span><span class='nc_value'><? echo nc_edit_inline('PhoneHome', $f_RowID, $cc) ?></span></div><?
+    }
+    if ($f_PhoneMobile) {
+            ?><div class='nc_item'><span class='nc_title'>Телефон мобильный: </span><span class='nc_value'><? echo nc_edit_inline('PhoneMobile', $f_RowID, $cc) ?></span></div><?
+    }
+    if ($f_PhoneWork) {
+            ?><div class='nc_item'><span class='nc_title'>Телефон рабочий: </span><span class='nc_value'><? echo nc_edit_inline('PhoneWork', $f_RowID, $cc) ?></span></div><?
+    }
+    if ($f_Blog) {
+            ?><div class='nc_item'><span class='nc_title'>Адрес блога: </span><span class='nc_value'><a href='<? echo $f_Blog ?>'><? echo $f_Blog ?></a></span></div><?
+    }
+    if ($f_Homepage) {
+            ?><div class='nc_item'><span class='nc_title'>Домашняя страница: </span><span class='nc_value'><a href='<? echo $f_Homepage ?>'><? echo $f_Homepage ?></a></span></div><?
+    }
+    if ($f_ICQ) {
+            ?><div class='nc_item'><span class='nc_title'>Номер ICQ: </span><span class='nc_value'><? echo nc_edit_inline('ICQ', $f_RowID, $cc) ?></span></div><?
+    }
+    if ($f_Skype) {
+            ?><div class='nc_item'><span class='nc_title'>Имя Skype: </span><span class='nc_value'><? echo nc_edit_inline('Skype', $f_RowID, $cc) ?></span></div><? } ?>
+    </td>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

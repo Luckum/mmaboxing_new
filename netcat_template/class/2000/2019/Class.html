@@ -1,0 +1,11 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+<li class="slide">
+			<a href="<?= $fullLink ?>">
+				<img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 980, 280, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=280&w=980") ?>" alt="">
+				<p class="slide-title"><?= $f_myTitle ?></p>
+			</a>
+		</li><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

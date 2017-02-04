@@ -1,0 +1,84 @@
+<!-- FormPrefix --><?
+echo $f_AdminCommon;
+?>
+<style type='text/css'>
+    .cart_contents table {width:650px !important}
+    .cart_contents td { border-bottom: 1px solid #DBDBDB; padding: 5px; background-color: none !important}
+    .cart_contents .qty { text-align: center; }
+    .cart_contents .name { text-align: left; }  
+    .cart_contents .qty input { text-align: center; white-space: nowrap }
+    .cart_contents th { background: #EEEEEE; color: #595959; padding: 5px; }
+    .cart_contents .cart_buttons { padding: 10px 0px; }
+    .cart_contents .totals { font-weight: bold }
+    .cart_contents .totals td { border-top: 1px solid #DBDBDB; border-bottom: none }
+    .cart_contents .cart_discount td { border-top: 1px solid #DBDBDB }
+    .cart_contents .input_text {width: 40px !important; margin:0 auto;}
+    .cart_contents .checkbox {width: 12px !important; margin:0 auto; float: none !important;}
+    #netshop_discount_div { margin: 10px 0px; padding: 4px 10px; border: 1px solid #FFDBA8; background: #FFFCF3; color: #595959; font-size:8pt; width: 250px }
+    #netshop_discount_div p { margin: 5px }
+</style>
+<?
+$has_discounts = ($shop->TotalDiscountSum != $shop->CartDiscountSum);
+
+if ($shop->CartCount()) {
+    ?><form method='post' action='<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>modules/netshop/post.php' class='cart_contents' id='netshop_cart_contents'>
+        <input type=hidden name='redirect_url' value='<?= $_SERVER[REQUEST_URI] ?>' />
+
+        <table border='0' cellspacing='0' cellpadding='0' width='100%'>
+            <tr>
+                <th class='name'><?= NETCAT_MODULE_NETSHOP_ITEM ?></th>
+                <?= ($has_discounts ? "<th>".NETCAT_MODULE_NETSHOP_DISCOUNT."</th>" : ""); ?>
+                <th style="text-align: center;"><?= NETCAT_MODULE_NETSHOP_ITEM_PRICE ?></th>
+                <th style="text-align: center;"><?= NETCAT_MODULE_NETSHOP_QTY ?></th>
+                <th style="text-align: center;"><?= NETCAT_MODULE_NETSHOP_COST ?></th>
+                <th style="text-align: center;"><?= NETCAT_MODULE_NETSHOP_ITEM_DELETE ?></th></tr>
+            <?
+            $i = 0;
+            foreach ($shop->CartContents as $row) {
+                ?><tr class='<?= (++$i % 2 ? "odd" : "even") ?>' align='center'>
+                    <td class='name'><a href='<?= $row['URL'] ?>' target='_blank'> <?= $row['Name'] ?> </a><?
+            if ($has_discounts) {
+                if ($row['OriginalPrice'] - $row['ItemPrice']) {
+                        ?><td><?= $shop->FormatCurrency($row['OriginalPrice'] - $row['ItemPrice']) ?></td><?
+            } else {
+                        ?><td>&mdash;</td><?
+            }
+        }
+                ?><td><?= $row['ItemPriceF'] ?></td>
+                    <td class='qty'><input type='text' size='2' name='cart<?= $row['RowID'] ?>' value='<?= $row['Qty'] ?>'> <?= $row['Units'] ?></td>
+                    <td><?= $row['TotalPriceF'] ?></td>
+                    <td style="text-align: center;"><input type='checkbox' name='cart<?= $row['RowID'] ?>' value='-1'></td>
+                </tr><?
+        }
+        if ($shop->CartDiscounts) {
+            foreach ($shop->CartDiscounts as $discount) {
+                    ?><tr align='center' class='cart_discount'><td colspan='<?= ($has_discounts ? 4 : 3) ?>' class='name'>
+                            <b><?= $discount['Name'] ?></b><?= ($discount['Description'] ? "<br>{$discount['Description']}" : "") ?>
+                        </td><td><? echo ($discount['Sum'] > 0 ? "-" : "");
+            echo $discount['SumF']; ?></td>
+                        <td>&nbsp;</td></tr><?
+                                                     echo '\n';
+                                                 }
+                                             }
+            ?><tr align='center' class='totals'><td colspan='<?= ($has_item_discounts ? 4 : 3) ?>' class='name'><?= NETCAT_MODULE_NETSHOP_SUM ?></td><td><?= ($shop->FormatCurrency($shop->CartSum())) ?></td><td>&nbsp;</td></tr><?
+        if (ini_get("session.use_trans_sid")) {
+            $sname = session_name();
+            $sid = "?$sname=$GLOBALS[$sname]";
+        } else {
+            $sid = "";
+        }
+            ?></table><?
+            ?><div class='cart_buttons'>
+            <input type='submit' value='<?= NETCAT_MODULE_NETSHOP_REFRESH ?>'>
+            <input type='button' onclick='window.location="<?= $GLOBALS[NETSHOP][Netshop_OrderURL].$sid; ?>"' value='<?= NETCAT_MODULE_NETSHOP_CART_CHECKOUT ?>'>
+            <input type='button' onclick='window.location="?ClearCart=1"' value='Очистить корзину'>
+        </div>
+    </form><?
+    } else {
+        echo NETCAT_MODULE_NETSHOP_CART_EMPTY;
+    }
+        ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

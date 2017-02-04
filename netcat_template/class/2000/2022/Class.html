@@ -1,0 +1,37 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+
+$user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
+$sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE message_link=".$f_RowID));
+
+?>
+
+<?php if ($f_RowNum == 0): ?>
+<div class="big_post_c">
+				<img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 220, 150, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=150&w=220")?>" alt="<?=$f_myTitle?>">
+				<div class="item-content">
+					<p class="item-category"><?= implode($f_newsType, ', ') ?></p>
+					<h3 class="item-title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></h3>
+					<div class="blog-item-text"><?=mb_substr(trim(str_replace('&nbsp;','',strip_tags($f_myText))),0,165)?>...</div>
+					<div class="blog-item-info">
+						<span class="date">
+<? if($f_Date != 0) { ?>
+                        <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_year.".".$f_Date_month.".".$f_Date_day)?>, <?= $f_Date_hours.':'.$f_Date_minutes ?>
+<? }else{ ?>
+                        <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+<? } ?>
+                        </span>
+						<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a></span>
+						<!-- <span class="comments"><a href="<?= $fullLink ?>"><?=$sql_post[0]?></a></span> -->
+					</div>
+				</div>
+			</div>
+<?php endif; ?>
+            <?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==0) ? s_list_class(30,44,"?&position=6") :NULL) ?>
+            <?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==9) ? s_list_class(30,44,"?&position=7") :NULL) ?>
+            <?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==16) ? s_list_class(30,44,"?&position=8") :NULL) ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? if($nextLink || $prevLink) { ?>
+    <?= nc_browse_messages($cc_env, 9); ?>
+<? } ?><!-- /FormSuffix -->

@@ -1,0 +1,10 @@
+<? if ($totRows) { ?><div style='border-top: 1pt solid #ccc;'></div> <? } ?>
+
+<div class='res'>
+    <? if (!$totRows) { ?>Нет заказов<? } else { ?>
+        Всего <? echo $totRows . ' ';
+    echo nc_numeral_inclination($totRows, array('заказ', 'заказов', 'заказа'));
+} ?>
+</div>
+
+</div>

@@ -1,0 +1,27 @@
+<?
+if($_FILES['f_file']['tmp_name'] && $f_folder) $f_folder="";
+
+$f_file_name=$_FILES['f_file']['name'];
+$f_folder_name=$f_folder;
+
+$f_Parent_Message_ID+=0;
+
+if(!$f_folder && !$_FILES['f_file']['tmp_name']) {
+$posting=0;
+$warnText="Укажите название папки или файла";
+}
+
+$folder_exists=@listQuery("SELECT Message_ID FROM Message$classID WHERE Parent_Message_ID=".$f_Parent_Message_ID." AND folder='$f_folder_name' AND folder<>''", "\$data[Message_ID]");
+
+if($folder_exists) {
+$warnText="Папка с таким именем <b>$f_folder_name</b> уже существует!";
+$posting=0;
+}
+
+$file_exists=@listQuery("SELECT Message_ID FROM Message$classID WHERE Parent_Message_ID=".$f_Parent_Message_ID." AND file LIKE '".$f_file_name.":%'", "\$data[Message_ID]");
+
+if($file_exists) {
+$warnText="Файл с таким именем <b>$f_file_name</b> уже существует!";
+$posting=0;
+}
+?>

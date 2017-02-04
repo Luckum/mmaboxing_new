@@ -1,0 +1,43 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? 
+$ban_hab=@explode("x",$f_Size);
+$ban_width=$ban_hab[0];
+$ban_height=$ban_hab[1];
+?>
+
+<table border=0 cellpadding=0 cellspacing=0 width=100%><tr><td bgcolor=cccccc><table border=0 cellpadding=4 cellspacing=1 width=100%>
+<tr><td bgcolor=eeeeee><b>Баннер #$f_RowID</b><? if ($f_Size) { ?>"<? echo $f_Size; }?>"</td></tr>
+<tr><td bgcolor=white align=center>
+<? if ($f_Type_id==1) { ?><a target=_blank href=<? echo $f_Link?>><img border=0 src=<? echo $f_File?> width=<? echo $ban_width?> height=<? echo $ban_height ?> alt='<? echo $f_Alt?>'></a>"<? } ?>
+<? if ($f_Type_id==2) { ?><object classid=clsid:D27CDB6E-AE6D-11cf-96B8-444553540000 codebase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0 width=<?  echo $ban_width ?> height= <?  echo $ban_height ?> id=banner<?  echo $f_RowID ?>><param name=movie value=<? echo  $f_File ?>><param name=quality value=high><embed src=<? echo  $f_File ?> name=banner<? echo  $f_RowID ?> quality=high bgcolor=ffffff width=<? echo  $ban_width ?> height=<? echo  $ban_height ?> type=application/x-shockwave-flash pluginspage=http://www.macromedia.com/go/getflashplayer></embed></object><? } ?>
+<? if ($f_Type_id==3) echo $f_Text ?>
+</td></tr>
+<tr><td bgcolor=white>
+<font size=-2>
+Сценарий показа: <b>#<?  echo $f_Script;
+listQuery("SELECT Name FROM Message".$MODULE_VARS[banner][SCRIPT_TABLE]." WHERE Message_ID='$f_Script'","\$data[Name]");
+?></b><br><br>
+<table border=0 cellpadding=2 cellspacing=2 width=100%>
+<tr><td width=25%><font size=-2><br></td><td width=25% bgcolor=eeeeee><font size=-2>показов</td><td bgcolor=eeeeee width=25%><font size=-2>нажатий</td><td bgcolor=eeeeee width=25%><font size=-2>CTR</td></tr>
+<tr><td><font size=-2>Сегодня:</td><td><font size=-2><? ($shows=listQuery("SELECT SUM(Shows) AS sum FROM Banner_StatsBanner WHERE Banner_ID='$f_RowID' AND Date=CURDATE()","\$data[sum]")+0) ?></td><td><font size=-2><? ($clicks=listQuery("SELECT (SUM(Clicks)+0) AS sum FROM Banner_StatsBanner WHERE Banner_ID='$f_RowID' AND Date=CURDATE()","\$data[sum]")+0) ?></td><td><font size=-2><? (@($clicks/$shows)*100) ?></td></tr>
+<tr>
+<td><font size=-2>Вчера:</td>
+<td><font size=-2><? ($shows=listQuery("SELECT SUM(Shows) AS sum FROM Banner_StatsBanner WHERE Banner_ID='$f_RowID' AND Date=DATE_ADD(CURDATE(),INTERVAL -1 DAY)","\$data[sum]")+0) ?></td>
+<td><font size=-2><? ($clicks=listQuery("SELECT SUM(Clicks) AS sum FROM Banner_StatsBanner WHERE Banner_ID='$f_RowID' AND Date=DATE_ADD(CURDATE(),INTERVAL -1 DAY)","\$data[sum]")+0) ?></td>
+<td><font size=-2><? (@($clicks/$shows)*100) ?></td></tr>
+<tr><td><font size=-2>Всего:</td>
+<td><font size=-2><? ($shows=listQuery("SELECT SUM(Shows) AS sum FROM Banner_StatsBanner WHERE Banner_ID='$f_RowID'","\$data[sum]")+0) ?></td>
+<td><font size=-2><? ($clicks=listQuery("SELECT SUM(Clicks) AS sum FROM Banner_StatsBanner WHERE Banner_ID='$f_RowID'","\$data[sum]")+0) ?></td>
+<td><font size=-2><? (@($clicks/$shows)*100) ?></td></tr></table><br>
+
+Участвует в рекламных кампаниях: <i><? listQuery("SELECT a.Campaign_ID,b.Name FROM Banner_CampaignBanner AS a,Message".$MODULE_VARS[banner][CAMPAIGN_TABLE]." AS b WHERE b.Message_ID=a.Campaign_ID AND a.Banner_ID='$f_RowID'","\$data[Name] (#\$data[Campaign_ID]); ") ?></i><br>
+<font color=gray>Последний раз показан: <? listQuery("SELECT FROM_UNIXTIME(LastShow,'%d-%m-%Y %H:%i:%s') AS lastshown FROM Banner_CampaignBanner WHERE Banner_ID='$f_RowID'","\$data[lastshown]") ?>
+
+<? if ($f_Type_id==2) { ?>"<blockquote><font color=red>* - для организации статистики по данному баннеру необходимо в swf-файле отредактировать элемент button и использовать для него следующий скрипт: on (release) { getURL(banner_url,banner_target); }</blockquote>")<? } if ($f_Type_id==3) { ?>"<blockquote><font color=red>* - для организации статистики по данному баннеру можно использовать переменные %banner_url% и %banner_target% в поле &quot;Текст HTML-баннера&quot;, например так: &lt;a href=&quot;%banner_url%&quot; target=&quot;%banner_target%&quot;&gt;ссылка&lt;/a&gt;</blockquote>")<? } ?>
+</td></tr>
+</table></td></tr></table>
+<? echo $f_AdminButtons; ?>
+<br><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,60 @@
+include partials/_includes
+
+
+
++layout
+  // Контент
+  +b.content
+    .tpl-block-layoutwidth
+
+      +b('aside').aside
+        include partials/asideMenu
+        +sep('s')
+        include partials/asideFilter
+      +b.main
+
+        include partials/catalogActions
+
+
+        +sep('xs')
+
+        // Каталог
+        +b.catalog--view_plate
+          - for (i=1; i<=12; i++)
+            +e.item
+              +cardbox(i, 'switchable', 'popup')
+
+        // Управление каталогом
+        +b.catalogactions
+          +e.row
+            +e.col--pages
+              +b.pages
+                +e.item--prev.tpl-state-disabled: +link: i.icon-left-open
+                +e.item.tpl-state-current: +link 1
+                +e.item: +link 2
+                +e.item: +link 3
+                +e.item: +link 4
+                +e.item: +link 5
+                +e.item: +link 6
+                +e.item: +link 7
+                +e.item: +link 8
+                +e.item: +link 9
+                +e.item ...
+                +e.item: +link 34
+                +e.item--next: +link: i.icon-right-open
+
+      +b.clearfix
+
+      +sep('xs')
+
+
+
+
+
+
+
+    +b.notformobile: +sep('xxl')
+
+
+
+

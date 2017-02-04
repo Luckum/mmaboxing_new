@@ -1,0 +1,67 @@
+<div class='page-text'>
+<?=nc_browse_path($browse_template)?>		
+<?php
+$user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
+?>
+<h1 class="page-title"><?= $f_myTitle ?></h1>
+
+		<div class="content-inner">
+
+<div class="content-top">
+			<div class="top-l">
+		        <span class="title"><?= implode($f_newsType, ', ') ?></span>
+		        <span class="date"><?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?></span>
+				<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a></span>
+		    </div>
+		   <div class="top-r">
+		        <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
+		    </div>
+		</div>
+<?php if($f_myPhoto){?>        
+<p class="img-center"><img src="<?= $f_myPhoto ?>" alt="<?= $f_myTitle ?>" title="<?= $f_myTitle ?>"></p>
+<?php } ?>
+<?= $f_myText ?>
+<? if(!empty($f_Video)) { ?>
+<div id="videoplayer<?= $f_RowID ;?>" style="width:660px;height:371px;" ></div>
+<script type="text/javascript">this.videoplayer<?= $f_RowID ;?> = new Uppod({m:"video",uid:"videoplayer<?= $f_RowID ;?>",comment:"Битва",file:"<?= $f_Video ;?>",st:"uppodvideo"});</script>
+<? } ?>
+
+			<div class="content-bottom">
+				<ul class="tags">
+
+<?
+    $RuTags = explode(',',$f_myTags);
+    $EnTags = explode(',',$f_EnTags);
+    $Tags = array_combine($RuTags,$EnTags);
+foreach($Tags as $key => $value) {
+    echo "<li><a href='/tag/".$value."'>".$key."</a></li>";
+}
+?>
+				</ul>
+                
+			</div>
+
+		</div>
+
+<!-- комменты VK -->
+<p class="content-title">Комментарии:</p>
+<div id="vk_comments"></div>
+<script type="text/javascript">
+VK.Widgets.Comments("vk_comments", {limit: 20, width: "705", attach: "*", autoPublish: "0"});
+</script>
+<!-- комменты VK -->
+
+		<p class="content-title">Читайте также:</p>
+		<div class="also col-3 clearfix">
+			<?= s_list_class(3,1,"&nc_ctpl=2018&recNum=6&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>
+		</div>
+
+<!-- <?= s_list_class(25,27,"&newsLink=".$f_Message_ID) ?>
+
+	<p class="content-title">Информация</p>
+	<div class="block-white">
+		Посетители, находящиеся в группе <strong>Гости</strong>, не могут оставлять комментарии к данной публикации.
+	</div> -->
+    
+</div>
+<style>blockquote P { margin:0px!important; }</style>

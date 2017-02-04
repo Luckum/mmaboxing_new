@@ -1,0 +1,53 @@
+</tbody>
+</table>
+<br>
+
+<div class="nc-pagination nc--right">
+    <?= CONTROL_CLASS_CLASS_OBJECTSLIST_SHOW ?>:
+    <!--span class='nc--active'>по умолчанию <?=$maxRows ?></span-->
+    <? foreach (array(10,20,50,100) as $per_page): ?>
+        <? if ($per_page == $maxRows): ?>
+            <span class='nc--active'><?=$per_page ?></span>
+        <? else: ?>
+            <a href="<?=$SUB_FOLDER . $HTTP_ROOT_PATH ?>?inside_admin=1&amp;cc=<?=$cc ?>&amp;maxRows=<?=$per_page ?>"><?=$per_page ?></a>
+        <? endif ?>
+    <? endforeach ?>
+</div>
+
+<?= browse_messages($cc_env, 15, array(
+    'prefix'   => "<div class='nc-pagination'>",
+    'suffix'   => "</div>",
+    'active'   => "<span class='nc--active'>%PAGE</span>",
+    'unactive' => "<a href='%URL'>%PAGE</a>",
+    'divider'  => " ",
+)) ?>
+</div>
+
+<div id='nc_table_view_settings' class='nc-padding-20 nc--hide' style='padding-left:0 !important'>
+
+    <form class='nc-panel nc-padding-15' method='post' action='<?=$SUB_FOLDER . $HTTP_ROOT_PATH ?>?inside_admin=1&amp;cc=<?=$cc ?>'>
+        <? foreach ($component->get_fields() as $field): ?>
+            <div>
+                <label>
+                    <input name='in_table_view[]' value='<?=$field['id'] ?>' type="checkbox" <?= $field['in_table_view'] ? 'checked="checked"' : '' ?>>
+                    <?= $field['description'] ?>
+                </label>
+            </div>
+        <? endforeach ?>
+        <br>
+        <input type="hidden" name="table_view_settings" value="1">
+        <button type='submit' class='nc-btn nc--blue nc--small'><?= NETCAT_CUSTOM_ONCE_SAVE ?></button>
+        <button onclick="return nc_toggle_table_view_settings()" type='button' class='nc-btn nc--red nc--small nc--bordered'><?= CONTROL_BUTTON_CANCEL ?></button>
+    </form>
+</div>
+
+
+
+<script>
+    function nc_toggle_table_view_settings() {
+        nc('#nc_table_view_<?=$cc ?>').toggle();
+        nc('#nc_table_view_settings').toggle();
+        return false;
+    }
+    nc('#nc_table_view_settings_btn').click(nc_toggle_table_view_settings);
+</script>

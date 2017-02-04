@@ -1,0 +1,17 @@
+<?
+// значения визуальных настроек
+$res = $db->get_var("SELECT CustomSettings FROM Sub_Class WHERE Sub_Class_ID=$cc");
+( $res ? eval("\$cc_settings = $res") : $cc_settings = NULL );
+
+// значения визуальных настроек по умолчанию
+$res = $db->get_var("SELECT CustomSettingsTemplate FROM Class WHERE Class_ID=$classID");
+eval("\$default_cc_settings = $res");
+
+echo "<div class='nc_mail_from_site'>".str_replace("%NAME", htmlspecialchars($f_Name), ( $cc_settings[TextAfterSend] ? $cc_settings[TextAfterSend] : $default_cc_settings[TextAfterSend][default_value] ) )."</div>";
+
+$mailer = new CMIMEMail();
+$mailer->mailbody(strip_tags($f_Text));
+$mailer->send(($cc_settings[EmailTo] ? $cc_settings[EmailTo] : $system_env[SpamFromEmail]), $f_Email, $f_Email, $f_Subject, $f_Name);
+
+echo "Спасибо. Сообщение отправлено. В ближайшее время с вами свяжутся по указанному email.";
+?>

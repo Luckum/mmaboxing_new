@@ -1,0 +1,31 @@
+%Header
+<div <?php echo nc_ls_display_pointer($current_catalogue['Title_Sub_ID']); ?> class="main-pointer"></div>
+<section class="main-section">
+    <div class="wrapper">
+        <div class="gallery">
+            <?php echo nc_objects_list(332, 526); ?>            
+        </div>
+        <div class="section-info holder">
+            <div class="l-side">
+                <?php echo nc_objects_list(332, 526, 'nc_ctpl=515'); ?>                
+                <div class="contact">
+                    <span>Для связи: <span><?= $current_catalogue['Contacts'] ?></span></span>
+                    <a href="mailto:<?= $current_catalogue['Email'] ?>"><?= $current_catalogue['Email'] ?></a>
+                </div>
+            </div>
+            <div class="center">
+                <p>Если вам нравятся путешествия по диким местам — вы попали в нужное место!</p>
+                <h2>Стартуют:</h2>
+                <?php echo nc_objects_list(332, 526, 'nc_ctpl=516'); ?>
+            </div>
+            <div class="r-side">
+                <h2>Мы в интернете</h2>
+                <?= $current_catalogue['Social'] ?>
+            </div>
+        </div>
+    </div>
+    <div <?php echo nc_ls_display_container('main-section'); ?>>
+<?php if ($cc != 526) { ?>
+</div>
+</section>
+<?php } ?>

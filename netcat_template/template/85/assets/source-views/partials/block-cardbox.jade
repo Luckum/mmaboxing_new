@@ -1,0 +1,38 @@
+mixin cardbox(i, isCatalog)
+  // Карточка
+  +b.cardbox
+    - if (isCatalog === undefined)
+      +elink.link
+        +t('ml'): .tpl-field-title <nobr>Встроенная память</nobr> 16 Гб, SDHC
+        .tpl-field-description ##{i} 2-x спальная палатка с откидным верхом и черным ходом
+        .tpl-field-image: img(src="tmp/c#{i}.jpg")
+      include block-rating
+      .tpl-field-cost 9 549 <span class="tpl-block-rubl">Р</span>
+      .tpl-field-variants: +b.pseudolink: u Варианты
+      +e.menu
+        +jrow
+          +jcol: +link: i.icon-down-blue
+          +jcol: +link: i.icon-flag-blue
+          +jcol: +link: i.icon-cart-red
+      +e.buy: +blink.ibtn Купить сразу
+
+    - else
+      +elink("/app/catalog-popup.html").link.tpl-link-popup
+        +t('ml'): .tpl-field-title <nobr>Встроенная память</nobr> 16 Гб, SDHC
+        .tpl-field-description ##{i} 2-x спальная палатка с откидным верхом и черным ходом
+        .tpl-field-image: img(src="tmp/c#{i}.jpg")
+        +e.overlay: u Быстрый просмотр
+      include block-rating
+      .tpl-field-cost 9 549 <span class="tpl-block-rubl">Р</span>
+      .tpl-field-variants: +b.pseudolink: u Варианты
+      .tpl-field-text.
+        This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.
+        Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis
+        sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi
+        accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a  bibendum auctor, nisi elit a a a a a
+      +e.menu
+        +jrow
+          +jcol: +link: i.icon-down-blue
+          +jcol: +link: i.icon-flag-blue
+          +jcol: +link: i.icon-cart-red
+      +e.buy: +blink.ibtn Купить сразу

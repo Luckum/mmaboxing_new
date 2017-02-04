@@ -1,0 +1,87 @@
++b.tabs--footer.tpl-state-hidden
+  // Закрытое положение: +e.trigger / +e.wrapper.tpl-state-hidden
+  // Открытое положение: +e.trigger.tpl-state-active / +e.wrapper
+  +e.switcher
+    .tpl-block-layoutwidth
+      +e.tab.tpl-state-current Вы недавно смотрели
+      +e.tab Список сравнения
+      +e.tab Избранное
+      +e.trigger.tpl-state-active
+  +e.wrapper
+    .tpl-block-layoutwidth
+      +e.content.tpl-state-current
+        +b.swiper--with-scrollbar
+          include cardbox
+          +b.loader
+          +e.container
+            +e.wrapper
+              - for (a=1; a<=8; a++)
+                +e.item
+                  +cardbox(a, 'wide')
+          +e.scrollbar
+      +e.content
+        +b.swiper--with-scrollbar
+          include cardbox
+          +b.loader
+          +e.container
+            +e.wrapper
+              - for (a=1; a<=8; a++)
+                +e.item
+                  +cardbox(a, 'wide border_red')
+          +e.scrollbar
+      +e.content
+        +b.swiper--with-scrollbar
+          include cardbox
+          +b.loader
+          +e.container
+            +e.wrapper
+              - for (a=1; a<=8; a++)
+                +e.item
+                  +cardbox(a, 'wide border_blue')
+          +e.scrollbar
+// Подвал
++b('footer').footer
+  .tpl-block-layoutwidth
+    +b.footermobilemenu
+      +e.item: +link Контакты
+      +e.item: +link Помощь
+      +e.item: +link О нас
+    +b.footermobilesoc
+      +e.item: +link: i.icon-facebook-mobile
+      +e.item: +link: i.icon-instagram-mobile
+    +e.row
+      +e.col--1
+        +b.footerlist
+          +b.footertitle Помощь
+          +e.item: +link Доставка
+          +e.item: +link Способы оплаты
+          +e.item: +link Служба поддержки
+          +e.item: +link Возврат
+      +e.col--2
+        +b.footerlist
+          +b.footertitle О нас
+          +e.item: +link Отзывы
+          +e.item: +link История
+          +e.item: +link Клиенты
+      +e.col--3
+        +b.footerlist
+          +b.footertitle Мы в соц. сетях
+          +e.item: +link Вконтакте
+          +e.item: +link Одноклассники
+          +e.item: +link Твиттер
+      +e.col--4
+        +b('form').footersubscribe(action="/")
+          +b.footertitle Подпишитесь на новости
+          +b('input').itext(type="email", placeholder="e-mail")
+          +b('span').ibtnimage
+            i.icon-angle-right
+            +e('input').submit(type="submit", value="")
+      +e.col--5
+        +b.footercards
+          +e.item: img(src="assets/i/card-1.jpg")
+          +e.item: img(src="assets/i/card-2.jpg")
+          +e.item: img(src="assets/i/card-3.jpg")
+        +b.footerdevs
+          | Создание сайта — 
+          +link xDesign
+

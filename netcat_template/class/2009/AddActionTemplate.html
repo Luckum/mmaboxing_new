@@ -1,0 +1,11 @@
+<?
+mysql_query("UPDATE User SET comments=comments+1 WHERE USER_ID=".$current_user['User_ID']);
+
+if($inside_admin) {
+    ob_end_clean();
+    header('Location: '.$goBackLink.'&inside_admin=1');
+    exit;
+} else { 
+    header('Location: '.$_SERVER['HTTP_REFERER'].'?back#comments');
+}
+?>

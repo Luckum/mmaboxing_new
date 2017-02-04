@@ -1,0 +1,16 @@
+<?
+if ($good_album_id) {
+  $query_where = "a.`AlbumID` = ".intval($good_album_id);
+} else {
+  if ($cc_settings['AlbumCC'] == 0) { 
+    die( "Не проставлен компонент с фотоальбомами в визуальных настройках!" ); 
+  } 
+  if ($gallID) {
+    $query_where = "a.`AlbumID`='".intval($gallID)."'";
+  }
+}
+
+if ($admin_mode) {
+  $cc_settings['ViewMode']='page';
+}
+?>

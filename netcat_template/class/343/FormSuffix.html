@@ -1,0 +1,15 @@
+<?
+if ($cc_settings['ViewMode'] == 'table') {
+    ?> </tr>
+    </table>
+<? } else {
+    if ($cc_settings['ViewMode'] == 'page') {
+        ?>
+        </div><? } else {
+        ?>
+        </div>
+    <?
+    }
+}
+echo ($prevLink || $nextLink ? browse_messages($cc_env, 10) : "" );
+?>

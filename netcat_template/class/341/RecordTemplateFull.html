@@ -1,0 +1,12 @@
+<font size='-2'>
+<b>
+    <a href='<?=$SUB_FOLDER.$HTTP_ROOT_PATH?>?catalogue=<?=$catalogue?>&amp;sub=<?=$sub?>&amp;cc=<?=$cc?>&amp;isNaked=<?=$isNaked?>'>.</a>
+    <? 
+
+for ($i=(count($parent_message_tree)-1);$i>-1;$i--) {
+echo @listQuery("SELECT folder FROM Message$classID WHERE Message_ID=".$parent_message_tree[$i]," / <a href='".$SUB_FOLDER.$HTTP_ROOT_PATH."full.php?catalogue=$catalogue&amp;sub=$sub&amp;cc=$cc&amp;message=".$parent_message_tree[$i]."&amp;isNaked=$isNaked'>$data[folder]</a>");
+}
+
+?></b></font><br><br> <?
+s_list_class($sub, $cc, "&isMainContent=1&parent=$f_RowID&isNaked=$isNaked");
+?>

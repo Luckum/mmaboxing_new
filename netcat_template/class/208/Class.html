@@ -1,0 +1,28 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<div class='nc_list nc_corp_contacts'><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'> <?
+echo $f_AdminButtons;
+if ($cc_settings['Group']) {
+    $GroupHeader = ( $curGr != $f_Department ? $curGr = $f_Department : NULL );
+   ?><h3 class='nc_group'><?=$GroupHeader?></h3><? } ?>
+    <div style='margin:0 0 0 10px;'>
+        <h4><?= nc_edit_inline('FIO', $f_RowID, $cc); ?></h4><?
+    if ($f_Department && $curGr != $f_Department) {
+   ?><div class='nc_item'><span class='nc_title'>Название отдела: </span><span class='nc_value'><? echo nc_edit_inline('Department', $f_RowID, $cc); ?></span></div><?
+    }
+    if ($f_Post) {
+   ?><div class='nc_item'><span class='nc_title'>Должность: </span><span class='nc_value'><? echo nc_edit_inline('Post', $f_RowID, $cc); ?></span></div><?
+    }
+    if ($f_Email) {
+   ?><div class='nc_item'><span class='nc_title'>Email: </span><span class='nc_value'><a href='mailto:<? echo $f_Email ?>'><? echo $f_Email ?></a></span></div><?
+    }
+    if ($f_PhoneNumber) {
+   ?><div class='nc_item'><span class='nc_title'>Телефон: </span><span class='nc_value'><? echo nc_edit_inline('PhoneNumber', $f_RowID, $cc); ?></span></div><?
+    }
+    if ($f_Description) {
+   ?><div class='nc_description'><?= nc_edit_inline('Description', $f_RowID, $cc);?></div><? } ?>
+    </div>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

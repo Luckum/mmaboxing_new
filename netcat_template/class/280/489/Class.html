@@ -1,0 +1,52 @@
+<!-- FormPrefix --><?
+if ($cart_empty) {
+    echo NETCAT_MODULE_MINISHOP_CART_EMPTY_TEXT;
+} else {
+    ?>
+    <style type='text/css'>
+        .nc_mscart {width:650px !important}
+    </style>
+    <form method='post' action='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH ?>modules/minishop/index.php'>
+        <table class='nc_mscart'>
+            <tr>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_NAME ?></th>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_PRICE ?></th>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_VALUE ?></th>
+                <th><?= NETCAT_MODULE_MINISHOP_CART_DISP_COST ?></th>
+            </tr> <? } ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><tr>
+    <td class='l'><? if ($f_uri) { ?><a href='<?= $f_uri ?>'><?= $f_name ?></a> <? } else {
+    echo $f_name;
+} ?></td>
+    <td class='r'><?= $f_price." ".$currency ?></td>
+    <td class='c'>
+        <input type='hidden' name='good[<?= $f_RowNum ?>][name]' value='<?= rawurlencode($f_name) ?>' />
+        <input type='hidden' name='good[<?= $f_RowNum ?>][price]' value='<?= rawurlencode($f_price) ?>' />
+        <input type='hidden' name='good[<?= $f_RowNum ?>][hash]' value='<?= $f_hash ?>' />
+        <input type='hidden' name='good[<?= $f_RowNum ?>][uri]' value='<?= rawurlencode($f_uri) ?>' />
+        <input type='text' size='3' name='good[<?= $f_RowNum ?>][quantity]' value='<?= $f_quantity ?>' /></td>
+    <td class='r'> <? ($f_price * $f_quantity)." ".$currency ?></td>
+</tr><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? if (!$cart_empty) { ?>
+    <tr><td class='sum' colspan='4'>
+            <b><?= NETCAT_MODULE_MINISHOP_CART_DISP_TOTAL ?></b> : <? echo $nc_minishop->cart_sum(1)." ".$currency;
+    echo ( ($discount = $nc_minishop->suitable_discount()) ? " ( включая скидку в $discount% )" : "" ); ?>
+        </td></tr></table>
+    <input type='submit' value='<?= NETCAT_MODULE_MINISHOP_CART_RECALC ?>' />
+    <? if (!$nc_core->get_settings('orderform_inline', 'minishop')) { ?>
+        <input type='button' value='<?= NETCAT_MODULE_MINISHOP_CART_ORDER ?>' onclick='window.location="<?= $nc_minishop->addorder_url() ?>"' /><? } ?>
+    </form>
+
+    <?
+    $nc_core->get_settings('cart_after', 'minishop');
+
+    if ($nc_core->get_settings('orderform_inline', 'minishop')) {
+        echo ($AUTH_USER_ID ? $h2_order.$nc_minishop->order_addfrom() :
+                ( $nc_core->get_settings('auth', 'minishop') == nc_minishop::AUTH_REQUIRE ? $h2_auth.NETCAT_MODULE_MINISHOP_TEXT_AUTH.$nc_auth->login_form(1) :
+                        ( $nc_core->get_settings('auth', 'minishop') == nc_minishop::AUTH_SUGGEST ? $h2_auth.NETCAT_MODULE_MINISHOP_TEXT_SUGGEST.$nc_auth->login_form(1).$h2_order.$nc_minishop->order_addfrom() :
+                                $h2_order.$nc_minishop->order_addfrom() )) );
+    }
+}
+?><!-- /FormSuffix -->

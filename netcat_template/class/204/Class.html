@@ -1,0 +1,151 @@
+<!-- FormPrefix --><?
+if (!$Object_Parent_ID && !$CountComments && !$admin_mode) {
+    echo $f_AdminCommon;
+    ?>
+    <a id='comments'></a>
+    <? if (!isset($noadd) || !$noadd) { ?><script type='text/javascript' language='JavaScript'>
+            function show_comments(parent_ID) {
+                if(document.getElementById("InnerForm")) {
+                    var InnerFormID = document.getElementById("f_Object_Parent_ID").value;
+                    if(parent_ID!=InnerFormID) {
+                        document.getElementById("reply_comments_form_" + InnerFormID).innerHTML = "";
+                    }
+                } 
+                var FormBody = "<form id='InnerForm' name='adminForm' enctype='multipart/form-data' method='post' action='<? echo $SUB_FOLDER.$HTTP_ROOT_PATH ?>add.php'>" +
+                    "<input name='admin_mode' value='0' type='hidden'>" +
+                    "<input name='cc' value='$cc' type='hidden'>" +
+                    "<input name='sub' value='$sub' type='hidden'>" +
+                    "<input name='catalogue' value='$catalogue' type='hidden'>" +
+                    "<input name='posting' value='1' type='hidden'>" +
+                    "<input name='f_Checked' value='1' type='hidden'>" +
+                    "<input name='f_BackLink' value='$backlink' type='hidden'>" +
+                    "<input name='f_Object_Sub_Class_ID' value='$scID' type='hidden'>" +
+                    "<input name='f_Object_ID' value='$objID' type='hidden'>" +
+                    "<input name='f_Object_Parent_ID' id='f_Object_Parent_ID' value='" + parent_ID + "' type='hidden'>" +
+        <?
+        if ($AUTH_USER_ID) {
+            echo "";
+        } else {
+            echo " Ваше имя: <br><input name='f_Name' type='text'><br>Email: <br><input name='f_Email' type='text'>" + "";
+        }
+        ?>
+              "<div>Сообщение (*): <br><textarea name='f_Message' style='width:100%; height:10em;'></" + "textarea></" + "div>" +
+        <?
+        if ($cc_settings['UseCaptcha']) {
+            echo "\"<div>".nc_captcha_formfield()."</\" + \"div>\" +
+            \"<div>Введите код на картинке:</\" + \"div>\" +
+            \"<div><input type='text' name='nc_captcha_code' value=''></\" + \"div>\" + ";
+        } else {
+            echo "";
+        }
+        ?>
+             "<div><input value='отправить' type='submit' class='subutton'></" + "div>" +
+                 "</" + "form>";
+             var InnerDiv = document.getElementById("reply_comments_form_" + parent_ID);
+             if(!InnerDiv.innerHTML) InnerDiv.innerHTML = FormBody;
+             else InnerDiv.innerHTML = "";
+         }
+        </script> <?
+    }
+
+    if ($totRows) {
+        ?><div class='comment'><h2>Комментарии:</h2><br></div><?
+    }
+} else {
+    if ($CountComments) {
+        echo $totRows;
+    } else {
+        if ($admin_mode) {
+            ?><div class='comment'><h2>Листинг всех комментариев</h2></div><?
+        }
+    }
+}
+?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+if (!$admin_mode && !$CountComments) {
+    echo $f_AdminButtons;
+    ?>
+    <div class='com_comment_row' id='reply<? echo $f_RowID ?>'>
+        <div class='nc_item'>
+            <span class='nc_title'><? echo ($f_ForumName ? $f_ForumName : ($f_Name ? $f_Name : 'Гость') ) ?></span>
+            <span class='date'><? echo $f_Created_day.$f_Created_month.$f_Created_year ?></span> <span class='time'><? echo $f_Created_hours.":".$f_Created_minutes ?></span>
+            <br class='clear'>
+        </div>
+        <div class='text'>
+            <div><? echo $f_Message ?></div>
+            <? if ($cc_settings['CommentsReply'] == true && !$noadd0) { ?>
+                <div class='reply'>
+                    <a href='<? echo $GLOBALS[client_url] ?>?scID=<? echo $scID ?>&amp;objID=<? echo $objID ?>&amp;backlink=<? echo $GLOBALS[client_url] ?>&amp;peID=<? echo $f_RowID ?>#reply$f_RowID' onclick='show_comments(<? echo $f_RowID ?>);return false;'>ответить</a>
+                </div><? } ?>
+            <? if ($peID != $f_RowID) {
+                ?><div id='reply_comments_form_<? echo $f_RowID ?>'></div><?
+    } else {
+                ?><div id='reply_comments_form_<? echo $f_RowID ?>'>
+                    <form id='InnerForm' name='adminForm' enctype='multipart/form-data' method='post' action='<? echo $SUB_FOLDER.$HTTP_ROOT_PATH ?>add.php'>
+                        <input name='admin_mode' value='0' type='hidden'>
+                        <input name='cc' value='<? echo $сс ?>' type='hidden'>
+                        <input name='sub' value='<? echo $sub ?>' type='hidden'>
+                        <input name='catalogue' value='<? echo $catalogue ?>' type='hidden'>
+                        <input name='posting' value='1' type='hidden'>
+                        <input name='f_Checked' value='1' type='hidden'>
+                        <input name='f_BackLink' value='<? echo $backlink ?>' type='hidden'>
+                        <input name='f_Object_Sub_Class_ID' value='<? echo $scID ?>' type='hidden'>
+                        <input name='f_Object_ID' value='<? echo $objID ?>' type='hidden'>
+                        <input name='f_Object_Parent_ID' id='f_Object_Parent_ID' value='<? echo $peID ?>' type='hidden'>
+                        <div><textarea name='f_Message' style='width:100%; height:10em;'></textarea></div>
+                        <? if ($cc_settings['UseCaptcha']) {
+                            ?><div><? echo nc_captcha_formfield() ?></div>
+                            <div>Введите код на картинке:</div>
+                            <div><input type='text' name='nc_captcha_code' value=''></div><? } ?>
+                        <div><input value='отправить' type='submit' class='subutton'></div>
+                    </form>
+                </div><? } ?>
+            <br clear='left'>
+        </div>
+        <? echo ($cc_settings['CommentsReply'] == true && $Object_Parent_ID != $f_RowID && (!$admin_mode || ($admin_mode && $scID && $objID)) && !$CountComments ? "<div style='padding:0px 0px 0px 60px'>".s_list_class($sub, $cc, "&scID=$scID&objID=$objID&peID=$peID&Object_Parent_ID=$f_RowID".($noadd ? "&noadd=1" : ""), true)."</div>" : "") ?>
+    </div><?
+} else {
+    if ($admin_mode && !$CountComments) {
+        echo $f_AdminButtons.$f_Message
+            ?><br> 
+        <b><? echo $f_Created_day.".".$f_Created_month.".".$f_Created_year." ".$f_Created_hours.":".$f_Created_minutes; ?></b><br><br><?
+    }
+}
+    ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?
+if ((!isset($noadd) || !$noadd) && !$Object_Parent_ID && !$CountComments && !$admin_mode) {
+    ?><div class='comment'>
+        <div id='reply0' class='put_comment'><a onclick='show_comments(0);return false;' href='<? echo $GLOBALS[client_url] ?>?scID=<? echo $scID ?>&amp;objID=<? echo $objID ?>&amp;backlink=<? echo $GLOBALS[client_url] ?>&amp;peID=0#reply0'>оставить комментарий</a></div>
+        <? if (!isset($peID) || $peID > 0) {
+            ?><div id='reply_comments_form_0'></div><? } else {
+            ?><div id='reply_comments_form_0'>
+                <form id='InnerForm' name='adminForm' enctype='multipart/form-data' method='post' action='<? echo $SUB_FOLDER.$HTTP_ROOT_PATH ?>add.php'>
+                    <input name='admin_mode' value='0' type='hidden'>
+                    <input name='cc' value='<? echo $cc ?>' type='hidden'>
+                    <input name='sub' value='<? echo $sub ?>' type='hidden'>
+                    <input name='catalogue' value='<? echo $catalogue ?>' type='hidden'>
+                    <input name='posting' value='1' type='hidden'>
+
+                    <input name='f_Checked' value='1' type='hidden'>
+                    <input name='f_BackLink' value='<? echo $backlink ?>' type='hidden'>
+                    <input name='f_Object_Sub_Class_ID' value='<? echo $scID ?>' type='hidden'>
+                    <input name='f_Object_ID' value='<? echo $objID ?>' type='hidden'>
+                    <input name='f_Object_Parent_ID' id='f_Object_Parent_ID' value='0' type='hidden'>
+
+                    <div><textarea name='f_Message' style='width:100%; height:10em;'></textarea></div>
+                    <? if ($cc_settings['UseCaptcha']) {
+                        ?><div><? echo nc_captcha_formfield() ?></div>
+                        <div>Введите код на картинке:</div>
+                        <div><input type='text' name='nc_captcha_code' value=''></div><? } ?>
+                    <div><input value='отправить' type='submit' class='subutton'></div>
+                </form>
+            </div><? } ?>
+        <br><br>
+    </div>"
+    <?
+} else {
+    echo ($admin_mode && !$CountComments ? "<div>".($prevLink ? "<a href='$prevLink'>назад</a> &nbsp; " : "").($nextLink ? "<a href='$nextLink'>вперёд</a>" : "")."</div>" : "");
+}
+?><!-- /FormSuffix -->

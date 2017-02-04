@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'FreeSetCyrillic';
+    src: url('../fonts/FreeSetC/freesetcyrillicwebfont.eot');
+    src: url('../fonts/FreeSetC/freesetcyrillicwebfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/FreeSetC/freesetcyrillicwebfont.woff') format('woff'),
+         url('../fonts/FreeSetC/freesetcyrillicwebfont.ttf') format('truetype'),
+         url('../fonts/FreeSetC/freesetcyrillicwebfont.svg#FreeSetCyrillic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FreeSetBoldCyrillic';
+    src: url('../fonts/FreeSetC/freesetboldcyrillicwebfont.eot');
+    src: url('../fonts/FreeSetC/freesetboldcyrillicwebfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/FreeSetC/freesetboldcyrillicwebfont.woff') format('woff'),
+         url('../fonts/FreeSetC/freesetboldcyrillicwebfont.ttf') format('truetype'),
+         url('../fonts/FreeSetC/freesetboldcyrillicwebfont.svg#FreeSetBoldCyrillic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'Calibri';
+	src: local('Calibri'),
+		 url('../fonts/calibri.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Corbelb';
+    src: url('../fonts/corbelb/corbelb.eot');
+    src: local('corbel'),
+		 url('../fonts/corbelb/corbelb.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/corbelb/corbelb.woff') format('woff'),
+         url('../fonts/corbelb/corbelb.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Consolab';
+    src: url('../fonts/consolab/consolab.eot');
+    src: local('consolas'),
+	     url('../fonts/consolab/consolab.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/consolab/consolab.woff') format('woff'),
+         url('../fonts/consolab/consolab.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}

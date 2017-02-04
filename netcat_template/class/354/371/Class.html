@@ -1,0 +1,17 @@
+<!-- FormPrefix --><?
+echo $f_AdminCommon;
+$RowNum = 0;
+?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+<div class='item_block_50 last' style="float: none;">
+    <div class='img' style="text-align: left;">
+        <a href='<?= $fullLink ?>'><img style=" width: 143px;" src='<?= $f_Image_url ?>' alt='<?= $f_Name ?>' /></a>
+    </div>
+    <a href='<?= $fullLink ?>'><?= $f_Name ?></a>
+    <div><?= $shop_mode == 2 ? $shop->FormatCurrency($f_Price) : $f_Price . '.-'; ?></div>
+</div>
+<div class='clear'></div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

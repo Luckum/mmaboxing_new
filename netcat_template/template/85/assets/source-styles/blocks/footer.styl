@@ -1,0 +1,182 @@
+.tpl-block-footer
+  background: #EAEFF2
+  padding: 20px 0 40px
+  a
+    color: colorBase
+    &:hover
+      color: colorRed
+  @media min
+    padding: 50px 0
+    height: 490px
+    position: relative
+    backface-visibility: hidden
+  &-row
+    clearfix()
+  &-col
+    float: left
+    margin-right: -100%
+    // background: rgba(pink, .15)
+    position: relative
+    width: 18.5%
+    @media max
+      width: 300px
+    @media min
+      position: static
+      float: none
+      width: auto
+      margin: 0
+    &--1
+      left: 0
+      @media min
+        display: none
+    &--2
+      left: 20%
+      @media max
+        left: 320px
+      @media min
+        display: none
+    &--3
+      left: 40%
+      @media max
+        left: 640px
+      @media min
+        display: none
+    &--4
+      left: 60%
+      width: 22%
+      z-index: 2
+      @media max
+        left: 960px
+        width: 210px
+      @media min
+        left: auto
+        width: auto
+    &--5
+      left: 80%
+      width: 20%
+      text-align: right
+      @media max
+        left: 1210px
+        width: 50px
+  .tpl-block-layoutwidth
+    @media min
+      position: absolute
+      top: 0
+      bottom: 0
+
+.tpl-block-footersubscribe
+  position: relative
+  @media min
+    line-height: 85px
+    font-size: 1.4em
+  .tpl-block-itext
+    background: colorWhite
+    @media min
+      border: none
+      &:focus
+        box-shadow: 0 0 5px rgba(colorBase, 0.3)
+  .tpl-block-ibtnimage
+    position: absolute
+    display: block
+    right: 0
+    bottom: 0
+    line-height: 40px
+    height: 44px
+    padding: 0 10px
+    color: colorBase
+    font-size: 1.2em
+    opacity: 0.2
+    transition: opacity 0.2s
+    &:hover
+      opacity: 0.5
+    mlink()
+    transition: opacity 0.2s, transform 0.2s
+    @media min
+      line-height: 75px
+      height: 85px
+      &:hover
+        opacity: 0.2
+      &:active
+        opacity: 1
+
+
+  @media min
+    position: absolute
+    top: 155px
+    font-size: 34px
+    left: 50px
+    right: 50px
+
+
+.tpl-block-footertitle
+  font-weight: 400
+  text-transform: uppercase
+  @media min
+    text-transform: none
+    font-size: 30px
+    font-weight: 300
+.tpl-block-footerlist
+  border-right: 1px dashed #B9C2C5
+  height: 115px
+  &-item
+    font-size: 12px
+    line-height: 1.7
+.tpl-block-footercards
+  &-item
+    margin: 10px 0
+  @media min
+    display: none
+.tpl-block-footerdevs
+  padding-top: 10px
+  @media max
+    width: 200px
+    float: left
+    margin-right: -100%
+    margin-left: -280px
+  @media min
+    font-size: 24px
+    line-height: 24px
+    position: absolute
+    right: 50px
+    bottom: 50px
+  a:hover
+    color: colorBase
+  a:active
+    color: colorRed
+
+
+.tpl-block-footermobilemenu
+  display: none
+  position: absolute
+  @extend .tpl-block-journal
+  text-transform: uppercase
+  left: 50px
+  right: 50px
+  top: 0
+  border-bottom: 1px dashed #798992
+  &-item
+    @extend .tpl-block-journal-column
+  a
+    font-size: 30px
+    line-height: 125px
+    text-decoration: none
+    display: block
+    height: 125px
+    color: colorBase
+    mlink()
+  @media min
+    display: block
+
+.tpl-block-footermobilesoc
+  display: none
+  position: absolute
+  left: 50px
+  bottom: 50px
+  &-item
+    float: left
+    margin-right: 20px
+  a
+    display: block
+    mlink()
+  @media min
+    display: block

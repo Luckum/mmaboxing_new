@@ -1,0 +1,87 @@
+<?
+$LargeImgField = Array('LargeImg1');
+$SmallImgField = Array('SmallImg1');
+
+// значения визуальных настроек
+$res = $db->get_var("SELECT CustomSettings FROM Sub_Class WHERE Sub_Class_ID=$cc");
+( $res ? eval("\$cc_settings = $res") : $cc_settings = NULL );
+// значения визуальных настроек по умолчанию
+$res = $db->get_var("SELECT CustomSettingsTemplate FROM Class WHERE Class_ID=$classID");
+eval("\$default_cc_settings = $res");
+$j = sizeof($cc_settings);
+for($i=0; $i<$j; $i++) if(!$cc_settings[$i]) $cc_settings[$i] = $default_cc_settings[$i];
+
+if($cc_settings['ThumbsOn']){
+   
+  $ImgFields = array_merge($SmallImgField,$LargeImgField);
+  
+  for($i=0; $i<sizeof($SmallImgField); $i++){
+   if ( ${'f_'.$LargeImgField[$i]}[name] ){
+      $ResizeImgFields[] = $LargeImgField[$i];
+      $ResizeImgFieldsSmall[] = $SmallImgField[$i];
+   }
+ }
+ 
+  if( isset($ResizeImgFields) ){
+    function nc_img_resize($src_img, $dest_img, $width, $height, $fill_color=0xFFFFFF, $quality=90){
+      if ( !file_exists($src_img) ) return false;
+     $img_size = getimagesize($src_img);
+     if ( $img_size === false ) return false;
+      
+      $img_format = strtolower( substr($img_size['mime'], strpos($img_size['mime'], '/') + 1) );
+      $func_imgcreatefrom = 'imagecreatefrom'.$img_format;
+      if ( !function_exists($func_imgcreatefrom) ) return false;
+      
+      $x_ratio = $width / $img_size[0];
+     $y_ratio = $height / $img_size[1];
+      
+      $min_ratio = min($x_ratio, $y_ratio);
+     
+      $new_width = ( $x_ratio == $min_ratio ? $width  : floor($img_size[0] * $min_ratio) );
+     $new_height = ( $x_ratio != $min_ratio ? $height : floor($img_size[1] * $min_ratio) );
+      $new_left = ( $x_ratio == $min_ratio ? 0 : floor(($width - $new_width) / 2) );
+      $new_top = ( $x_ratio != $min_ratio ? 0 : floor(($height - $new_height) / 2) );
+     
+      $gd_dest_img = imagecreatetruecolor($width, $height);
+     $gd_src_img = $func_imgcreatefrom($src_img);
+      
+      imagefill($gd_dest_img, 0, 0, $fill_color);
+     imagecopyresampled($gd_dest_img, $gd_src_img, $new_left, $new_top, 0, 0, $new_width, $new_height, $img_size[0], $img_size[1]);
+      imagejpeg($gd_dest_img, $dest_img, $quality);
+     
+      imagedestroy($gd_dest_img);
+     imagedestroy($gd_src_img);
+      
+      return true;
+    }
+   $Class_ID = &$current_cc['Class_ID'];
+   
+    $res = $db->get_results( "SELECT Field_ID,Field_Name FROM Field WHERE Class_ID=$Class_ID AND (Field_Name IN('".join("', '",$ImgFields)."'))", ARRAY_N);
+   foreach($res As $v) $Field_ID[$v[1]] = $v[0];
+   foreach($ResizeImgFields As $v) $ResizeField_ID[$v] = $Field_ID[$v];
+    
+    for($i=0; $i<sizeof($SmallImgField); $i++){
+     $LargeToSmallFielID[$Field_ID[$LargeImgField[$i]]] = $Field_ID[$SmallImgField[$i]];
+     $IDToName[$Field_ID[$SmallImgField[$i]]] = $SmallImgField[$i];
+    }
+   $res = $db->get_results("SELECT Real_Name,File_Path,Virt_Name,Field_ID FROM Filetable WHERE Message_ID=$msgID AND (Field_ID IN(".join(", ",$ResizeField_ID)."))", ARRAY_A);
+   
+    foreach($res As $row){
+      $SmallImg['Real_Name'] = 'small_'.$row['Real_Name'];
+      $SmallImg['Virt_Name'] = md5(time().$SmallImg['Real_Name']);
+      $SmallImg['File_Path'] = $row['File_Path'];
+     
+      if( nc_img_resize("$DOCUMENT_ROOT/netcat_files$row[File_Path]$row[Virt_Name]", "$DOCUMENT_ROOT/netcat_files$SmallImg[File_Path]$SmallImg[Virt_Name]", (int)$cc_settings['ImgWidth'], (int)$cc_settings['ImgHeight'], hexdec('0x'.$cc_settings['ImgFillColor']), (int)$cc_settings['ImgQuality']) ){
+       $SmallImg['File_Size'] = filesize("$DOCUMENT_ROOT/netcat_files$SmallImg[File_Path]$SmallImg[Virt_Name]");
+       $SmallImg['Field_ID'] = $LargeToSmallFielID[$row['Field_ID']];
+        $db->query("INSERT INTO Filetable(Real_Name,Virt_Name,File_Path,File_Type,File_Size,Message_ID,Field_ID) VALUES('$SmallImg[Real_Name]','$SmallImg[Virt_Name]','$SmallImg[File_Path]','image/jpeg',$SmallImg[File_Size],$msgID,$SmallImg[Field_ID])");
+       $sql[] = $IDToName[$SmallImg['Field_ID']]."='$SmallImg[Real_Name]:image/jpeg:$SmallImg[File_Size]'";
+
+      }     
+    }
+   $db->query("UPDATE Message$Class_ID SET ".join(', ', $sql)." WHERE Message_ID=$msgID" );
+  }
+}
+ob_end_clean();
+header("Location: $goBackLink&inside_admin=$inside_admin");
+?>

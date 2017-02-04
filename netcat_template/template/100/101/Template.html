@@ -1,0 +1,79 @@
+<!-- Header -->%Header
+    <body class="front_page">
+        <div class="wrapper">
+            <div class="header" id="h_responsive">
+                <div class="hd_l">
+                    <div class="logo" id="l_responsive">
+                        <a href="/">
+                            <img src="<?= $template_settings['logotype']['path']; ?>" alt="" />
+                            <span class="logo_text">
+                                <? /* Логотипы указынные в настройках макета */ ?>
+                                <span class="lt1"><?= $template_settings['lt1']; ?></span>
+                                <span class="lt2"><?= $template_settings['lt2']; ?></span>
+                                <span class="lt3"><?= $template_settings['lt3']; ?></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="menu_m">
+                        <? /* Выводим меню сайта слева, в соответствии с шаблоном $browse_left_menu */ ?>
+                        <?= nc_browse_sub(0, $browse_left_menu); ?>
+                    </div>
+                </div>
+                <div class="hd_r">
+                    <div class="promo_b">
+                        <a href="http://netcat.ru">
+                            <img src="<?= $template_settings['banner_main']['path']; ?>" alt="" title="" />
+                            <span class="title">
+                                <span class="mark"></span>
+                                <b><?= $template_settings['banner_text_main']; ?></b>
+                                <?= $template_settings['banner_text']; ?>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="wrap">
+                <div class="sidebar">
+                    <div class="sb_b news_l">
+                        <div class="hl"><?= $template_settings['news_header']; ?></div>
+                        <? /* Если в настройках макета указан ктомпонент, то выводим его объекты */ ?>
+                        <?= $template_settings['news_sub_class'] ? nc_objects_list(0, $template_settings['news_sub_class'], "nc_title=1&recNum=3") : ''; ?>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="prop_s">
+                        <h2><?= $template_settings['goods_top_header']; ?></h2>
+                    </div>
+                    <div class="big_text">
+                        <?= $template_settings['main_text']; ?>
+                    </div>
+                    <div class="cont_b1">
+                        <? /* Если в настройках макета указан ктомпонент, то выводим его объекты */ ?>
+                        <?= $template_settings['materials_sub_class'] ? nc_objects_list(0, $template_settings['materials_sub_class'], "nc_title=1&recNum=2") : ''; ?>
+                    </div>
+                    <div class="wr_b wr_b_sc">
+                        <div class="soc_cb tweet_b">
+                            <h2><?= $template_settings['message_header']; ?></h2>
+                            <? /* Если в настройках макета указан ктомпонент, то выводим его объекты */ ?>
+                            <?= $template_settings['message_sub_class'] ? nc_objects_list(0, $template_settings['message_sub_class'], "nc_title=1&recNum=3") : ''; ?>
+                        </div>
+                        <div class="conts_b">
+                            <div class="item item1">
+                                <span><?= $template_settings['phone_number_1']; ?></span>
+                                <span class="last"><?= $template_settings['phone_number_2']; ?></span>
+                            </div>
+                            <div class="item item2">
+                                <a href="mailto:<?= $template_settings['email']; ?>"><?= $template_settings['email']; ?></a>
+                            </div>
+                            <div class="item item3">
+                                <?= $template_settings['address']; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="empty"></div>
+        </div>
+        <div class="clear"></div><!-- /Header -->
+
+<!-- Footer -->%Footer<!-- /Footer -->

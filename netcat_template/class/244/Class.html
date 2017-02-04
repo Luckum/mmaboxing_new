@@ -1,0 +1,19 @@
+<!-- FormPrefix --><script src='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_TEMPLATE_PATH ?>jquery/jquery.colorbox-min.js' type='text/javascript'></script>                    
+<script type='text/javascript'>jQuery(document).ready(function(){ jQuery("a[rel='gallery']").colorbox(); });</script>
+<?
+echo $f_AdminCommon;
+?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; 
+echo ($f_textTitle ? "<h3>".nc_edit_inline('textTitle', $f_RowID, $cc)."</h3>" : NULL); ?>
+<div class="left_50">
+    <p><?= ($f_Prefix_Left ? nc_edit_inline('Prefix_Left', $f_RowID, $cc) : NULL) ?></p>
+</div> 
+<div class="right_50">
+    <p class="green"><?= ($f_Prefix_Right ? nc_edit_inline('Prefix_Right', $f_RowID, $cc) : NULL)?></p>
+</div> 
+<div class="clear"></div><?
+echo $f_Partner;?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

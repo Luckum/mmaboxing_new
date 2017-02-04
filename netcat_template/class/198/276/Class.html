@@ -1,0 +1,31 @@
+<!-- FormPrefix --><?
+echo $f_AdminCommon;
+?>
+<div class='nc_list nc_simple_catalog'>
+    <div class='nc_table'><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'> <? echo $f_AdminButtons ?>
+        <h3>
+<? echo ( $cc_settings['Link'] != 'photo' ? "<a href='$fullLink'>$f_Titl</a>" : $f_Titl ) ?></h3>
+            <?
+            echo ( $f_PhotoSmall ? ( $cc_settings['Link'] != 'title' ? "<a href='$fullLink'><img src='$f_PhotoSmall' class='nc_row_img' alt='$f_Titl' /></a>" : "<img src='$f_PhotoSmall' class='nc_row_img' alt='$f_Titl' />" ) : NULL );
+            echo (!$cc_settings['ShowPrice'] && $f_Price ? "<div class='nc_price'><span class='nc_title'>Цена: </span><span class='nc_value'>$f_Price $Pay</span></div>" : NULL );
+            echo ( $f_Description ? "<div class='nc_description'>" . nc_edit_inline('Description', $f_RowID, $cc) . "</div>" : NULL )
+            ?></div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<? if ($totRows > $f_RowNum && !$nc_title && !$srchPat) { ?>
+    "<div class='nc_pagination'>
+        <? if ($cc_settings['PaginationMode'] != 'nums') { ?>
+            <div class='nc_prev_next'>
+                <span class='nc_prev_link'><? echo opt_case($prevLink, "<a href='$prevLink'>Назад</a>", "Назад") ?></span>
+                <span class='nc_next_link'><? echo opt_case($nextLink, "<a href='$nextLink'>Далее</a>", "Далее") ?></span>
+            </div>
+        <? }
+        if ($cc_settings['PaginationMode'] != 'next_prev') { ?>
+            <div class='nc_pagination'>Страницы: ".browse_messages($cc_env, 5)."</div>
+        <? } ?></div>
+<? } ?></div>";
+
+?><!-- /FormSuffix -->

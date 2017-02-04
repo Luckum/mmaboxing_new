@@ -1,0 +1,147 @@
+<!-- /content -->
+<div class="tpl-block-clearfix">
+</div>
+<div class="tpl-block-notformobile">
+    <div class="tpl-block-sep tpl-block-sep--size_m"></div>
+</div>
+</div>
+</div>
+<div class="tpl-block-tabs tpl-block-tabs--footer">
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="goodslist-favorite-added">
+        Выбранный товар был успешно добавлен в <a class="tpl-block-link" href="#">список "Избранное"</a>.
+    </div>
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="goodslist-compare-added">
+        Выбранный товар был успешно добавлен в <a class="tpl-block-link" href="#">список "Сравнение товаров"</a>.
+    </div>
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="subscriber-added">
+        Вы успешно подписались на рассылку!
+    </div>
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="cart-added-popup">
+        Товар добавлен в <a href="<?= $nc_core->SUB_FOLDER ?>/cart/">корзину</a>.
+    </div>
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="cart-quantity-popup">
+    </div>
+    <div class="tpl-block-footerpopup tpl-block-mfp-hide tpl-block-popup" id="cart-error-popup">
+        Ошибка: не удалось добавить товар в корзину!
+    </div>
+    <!-- Закрытое положение: +e.trigger / +e.wrapper.tpl-state-hidden-->
+    <!-- Открытое положение: +e.trigger.tpl-state-active / +e.wrapper-->
+    <div class="tpl-block-tabs-switcher">
+        <div class="tpl-block-layoutwidth">
+            <div class="tpl-block-tabs-tab tpl-state-current">Вы недавно смотрели</div>
+            <div class="tpl-block-tabs-tab">Список сравнения</div>
+            <div class="tpl-block-tabs-tab">Избранное</div>
+            <div class="tpl-block-tabs-trigger tpl-state-active">
+            </div>
+        </div>
+    </div>
+    <div class="tpl-block-tabs-wrapper">
+        <div class="tpl-block-layoutwidth">
+            <div class="tpl-block-tabs-content tpl-state-current">
+                <?= $nc_core->widget->show('netshop_recent_goods'); ?>
+            </div>
+            <div class="tpl-block-tabs-content">
+                <?= $nc_core->widget->show('netshop_compare_goods'); ?>
+                <div class="tpl-block-compare-button-container">
+                    <? if (count($netshop->goodslist_compare->get_all()) >= 2) { ?>
+                        <a href="<?= $nc_core->SUB_FOLDER; ?>/compare" class="tpl-block-ibtn tpl-block-ibtn--theme_red">Сравнение товаров &rarr;</a>
+                    <? } ?>
+                </div>
+            </div>
+            <div class="tpl-block-tabs-content">
+                <?= $nc_core->widget->show('netshop_favorite_goods'); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Подвал-->
+<footer class="tpl-block-footer">
+    <div class="tpl-block-layoutwidth">
+        <div class="tpl-block-footermobilemenu">
+            <div class="tpl-block-footermobilemenu-item"><a href="<?= $nc_core->SUB_FOLDER; ?>/help/shipping">Помощь</a>
+            </div>
+            <div class="tpl-block-footermobilemenu-item"><a href="<?= $nc_core->SUB_FOLDER; ?>/about/reviews/">О нас</a>
+            </div>
+        </div>
+        <div class="tpl-block-footermobilesoc">
+            <div class="tpl-block-footermobilesoc-item"><a href="#"><i class="icon-facebook-mobile"></i></a>
+            </div>
+            <div class="tpl-block-footermobilesoc-item"><a href="#"><i class="icon-instagram-mobile"></i></a>
+            </div>
+        </div>
+        <div class="tpl-block-footer-row">
+            <div class="tpl-block-footer-col tpl-block-footer-col--1">
+                <div class="tpl-block-footerlist">
+                    <div class="tpl-block-footertitle">Помощь
+                    </div>
+                    <?= nc_browse_sub(362, $footer_menu); ?>
+                </div>
+            </div>
+            <div class="tpl-block-footer-col tpl-block-footer-col--2">
+                <div class="tpl-block-footerlist">
+                    <div class="tpl-block-footertitle">О нас
+                    </div>
+                    <?= nc_browse_sub(143, $footer_menu); ?>
+                </div>
+            </div>
+            <div class="tpl-block-footer-col tpl-block-footer-col--3">
+                <? if ($current_catalogue['Vk_Link'] || $current_catalogue['Ok_Link'] || $current_catalogue['Twitter_Link']) { ?>
+                    <div class="tpl-block-footerlist">
+                        <div class="tpl-block-footertitle">Мы в соц. сетях
+                        </div>
+                        <? if ($current_catalogue['Vk_Link']) { ?>
+                            <div class="tpl-block-footerlist-item">
+                                <a href="<?= $current_catalogue['Vk_Link']; ?>" target="_blank">Вконтакте</a>
+                            </div>
+                        <? } ?>
+                        <? if ($current_catalogue['Ok_Link']) { ?>
+                            <div class="tpl-block-footerlist-item">
+                                <a href="<?= $current_catalogue['Ok_Link']; ?>" target="_blank">Одноклассники</a>
+                            </div>
+                        <? } ?>
+                        <? if ($current_catalogue['Twitter_Link']) { ?>
+                            <div class="tpl-block-footerlist-item">
+                                <a href="<?= $current_catalogue['Twitter_Link']; ?>" target="_blank">Твиттер</a>
+                            </div>
+                        <? } ?>
+                    </div>
+                <? } ?>
+            </div>
+            <div class="tpl-block-footer-col tpl-block-footer-col--4">
+                <? if ($nc_core->modules->get_by_keyword('subscriber', 0)) { ?>
+                    <form class="tpl-block-footersubscribe" action="<?= $nc_core->SUB_FOLDER; ?>/netcat/subscribe.php" method="post">
+                        <input type="hidden" name="catalogue" value="<?= $catalogue; ?>"/>
+                        <input type="hidden" name="sub" value="153"/>
+                        <input type="hidden" name="cc" value="252"/>
+                        <input type="hidden" name="posting" value="1"/>
+
+                        <div class="tpl-block-footertitle">Подпишитесь на новости
+                        </div>
+                        <input type="email" class="tpl-block-itext" placeholder="e-mail" name="fields[Email]"><span class="tpl-block-ibtnimage"><i class="icon-angle-right"></i>
+                <input type="submit" class="tpl-block-ibtnimage-submit" value=""></span>
+                    </form>
+                <? } ?>
+            </div>
+            <div class="tpl-block-footer-col tpl-block-footer-col--5">
+                <div class="tpl-block-footercards">
+                    <div class="tpl-block-footercards-item">
+                        <img src="<?= $nc_parent_template_folder_path ?>assets/i/card-1.jpg">
+                    </div>
+                    <div class="tpl-block-footercards-item">
+                        <img src="<?= $nc_parent_template_folder_path ?>assets/i/card-2.jpg">
+                    </div>
+                    <div class="tpl-block-footercards-item">
+                        <img src="<?= $nc_parent_template_folder_path ?>assets/i/card-3.jpg">
+                    </div>
+                </div>
+                <div class="tpl-block-footerdevs">Создание сайта — <a href="http://xdesign-nn.ru/" target="_blank">xDesign</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Подгрузка скриптов (build.js / main.js)-->
+<script data-main="<?= $nc_parent_template_folder_path ?>assets/js/main" src="<?= $nc_parent_template_folder_path ?>assets/js/require.js"></script>
+<script src="<?= $nc_parent_template_folder_path ?>assets/js/custom.js"></script>
+</body>
+</html>

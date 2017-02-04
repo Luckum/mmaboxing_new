@@ -1,0 +1,24 @@
+</tbody>
+</table>
+
+<? if ($minishop_allow) { ?>
+    <div style='text-align:right; margin-top: 10px;'><?= $nc_minishop->mass_put_footer() ?></div> <?
+}
+
+if ($totRows > $f_RowNum && !$srchPat) {
+    ?>
+    <div class='nc_pagination'>
+    <? if ($cc_settings['PaginationMode'] != 'nums') { ?>
+            <div class='nc_prev_next'>
+                <span class='nc_prev_link'><?= opt_case($prevLink, "<a href='$prevLink'>Назад</a>", "Назад") ?></span>
+                <span class='nc_next_link'><?= opt_case($nextLink, "<a href='$nextLink'>Далее</a>", "Далее") ?></span>
+            </div>
+        <? }
+        if ($cc_settings['PaginationMode'] != 'next_prev') {
+            ?>
+            <div class='nc_pagination'>Страницы: <?= browse_messages($cc_env, 5) ?></div>
+    <? } ?>
+    </div>
+<? } ?>
+
+</div>

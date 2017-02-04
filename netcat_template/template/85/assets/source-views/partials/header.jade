@@ -1,0 +1,256 @@
+// Шапка
++b('header').header
+
+  // Мобильная навигация
+  +b.mobilenav
+    +e.item--logo:   +link: i.icon-mobilenav-logo
+    +e.item--user:   +link: i.icon-mobilenav-user
+    +e.item--cart:   +link
+      i.icon-mobilenav-cart
+      +e.counter 276
+    +e.item--search: +link: i.icon-mobilenav-search
+    +e.item--menu:   +link: i.icon-mobilenav-menu
+  +b.headerdrop--user
+
+
+
+  // Мобильный вход
+  +b.headerdrop--user
+    +b('form').mobileuser(action="/")
+      +e.row
+        +b('input').itext(placeholder="email", type="email")
+      +e.row
+        +b('input').itext(placeholder="password", type="password")
+        +b('span').ibtn--theme_red
+          | Вход
+          +e('input').submit(type="submit", value="")
+      +e.row
+        +link Регистрация
+
+  // Мобильная корзина
+  +b.headerdrop--cart
+    +b('form').mobilecart(action="/")
+      +e.info.
+        В корзине <span class="tpl-field-amount">64 товара</span>
+        <br>на сумму <span class="tpl-field-summary">2 564 897</span>
+        <span class="tpl-block-rubl">Р</span>
+      +e.item
+        +e.delete: i.icon-close
+        +e.showimage
+        .tpl-field-title Фотоаппарат Nikon D90 KIT 18-105mm
+        .tpl-field-description туфли из кожи нибрасского гипапатама туфли из кожи нибрасского гипапатама
+        .tpl-field-image: img(src="tmp/large-1.jpg")
+        .tpl-field-cost 23 100 <span class="tpl-block-rubl">Р</span>
+      +e.item
+        +e.delete: i.icon-close
+        +e.showimage
+        .tpl-field-title Longe shoes
+        .tpl-field-description туфли из кожи нибрасского гипапатама
+        .tpl-field-image: img(src="tmp/large-2.jpg")
+        .tpl-field-cost 23 100 <span class="tpl-block-rubl">Р</span>
+
+
+  // Мобильный поиск
+  +b.headerdrop--search
+    +b('form').mobilesearch(action="/")
+      +b('input').itext(placeholder="поиск", type="text")
+      +b('span').ibtnimage
+        i.icon-angle-right
+        +e('input').submit(type="submit", value="")
+
+  // Мобильный каталог
+  +b.headerdrop--menu
+    +b.mobilemenu
+      +e.category
+        +e.title Телефоны
+        +e.drop
+          +e.item: +link Планшеты, ноутбуки<br> и ПК
+          +e.item: +link Фото и видео
+          +e.item: +link Аудио и ТВ
+          +e.item: +link Бытовая техника
+      +e.category
+        +e.title Планшеты, ноутбуки<br> и ПК
+        +e.drop
+          +e.item: +link Планшеты, ноутбуки и ПК
+          +e.item: +link Фото и видео
+          +e.item: +link Аудио и ТВ
+          +e.item: +link Бытовая техника
+      +e.category
+        +e.title Фото и видео
+        +e.drop
+          +e.item: +link Планшеты, ноутбуки и ПК
+          +e.item: +link Фото и видео
+          +e.item: +link Аудио и ТВ
+          +e.item: +link Бытовая техника
+      +e.category
+        +e.title Аудио и ТВ
+        +e.drop
+          +e.item: +link Планшеты, ноутбуки и ПК
+          +e.item: +link Фото и видео
+          +e.item: +link Аудио и ТВ
+          +e.item: +link Бытовая техника
+      +e.category
+        +e.title Бытовая техника
+        +e.drop
+          +e.item: +link Планшеты, ноутбуки и ПК
+          +e.item: +link Фото и видео
+          +e.item: +link Аудио и ТВ
+          +e.item: +link Бытовая техника
+      +e.category
+        +e.title Обувь
+        +e.drop
+          +e.item: +link Планшеты, ноутбуки и ПК
+          +e.item: +link Фото и видео
+          +e.item: +link Аудио и ТВ
+          +e.item: +link Бытовая техника
+
+  // Мобильная выпадайка с гордами и телефонами
+  +b.mobilecity
+    +e.drop
+      +e.state
+      .tpl-field-city
+        .tpl-field-caption Москва
+        .tpl-field-value 8 (800) 20-00-60
+      .tpl-field-city
+        .tpl-field-caption Stolz<br>вторая строка
+        .tpl-field-value 8 (800) 20-00-60
+      .tpl-field-city.tpl-state-current
+        .tpl-field-caption Ёstaloka
+        .tpl-field-value 8 (800) 20-00-60
+      .tpl-field-city
+        .tpl-field-caption Kofra
+        .tpl-field-value 8 (800) 20-00-60
+      .tpl-field-city
+        .tpl-field-caption Нижний новгород
+        .tpl-field-value 8 (800) 20-00-60
+
+  .tpl-block-layoutwidth
+
+    +e.row
+
+      +e.col--1
+        // Выбор города
+        +b.citychoice
+          select.tpl-block-iselect
+            option(selected="selected") Москва
+            option Санкт-Питербург
+            option Екатеринбург
+            option Абакан
+            option Архангельск
+            option Барнаул
+            option Белгород
+            option Благовещенск
+            option Братск
+            option Владивосток
+            option Волгоград
+            option Воронеж
+            option Казань
+            option Краснодар
+            option Минеральные Воды
+            option Нижний Новгород
+            option Новосибирск
+            option Пермь
+            option Ростов-на-Дону
+            option Самара
+            option Тюмень
+
+      +e.col--3
+        // Что с заказом
+        em: +link Что с моим заказом?
+
+      +e.col--4
+        // Вход, регистрация
+        +b.headerauth
+          +e.item: a(href="signin.html", data-mfp-src="#signin").tpl-link-modal Вход
+          +e.item: a(href="signup.html", data-mfp-src="#signup").tpl-link-modal Регистрация
+          +b('form').authpopup.tpl-block-popup.tpl-block-mfp-hide(action="/")#signin
+            +e.title Авторизация
+            p: input(type="text", placeholder="Логин").tpl-block-itext.tpl-block-itext--style_dull
+            p: input(type="text", placeholder="Пароль").tpl-block-itext.tpl-block-itext--style_dull
+            +e.actions
+              +b('span').ibtn--theme_blue
+                | Войти
+                +e('input').submit(type="submit", value="")
+          +b('form').authpopup.tpl-block-popup.tpl-block-mfp-hide(action="/")#signup
+            +e.title Регистриция
+            p: input(type="text", placeholder="Имя").tpl-block-itext.tpl-block-itext--style_dull
+            p: input(type="text", placeholder="Логин").tpl-block-itext.tpl-block-itext--style_dull
+            p: input(type="text", placeholder="Пароль").tpl-block-itext.tpl-block-itext--style_dull
+            p: input(type="text", placeholder="E-mail").tpl-block-itext.tpl-block-itext--style_dull
+            p: input(type="text", placeholder="Телефон").tpl-block-itext.tpl-block-itext--style_dull
+            p: textarea(rows="5", placeholder="Адрес доставки (с индексом)").tpl-block-itext.tpl-block-itext--style_dull
+            +e.actions
+              +b('span').ibtn--theme_blue
+                | Зарегистрироваться
+                +e('input').submit(type="submit", value="")
+
+    +sep
+
+    +e.row
+
+      +e.col--1
+        // Логотип
+        +b('span').headerlogo.tpl-state-current
+
+      +e.col--2
+        // Контакты
+        +b.headercontact
+          .tpl-field-title 8 (800) 20-00-60
+          .tpl-field-description Бесплатная доставка<br>в течении 3-х дней
+
+      +e.col--3
+        // Контакты
+        +b.headercontact
+          .tpl-field-title 8 (800) 20-20-80
+          .tpl-field-description Консультации<br>по общим вопросам
+
+      +e.col--4
+        // Корзина
+        +blink.headercart
+          .tpl-field-image: i.icon-cart-blue
+          .tpl-field-title Корзина товаров
+          .tpl-field-description.
+            В корзине <span class="tpl-field-amount">64 товара</span>
+            <br>на сумму <span class="tpl-field-summary">2 564 897</span>
+            <span class="tpl-block-rubl">Р</span>
+
+    +sep
+
+    +e.row
+
+      +e.col--menu
+        // Навигация
+        +b.headermenu
+          +e.item: +link Каталог
+          +e.item: +link Услуги
+          +e.item: +link Гарантия
+          +e.item: +link Акции
+          +e.item: +link.tpl-state-current Скидки
+          +e.item: +link Новости
+
+
+      +e.col--search
+        // Поиск
+        +b('form').headersearch.tpl-component-search(action="/")
+
+          // Категории
+          +e.category
+            select.tpl-block-iselect.tpl-block-iselect--theme_red
+              option(value="0") Все товары
+              option(value="1") Ноутбуки
+              option(value="2") Средства связи
+              option(value="3") Настольные ПК
+              option(value="4") Спортивные товары
+              option(value="5") Обувь
+              option(value="6") Верхняя одежда
+              option(value="7") Пельмени
+
+          //- Строка поиска
+          +e.input
+            +b('input').itext(placeholder="Поиск", type="text")
+            +b('span').ibtnimage
+              i.icon-search
+              +e('input').submit(type="submit", value="")
+
+
+

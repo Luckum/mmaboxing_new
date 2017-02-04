@@ -1,0 +1,17 @@
+<? echo ( $f_RowNum % $NumCols ? str_repeat('<td>&nbsp;</td>', ($NumCols - $f_RowNum % $NumCols)) : NULL ) ?>
+</tr>
+</table>
+
+<? if ($totRows > $f_RowNum && !$nc_title && !$srchPat) { ?>
+    <div class='nc_pagination'>
+        <? if ($cc_settings['PaginationMode'] != 'nums') { ?>
+            <div class='nc_prev_next'>
+                <span class='nc_prev_link'><? echo opt_case($prevLink, "<a href='$prevLink'>Назад</a>", "Назад") ?></span>
+                <span class='nc_next_link'><? echo opt_case($nextLink, "<a href='$nextLink'>Далее</a>", "Далее") ?></span>
+            </div>
+        <? }
+        if ($cc_settings['PaginationMode'] != 'next_prev') { ?>
+		<div class='nc_pagination'>Страницы: <? echo browse_messages($cc_env, 5) ?></div>
+        <? } ?></div>
+<? } ?></div>
+

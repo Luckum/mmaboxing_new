@@ -1,0 +1,9 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="popular-item sidebar-item">
+			    <div class="sidebar-item-info"><?= $f_Created_year.".".$f_Created_month.".".$f_Created_day ?></div>
+			    <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 30, 30, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=150&w=220")?>" class="sidebar-img bdrs0" title="<?= $f_myTitle ?>" alt="<?= $f_myTitle ?>">
+			    <a class="sidebar-item-title" href="<?= $fullLink ?>"><?= $f_myTitle ?></a>							
+			</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

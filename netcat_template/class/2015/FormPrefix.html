@@ -1,0 +1,14 @@
+<div class='registration'>
+<? if (!$current_user['User_ID']) {
+
+$nc_auth = nc_auth::get_object();
+echo $nc_auth->auth_form(array('submit_name'=>'Войти'),null);
+echo "<script>$('.registration .login_submit').val('Войти');</script>";
+}
+else
+{
+    echo "<p>Вы авторизованы на сайте как <b>".$current_user['ForumName']."</b></p>";
+}
+?>
+</div>
+

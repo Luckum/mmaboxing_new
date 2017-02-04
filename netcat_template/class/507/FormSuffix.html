@@ -1,0 +1,11 @@
+<? if ( ! $inside_admin ): ?>
+<div class="switcher">
+    <ul>
+    <?php for ($i = 0; $i < $count; $i++) { ?>
+        <li class="<?php echo $i == 0 ? 'active' : ''; ?>"><a href="#"><?php echo $i + 1; ?></a></li>
+    <?php } ?>
+    </ul>
+</div>
+<a href="#" class="btn-prev">previous</a>
+<a href="#" class="btn-next">next</a>
+<? endif ?>

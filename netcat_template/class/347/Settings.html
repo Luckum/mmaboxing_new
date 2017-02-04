@@ -1,0 +1,19 @@
+<?
+$Currency = array('rur'=>'руб.', 'usd'=>'$', 'eu'=>'&euro;', 'no'=>'', 'other'=>$cc_settings['OtherCurrency']);
+$Currency = $Currency[$cc_settings['Currency']];
+
+( !isset($nc_num_cols) ? $NumCols = &$cc_settings['NumColumns'] : $NumCols = (int)$nc_num_cols );
+$ColWidth = ( $NumCols>1 ? 'width="'.(floor(100/$NumCols)).'%"' : NULL );
+
+$minishop_allow = $nc_core->modules->get_by_keyword('minishop') && !$nc_core->modules->get_by_keyword('netshop'); 
+// запрет кэширования
+if ( $minishop_allow ) $cc_env['Cache_Access_ID'] = 2;
+
+$f_Images_tpl = array(
+'prefix' => "",
+'record' => "<a href='%Path%' onclick='nc_change_img(this, \"%Preview%\", \"%Path%\", 300, 300); return false;'>%i%</a>",
+'divider' => '',
+'suffix' => '</div>',
+'i' => 2
+);
+?>

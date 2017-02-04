@@ -1,0 +1,19 @@
+<?
+if ( $changeStatus ) {
+  ob_end_clean();
+  header("Location: ".$goBackLink);
+  exit;
+}
+
+$nc_minishop->edit_order($message,$goods);
+
+if($inside_admin) {
+	ob_end_clean();
+	header("Location: ".$goBackLink."&inside_admin=1");
+	exit;
+}
+else {
+	echo "Заказ $message изменен";
+	echo "<br /><br />".$goBack;
+}
+?>

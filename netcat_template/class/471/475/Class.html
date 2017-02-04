@@ -1,0 +1,11 @@
+<!-- FormPrefix --><div class="news_li">
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="item">
+        <div class="date"><?= $f_Date_day . "." . $f_Date_month . "." . $f_Date_year; ?></div>
+        <div class="title"><a href="<?= $fullLink; ?>"><?= $f_NewsTitle; ?></a></div>
+        <p><?= nc_edit_inline('Announce', $f_RowID, $cc); ?></p>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+<!-- /FormSuffix -->

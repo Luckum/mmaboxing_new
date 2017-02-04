@@ -1,0 +1,11 @@
+<?php
+if(is_numeric($position))
+{
+    $ignore_sub = 1;
+    $ignore_cc = 1;
+    $query_where = " myBanners=".$position;
+    $query_order = ' RAND() ';
+    $query_limit = ' LIMIT 0,1 ';
+}
+
+?>

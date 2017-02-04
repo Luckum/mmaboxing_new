@@ -1,0 +1,63 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? if ( !($f_RowNum%$NumCols) && $f_RowNum) { ?></tr><tr><? } ?>
+<td class='nc_row'><?=$f_AdminButtons?>
+
+ <h3><a href='<?=$fullLink?>'><?=$f_Caption?></a></h3>
+<? if ( $f_SmallImg1) {
+    ?><a href='<?=$fullLink?>'>
+        <img src='<?=$f_SmallImg1?>' alt='<?=$f_Caption?>' class='nc_row_img' style='float:left' />
+    </a><?
+}
+ if ( $f_ShortDescription) { 
+     ?><div class='nc_announce'><?=nc_edit_inline('ShortDescription', $f_RowID, $cc)?></div><?
+ }
+ if ( $cc_settings['ManufacturerName'] && $f_Manufacturer) {
+     ?><div class='nc_item'>
+         <span class='nc_title'><?=$cc_settings[ManufacturerName]?>: </span>
+         <span class='nc_value'><?=nc_edit_inline('Manufacturer', $f_RowID, $cc)?></span>
+     </div><?
+ }
+ if ( $cc_settings['BaseItemName1'] && $f_BaseItem1) {
+     ?><div class='nc_item'>
+         <span class='nc_title'><?=$cc_settings[BaseItemName1]?>: </span>
+         <span class='nc_value'><?=nc_edit_inline('BaseItem1', $f_RowID, $cc)?></span>
+     </div><?
+ }
+ if ( $cc_settings['BaseItemName2'] && $f_BaseItem2) { ?>
+     <div class='nc_item'>
+         <span class='nc_title'><?=$cc_settings[BaseItemName2]?>: </span>
+         <span class='nc_value'><?=nc_edit_inline('BaseItem2', $f_RowID, $cc)?></span>
+     </div><?
+ }
+ if ( $cc_settings['BaseItemName3'] && $f_BaseItem3) {
+     ?><div class='nc_item'>
+         <span class='nc_title'><?=$cc_settings[BaseItemName3]?>: </span>
+         <span class='nc_value'><?=nc_edit_inline('BaseItem3', $f_RowID, $cc)?></span>
+     </div><?
+ }
+if ( $cc_settings['BaseItemName4'] && $f_BaseItem4) {
+    ?><div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName4]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem4', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['BaseItemName5'] && $f_BaseItem5) {
+    ?><div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName5]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem5', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $f_Price) {
+    ?><div class='nc_price'>
+        <span class='nc_title'>Цена: </span>
+        <span class='nc_value'><?=$f_Price." ".$Currency?></span>
+        <? if ( $f_PriceOld) {
+            ?><span style='text-decoration:line-through'><?=$f_PriceOld." ".$Currency?></span><?
+        } ?>
+    </div><? 
+}
+
+echo ( $minishop_allow && $f_Price ? $nc_minishop->show_put_button($f_Caption, $f_Price, $fullLink) : "" ); 
+?>
+</td>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

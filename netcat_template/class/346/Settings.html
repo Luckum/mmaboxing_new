@@ -1,0 +1,10 @@
+<?
+( !isset($nc_num_cols) ? $NumCols = &$cc_settings[NumCols] : $NumCols= (int)$nc_num_cols );
+$ColWidth= ( $NumCols>1 ? 'width="'.(floor(100/$NumCols)).'%"' : NULL);
+$Pay = array('rur'=>'руб.','usd'=>'$','eu'=>'&euro;','no'=>'','other'=>$cc_settings['OtherPay']);
+$Pay = $Pay[$cc_settings['Pay']];
+
+$minishop_allow = $nc_core->modules->get_by_keyword('minishop') && !$nc_core->modules->get_by_keyword('netshop'); 
+// запрет кэширования
+if ( $minishop_allow ) $cc_env['Cache_Access_ID'] = 2;
+?>

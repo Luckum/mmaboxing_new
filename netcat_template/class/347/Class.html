@@ -1,0 +1,120 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<div class='nc_list nc_adaptive_catalog'>
+
+    <? if ($cc_settings['SrchTitle'] || $cc_settings['SrchPrice'] || $cc_settings['SrchManufacturer']) { ?>
+        <form class='nc_search' name='nc_search' method='get' action=''>
+            <table style='width:1%'><tr>
+                    <? if ($cc_settings['SrchTitle']) { ?>
+                        <td nowrap>Название:<br>
+                            <input style='width:150px' type='text' name='srchPat[0]' value='<?= $srchPat[0] ?>' />
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td><?
+            }
+            if ($cc_settings['SrchPrice']) {
+                        ?><td nowrap>Цена от:<br>
+                            <input style='width:60px' type='text' name='srchPat[1]' value='<?= $srchPat[1] ?>' />
+                        </td>
+                        <td>до:<br>
+                            <input style='width:60px' type='text' name='srchPat[2]' value='<?= $srchPat[2] ?>' />
+                        </td><td>&nbsp;&nbsp;&nbsp;</td><?
+            }
+            if ($cc_settings['SrchManufacturer']) {
+                        ?><td nowrap><?= $cc_settings[ManufacturerName] ?>:<br> 
+                            <input style='width:150px' type='text' name='srchPat[3]' value='<?= $srchPat[3] ?>' />
+                        </td>
+                        <td>&nbsp;</td><?
+            }
+                    ?><td style='vertical-align:bottom' colspan='2'>
+                        <input  type='submit' value='Найти' />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    <? } ?>
+
+
+    <table class='nc_table'><?= ( $NumCols > 1 ? str_repeat("<col $ColWidth />", $NumCols) : NULL ) ?>
+        <tr>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? if ( !($f_RowNum%$NumCols) && $f_RowNum) { ?></tr><tr><? } ?>
+<td class='nc_row'><?=$f_AdminButtons?>
+
+ <h3><a href='<?=$fullLink?>'><?=$f_Caption?></a></h3>
+<? if ( $f_SmallImg1) {
+    ?><a href='<?=$fullLink?>'>
+        <img src='<?=$f_SmallImg1?>' alt='<?=$f_Caption?>' class='nc_row_img' style='float:left' />
+    </a><?
+}
+ if ( $f_ShortDescription) { 
+     ?><div class='nc_announce'><?=nc_edit_inline('ShortDescription', $f_RowID, $cc)?></div><?
+ }
+ if ( $cc_settings['ManufacturerName'] && $f_Manufacturer) {
+     ?><div class='nc_item'>
+         <span class='nc_title'><?=$cc_settings[ManufacturerName]?>: </span>
+         <span class='nc_value'><?=nc_edit_inline('Manufacturer', $f_RowID, $cc)?></span>
+     </div><?
+ }
+ if ( $cc_settings['BaseItemName1'] && $f_BaseItem1) {
+     ?><div class='nc_item'>
+         <span class='nc_title'><?=$cc_settings[BaseItemName1]?>: </span>
+         <span class='nc_value'><?=nc_edit_inline('BaseItem1', $f_RowID, $cc)?></span>
+     </div><?
+ }
+ if ( $cc_settings['BaseItemName2'] && $f_BaseItem2) { ?>
+     <div class='nc_item'>
+         <span class='nc_title'><?=$cc_settings[BaseItemName2]?>: </span>
+         <span class='nc_value'><?=nc_edit_inline('BaseItem2', $f_RowID, $cc)?></span>
+     </div><?
+ }
+ if ( $cc_settings['BaseItemName3'] && $f_BaseItem3) {
+     ?><div class='nc_item'>
+         <span class='nc_title'><?=$cc_settings[BaseItemName3]?>: </span>
+         <span class='nc_value'><?=nc_edit_inline('BaseItem3', $f_RowID, $cc)?></span>
+     </div><?
+ }
+if ( $cc_settings['BaseItemName4'] && $f_BaseItem4) {
+    ?><div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName4]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem4', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $cc_settings['BaseItemName5'] && $f_BaseItem5) {
+    ?><div class='nc_item'>
+        <span class='nc_title'><?=$cc_settings[BaseItemName5]?>: </span>
+        <span class='nc_value'><?=nc_edit_inline('BaseItem5', $f_RowID, $cc)?></span>
+    </div><?
+}
+if ( $f_Price) {
+    ?><div class='nc_price'>
+        <span class='nc_title'>Цена: </span>
+        <span class='nc_value'><?=$f_Price." ".$Currency?></span>
+        <? if ( $f_PriceOld) {
+            ?><span style='text-decoration:line-through'><?=$f_PriceOld." ".$Currency?></span><?
+        } ?>
+    </div><? 
+}
+
+echo ( $minishop_allow && $f_Price ? $nc_minishop->show_put_button($f_Caption, $f_Price, $fullLink) : "" ); 
+?>
+</td><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?=( $f_RowNum%$NumCols ? str_repeat('<td>&nbsp;</td>', $NumCols-$f_RowNum%$NumCols) : NULL )?>
+</tr>
+</table>
+
+<? if ( $totRows>$f_RowNum && !$srchPat) {
+    ?><div class='nc_pagination'>
+    <? if ($cc_settings['PaginationMode']!='nums') { ?>
+            <div class='nc_prev_next'>
+            <span class='nc_prev_link'><?=opt_case($prevLink , "<a href='$prevLink'>Назад</a>","Назад")?></span>
+            <span class='nc_next_link'><?=opt_case($nextLink, "<a href='$nextLink'>Далее</a>","Далее")?></span>
+            </div><?
+       }
+        if ($cc_settings['PaginationMode']!='next_prev') {
+            ?><div class='nc_pagination'>Страницы: <?=browse_messages($cc_env, 5)?></div><?
+        } ?>
+    </div>
+<? } ?>
+
+</div><!-- /FormSuffix -->

@@ -1,0 +1,24 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? echo $f_AdminButtons; ?>
+<?php
+
+$user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
+$sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE message_link=".$f_RowID));
+
+?>
+<div class="blog-item news-item">
+				<img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 220, 150, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=150&w=220")?>" alt="<?=$f_myTitle?>">
+				<div class="item-content">
+					<p class="item-category"><?= implode($f_newsType, ', ') ?></p>
+<?= '2017record'; ?>
+                    <?= $f_main_news ? '2000main' : '2000notmain'; ?>
+					<h3 class="item-title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></h3>
+					<div class="blog-item-text"><?=mb_substr(trim(str_replace('&nbsp;','',strip_tags($f_myText))),0,165)?>...</div>
+					<div class="blog-item-info">
+						<span class="date"><?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?></span>
+						<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a></span>
+						<!-- <span class="comments"><a href="<?= $fullLink ?>"><?=$sql_post[0]?></a></span> -->
+					</div>
+				</div>
+			</div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

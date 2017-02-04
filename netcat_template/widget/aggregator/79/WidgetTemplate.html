@@ -1,0 +1,11 @@
+<div class='tpl-list-articles'>
+<? foreach($data as $f_RowNum => $row): ?>
+<? extract($row); ?>
+<? $image_info = explode(':', $f_image) ?>
+<? $image = $image_info ? $nc_core->HTTP_FILES_PATH . $image_info[3] : '' ?>
+<div class='tpl-article'>
+    <h3 class='tpl-h3'><a class='tpl-more' href='<?=$fullLink ?>'><?=$f_title ?></a></h3>
+    <a href="<?=$fullLink ?>"><img src="<?=$image ?>" style="max-width:100%" /></a>
+</div>
+<? endforeach ?>
+</div>

@@ -1,0 +1,16 @@
+<? 
+global $nc_auth;
+if ( $nc_minishop->cart_count() ) {
+  $nc_data = $nc_minishop->cart_content();
+}
+else {
+  $ignore_all = 1;
+  $cart_empty = 1;
+}
+
+$currency = $nc_minishop->get_currency();
+$cc_env['Cache_Access_ID'] = 2;
+
+$h2_order = "<h2 class='nc_msh2'>".NETCAT_MODULE_MINISHOP_CHECKOUT."</h2>";
+$h2_auth = "<h2 class='nc_msh2'>".NETCAT_MODULE_MINISHOP_AUTH."</h2>";
+?>

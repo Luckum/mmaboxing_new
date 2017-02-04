@@ -1,0 +1,42 @@
+.tpl-block-mobilenav
+  background: #FF3E48
+  color: colorWhite
+  height: 145px
+  position: relative
+  font-weight: 300
+  display: none
+  @media min
+    display: block
+  &-item
+    display: block
+    position: absolute
+    top: 40px
+    &--logo
+      left: 50px
+    &--menu
+      right: 50px
+    &--search
+      right: 153px
+    &--user
+      left: 250px
+    &--cart
+      left: 341px
+    a
+      display: inline-block
+      vertical-align: middle
+      margin: 0 -10px
+      padding: 0 10px
+      height: 60px
+      position: relative
+      mlink()
+  &-counter
+    font-size: 16px
+    font-weight: 500
+    line-height: 16px
+    color: colorWhite
+    text-decoration: none
+    position: absolute
+    left: 60px
+    bottom: 8px
+    transition: all 0.2s
+

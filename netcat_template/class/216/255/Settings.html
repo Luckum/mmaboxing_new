@@ -1,0 +1,6 @@
+<? 
+if($cc_settings[Sort]!='no') $query_order = $cc_settings['Sort'];
+if( ($cc_settings['ShowContacts']=='auth' && $current_user['User_ID']) || $cc_settings['ShowContacts']=='all' ) $ShowContacts = true;
+else $ShowContacts = false;
+
+?>

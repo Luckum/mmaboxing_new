@@ -1,0 +1,70 @@
+.tpl-block-cart
+  border: 5px solid #0C1B78
+  width: 100%
+  padding: 30px 55px 55px
+  margin-bottom: 140px
+  font-weight: 400
+  position: relative
+  @media min
+    padding: 55px 0 0
+    border: none
+    margin-top: 75px
+    margin-bottom: 235px
+  &-title
+    font-size: 24px
+    font-weight: 400
+    padding: 0 20px
+    margin-left: -20px
+    @media min
+      font-size: 36px
+      font-weight: 300
+      line-height: 1.2
+      padding: 0 0 20px
+      margin: 0
+  &-item
+    margin-bottom: 55px
+
+  &-order
+    margin: 0 -55px 0
+    padding: 55px 55px 0
+    border: none
+    border-top: 1px solid #E5EBEF
+  &-ordertitle
+    padding: 0 20px
+    font-style: italic
+    color: colorGray
+
+  &-summary
+    border-top: 5px solid #0C1B78
+    padding-top: 50px
+    position: relative
+    line-height: 1.8
+  &-summarydesc
+    color: colorGray
+    font-weight: 300
+    strong
+      color: colorBase
+      font-weight: 400
+  &-summarycost
+    position: absolute
+    right: 0
+    small
+      display: block
+      font-size: 14px
+  &-cost
+    font-size: 36px
+    font-weight: 600
+    margin-top: -10px
+
+  &-actions
+    position: absolute
+    bottom: -100px
+    left: 0
+    width: 100%
+    text-align: center
+    @media min
+      bottom: -175px
+    .tpl-block-ibtn
+      font-size: 18px
+      @media min
+        font-size: 32px

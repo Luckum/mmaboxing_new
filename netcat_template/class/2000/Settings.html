@@ -1,0 +1,71 @@
+<?php
+
+if(!$admin_mode) {
+$query_where = "NOW() >= Date";
+}
+if($current_sub['Subdivision_ID']==55&&!$inside_admin) {
+    $ignore_sub=$ignore_cc=1;
+    $query_where .= " AND EnTags LIKE '%$_GET[tags]%'";
+}
+
+$query_order = "Date DESC";
+if($current_sub['Subdivision_ID'] == 3 || $current_sub['Subdivision_ID'] == 1)
+{
+  $ignore_sub = 1;
+  $ignore_cc = 1;
+}
+if($current_sub['Subdivision_ID']==14&&!$inside_admin) {
+    $subs_arr = nc_get_sub_children('14');
+    $subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
+    $ignore_sub=$ignore_cc=1;
+    $query_where .= " AND a.Subdivision_ID IN($subs)";
+    
+}
+if($current_cc['Subdivision_ID'] == 41)
+{
+  $query_where = " (sub.Subdivision_ID=43 OR sub.Subdivision_ID=44 OR sub.Subdivision_ID=42 OR sub.Subdivision_ID=45) ";
+  $ignore_sub = 1;
+  $ignore_cc = 1;
+}
+
+if($current_cc['Sub_Class_Settings']['newsType'] && !$_GET['tag'])
+{
+   // $query_where = " newsType=".$current_cc['Sub_Class_Settings']['newsType'];
+}
+
+if($_GET['tag'])
+{
+    $query_where = " myTags LIKE '%".addslashes(trim(strip_tags($_GET['tag'])))."%'";
+}
+
+if(is_numeric($_GET['user_pubs']))
+{
+    $query_where = " User_ID= '".trim(strip_tags($_GET['user_pubs']))."'";
+}
+
+if($tpl == 'video')
+{
+    $query_where = " showVideo=1 ";
+}
+
+if($_GET['search'])
+{
+    $query_where = "myTitle LIKE '%".trim(addslashes(strip_tags($_GET['search'])))."%' OR myText LIKE '%".trim(addslashes(strip_tags($_GET['search'])))."%' OR myTags LIKE '%".trim(addslashes(strip_tags($_GET['search'])))."%'";
+    
+}
+
+if($_GET['history'])
+{
+    $dt = explode('-',$_GET['history']);
+    if(strlen($dt[2])==1) $dt[2] = '0'.$dt[2];
+    if(strlen($dt[1])==1) $dt[1] = '0'.$dt[1];
+    $dt = implode('-',$dt);
+    $ignore_sub = 1;
+    $ignore_cc = 1;
+    #$ignore_calc;
+    $query_where = " DATE_FORMAT(a.Created, GET_FORMAT(DATE,'ISO'))='".trim(addslashes(strip_tags($dt)))."' ";
+}
+
+
+
+?>

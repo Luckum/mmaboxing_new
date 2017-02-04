@@ -1,0 +1,55 @@
+
+.tpl-block-frontlayout
+  &-alphabet
+    position: absolute
+    margin: -435px 0 0
+    left: 23%
+    right: 20px
+    @media max
+      // width: 100%
+      left: 20px
+    @media min
+      display: none
+  &-news
+    float: left
+    width: 33.333%
+    padding-right: 20px
+    padding: 0 20px 0 0
+    @media max
+      width: 25%
+      float: right
+      margin: -355px 0 0 0
+      padding: 0 0 0 20px
+    @media min
+      width: auto
+      margin: 0
+      float: none
+      padding: 55px 0
+  &-banner
+    float: left
+    width: 66.666%
+    @media max
+      width: 75%
+    @media min
+      display: none
+  &-stock
+    float: left
+    width: 66.666%
+    margin-top: 40px
+    @media max
+      width: 940px
+    @media min
+      float: none
+      width: auto
+      margin-bottom: 20px
+  &-new
+    float: left
+    width: 100%
+    padding-top: 40px
+    @media max
+      float: none
+      clear: both
+      width: auto
+    @media min
+      float: none
+      width: auto

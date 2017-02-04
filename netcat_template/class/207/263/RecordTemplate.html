@@ -1,0 +1,26 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<div class='nc_row'>
+    <?
+    echo $f_AdminButtons;
+
+    if ($cc_settings[ShowTitle]) {
+        ?><h3><?
+    if ($f_Description || $f_Field) {
+            ?><a href='<? echo $fullLink ?>'><? echo $f_Titl ?></a> <?
+    } else {
+        echo nc_edit_inline('Titl', $f_RowID, $cc);
+    }
+        ?></h3><?
+    }
+    if ($f_Logo) {
+        if (!$cc_settings[ShowTitle] && ($f_Description || $f_Field)) {
+            ?><a href='<?=$fullLink?>'><img class='nc_row_img' src='<? echo $f_Logo ?>' alt='<? echo $f_Titl ?>' style='border: 1px solid #E7E7E7; margin: 3px 7px 7px 0; padding: 3px;'/></a><?
+    } else {
+            ?><img class='nc_row_image' src='<? echo $f_Logo ?>' alt='<? echo $f_Titl ?>' /> <?
+    }
+}
+if ($cc_settings[ShowProjects] && $cc_settings[Sub] && $cc_settings[cc]) {
+    $list .= s_list_class($cc_settings[Sub], $cc_settings[cc], "&nc_clients=1&nc_client_id=$f_RowID");
+}
+    ?></div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

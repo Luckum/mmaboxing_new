@@ -1,0 +1,20 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+    <div class="sale">
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+        <div class="sale_block" <?= $admin_mode ? "style='float: none;'" : ""; ?>>
+            <div class="sale_left">
+                <a href="<?= $fullLink; ?>">
+                    <img style='width: 70px; height: 50px;' src="<?= $f_BigImage; ?>" alt="<?= $f_Name; ?>" />
+                </a>
+            </div>
+            <div class="sale_right">
+                <a href="<?= $fullLink; ?>"><?= $f_Name; ?></a><br />
+                <?= $f_Price; ?>.-
+            </div>
+            <div class="clear"></div>
+        </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->    </div>
+<!-- /FormSuffix -->

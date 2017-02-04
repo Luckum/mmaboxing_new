@@ -1,0 +1,45 @@
+<?
+function nc_format_file_name($id, $digit) {
+   if($digit>19) echo $digit=substr($digit, -1, 1);
+   if($digit==1) $strend=1;
+   if($digit>=2 && $digit<=4) $strend=2;
+   if($digit==0 || ($digit>=5 && $digit<=19)) $strend=3; 
+if($id=="folder") {$a=array(1=>"папка", 2=>"папки", 3=>"папок"); return $a[$strend];}
+if($id=="file") {$a=array(1=>"файл", 2=>"файла", 3=>"файлов"); return $a[$strend];}
+return false;
+}
+if ($virtualMode) {
+    ?><html><style type='text/css'>body,td{font-family:sans-serif;font-size:x-small}</style><body><?
+}
+$f_folder_size=0;
+$f_file_count=0;
+if ($parent) {
+    $parentofparent=@listQuery("SELECT Parent_Message_ID AS p FROM Message$classID WHERE Message_ID=$parent","$data[p]");
+}
+?>
+<table border='0' cellpadding='0' cellspacing='0' width='100%'>
+<tr>
+   <td bgcolor='#CCCCCC'>
+   <table border='0' cellpadding='5' cellspacing='1' width='100%'>
+   <tr>
+      <td bgcolor='#EEEEEE'><font size='-2' color='gray'><b>файл/папка</b></font></td>
+      <td width='10%' bgcolor='#EEEEEE'><font size='-2' color='gray'><b>размер</b></font></td>
+      <td bgcolor='#EEEEEE'><font size='-2' color='gray'><b>тип</b></font></td>
+      <td width='5%' bgcolor='#EEEEEE' align='center'><font size='-2' color='gray'><b>действие</b></font></td>
+   </tr>
+<? if ($parent) { ?>
+   <tr>
+      <td bgcolor='#FFFFFF'><font size='-2'><a href='<?=$SUB_FOLDER.$HTTP_ROOT_PATH?>?catalogue=<?=$catalogue?>&amp;sub=<?=$sub?>&amp;cc=<?=$cc.opt($isNaked,"&amp;isNaked=1").opt($virtualMode,"&amp;virtualMode=1")?>'><b>.</b></a></font></td>
+      <td bgcolor='#FFFFFF'><br></td>
+      <td bgcolor='#FFFFFF'><font size='-2' color='gray'>в корень</font></td>
+      <td width='5%' bgcolor='#FFFFFF' align='center'></td>
+   </tr>
+<? if ($parentofparent) { ?>
+   <tr>
+      <td bgcolor='#FFFFFF'><font size='-2'><a href='<?=$SUB_FOLDER.$HTTP_ROOT_PATH?>full.php?catalogue=<?=$catalogue?>&amp;sub=<?=$sub?>&amp;cc=<?=$cc?>&amp;message=<?=$parentofparent?>&amp;parent=<?=$parentofparent.opt($isNaked,"&amp;isNaked=1").opt($virtualMode,"&amp;virtualMode=1")?>'><b>..</b></a></font></td>
+      <td bgcolor='#FFFFFF'><br></td>
+      <td bgcolor='#FFFFFF'><font size='-2' color='gray'>на уровень выше</font></td>
+      <td width='5%' bgcolor='#FFFFFF' align='center'></td>
+   </tr>
+<? }
+} ?>

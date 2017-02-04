@@ -1,0 +1,16 @@
+<?
+if (!is_object($shop)) {
+    $shop = new NetShop();
+}
+
+if (isset($_GET['ClearCart'])) {
+    $shop->ClearCartContents();
+    if ($nc_core->get_display_type() == 'shortpage') {
+        header("Location: {$GLOBALS['NETSHOP']['Netshop_CartURL']}?isNaked=0&lsDisplayType=shortpage&skipTemplate=1");
+    }
+    else {
+        header("Location: {$GLOBALS['NETSHOP']['Netshop_CartURL']}");
+    }
+    exit;
+}
+?>

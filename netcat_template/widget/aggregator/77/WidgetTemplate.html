@@ -1,0 +1,11 @@
+<div class='tpl-list-articles'>
+<? foreach($data as $f_RowNum => $row): ?>
+<? extract($row); ?>
+<div class='tpl-article'>
+    <h3 class='tpl-h3'><a class='tpl-more' href='<?=$fullLink ?>'><?=$f_title ?></a></h3>
+    <div class='tpl-time text-muted'><small><?=$f_date ?></small></div>
+    <div class='tpl-short-text'><?=$f_notice ?></div>
+    <a class='tpl-more label label-default size-tiny' href='<?=$fullLink ?>'>Подробнее</a>
+</div>
+<? endforeach ?>
+</div>

@@ -1,0 +1,25 @@
+<?
+if ( !isset($Object_Parent_ID) ) $Object_Parent_ID = 0;
+$Object_Parent_ID = intval($Object_Parent_ID);
+if( (!$admin_mode || ($admin_mode && $scID && $objID)) && !$CountComments ) {
+  settype($scID, "integer");
+  settype($objID, "integer");
+  settype($Object_Parent_ID, "integer");
+  if(!$backlink) $backlink = $_GET['backlink'];
+  $backlink = nc_quote_convert($backlink); 
+ if($Object_Parent_ID) $query_where = "(a.Object_Sub_Class_ID='".$scID."' AND a.Object_ID='".$objID."' AND a.Object_Parent_ID='".$Object_Parent_ID."')";
+  else $query_where = "(a.Object_Sub_Class_ID='".$scID."' AND a.Object_ID='".$objID."' AND a.Object_Parent_ID='0')";
+  $query_join = 'LEFT JOIN User ON User.User_ID = a.User_ID';
+  $query_select = 'User.ForumName AS ForumName';
+  
+} 
+elseif($admin_mode && !$CountComments) {
+   $query_where = "(a.Object_ID!='')";
+   # сколько записей на странице внутри админки
+   $cc_env['RecordsPerPage']=20;
+}
+if($CountComments) {
+  $query_where="(a.Object_Sub_Class_ID='".$scID."' AND a.Object_ID='".$objID."')";  
+  $recNum=0;
+}
+?>

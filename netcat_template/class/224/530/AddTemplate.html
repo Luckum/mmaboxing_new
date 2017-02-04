@@ -1,0 +1,72 @@
+<?
+if (!is_object($shop)) {
+    $shop = new NetShop();
+}
+
+if (!$shop->CartCount()) {
+    echo NETCAT_MODULE_NETSHOP_ERROR_CART_EMPTY;
+} else {
+    if ($GLOBALS['warnText']) {
+        ?><p class=netshop_error><?= $warnText; ?></p><br /><?
+    }
+    ?>
+        <style type='text/css'>
+            div.textarea { width: 100%; }
+        </style>
+        <form name='adminForm' id='adminForm' method='post' action='<?= $SUB_FOLDER . $HTTP_ROOT_PATH ?>add.php'>
+            <div id='nc_moderate_form'>
+                <div class='nc_clear'></div>
+                <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>' />
+                <?= $nc_core->token->get_input() ?>
+                <input name='catalogue' type='hidden' value='<?= $catalogue ?>' />
+                <input name='cc' type='hidden' value='<?= $cc ?>' />
+                <input name='sub' type='hidden' value='<?= $sub ?>' />
+                <input name='posting' type='hidden' value='1' />
+                <input name='curPos' type='hidden' value='<?= $curPos ?>' />
+                <input name='f_Parent_Message_ID' type='hidden' value='<?= $f_Parent_Message_ID ?>' />
+            </div>
+    <?
+        
+        $user = $AUTH_USER_ID ? nc_Core::get_object()->user->get_by_id($AUTH_USER_ID) : null;
+        echo nc_string_field("ContactName", "maxlength='255' size='50'", $classID, 1, !$user || $f_ContactName ? null : $user['ForumName']) . "<br />";
+        echo nc_string_field("Phone", "maxlength='255' size='50'", $classID, 1) . "<br />";
+        echo nc_list_field("City", "", $classID, 1, !$user || $f_Email ? null : $user['Email']) . "<br />";
+        echo nc_string_field("Address", "maxlength='255' size='50'", $classID, 1) . "<br />";
+        echo nc_string_field("Email", "maxlength='255' size='50'", $classID, 1, !$user || $f_Email ? null : $user['Email']) . "<br />";
+        echo nc_text_field("Comments", "", $classID, 1) . "<br /><br />";
+    ?>
+            <input type='hidden' name='f_PaymentMethod' value='1011' />
+
+    <?
+    $SQL = "SELECT `Message_ID` as ID,
+                   `Name` as delivery,
+                   `Description`
+            FROM `Message{$shop->delivery_methods_table}`
+                WHERE Checked = 1 AND Subdivision_ID = " . (int)$sub;
+
+    $delivery = $db->get_results($SQL);
+
+    if ($delivery) {
+                ?>Способ доставки:<?
+        if (1 == count($delivery)) {
+                    ?>
+                        <? echo $delivery[0]->delivery . ($delivery[0]->Description ? "({$delivery[0]->Description})" : "") ?>
+                        <input type='hidden' name='f_DeliveryMethod' value='<?= $delivery[0]->ID ?>' />
+                    <br /><br /><?
+        } else {
+                    ?><div><?
+            foreach ($delivery as $method) {
+                        ?><div><input type='radio'
+                                    name='f_DeliveryMethod'
+                                    value='<?= $method->ID ?>'
+                                    id='ir<?= $method->ID ?>' />
+                            <label for='ir<?= $method->ID ?>'><?= $method->delivery . ($method->Description ? "({$method->Description})" : "") ?></label></div><?
+            }
+                    ?></div><br /><?
+        }
+    }
+            ?><div class='order_buttons'>
+            <input id='pay' type='submit' value="<?= NETCAT_MODULE_NETSHOP_CART_CHECKOUT ?>"></div>
+    </form><?
+    }
+        ?>

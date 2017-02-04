@@ -1,0 +1,71 @@
+.tpl-block-mobilecity
+  height: 150px
+  position: relative
+  display: none
+  @media min
+    display: block
+  &-drop
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    background: #FFF
+    z-index: 1
+    height: 150px
+    overflow: hidden
+    backface-visibility: hidden
+    padding-top: 150px
+    user-select: none
+  &-state
+    position: absolute
+    z-index: 3
+    font-family: fontello
+    position: absolute
+    left: 15px
+    top: 58px
+    transition: color 0.2s
+    &:before
+      content: '\e803'
+      font-size: 30px
+      line-height: 20px
+      transition: inherit
+  &-drop.tpl-state-active &-state:before
+    content: '\e80c'
+    color: colorRed
+
+  .tpl-field-city
+    @extend .tpl-block-journal
+    height: 151px
+    border-bottom: 1px solid #C8C7CC
+    line-height: 150px
+    padding: 0 50px
+    cursor: pointer
+    user-select: none
+    &.tpl-state-current
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      .tpl-field-caption
+        font-weight: 600
+  .tpl-field-caption,
+  .tpl-field-value
+    @extend .tpl-block-journal-column
+    transition: color 0.2s, transform 0.2s
+    backface-visibility: hidden
+    line-height: 34px
+    vertical-align: middle
+  .tpl-field-city:active
+    .tpl-field-caption,
+    .tpl-field-value
+      transform: scale3d(0.95, 0.95, 1)
+      color: colorRed
+  .tpl-field-caption
+    width: 45%
+    font-size: 29px
+    font-weight: 500
+  .tpl-field-value
+    @extend .tpl-block-journal-column
+    width: 50%
+    font-size: 34px
+    text-align: right

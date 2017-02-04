@@ -1,0 +1,29 @@
+include _bemto
+mixin layout()
+  !!! 5
+  html(lang="ru-RU")
+
+    head
+      title Netcat Shop
+      meta(charset="utf-8")
+      meta(name="MobileOptimized", content="320")
+      meta(name="HandheldFriendly", content="true")
+      meta(name="viewport", content="width=320, target-densitydpi=device-dpi, initial-scale=0.5")
+      link(href="assets/css/styles.css", rel="stylesheet")
+      link(href="assets/css/custom.css", rel="stylesheet")
+      script(src="assets/js/jquery.js")
+
+
+
+
+    body(ontouchstart="")
+
+
+
+      include header
+      block
+      include footer
+
+      // Подгрузка скриптов (build.js / main.js)
+      script(data-main="assets/js/main", src="assets/js/require.js")
+

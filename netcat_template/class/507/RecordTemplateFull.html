@@ -1,0 +1,16 @@
+<div class="slide-full-w" style="background-image:url('<?php echo $inside_admin ? '' : $f_slide_image ?>')">
+<div class="slide-full">
+<a class="slide-close" href="/" <?=nc_ls_display_link('main-section', 0, 'shortpage') ?>>Закрыть</a>
+<div class="slide-holder">
+        <h1><?php echo $f_slide_title; ?></h1>
+        <span class="date">
+            <?=$f_date_begin_day . ' ' . $months[(int)$f_date_begin_month] ?>
+            <? if ($f_date_end): ?>
+                — <?=$f_date_end_day . ' ' . $months[(int)$f_date_end_month] . ' ' . $f_date_end_year ?>
+            <? endif ?>
+            <br><?=$f_type ?>
+        </span>
+    </div>
+    <div class="slide-body"><?=$f_body ?></div>
+</div>
+</div>

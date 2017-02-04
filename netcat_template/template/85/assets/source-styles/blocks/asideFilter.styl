@@ -1,0 +1,74 @@
+.tpl-block-asidefilter
+  margin: 0 -50px
+  padding: 0 50px
+  @media min
+    height: 150px
+    overflow: hidden
+    border-bottom: 1px solid #BCBBC1
+
+  &-box
+    background: #F5F5F5
+    border: none
+    border-top: 1px solid #ADADAD
+    padding: 15px 25px 5px
+    @media min
+      padding: 55px 0
+      font-size: 30px
+      background: none
+
+  &-buttons
+    padding-top: 10px
+
+  &.tpl-state-active
+    height: auto
+    overflow: visible
+
+  &-trigger
+    height: 150px
+    line-height: 150px
+    mlink()
+    position: relative
+    // background: pink
+    font-size: 30px
+    user-select: none
+    margin: 0 -50px
+    padding: 0 50px
+    display: none
+    @media min
+      display: block
+
+  &-state
+    position: absolute
+    font-family: fontello
+    right: 0
+    top: 60px
+    transition: color 0.2s
+    font-size: 30px
+    line-height: 30px
+    display: none
+    &:before
+      content: '\e803'
+      transition: inherit
+    @media min
+      display: block
+  &.tpl-state-active &-state:before
+    content: '\e80c'
+
+  &-title
+    font-size: 16px
+    line-height: 1.15
+    font-weight: 500
+    display: block
+    margin: -15px -25px 0
+    padding: 15px 25px
+    &--style_red
+      background: #F62733
+      color: colorWhite
+      font-weight: 300
+      padding: 11px 25px
+      margin: -16px -25px 10px
+    /*@media min*/
+      /*display: none*/
+
+  p
+    margin-bottom: 0.6em

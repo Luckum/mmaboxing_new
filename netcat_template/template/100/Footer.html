@@ -1,0 +1,9 @@
+        <div class="footer" id="f_responsive">
+            <div class="copyrights">
+                <?= $template_settings['copyright']; ?>
+                <? /* Если устройство не десктоп, то выводим ссылку на мобильный сайт */ ?>
+                <?= ($nc_core->return_device() != 'desktop' ? '<a href=http://' . $nc_core->subdivision->get_alternative_link() . '>ссылка на мобильную верию</a>' : ''); ?>
+            </div>
+        </div>
+    </body>
+</html>

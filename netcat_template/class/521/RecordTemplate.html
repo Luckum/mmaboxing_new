@@ -1,0 +1,82 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?
+$item = new nc_netshop_item($res[$f_RowNum]);
+?>
+    <div class="tpl-block-catalog-item">
+        <!-- Карточка-->
+        <div class=" tpl-block-cardbox tpl-block-cardbox--switchable">
+            <a class="tpl-block-cardbox-link" href="<?= $fullLink; ?>">
+                <!-- Заголовок-->
+                <div class="tpl-block-title tpl-block-title--size_ml">
+                    <div class="tpl-field-title">
+                        <?= $item['Vendor']; ?> <?= $item['Name']; ?>
+                    </div>
+                </div>
+                <!-- Описание-->
+                <div class="tpl-field-description"><?= $item['Type']; ?></div>
+                <!-- Картинка-->
+                <div class="tpl-field-image"><img src="<?= $item['BigImage']; ?>"></div>
+            </a>
+            <!-- Рейтинг-->
+            <div class="tpl-block-rating">
+                <?php for ($i = 1; $i <= 5; $i++) { ?>
+                    <?
+                    $rate = $item['RateCount'] ? $item['RateTotal'] / $item['RateCount'] : 0;
+                    $class_name = 'icon-star';
+                    if ($rate < $i && $rate > ($i - 1)) {
+                        $class_name .= '-half-alt';
+                    } else if ($rate < $i) {
+                        $class_name .= '-empty';
+                    }
+                    ?>
+                    <a href="<?= $item->get_rate_link($i); ?>" rel="nofollow" rel="nofollow"><div class="tpl-block-rating-item"><i class="<?= $class_name; ?>"></i></div></a>
+                <? } ?>
+            </div>
+            <!-- Старая без скидки-->
+            <? if ($item['ItemDiscount']) { ?>
+                <div class="tpl-field-oldcost"><?= $item['OriginalPriceF']; ?></div>
+            <? } ?>
+            <!-- Цена для покупателя -->
+            <div class="tpl-field-cost"><?= $item['ItemPriceF']; ?></div>
+            <!-- Текст-->
+            <div class="tpl-field-text">
+                <?= $item['Description']; ?>
+            </div>
+            <form action="<?= $netshop->get_add_to_cart_url() ?>" method="post">
+                <input type="hidden" name="redirect_url" value="<?= $_SERVER["REQUEST_URI"] ?>"/>
+                <input type="hidden" name="cart_mode" value="add"/>
+                <input type="hidden" name="items[]" value="<?= "$item[Class_ID]:$item[Message_ID]" ?>"/>
+                <input type="hidden" name="qty" value="1"/>
+                <!-- Меню-->
+                <div class="tpl-block-cardbox-menu">
+                    <div class="tpl-block-journal">
+                        <div class="tpl-block-journal-column">
+                            <a class="tpl-block-button-compare" href="<?= $netshop->goodslist_compare->get_add_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI'] . '#goodslist-compare-added'); ?>" title="Добавить в сравнение"><i class="icon-down-blue"></i></a>
+                        </div>
+                        <div class="tpl-block-journal-column">
+                            <a class="tpl-block-button-favorite" href="<?= $netshop->goodslist_favorite->get_toggle_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI'] . '#goodslist-favorite-removed'); ?>" title="Переключить в избранном"><i class="icon-flag-blue"></i></a>
+                        </div>
+                        <? if ($item['Checked']): ?>
+                        <div class="tpl-block-journal-column"><a href="#"><i class="icon-cart-red">
+                                    <button class="tpl-block-ibtn-submit tpl-link-cart-put" type="submit" title="В корзину"></button>
+                                </i></a>
+                        </div>
+                        <? endif; ?>
+                    </div>
+                </div>
+                <!-- Купить сразу-->
+                <? if ($item['Checked']): ?>
+                <div class="tpl-block-cardbox-buy"><a class="tpl-block-ibtn" href="#">
+                        Купить сразу
+                        <button type="submit" class="tpl-block-ibtn-submit" name="redirect_url" value="<?= $nc_core->SUB_FOLDER; ?>/orders/add_orders.html"></button>
+                    </a>
+                </div>
+                <? else: ?>
+                <div class="tpl-block-cardbox-buy">
+                    <a class="tpl-block-ibtn" href="<?= $fullLink ?>">Выбрать модель</a>
+                </div>
+                <? endif; ?>
+            </form>
+        </div>
+    </div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

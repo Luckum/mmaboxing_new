@@ -1,0 +1,10 @@
+<?
+$mailer = new CMIMEMail();
+$mailer->mailbody(strip_tags($f_Text));
+$mailer->send($system_env[SpamFromEmail], $f_Email, $f_Email, 'Письмо с сайта', 'Клиент');
+
+echo json_encode(array(
+    'result' => true,
+));
+exit();
+?>

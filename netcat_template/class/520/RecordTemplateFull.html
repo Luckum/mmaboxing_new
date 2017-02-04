@@ -1,0 +1,112 @@
+<div class="tpl-block-full tpl-component-goods">
+<?php
+
+$item = new nc_netshop_item($resMsg);
+nc_netshop::get_instance()->goodslist_recent->add($f_RowID, $classID);
+
+echo $f_AdminButtons;
+echo nc_netshop_item_variant_admin_table($item);
+
+if ($request_type == "get_variant") {
+    $title = $nc_core->page->get_title();
+    echo "<title>" . ($title ? $title : strip_tags(s_browse_path($browse_path_title))) . "</title>\n",
+         "<h1>" . $nc_core->page->get_h1() . "</h1>\n";
+}
+
+?>
+
+<div class="tpl-variable-part">
+    <!-- Изображения -->
+    <?php if ($item["Slider"]): ?>
+        <div class="tpl-block-slider"><?= $item["Slider"] ?></div>
+    <?php endif; ?>
+
+    <!-- Цена -->
+    <?php if (!$item["ItemPrice"] || !$item["Checked"]): /* Товар отключён — показываем диапазон цен */ ?>
+
+        <?php if ($item["ItemPriceMin"] != $item["OriginalPriceMin"]): ?>
+            <div class="tpl-block-original-price">
+                <span class="tpl-field-original-price tpl-field-original-price-range"><?= $item["OriginalPriceRange"] ?></span>
+            </div>
+        <?php endif; ?>
+
+        <div class="tpl-field-price tpl-field-price-range"><?= $item["ItemPriceRange"] ?></div>
+
+    <?php else: /* Показываем цену на текущий товар */ ?>
+
+        <?php if ($item["ItemDiscount"]): ?>
+            <div class="tpl-block-original-price">
+                <span class="tpl-field-original-price"><?= $item["OriginalPriceF"] ?></span>
+                <span class="tpl-field-discount-percent">(скидка: <?=$item["DiscountPercent"] ?>%)</span>
+            </div>
+        <?php endif; ?>
+
+        <div class="tpl-field-price"><?= $item["ItemPriceF"] ?></div>
+
+    <?php endif; ?>
+
+    <!-- Простой селектор вариантов -->
+    <?php
+
+        if (count($item["_Variants"]) > 1) {
+            $variants_helper = new nc_netshop_item_variant_selector($item);
+            // Внимание! для работы селектора в таком виде названия (FullName) вариантов
+            // должны быть уникальными!
+            echo '<div class="tpl-block-goods-variants">',
+                 '<span class="tpl-caption">Модель: </span>',
+                 $variants_helper->as_select("FullName"),
+                 $variants_helper->init(),
+                 '</div>';
+        }
+
+    ?>
+
+    <!-- В корзину -->
+    <?php if (($item["Checked"] && $item['StockUnits'] !== '0')): ?>
+        <form class="tpl-block-cart-put" method="post" action="<?= nc_modules("netshop")->get_add_to_cart_url() ?>">
+            <input type="hidden" name="redirect_url" value="<?=nc_message_link($item['Message_ID'], $item['Class_ID']) ?>" />
+            <input type="hidden" name="cart_mode" value="add" />
+            <input type="hidden" name="cart<?=$item["RowID"] ?>" value="1" />
+            <button class="tpl-link-cart-put" type="submit">В корзину</button>
+        </form>
+    <?php else: ?>
+        <div class="tpl-block-message">Товар отсутствует на складе</div>
+    <?php endif; ?>
+
+    <!-- Описание -->
+    <?php if ($item['Description']): ?>
+        <div class="tpl-field-description">
+            <?= $item['Description']; ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($item['Vendor']): ?>
+        <div class="tpl-field-vendor">
+            <span class="tpl-caption">Производитель: </span>
+            <?= $item['Vendor'] ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($item['Article']): ?>
+        <div class="tpl-field-article">
+            <span class="tpl-caption">Артикул: </span>
+            <?= $item['Article'] ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- Оценка -->
+    <div class="tpl-block-vote tpl-block-vote-stars">
+    </div>
+
+</div>
+
+<?php if ((!isset($request_type) || $request_type != "get_variant") && nc_module_check_by_keyword("comments")): ?>
+    <?php $nc_comments = new nc_comments($cc); ?>
+    <div class="tpl-block-comments"><?= $nc_comments->wall($f_RowID) ?></div>
+<?php endif; ?>
+
+<?php
+$netshop_special_offer_Item_Class_ID = $classID;
+$netshop_special_offer_Item_ID = $f_RowID;
+?>
+<?=$nc_core->widget->show('netshop_special_offer') ?>

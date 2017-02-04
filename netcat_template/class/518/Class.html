@@ -1,0 +1,18 @@
+<!-- FormPrefix --><?
+
+if (!$inside_admin) {
+    echo $addForm;
+}
+
+?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+if ($inside_admin) {
+    echo $f_AdminButtons;
+    ?>
+    <div class='nc_item'>От: <a href='mailto:<? echo $f_Email ?>'><? echo $f_Email ?></a></div>    
+    <div class='nc_item'>Сообщение: <? echo $f_Text ?></div> <? 
+}
+?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->
