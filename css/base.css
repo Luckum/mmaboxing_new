@@ -1,0 +1,225 @@
+/**
+ * @author Igor Zhdanovich (itzhdanovich@gmail.com)
+ * @copyright Copyright (C) 2013 Igor Zhdanovich (itzhdanovich@gmail.com)
+ *
+*/
+
+/* ADDITIONAL -- */
+
+.makeComment textarea { width:100%; }
+
+/*---- Reset --------------------------------------------- */
+*{margin: 0; padding: 0;}
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,
+dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,font,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,html,i,iframe,
+img,ins,kbd,label,legend,li,mark,menu,meter,nav,object,ol,output,p,pre,progress,q,rp,rt,ruby,s,samp,section,small,span,
+strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video,xmp {
+    margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;
+}
+font{color:inherit!important;font:inherit!important;}
+address,button,caption,cite,code,dfn,em,input,optgroup,option,select,strong,textarea,th,var{font: inherit;}
+option {width: 100%;}
+:focus{outline:0;}
+ins{text-decoration:none;}
+svg {overflow: hidden;}
+table{border-collapse:collapse;border-spacing:0;font-size:100%;border:none;}
+th,td,caption{font-weight:normal;vertical-align:top;text-align:left;}
+
+.menu {margin: 0; padding: 0;}
+.menu * {margin: 0; padding: 0;}
+.menu, .menu li {list-style:none; margin:0; padding:0;}
+.lisn li {list-style: none;}
+
+
+blockquote,q {quotes: none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {display: block;}
+
+textarea {overflow: auto;}
+
+html{
+	font-size:100.01%;
+	background-color:#fff;
+}
+body{
+	text-align:left;
+	height: 100%;
+	font-size: 12px;
+}
+sub,sup,small{font-size: 75%;}
+sub,sup {
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sub{bottom: -0.25em;}
+sup{top: -0.5em;}
+strong,b {font-weight:bold;}
+em,i {font-style:italic;}
+/* ---- Headers ------------------------------------------ */
+h1,h2,h3,h4,h5,h6 {
+	font-family: "AA Bebas Neue";
+	color: #373737;
+	border-left: 2px solid #d2210c;
+	padding-left: 7px;
+	margin-bottom: 20px;
+	letter-spacing: 0.1ex;
+	font-weight: normal;
+}
+h1 {font-size: 30px; line-height: 26px;}
+h2 {font-size: 28px; line-height: 24px;}
+h3 {font-size: 26px; line-height: 22px;}
+h4 {font-size: 24px; line-height: 20px;}
+h5 {font-size: 22px; line-height: 18px;}
+h6 {font-size: 20px; line-height: 16px;}
+.page-title {}
+.comments-title, .content-title {
+	font-family: "AA Bebas Neue";
+	color: #373737;
+	border-left: 2px solid #d2210c;
+	padding-left: 7px;
+	margin-bottom: 30px;
+	margin-top: 30px;
+	letter-spacing: 0.1ex;
+	font-weight: normal;
+	font-size: 30px; 
+	line-height: 26px !important;
+}
+
+.comments-title span {color: #d2210c;}
+
+p.img-center {}
+/* ---- Links -------------------------------------------- */
+a{
+	color: #005293;
+	text-decoration: none;
+}
+a:hover {text-decoration: underline;}
+.menu a {text-decoration:none;}
+.menu a:hover {text-decoration: none;}
+/* ---- Paragraph ---------------------------------------- */
+p {margin-bottom: 10px;}
+/* ---- Forms -------------------------------------------- */
+legend{color:#000}
+label,input {vertical-align:middle;}
+input {}
+
+button, input[type="button"], input[type="submit"], .button, .submit 
+{
+	display: inline-block;
+	background: none;
+	border: none;
+	font-family: "AA Bebas Neue";
+	text-transform: uppercase;
+	cursor: pointer;
+	color: #fff;
+	font-size: 24px;
+	padding: 13px 25px;
+	border-radius: 5px;
+	background-color: #005293;
+	-webkit-box-shadow: inset 0px 2px #1068AF;
+	box-shadow: inset 0px 2px #1068AF;
+	letter-spacing: 1px;
+}
+button:hover, input[type="button"]:hover, input[type="submit"]:hover, .button:hover, .submit:hover
+{
+	background-color: #D2210C;
+	color: #fff;
+	-webkit-box-shadow: inset 0px 2px #E05225;
+	box-shadow: inset 0px 2px #E05225;
+	text-decoration: none;
+}
+
+button.no-change:hover, input[type="button"].no-change:hover, input[type="submit"].no-change:hover, .button.no-change:hover, .submit.no-change:hover
+{
+	background-color: #005293;
+	-webkit-box-shadow: inset 0px 2px #1068AF;
+	box-shadow: inset 0px 2px #1068AF;
+}
+.ie7 button,.ie7 .input[type="button"],.ie7 .input[type="submit"],.ie7 .button,.ie7 .submit {padding:0;}
+
+.arcticmodal-overlay,
+.arcticmodal-container { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 1000; }
+.arcticmodal-container { overflow: auto; margin: 0; padding: 0; border: 0; border-collapse: collapse; }
+*:first-child+html .arcticmodal-container { height: 100% }
+.arcticmodal-container_i { height: 100%; margin: 0 auto; }
+.arcticmodal-container_i2 { padding: 24px; margin: 0; border: 0; vertical-align: middle; }
+.arcticmodal-error { padding: 20px; border-radius: 10px; background: #000; color: #fff; }
+.arcticmodal-loading { width: 80px; height: 80px; border-radius: 10px; background: #000 url('../images/loading.gif') no-repeat 50% 50%; }
+.arcticmodal-close {cursor: pointer; font-weight: bold; font-size: 14px; font-family: Verdana, Geneva, sans-serif; color: #247AC4;}
+.box-modal {position: relative;}
+/* ---- Helpers ------------------------------------------ */
+.border-box {box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;}
+.clearfix:after {display:block;visibility:hidden;content:".";height:0px;clear:both; overflow:hidden;}
+.clr {clear:both;}
+.fll {float: left;}
+.flr {float: right;}
+
+.fwb {font-weight: bold;}
+.fwn {font-weight: normal;}
+.fsi {font-style: italic;}
+
+.ttu {text-transform: uppercase;}
+.ttn {text-transform: none;}
+.ttl {text-transform: lowercase;}
+
+.tdn {text-decoration: none;}
+.tdu {text-decoration: underline;}
+
+.tal {text-align: left;}
+.tac {text-align: center;}
+.tar {text-align: right;}
+.taj {text-align: justify;}
+
+.fz11 {font-size: 11px;}
+.fz12 {font-size: 12px;}
+.fz14 {font-size: 14px;}
+.fz18 {font-size: 18px;}
+.fz19 {font-size: 19px;}
+.fz20 {font-size: 20px;}
+.fz24 {font-size: 24px;}
+.fz28 {font-size: 28px;}
+.fz32 {font-size: 32px;}
+.fz36 {font-size: 36px;}
+
+.pl10 {padding-left: 10px;}
+
+.posr {position: relative;}
+.posa {position: absolute;}
+.poss {position: static;}
+.posf {position: fixed;}
+
+.width25 {width: 25%;}
+.width33 {width: 33%;}
+.width50 {width: 50%;}
+.width100 {width: 100%;}
+
+.hidden {display: none;}
+.visible {display: block !important;}
+
+.cp {cursor: pointer;}
+/* ------------------------------------------------------------------------------------------------- */
+/*@font-face {
+    font-family: "AA Bebas Neue";
+    src: url('../fonts/752380372-AA-BebasNeue.eot');
+    src: url('../fonts/752380372-AA-BebasNeue.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/752380372-AA-BebasNeue.svg#AA Bebas Neue') format('svg'),
+    url('../fonts/752380372-AA-BebasNeue.woff') format('woff'),
+    url('../fonts/752380372-AA-BebasNeue.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+*/
+@font-face {
+    font-family: "AA Bebas Neue";
+    src: url('../fonts/aa-bebasneue-webfont.eot');
+    src: url('../fonts/aa-bebasneue-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/aa-bebasneue-webfont.svg#AA Bebas Neue') format('svg'),
+    url('../fonts/aa-bebasneue-webfont.woff') format('woff'),
+    url('../fonts/aa-bebasneue-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+	
