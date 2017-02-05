@@ -2,36 +2,107 @@
 
 <!-- RecordTemplate --><?php
 
+$month_arr = array(
+    '01'=>'января',
+    '02'=>'февраля',
+    '03'=>'марта',
+    '04'=>'апреля',
+    '05'=>'мая',
+    '06'=>'июня',
+    '07'=>'июля',
+    '08'=>'августа',
+    '09'=>'сентября',
+    '10'=>'октября',
+    '11'=>'ноября',
+    '12'=>'декабря',
+);
 $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
 $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE message_link=".$f_RowID));
 
 ?>
 
 <?php if ($f_RowNum == 0): ?>
-<div class="big_post_c">
-				<img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 220, 150, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=150&w=220")?>" alt="<?=$f_myTitle?>">
-				<div class="item-content">
-					<p class="item-category"><?= implode($f_newsType, ', ') ?></p>
-					<h3 class="item-title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></h3>
-					<div class="blog-item-text"><?=mb_substr(trim(str_replace('&nbsp;','',strip_tags($f_myText))),0,165)?>...</div>
-					<div class="blog-item-info">
-						<span class="date">
-<? if($f_Date != 0) { ?>
-                        <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_year.".".$f_Date_month.".".$f_Date_day)?>, <?= $f_Date_hours.':'.$f_Date_minutes ?>
-<? }else{ ?>
-                        <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-<? } ?>
-                        </span>
-						<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a></span>
-						<!-- <span class="comments"><a href="<?= $fullLink ?>"><?=$sql_post[0]?></a></span> -->
-					</div>
-				</div>
-			</div>
-<?php endif; ?>
-            <?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==0) ? s_list_class(30,44,"?&position=6") :NULL) ?>
-            <?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==9) ? s_list_class(30,44,"?&position=7") :NULL) ?>
-            <?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==16) ? s_list_class(30,44,"?&position=8") :NULL) ?><!-- /RecordTemplate -->
 
-<!-- FormSuffix --><? if($nextLink || $prevLink) { ?>
-    <?= nc_browse_messages($cc_env, 9); ?>
-<? } ?><!-- /FormSuffix -->
+<div class="big_post_c">
+    <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 725, 485, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=485&w=725")?>" alt="<?=$f_myTitle?>"></a>
+	<div class="label"><img src="images/sportticons/<?= $f_newsType_id[0]; ?>.png"></div>
+    <div class="big_post_bg">
+        <div class="big_post_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+        <div class="big_post_date">
+        <? if($f_Date != 0) { ?>
+            <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+        <? }else{ ?>
+            <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+        <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4</div>
+    </div>
+</div>
+
+<div class="clr"></div>
+<?php endif; ?>
+
+<?php if ($f_RowNum == 1): ?>
+<div class="small_post_c">
+<?php endif; ?>
+    <?php if ($f_RowNum == 1): ?>
+    <div class="small_l_c">
+        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 342, 332, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=332&w=342")?>" alt="<?=$f_myTitle?>"></a>
+        <div class="label"><img src="images/sportticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <div class="small_l_bg">
+            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="small_d_c">
+                <? if($f_Date != 0) { ?>
+                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                <? }else{ ?>
+                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                <? } ?> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if ($f_RowNum == 2): ?>
+    <div class="small_l_c">
+        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 342, 332, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=332&w=342")?>" alt="<?=$f_myTitle?>"></a>
+        <div class="label"><img src="images/sportticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <div class="small_l_bg">
+            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="small_d_c">
+                <? if($f_Date != 0) { ?>
+                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                <? }else{ ?>
+                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                <? } ?> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if ($f_RowNum == 3): ?>
+    <div class="small_l_c_l">
+        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 342, 332, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=332&w=342")?>" alt="<?=$f_myTitle?>"></a>
+        <div class="label"><img src="images/sportticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <div class="small_l_bg">
+            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="small_d_c">
+                <? if($f_Date != 0) { ?>
+                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                <? }else{ ?>
+                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                <? } ?> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+    
+<?php if ($f_RowNum == 3): ?>
+    <div class="clr"></div>
+</div>
+<?php endif; ?>
+
+
+
+<?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==0) ? s_list_class(30,44,"?&position=6") :NULL) ?>
+<?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==9) ? s_list_class(30,44,"?&position=7") :NULL) ?>
+<?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==16) ? s_list_class(30,44,"?&position=8") :NULL) ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->
