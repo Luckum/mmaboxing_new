@@ -46,6 +46,12 @@ body {margin:0px; padding:0px; background:#000000; color:#000; font-family:Arial
 .label {position:absolute; top:0px; left:0px;}
 .big_post_bg { width:100%; height:200px; position:absolute; bottom: 0px; background:url(../images/hn_bg.png)}
 .big_post_title {padding:75px 15px 0px 15px; font-weight:bold; font-family: 'ProximaNova-Regular'; font-size:28px; color:#FFF;}
+.big_post_title a {
+	color: #FFF;
+}
+.big_post_title a:hover {
+	text-decoration: none;
+}
 .big_post_date {font-size:12px; color:#666666; padding:15px 15px;}
 
 .right_p {width:360px; height:483px; float:right; background:#FFF;}
@@ -63,6 +69,8 @@ body {margin:0px; padding:0px; background:#000000; color:#000; font-family:Arial
 
 .small_l_bg {width:100%; height:200px; position:absolute; bottom: 0px; background:url(../images/hn_bg.png)}
 .small_l_t {padding:75px 15px 0px 15px; font-weight:bold; font-family: 'ProximaNova-Regular'; font-size:20px; color:#FFF;}
+.small_l_t a {color:#FFF;}
+.small_l_t a:hover {text-decoration: none;}
 .small_d_c {font-size:12px; color:#666666; padding:15px 15px;}
 
 .video_c { width:100%; background:#181818; }

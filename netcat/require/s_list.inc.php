@@ -1447,7 +1447,7 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
             }
             unset($ids, $id, $value, $multilist_field, $iteration_multilist_fields);
         }
-
+        
         // get file fields variables
         if ($component_file_mode) {
             $iteration_RecordTemplate[$f_RowNum]['fields_files'] =

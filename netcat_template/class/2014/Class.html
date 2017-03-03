@@ -1,4 +1,5 @@
-<!-- FormPrefix --><? $auth_settings = $nc_core->get_settings('', 'auth')?>
+<!-- FormPrefix --><div id="auth_signup" class="tabcontent">
+<? $auth_settings = $nc_core->get_settings('', 'auth')?>
 <?= $auth_settings['deny_reg'] ? NETCAT_MODULE_AUTH_SELFREG_DISABLED : ($warnText ? "<div class='warnText'>$warnText</div>" : NULL ) ?>
 <form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' method='post' action='<?= $nc_core->SUB_FOLDER ?><?= $nc_core->HTTP_ROOT_PATH ?>add.php'>
 <div id='nc_moderate_form'>
@@ -50,7 +51,8 @@
                                                      'check_pass'=>$auth_settings['check_pass'],
                                                      'check_pass2'=>$auth_settings['check_pass2'])) ?>);
 </script>
-</form><!-- /FormPrefix -->
+</form>
+</div><!-- /FormPrefix -->
 
 <!-- RecordTemplate --><!-- /RecordTemplate -->
 

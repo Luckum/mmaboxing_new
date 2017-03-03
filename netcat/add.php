@@ -220,6 +220,7 @@ do {
                 $IsChecked = $f_Checked ? 1 : 0;
             }
 
+            
             if (!$user_table_mode) {
                 // check permission
                 if (!(
@@ -296,10 +297,13 @@ do {
                 // execute core action
                 $nc_core->event->execute("addUserPrep", 0);
 
+                $fieldString = "`Email`, `Login`, `ForumName`, ";
+                $valueString = "'" . $Email . "', '" . $Email . "', '" . $u_name . "', ";
+                
                 $resMsg = $db->query("INSERT INTO `User`
-    			(" . $fieldString . "`Password`, `PermissionGroup_ID`, `Checked`, `Created`, `RegistrationCode`" . ($nc_core->get_settings('confirm', 'auth') ? ", `Confirmed`" : "") . ", Catalogue_ID)
+    			(" . $fieldString . "`Password`, `PermissionGroup_ID`, `Checked`, `Created`" . ($nc_core->get_settings('confirm', 'auth') ? ", `Confirmed`" : "") . ", Catalogue_ID)
     			VALUES
-    			(" . $valueString . " " . $nc_core->MYSQL_ENCRYPT . "('" . $Password . "'), '" . $mainGroup . "', '" . $IsChecked . "', \"" . date("Y-m-d H:i:s") . "\", '" . $RegistrationCode . "'" . ($nc_core->get_settings('confirm', 'auth') ? ",'0'" : "") . ", " . $catalogue . ")");
+    			(" . $valueString . " " . $nc_core->MYSQL_ENCRYPT . "('" . $Password . "'), '" . $mainGroup . "', '" . $IsChecked . "', \"" . date("Y-m-d H:i:s") . "\" " . ($nc_core->get_settings('confirm', 'auth') ? ",'0'" : "") . ", " . $catalogue . ")");
                 $msgID = $db->insert_id;
                 // execute core action
                 $nc_core->event->execute("addUser", $msgID);

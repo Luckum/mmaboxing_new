@@ -1,3 +1,40 @@
-<!-- Header --><!-- /Header -->
+<!-- Header --><!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional\">
+<html>
+<head>
+    <meta http-equiv='content-type' content='text/html; charset=<?=$nc_core->NC_CHARSET?>' />
+    <title>Прислать материал</title>
+    <link rel="stylesheet" href="/css/popups.css" type="text/css" charset="utf-8" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/custom.js"></script>
+
+</head>
+<body>
+
+<form method="post" action="" id="send_material_frm" enctype="multipart/form-data">
+    <div class="send_main">
+        <div class="send_header">
+            <span class="send_title">Прислать материал</span>
+            <span class="send_socials">Войти через соцсети:
+                <button>FB</button>
+                <button>VK</button>
+            </span>
+        </div>
+        <div>
+            <input class="send_input" type="text" placeholder="Имя" name="sender_name" id="sender_name">
+            <input class="send_input" type="text" placeholder="E-mail (не будет опубликован)" name="sender_email" id="sender_email">
+        </div>
+        <div>
+            <textarea class="send_textarea" placeholder="Комментарий" name="sender_comment" id="sender_comment"></textarea>
+        </div>
+        <div class="send_input_file">
+            <input type="file" class="custom_file" id="send_file" name="sender_file" >
+            <div id="browse_button" title="Прикрепить файл" class="fake_button"></div>
+            <div id="file_name" style='display: none; background: transparent url("/images/files_types_icons.png") repeat scroll 0% 0%;'></div>
+        </div>
+        <div>
+            <input class="send_input_submit" type="submit" value="Отправить">
+        </div>
+    </div>
+</form><!-- /Header -->
 
 <!-- Footer --><!-- /Footer -->

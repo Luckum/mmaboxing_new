@@ -7,4 +7,13 @@ $(document).ready(function() {
         'transitionOut' : 'none',
         'type'          : 'iframe'
     });
+    
+    $(".auth_user").fancybox({
+        'width'         : 370,
+        'height'        : 485,
+        'autoScale'     : false,
+        'transitionIn'  : 'none',
+        'transitionOut' : 'none',
+        'type'          : 'iframe'
+    });
 });

@@ -10,23 +10,27 @@
         <input type='hidden' name='sub' value='<?= $sub ?>' />
         <input type='hidden' name='cc' value='<?= $cc ?>' />
         <div class="block" style="margin: 0px">
-            <label><?= NETCAT_MODULE_AUTH_LOGIN ?></label>
-            <div class="input_text"><input type="text" name="AUTH_USER" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>'><div class="left"></div><div class="right"></div></div>
-        </div><br/>
+            <p>Войти через соцсети:</p>
+            <button>FB</button>
+            <button>VK</button>
+        </div>
         <div class="block" style="margin: 0px">
-            <label><?= NETCAT_MODULE_AUTH_PASSWORD ?></label>
-            <div class="input_text"><input type="password" name="AUTH_PW" value=""><div class="left"></div><div class="right"></div></div>
-        </div><br/>
-        <? if ($ADMIN_AUTHTYPE == "manual" && $AUTHORIZATION_TYPE == "cookie") : ?>
+            <div class="input_text">
+                <input type="text" name="AUTH_USER" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>' placeholder="Email">
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+        </div>
         <div class="block" style="margin: 0px">
-            <label><?= NETCAT_MODULE_AUTH_SAVE ?></label>
-            <input type='checkbox' name='loginsave' />
-        </div><br/>
-        <? endif; ?>
+            <div class="input_text">
+                <input type="password" name="AUTH_PW" value="" placeholder="<?= NETCAT_MODULE_AUTH_PASSWORD ?>">
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+        </div>
+        
         <input type="hidden" value="1" name="AuthPhase">
-        <input type='submit' class='login_submit'  name='submit' value='' />
-        <? if ($AuthPhase && $REQUEST_URI != $REQUESTED_FROM) : ?><br/><br/><a href='<?= $REQUESTED_FROM ?>'><?= NETCAT_MODULE_AUTH_BUT_BACK ?></a><? endif; ?>
-        <a id="rem_pwd" href="/netcat/modules/auth/password_recovery.php">Забыли пароль?</a>
+        <input type='submit' class='login_submit'  name='submit' value='Войти' />
     </form>
     <!--<div id="login_social">
         <div id="social_name">Войти через социальные сети</div>

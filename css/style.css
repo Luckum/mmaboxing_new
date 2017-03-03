@@ -34,7 +34,7 @@ body {
     position: relative;
 	max-width: 1102px;
 	margin: 0 auto;
-	background: #fff;
+	background: #eaeaea;
 	border-left: 0px solid #CFDAE5;
 	border-right: 0px solid #CFDAE5;
 	margin: 25px auto;
@@ -55,7 +55,7 @@ body {
 	border-right: 239px solid #fff;
 }
 .middle:after {display: table; clear: both; content: ' ';}
-.content {width: 705px; float: left; margin-top: 40px; padding-left: 20px; padding-right: 15px;}
+.content {width: 100%; background: #eaeaea; min-height: 800px;}
 .sidebar-right {float: right; width: 240px; padding: 40px 0px 0; background-color: #fff; margin-right: -239px;}
 
 .footer {

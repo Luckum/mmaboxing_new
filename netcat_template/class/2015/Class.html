@@ -1,4 +1,4 @@
-<!-- FormPrefix --><div class='registration'>
+<!-- FormPrefix --><div id="auth_signin" class="tabcontent">
 <? if (!$current_user['User_ID']) {
 
 $nc_auth = nc_auth::get_object();
@@ -8,6 +8,7 @@ echo "<script>$('.registration .login_submit').val('Войти');</script>";
 else
 {
     echo "<p>Вы авторизованы на сайте как <b>".$current_user['ForumName']."</b></p>";
+    echo "<a href='/netcat/modules/auth/?logoff=1'>Выйти</a>";
 }
 ?>
 </div>
