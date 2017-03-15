@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/styles.css">
 	<link rel="stylesheet" href="/js/fancybox/jquery.fancybox-1.3.1.css">
+    <link rel="stylesheet" type="text/css" href="/js/scrollpane/css/jquery.jscrollpane.css"/>
+    <link rel="stylesheet" type="text/css" href="/js/scrollpane/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/netcat/require/lib/mistakes/mistakes.css"/>
+    
 	<!--[if lt IE 9]>
         <script>
             var e = ("article,aside,figcaption,figure,footer,header,hgroup,nav,section,time,main").split(',');
@@ -23,7 +27,7 @@
             }
         </script>
 	<![endif]-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
 	<script src="/js/jquery.arcticmodal.js"></script>
 	<script src="/js/jquery.flexslider-min.js"></script>
@@ -34,15 +38,21 @@
     <script type="text/javascript" src="/js/calendar.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
     <script type="text/javascript" src="/js/fancybox/jquery.easing-1.3.pack.js"></script>
+    <script type="text/javascript" src="/js/scrollpane/js/jquery.easing.compatibility.js"></script>
     <script type="text/javascript" src="/js/fancybox/jquery.fancybox-1.3.1.js"></script>
     <script type="text/javascript" src="/js/fancy.js"></script>
-    <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
+    <script type="text/javascript" src="/js/scrollpane/js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="/js/scrollpane/js/jquery.contentcarousel.js"></script>
+    <script type="text/javascript" src="/netcat/require/lib/mistakes/mistakes.js"></script>
+    
+    
+    
     <script type="text/javascript">
-         $(document).ready(function()
-         {
-           initToolTips();
-           genCalenTable('calendar_out',{ on: new Date, from: new Date('2013',6,18)});
-           $(window).scroll(function(){
+        $(document).ready(function()
+        {
+            initToolTips();
+            genCalenTable('calendar_out',{ on: new Date, from: new Date('2013',6,18)});
+            $(window).scroll(function(){
                 if ($(this).scrollTop() > 84) {
                     $('.menu_count').hide();
                     $('.menu_count_fixed').show();
@@ -50,44 +60,13 @@
                     $('.menu_count').show();
                     $('.menu_count_fixed').hide();
                 }
-           });
+            });
+            
+            $('#ca-container').contentcarousel();
+            $('#ca-container-mbl').contentcarousel();
          });
  </script>
  
-<!-- LiveInternet counter-->
-    <script type="text/javascript"><!--
-    new Image().src = "//counter.yadro.ru/hit?r"+
-        escape(document.referrer)+((typeof(screen)=="undefined")?"":
-                                   ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
-                                   screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
-            ";"+Math.random();//-->
-    </script>
-<!-- /LiveInternet-->
-        
-<!-- RatingMail.ru counter -->
-        <script type="text/javascript">//<![CDATA[
-            var _tmr = _tmr || [];
-            _tmr.push({id: '2383513', type: 'pageView', start: (new Date()).getTime()});
-            (function (d, w) {
-                var ts = d.createElement('script'); ts.type = 'text/javascript'; ts.async = true;
-                ts.src = (d.location.protocol == 'https:' ? 'https:' : 'http:') + '//top-fwz1.mail.ru/js/code.js';
-                var f = function () {var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ts, s);};
-                if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
-            })(document, window);
-            //]]></script><noscript>
-        <div style="position:absolute;left:-10000px;">
-        <img src="//top-fwz1.mail.ru/counter?id=2383513;js=na" style="border:0;" height="1" width="1" alt="Mail.ru" />
-        </div>
-        </noscript>
-<!-- /RatingMail.ru counter -->
-
-<!-- start скрипт комментов VK -->  
-<script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
-
-<script type="text/javascript">
-  VK.init({apiId: 4901900, onlyWidgets: true});
-</script>
-<!-- end скрипт комментов VK -->
 
 </head>
 <!-- // HEAD -->
@@ -95,13 +74,6 @@
 <body>
 
 <!-- Google Tag Manager -->
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MGDSP9"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MGDSP9');</script>
 <!-- End Google Tag Manager -->
 
 <!-- BEGIN ADVERTSERVE CODE
@@ -113,36 +85,37 @@ if (!document.cookie || document.cookie.indexOf('AVPDCAP=') == -1) {
 END ADVERTSERVE CODE -->
 
 <!-- start fb script -->
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 <!-- end fb script -->
 
 <!-- Ссылка для фона -->
 
 <header class="header">
     <div class="head">
-        <div class="logo"><a href=""><img src="images/logo.png"></a></div>
+        <div class="logo"><a href="/"><img src="/images/logo.png"></a></div>
         <div class="logo_slog">Всё о боксе, MMA  и кикбоксинге.<br>Новости, видео, статьи, обзоры</div>
 
-        <div class="user"><a class="auth_user" href="/auth"><img src="images/user.png" class="user_icon"></a></div>
-        <div class="search"><img src="images/search.png" class="serche_icon"></div>
-        <div class="send_article"><a class="send_material" href="/send"><img src="images/mail.png" class="send_icon">Прислать материал</a></div>
-
+        <div class="user"><a class="auth_user" href="/auth"><img src="/images/user.png" class="user_icon"></a></div>
+        <div class="search" id="search_turn"><a href="javascript:void(0);"><img src="/images/search.png" class="serche_icon"></a></div>
+        <div class="search_expand" id="search_expand" style="display: none">
+            <form action="/news/" method="get">
+                <div>
+                    <input name="search" value="" type="text" class="s_text">
+                    <input class="search_button" type="submit" title="Найти" value="Найти">
+                    <span class="search_close"><a href="javascript:void(0);" rel="nofollow"><img src="/images/close.png" id="imgsrcliclose" title="Закрыть" alt="Закрыть"></a></span>
+                </div>
+            </form>
+        </div>
+        <div class="send_article"><a class="send_material" href="/send"><img src="/images/mail.png" class="send_icon">Прислать материал</a></div>
+        
         <div class="clr"></div>
     </div>
     
     <div class="menu_count">
         <div class="menu_c">
             <ul class="menu">
-                <li><a href="">Новости</a></li>
-                <li><a href="">видео</a></li>
-                <li><a href="">Статьи</a></li>
+                <li><a href="/news">Новости</a></li>
+                <li><a href="/video">видео</a></li>
+                <li><a href="/articles">Статьи</a></li>
                 <li><a href="">События</a></li>
                 <li><a href="">Рейтинги</a></li>
                 <li><a href="">Блоги</a></li>
@@ -157,21 +130,31 @@ END ADVERTSERVE CODE -->
     <div class="menu_count_fixed" style="display: none;">
         <div class="menu_c_fixed">
             <ul class="menu_fixed">
-                <li><a href=""><img src="images/logo-small.png"></a></li>
+                <li><a href="/"><img src="/images/logo-small.png"></a></li>
+                <li id="menu_fixed" style="display: none;">
+                    <form action="/news/" method="get">
+                        <div>
+                            <input name="search" value="" type="text" class="s_text_fixed">
+                            <input class="search_button" type="submit" title="Найти" value="Найти">
+                            <span class="search_close_fixed"><a href="javascript:void(0);" rel="nofollow"><img src="/images/close.png" id="imgsrcliclose" title="Закрыть" alt="Закрыть"></a></span>
+                        </div>
+                    </form>
+                </li>
             </ul>
-            <ul class="menu_2_fixed">
-                <li><a href="">Новости</a></li>
-                <li><a href="">видео</a></li>
-                <li><a href="">Статьи</a></li>
+            <ul class="menu_2_fixed" id="menu_2_fixed">
+                <li><a href="/news">Новости</a></li>
+                <li><a href="/video">видео</a></li>
+                <li><a href="articles">Статьи</a></li>
                 <li><a href="">События</a></li>
                 <li><a href="">Рейтинги</a></li>
                 <li><a href="">Блоги</a></li>
                 <li><a href="">MB Production</a></li>
                 <li><a href="">Ставки</a></li>
             </ul>
-            <ul class="menu_3_fixed">
-                <li><a href=""><img src="images/search.png" class="serche_icon"></a></li>
+            <ul class="menu_3_fixed" id="menu_3_fixed">
+                <li><a href="javascript:void(0);" id="search_turn_fixed"><img src="/images/search.png" class="serche_icon"></a></li>
             </ul>
+            
             <div class="clr"></div>
         </div>
     </div>

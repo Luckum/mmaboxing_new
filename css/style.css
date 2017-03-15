@@ -1,14 +1,3 @@
-* {
-	margin: 0;
-	padding: 0;
-}
-
-body {
-	/*font: 15px/16px Arial, sans-serif;*/
-	width: 100%;
-	background: url("../background/body_cube.jpg") no-repeat center top / 2000px auto fixed rgba(37,37,37,1);
-	color: #373737;
-}
 
 .bckClickerleft { 
     z-index:3;
@@ -56,15 +45,8 @@ body {
 }
 .middle:after {display: table; clear: both; content: ' ';}
 .content {width: 100%; background: #eaeaea; min-height: 800px;}
-.sidebar-right {float: right; width: 240px; padding: 40px 0px 0; background-color: #fff; margin-right: -239px;}
+.sidebar-right {float: right; width: 240px; padding: 40px 0px 0; background-color: #fff; margin-right: 0px;}
 
-.footer {
-	height: 310px;
-	background: #fff;
-	border-top: 1px solid #cfdae5;
-	font-size: 13px;
-}
-.footer:after {display: table; content: ''; clear: both;}
 
 .bebas {font-family: "AA Bebas Neue";}
 
@@ -580,7 +562,7 @@ blockquote {
 	font-style: italic;
 }
 .content-bottom:after {display: table; content: ''; clear: both;}
-.tags {display: block; float: left; width: 50%;}
+.tags {display: block; float: left; width: 50%; margin-top: 15px; margin-bottom: 40px;}
 .tags:after {display: table; content: ''; clear: both;}
 .tags li {
 	float: left; 
@@ -589,7 +571,7 @@ blockquote {
 	list-style: none;
 	background: url('../images/icon_tag.png') 0 center no-repeat;
 }
-.tags li a {}
+.tags li a {color: #aaaaaa; margin-left: 5px;}
 
 /* ===== COMMENTS ================================================================================ */
 #comments-form {margin: 20px 0;}
@@ -739,7 +721,6 @@ th.workday, th.weekday {background-color: #f4f8fa;}
 .breadcrumbs {margin-bottom: 7px; margin-top: -20px;}
 /* ===== SIDEBAR ==================================================================================== */
 .module {
-	border-bottom: 1px solid #cfdae5;
 	padding: 0px 19px 20px;
 	margin-bottom: 40px;
 }
@@ -805,11 +786,11 @@ th.workday, th.weekday {background-color: #f4f8fa;}
 /* ===== VOTE ===================================================================================== */
 .vote-title {
 	margin-bottom: 10px;
-	font-size: 17px;
-	font-family: 'AA Bebas Neue';
-	text-transform: uppercase;
-	letter-spacing: 0.1ex;
-	color: #2b2c2e;
+    margin-top: 15px;
+	font-size: 18px;
+	font-family: 'ProximaNova-Regular';
+    font-weight: bold;
+	color: #000;
 }
 
 .answers {
@@ -820,12 +801,11 @@ th.workday, th.weekday {background-color: #f4f8fa;}
 
 .answers label {
 	display: block;
-	color: #C91400;
+	color: #000;
 	font-size: 14px;
-	text-transform: uppercase;
-	font-family: 'AA Bebas Neue';
-	letter-spacing: 0.1ex;
-	margin: 2px 0;
+	font-family: 'Arial';
+	margin: 15px 0;
+    cursor: pointer;
 }
 .answers input {margin: 2px 5px 0px 0px;}
 
@@ -1047,9 +1027,6 @@ th.workday, th.weekday {background-color: #f4f8fa;}
     margin: 10px 0px 20px;
     font-size: 14px;
     text-transform: none
-}
-.answers input {
-    margin: 2px 5px 0px 0px
 }
 
 .voteprogress {

@@ -1,19 +1,19 @@
 <?php
+$nc_comments = new nc_comments($cc);
 $ignore_sub = 1;
 $ignore_cc = 1;
 $tagArr = explode(',',$searchTags);
 
-/*
-$likeStr .= " myTags LIKE '%UFC%'";
-foreach($tagArr as $key=>$val){ 
-    if(trim($val)!='UFC' && trim($val))
-    {
-        $likeStr .= " OR myTags LIKE '%".trim(strip_tags($val))."%'";
+foreach ($tagArr as $key=>$val) { 
+    if ($key == 0) {
+        $likeStr .= " myTags LIKE '%" . trim(strip_tags($val)) . "%'";
+    } else {
+        $likeStr .= " OR myTags LIKE '%" . trim(strip_tags($val)) . "%'";
     }
 }
-*/
-$likeStr = "myTags LIKE '%".(trim($tagArr[1]) ? trim($tagArr[1]) : trim($tagArr[0]))."%'";
-//$query_where = "Message_ID!=".$curID." AND (".$likeStr.")";
-$query_where = "Message_ID < ".$curID."";
-$recNum = 6;
+
+//$likeStr = "myTags LIKE '%".(trim($tagArr[1]) ? trim($tagArr[1]) : trim($tagArr[0]))."%'";
+$query_where = "Message_ID!=".$curID." AND (".$likeStr.")";
+//$query_where = "Message_ID < ".$curID."";
+$query_order = "Date DESC";
 ?>

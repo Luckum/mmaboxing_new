@@ -97,7 +97,7 @@ a{
 }
 a:hover {text-decoration: underline;}
 .menu a {text-decoration:none;}
-.menu a:hover {text-decoration: none;}
+.menu a:hover {text-decoration: none; color: #e73435;}
 /* ---- Paragraph ---------------------------------------- */
 p {margin-bottom: 10px;}
 /* ---- Forms -------------------------------------------- */

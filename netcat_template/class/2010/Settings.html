@@ -1,4 +1,9 @@
 <?php
-
-
+    if ($showResults) {
+        $query_where = "myDate < NOW()";
+    }
+    if ($showEvents) {
+        $query_where = "myDate > NOW()";
+    }
+    $query_order = "myDate DESC";
 ?>

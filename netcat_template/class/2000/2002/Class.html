@@ -1,12 +1,91 @@
-<!-- FormPrefix --><? echo $f_AdminCommon; ?><!-- /FormPrefix -->
+<!-- FormPrefix --><? echo $f_AdminCommon; require_once $_SERVER['DOCUMENT_ROOT']."netcat/require/lib/simple_html_dom.php"; ?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#playback").click(this, function() {
+            $("#v-iframe").attr('src', $("#frame-src").val() + "?&autoplay=1");
+            $("#video-img").hide();
+            $("#video-frame").show();
+        });
+    });
+    
+    function play_in_frame(src)
+    {
+        $("#v-iframe").attr('src', src + "?&autoplay=1");
+        $("#video-img").hide();
+        $("#video-frame").show();
+    }
+</script>
+<!-- /FormPrefix -->
 
 <!-- RecordTemplate --><? echo $f_AdminButtons; ?>
-<div class="video-item">
-		    <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 160, 100, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=100&w=160")?>" title="<?=$f_myTitle?>" alt="<?=$f_myTitle?>"><br>
-		        <a class="play" href="<?= $fullLink ?>" rel="nofollow">
-		            <img src="/images/icon_play.png" title="Воспроизвести" alt="Воспроизвести">
-		        </a>
-		    <a class="video-item-title" href="<?= $fullLink ?>"><?=$f_myTitle?></a>
-		</div><!-- /RecordTemplate -->
 
-<!-- FormSuffix --><!-- /FormSuffix -->
+<?php
+    $html = str_get_html($f_myText);
+    $frame = $html->find('iframe', 0);
+    $src = $frame->src;
+    
+    $month_arr = array(
+        '01'=>'января',
+        '02'=>'февраля',
+        '03'=>'марта',
+        '04'=>'апреля',
+        '05'=>'мая',
+        '06'=>'июня',
+        '07'=>'июля',
+        '08'=>'августа',
+        '09'=>'сентября',
+        '10'=>'октября',
+        '11'=>'ноября',
+        '12'=>'декабря',
+    );
+    $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
+?>
+<?php if ($f_RowNum == 0): ?>
+    <div class="big_video">
+        <div id="video-frame" style="display: none;">
+            <iframe id="v-iframe" allowfullscreen="" frameborder="0" height="390" scrolling="no" src="" width="700"></iframe>
+        </div>
+        <div id="video-img">
+            <input type="hidden" id="frame-src" value="<?= $src; ?>">
+            <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 700, 390, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=390&w=700")?>" title="<?=$f_myTitle?>" alt="<?=$f_myTitle?>">
+            <div class="v_s_label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
+            <div class="big_video_bg">
+                <div class="big_video_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+                <div class="big_video_date">
+                <? if($f_Date != 0) { ?>
+                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                <? }else{ ?>
+                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4</div>
+            </div>
+            <div class="playback" id="playback"><img src="/images/playback-start.png"></div>
+        </div>
+    </div>
+<div class="small_video_l_right">
+<?php else: ?>
+    <div class="small_video_l">
+        <div class="small_video_img">
+            <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 90, 90, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=90&w=90")?>" title="<?=$f_myTitle?>" alt="<?=$f_myTitle?>">
+            <div class="playback_angle" onclick="play_in_frame('<?= $src; ?>')"><img src="/images/playback-start_angle.png"></div>
+        </div>
+        <div class="small_video_descr">
+            <span class="v_label"><?= $f_newsType[0]; ?></span>
+            <span class="v_date">
+            <? if($f_Date != 0) { ?>
+                <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+            <? }else{ ?>
+                <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+            <? } ?>
+            </span>
+            <br />
+            <span class="v_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></span>
+        </div>
+    </div>
+
+<?php endif; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+</div>
+<div class="clr"></div>
+<!-- /FormSuffix -->

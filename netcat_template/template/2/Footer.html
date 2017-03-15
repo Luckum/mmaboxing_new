@@ -1,237 +1,52 @@
-		</div>
-	</main>
 
-<!-- SIDEBAR_RIGHT -->
-
-<aside class="sidebar-right sidebar">
-	<div class="module events">
-		<h3 class="module-title">События</h3>
-		<div class="module-content">
-			<div class="tabs">
-				<ul class="tabs-title">
-					<li id="tab-1" class="tab-title active">MMA</li>
-					<li id="tab-2" class="tab-title">Бокс</li>
-					<li id="tab-3" class="tab-title">Кик</li>
-				</ul>
-				<div class="tabs-content">
-					<div id="c-tab-1" class="tab-content active">
-						<?= s_list_class(11,28,"?&showMain=1&recNum=5") ?>
-					</div>
-					<div id="c-tab-2" class="tab-content">
-						<?= s_list_class(12,29,"?&showMain=1&recNum=5") ?>
-					</div>
-					<div id="c-tab-3" class="tab-content">
-                        <?= s_list_class(13,30,"?&showMain=1&recNum=5") ?>
-					</div>
-				</div>
-			</div>
-		</div>
-	<!-- end .events-->
-
-		<a href="/fight-calendar/" class="readmore">Смотреть полностью</a>
-	</div>
-    
-    <div class="module bnr1 sidebar-bnr">
-		<div class="module-content">
-        <?= s_list_class(30,44,"?&position=3") ?>
-		</div>
-	</div> 
-	<!-- end .bnr1 -->
-	
-    <!-- ОПРОСЫ -->
-    <?= s_list_class(24,26); ?>
-    <!-- // ОПРОС -->
-    
-	<div class="module popular">
-		<h3 class="module-title">Популярное</h3>
-		<div class="module-content">
-        
-        <?= s_list_class(3,1,"&recNum=10&nc_ctpl=2013") ?>
-        
-		</div>
-	</div> 
-	<!-- end .popular -->
-    
-    <div class="module bnr2 sidebar-bnr">
-		<div class="module-content">
-        <?= s_list_class(30,44,"?&position=4") ?>     
-		</div>
-	</div> 
-	<!-- end .bnr2 -->
- 
-	<div class="module rating">
-		<h3 class="module-title">Рейтинги</h3>
-		<div class="module-content">
-			<div class="tabs">
-				<ul class="tabs-title">
-					<li id="tab-4" class="tab-title active">MMA</li>
-					<li id="tab-5" class="tab-title">Бокс</li>
-				</ul>
-				<div class="tabs-content">
-					<div id="c-tab-4" class="tab-content active">
-                        
-                        <?= s_list_class(18,23,"&recNum=10&nc_ctpl=2011") ?>
-                        
-                        
-					</div> <!-- end .tab-4 -->
-
-					<div id="c-tab-5" class="tab-content">
-						
-                        <?= s_list_class(19,31,"&recNum=10&nc_ctpl=2011") ?>
-                        
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</div> 
-	<!-- end .rating--> 
-    
-    <div class="module bnr3 sidebar-bnr">
-		<div class="module-content">
-        <?= s_list_class(30,44,"?&position=5") ?>               
-		</div>
-	</div> 
-	<!-- end .bnr3 -->
-
-	<div class="module snets">
-		<h3 class="module-title">Мы в соц. сетях</h3>
-		<div class="module-content">
-			<div class="tabs">
-				<ul class="tabs-title">
-					<li id="tab-6" class="tab-title active">VK</li>
-                    <li id="tab-7" class="tab-title">OK</li>
-					<li id="tab-8" class="tab-title">FB</li>
-					<li id="tab-9" class="tab-title">TW</li>
-					<!-- <li id="tab-10" class="tab-title">IN</li> -->
-				</ul>
-				<div class="tabs-content">
-					<div id="c-tab-6" class="tab-content active">
-						<div id="vk_groups"></div>
-                        <script type="text/javascript">
-                        VK.Widgets.Group("vk_groups", {mode: 4, width: "200", height: "590", color1: 'FFFFFF', color2: '005292', color3: '005292'}, 131882332);
-                        </script>
-						<!-- <a href="javascript:void(0);" id="subscribe">Подписаться на новости</a> -->
-					</div>
-				    <div id="c-tab-8" class="tab-content">
-						<div class="fb-page" data-href="https://www.facebook.com/mmaboxingru2016/" data-tabs="timeline" data-width="200" data-height="590" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/mmaboxingru2016/"><a href="https://www.facebook.com/mmaboxingru2016/">MMABoxing</a></blockquote></div></div>
-					</div>
-                    
-				    <div id="c-tab-9" class="tab-content">
-						<a class="twitter-timeline" href="https://twitter.com/MMA_Boxing_ru" data-widget-id="701480238572765184">Твиты от @MMA_Boxing_ru</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-					</div>
-                    
-                    <!-- <div id="c-tab-10" class="tab-content">
-						<iframe src='/inwidget/index.php?width=200&inline=1&view=3&toolbar=false' scrolling='no' frameborder='no' style='border:none;width:200px;height:590px;overflow:hidden;'></iframe>
-					</div> -->                  
-
-				    <div id="c-tab-7" class="tab-content">
-						<div id="ok_group_widget"></div>
-                            <script>
-                            !function (d, id, did, st) {
-                            var js = d.createElement("script");
-                            js.src = "https://connect.ok.ru/connect.js";
-                            js.onload = js.onreadystatechange = function () {
-                            if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
-                            if (!this.executed) {
-                              this.executed = true;
-                              setTimeout(function () {
-                              OK.CONNECT.insertGroupWidget(id,did,st);
-                              }, 0);
-                              }
-                            }}
-                            d.documentElement.appendChild(js);
-                            }(document,"ok_group_widget","52561040375964","{width:200,height:335}");
-                            </script>
-					    </div>                                        
-				</div>
-			</div>
-		</div>
-	</div>
-</aside>
-
-<!-- // SIDEBAR_RIGHT -->
-
-</div> 
-<!-- end .middle -->
+</div>
 
 
 
-<!-- FOOTER -->
+<!-- footer ----------------------------------->
 
-<footer class="footer">
-              
-    <div class="footer_left">
-        <div class="text">
-        	<p>MMABoxing.ru - новостной информационный портал для любителей смешанных единоборств (ММА) и бокса.</p>
-	        <p>На нашем сайте вы можете найти последние, актуальные новости ММА (UFC, Bellator, M-1 и другие) и бокса. Кроме того, здесь публикуются различные видео и статьи: анонсы боев, интервью с бойцами и многое другое.</p>
-       </div>
-        <div class="bottommenu">
-            <ul class="topmenu menu">
-                <li class="home"><a href="javascript:void(0);" rel="nofollow"><img src="/images/icon_home.png" title="Главная" alt="Главная"></a></li>
-                <li><a href="/news/">Новости</a></li>
-                <li><a href="/fight-calendar/">Файт-Календарь</a></li>
-                <li><a href="/articles/">Статьи</a></li>
-                <li><a href="/video/">Видео</a></li>
-                <li><a href="/exclusive/">Эксклюзив</a></li>
-                <!--<li><a href="/forum/">Форум</a></li>-->
-            </ul>	
-            <div class="clr"></div>				
-        </div>
-        
-        <div class="info">
-            <div class="copyright">© 2013-2016 MMABoxing.ru. Все права защищены</div>
-            <div class="small_menu">
-                <ul class="menu">
-                    <li><a href="/partners/">Наши партнеры</a></li>
-                    <!--<li><a href="/marketing/">Реклама</a></li>-->
-                    <li><a href="/about/">О сайте</a></li>
-                </ul>
-            </div>
-            <div class="clr"></div>
-            Использование материалов без согласия категорически запрещено. При любом использовании материалов другими ресурсами, прямая индексируемая ссылка на MMABoxing.ru обязательна
-        </div>
-        <div class="counter">
-            <div class="counters">
-                
-                <!-- Yandex.Metrika informer -->
-                <a href="https://metrika.yandex.ru/stat/?id=25971394&amp;from=informer"
-                target="_blank" rel="nofollow"><img src="//informer.yandex.ru/informer/25971394/2_0_FFFFFFFF_FFFFFFFF_0_pageviews"
-                style="width:80px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры)" /></a>
-                <!-- /Yandex.Metrika informer -->
-               
-                <!-- LiveInternet logo
-                <a href="http://www.liveinternet.ru/click" target="_blank" rel="nofollow"><img src="//counter.yadro.ru/logo?14.4" title="LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодня" alt="" width="88" height="31"></a>
-                /LiveInternet-->
-                
-                <br> 
-                
-                <!-- Rating@Mail.ru logo -->
-                <a href="http://top.mail.ru/jump?from=2383513" rel="nofollow">
-                <img src="//top-fwz1.mail.ru/counter?id=2383513;t=387;l=1" style="border:0;" height="18" width="88" alt="Рейтинг@Mail.ru"></a>
-                <!-- //Rating@Mail.ru logo -->	
-                
-                <br>	
-                
-                <!-- begin of Top100 code -->
-                <script id="top100Counter" type="text/javascript" src="http://counter.rambler.ru/top100.jcn?2926892"></script>
-                <!-- end of Top100 code -->	<!--/noindex-->
-                
-            </div>
-        </div>
-    </div>
-    <div class="footer_right">
-        <div class="arhiv_title">Архив новостей</div>
+<div class="footer">
+<div class="foot">
+
+<div class="foot_left">
+<div class="f_l_c">
+<a href="" class="foot_link">Партнёры</a>
+<a href="" class="foot_link">Реклама на сайте</a>
+<a href="" class="foot_link">Контакты</a>
+</div>
+<p class="copy">© 2013–2016 MMABoxing.ru. Все права защищены. Использование материалов без согласия категорически запрещено. При любом использовании материалов другими ресурсами, прямаяиндексируемая ссылка на MMABoxing.ru обязательна.</p>
+<p class="copy">Нашли опечатку? Выделите фрагмент текста и нажмите Ctrl+Enter</p>
+</div>
+
+
+<div class="foot_right">
+
+<div class="sub">Узнавайте первыми о новостях в мире спорта!  <br />  Подпишитесь на наши e-mail уведомления</div>
+<div>
+<input type="text" value="Ваш e-mail" class="sub_inp">
+<input type="submit" value="Подписаться" class="sub_sub">
+<div class="clr"></div>
+</div>
+
+<div class="soc">Мы в соцсетях: 
+<a href=""><img src="/images/vk.png" hspace="10"></a>
+<a href=""><img src="/images/fb.png" hspace="10"></a>
+<a href=""><img src="/images/insta.png" hspace="10"></a>
+<a href=""><img src="/images/yuo.png" hspace="10"></a>
+<a href=""><img src="/images/tw.png" hspace="10"></a>
+</div>
+
+</div>
+<div class="clr"></div>
+</div>
+</div>
+
+
+
         <div id="toolTipLayer" style="position:absolute; z-index:15001; display:none"></div>
-        
-        <div id="calendar_out"></div>
-        
-    </div>
-    
-    
-</footer>
 
-<!-- // FOOTER -->
+
+
 
 </body>
 </html>

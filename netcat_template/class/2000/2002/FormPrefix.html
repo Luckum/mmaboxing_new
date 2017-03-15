@@ -1,1 +1,18 @@
-<? echo $f_AdminCommon; ?>
+<? echo $f_AdminCommon; require_once $_SERVER['DOCUMENT_ROOT']."netcat/require/lib/simple_html_dom.php"; ?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#playback").click(this, function() {
+            $("#v-iframe").attr('src', $("#frame-src").val() + "?&autoplay=1");
+            $("#video-img").hide();
+            $("#video-frame").show();
+        });
+    });
+    
+    function play_in_frame(src)
+    {
+        $("#v-iframe").attr('src', src + "?&autoplay=1");
+        $("#video-img").hide();
+        $("#video-frame").show();
+    }
+</script>

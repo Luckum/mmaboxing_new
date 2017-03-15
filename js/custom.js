@@ -44,8 +44,6 @@ $(document).ready(function() {
             $(this).css({"background-color": "#f9e3e6", "color": "#d63d18", "border": "1px solid #d63d18"});
         }
     });
-    
-    $("#default_open").click();
 });
 
 function HandleChanges() {
@@ -84,21 +82,4 @@ function HandleChanges() {
         $("#file_name").show()
         $("#file_name").css({"background" : 'url(/images/files_types_icons.png) no-repeat 0 -'+pos+'px'});
     }
-}
-
-function openAuthType(evt, auth_type) {
-    var i, tabcontent, tablinks;
-
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    document.getElementById(auth_type).style.display = "block";
-    evt.target.className += " active";
 }

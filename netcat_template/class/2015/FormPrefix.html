@@ -1,17 +1,14 @@
 <div id="auth_signin" class="tabcontent">
 <? if (!$current_user['User_ID']) {
-    $nc_auth = nc_auth::get_object();
-    echo $nc_auth->auth_form(array('submit_name'=>'Войти'),null);
-    echo "<script>$('.registration .login_submit').val('Войти');</script>";
-} else {
+
+$nc_auth = nc_auth::get_object();
+echo $nc_auth->auth_form(array('submit_name'=>'Войти'),null);
+echo "<script>$('.registration .login_submit').val('Войти');</script>";
+}
+else
+{
     echo "<p>Вы авторизованы на сайте как <b>".$current_user['ForumName']."</b></p>";
     echo "<a href='/netcat/modules/auth/?logoff=1'>Выйти</a>";
-?>
-    <script type="text/javascript">
-        $("#sign_header").hide();
-        setTimeout(function(){$(".auth_user").close();}, 5000);
-    </script>
-<?
 }
 ?>
 </div>

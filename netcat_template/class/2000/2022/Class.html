@@ -24,8 +24,8 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 <?php if ($f_RowNum == 0): ?>
 
 <div class="big_post_c">
-    <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 725, 485, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=485&w=725")?>" alt="<?=$f_myTitle?>"></a>
-	<div class="label"><img src="images/sportticons/<?= $f_newsType_id[0]; ?>.png"></div>
+    <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 728, 485, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=485&w=728")?>" alt="<?=$f_myTitle?>"></a>
+	<div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
     <div class="big_post_bg">
         <div class="big_post_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
         <div class="big_post_date">
@@ -33,39 +33,14 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
             <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
         <? }else{ ?>
             <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-        <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4</div>
+        <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png"> 12 <img src="images/r.png" /> 4</div>
     </div>
 </div>
 
 <div class="right_p">
-    <div class="right_p_t">Главные новости</div>
+    <div class="right_p_t">Главные новости<span class="video_tabs">></span></div>
 
-    <div class="right_list_c">
-        <div class="right_list_d_c"><span class="right_l">mma</span> Сегодня 12:54</div>
-        <div class="right_l_t">Подготовка Канора Макгрегора к UFC2015 Часть 3 - Тренировка</div>
-    </div>
-
-    <div class="right_list_c">
-        <div class="right_list_d_c"><span class="right_l">mma</span> Сегодня 12:54</div>
-        <div class="right_l_t">Подготовка Канора Макгрегора к UFC2015 Часть 3 - Тренировка</div>
-    </div>
-
-    <div class="right_list_c">
-        <div class="right_list_d_c"><span class="right_l">mma</span> Сегодня 12:54</div>
-        <div class="right_l_t">Подготовка Канора Макгрегора к UFC2015 Часть 3 - Тренировка</div>
-    </div>
-    
-    <div class="right_list_c">
-        <div class="right_list_d_c"><span class="right_l">mma</span> Сегодня 12:54</div>
-        <div class="right_l_t">Подготовка Канора Макгрегора к UFC2015 Часть 3 - Тренировка</div>
-    </div>
-    
-    <div class="right_list_c">
-        <div class="right_list_d_c"><span class="right_l">mma</span> Сегодня 12:54</div>
-        <div class="right_l_t">Подготовка Канора Макгрегора к UFC2015 Часть 3 - Тренировка</div>
-    </div>
-
-    
+    <?= s_list_class(3,1,"&recNum=5&nc_ctpl=2023") ?>
 </div>
 
 <div class="clr"></div>
@@ -75,8 +50,8 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 <?php endif; ?>
     <?php if ($f_RowNum == 1): ?>
     <div class="small_l_c">
-        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 342, 332, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=332&w=342")?>" alt="<?=$f_myTitle?>"></a>
-        <div class="label"><img src="images/sportticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 355, 355, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=355&w=355")?>" alt="<?=$f_myTitle?>"></a>
+        <div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="small_l_bg">
             <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
             <div class="small_d_c">
@@ -84,7 +59,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4
+                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png"> 12 <img src="images/r.png" /> 4
             </div>
         </div>
     </div>
@@ -92,8 +67,8 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 
     <?php if ($f_RowNum == 2): ?>
     <div class="small_l_c">
-        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 342, 332, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=332&w=342")?>" alt="<?=$f_myTitle?>"></a>
-        <div class="label"><img src="images/sportticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 355, 355, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=355&w=355")?>" alt="<?=$f_myTitle?>"></a>
+        <div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="small_l_bg">
             <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
             <div class="small_d_c">
@@ -101,7 +76,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4
+                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png"> 12 <img src="images/r.png" /> 4
             </div>
         </div>
     </div>
@@ -109,8 +84,8 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 
     <?php if ($f_RowNum == 3): ?>
     <div class="small_l_c_l">
-        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 342, 332, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=332&w=342")?>" alt="<?=$f_myTitle?>"></a>
-        <div class="label"><img src="images/sportticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 355, 355, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=355&w=355")?>" alt="<?=$f_myTitle?>"></a>
+        <div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="small_l_bg">
             <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
             <div class="small_d_c">
@@ -118,7 +93,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4
+                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png"> 12 <img src="images/r.png" /> 4
             </div>
         </div>
     </div>
@@ -131,8 +106,113 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 
 
 
-<?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==0) ? s_list_class(30,44,"?&position=6") :NULL) ?>
-<?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==9) ? s_list_class(30,44,"?&position=7") :NULL) ?>
-<?= ($current_sub['Subdivision_ID']==1 && ($f_RowNum==16) ? s_list_class(30,44,"?&position=8") :NULL) ?><!-- /RecordTemplate -->
+<!-- /RecordTemplate -->
 
-<!-- FormSuffix --><!-- /FormSuffix -->
+<!-- FormSuffix --><div class="video_c">
+    <div class="right_p_t_b vid">Видео<span class="video_tabs">></span><a href="" class="video_tabs">MMA</a> <a href="" class="video_tabs">Бокс</a> <a href="" class="video_tabs">Кикбоксинг</a></div>
+    
+    <?= s_list_class(20,32,"&recNum=5&nc_ctpl=2002") ?>
+</div>
+
+<div class="main_dop">
+    <div class="left_c">
+        <div class="news_t">Последние новости <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4") ?>
+        
+        <div class="clr"></div>
+    </div>
+    <div class="right_s">
+        <div class="right_p_t">Результаты<span class="video_tabs">></span></div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">mma</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(11,28,"?&showMain=1&recNum=2&showResults=1") ?>
+            </div>
+        </div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">бокс</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(12,29,"?&showMain=1&recNum=2&showResults=1") ?>
+            </div>
+        </div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">кикбоксинг</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(13,30,"?&showMain=1&recNum=2&showResults=1") ?>
+            </div>
+        </div>
+    </div>
+    <div class="right_s r_s_d">
+        <div class="right_p_t">События<span class="video_tabs">></span></div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">mma</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(11,28,"?&showMain=1&recNum=2&showEvents=1") ?>
+            </div>
+        </div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">бокс</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(12,29,"?&showMain=1&recNum=2&showEvents=1") ?>
+            </div>
+        </div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">кикбоксинг</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(13,30,"?&showMain=1&recNum=2&showEvents=1") ?>
+            </div>
+        </div>
+    </div>
+    <div class="right_s">
+        <div class="right_p_t"><a href="/video-archive">Архив боев</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
+    </div>
+    <div class="banner1">
+        <?= banner_rotate(2,1);?>
+    </div>
+</div>
+
+<div class="main_dop_s">
+    <div class="right_p_t_b vid">MMA Boxing Promotion<span class="video_tabs">></span></div>
+    <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2019") ?>
+</div>
+
+<div class="main_dop">
+    <div class="left_c">
+        <?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12") ?>
+        
+        <div class="clr"></div>
+    </div>
+    <div class="right_s">
+        <div class="right_p_t">Опросы<span class="video_tabs">></span></div>
+        <?= s_list_class(24,26); ?>
+    </div>
+    <div class="right_s r_s_d">
+        <div class="right_p_t"><a href="/blogs">Блоги</a><span class="video_tabs">></span></div>
+        <?= s_list_class(41,54,"&recNum=4&nc_ctpl=2028") ?>
+    </div>
+    <div class="banner1_2">
+        <?= banner_rotate(2,1);?>
+    </div>
+</div>
+
+<div class="main_dop_s">
+    <div class="right_p_t_b vid">Mad Bear Live<span class="video_tabs">></span></div>
+    <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2027") ?>
+</div>
+
+<div class="main_dop">
+    <div class="left_c">
+        <?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18") ?>
+        
+        <div class="clr"></div>
+    </div>
+    <div class="right_s">
+        <div class="right_p_t">Последние комментарии<span class="video_tabs">></span></div>
+        <?= s_list_class(25,27,"&recNum=4&nc_ctpl=2029") ?>
+    </div>
+    <div class="banner1">
+        <?= banner_rotate(2,1);?>
+    </div>
+</div>
+<!-- /FormSuffix -->

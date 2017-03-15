@@ -683,6 +683,7 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
     $cc_env['searchLink'] = $searchLink;
 
 
+    //echo $message_select;
     // *** Проверка наличия результата в кэше ***
 
     // cache eval section
@@ -877,15 +878,14 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
         }
 
         // error message
-        if (is_object($perm) && $perm->isSupervisor()) {
+        //if (is_object($perm) && $perm->isSupervisor()) {
             // error info for the supervisor
             nc_print_status($db->last_error, 'error');
             trigger_error(sprintf(NETCAT_FUNCTION_OBJECTS_LIST_SQL_ERROR_SUPERVISOR, $sub, $cc, $query_string, ($err ? $err . ", " : "")), E_USER_WARNING);
-        }
-        else {
+        //} else {
             // error info for the simple users
-            echo NETCAT_FUNCTION_OBJECTS_LIST_SQL_ERROR_USER;
-        }
+            //echo NETCAT_FUNCTION_OBJECTS_LIST_SQL_ERROR_USER;
+        //}
         return false;
     }
 
@@ -914,7 +914,8 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
 
 
     // *** Подсчёт количества объектов в результатах ($rowCount) и общего ($totRows) ***
-
+    //echo $message_select;
+    
     $totRows = 0;
     if ($message_select) {
         // object in this page
@@ -1292,7 +1293,6 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
 
 
     // *** Перебор всех полученных записей ***
-
     for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {
 
         // *** Извлечение данных из $res или $nc_data ***

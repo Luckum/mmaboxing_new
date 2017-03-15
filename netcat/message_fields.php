@@ -160,6 +160,7 @@ if ($user_table_mode && $posting && ( $action == 'add' || (isset($Password1) && 
     $Password = $Password1;
 }
 
+
 if ($posting) {
     $multiple_changes = +$_POST['multiple_changes'];
     $nc_multiple_changes = (array) $_POST['nc_multiple_changes'];

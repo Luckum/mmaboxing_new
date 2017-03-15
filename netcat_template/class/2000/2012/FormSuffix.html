@@ -1,1 +1,14 @@
-<?= ($totRows>20 ? browse_messages($cc_env, 9)." <span class='nav_ext'>...</span><a href='?cur_cc=$cc&curPos=".ceil($totRows/$recNum)."'>".ceil($totRows/$recNum)."</a> </div>" : NULL) ?>
+        <button class="see_more" id="see_more_videos" value="more" onclick="see_more_videos(16, 8)">Показать ещё</button>
+        <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+    </div>
+    <div class="right_s_video">
+        <div class="right_p_t"><a href="/video">Новости</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032") ?>
+    </div>
+    <div class="banner1">
+        <?= banner_rotate(2,1);?>
+    </div>
+</div>
+
+
+

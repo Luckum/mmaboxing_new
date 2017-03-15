@@ -6,14 +6,24 @@ $('.enter_button').click(function(){
 	$('#header_top, #header_search').hide();
 });
 
-$('.search_button').click(function(){
-	$('#header_search').show();
-	$('#header_top, #header_login').hide();
+$('.search').click(function(){
+	$('#search_expand').show();
+	$('#search_turn').hide();
 });
 
-$('.search_close, .login_close').click(function(){
-	$('#header_top').show();
-	$('#header_search, #header_login').hide();
+$('#search_turn_fixed').click(function(){
+    $('#menu_fixed').show();
+    $('#menu_2_fixed, #menu_3_fixed').hide();
+});
+
+$('.search_close').click(function(){
+	$('#search_expand').hide();
+    $('#search_turn').show();
+});
+
+$('.search_close_fixed').click(function(){
+    $('#menu_fixed').hide();
+    $('#menu_2_fixed, #menu_3_fixed').show();
 });
 
 $('#loginlink').click(function(){

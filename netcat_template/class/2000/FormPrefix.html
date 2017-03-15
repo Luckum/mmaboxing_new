@@ -1,1 +1,32 @@
 <? echo $f_AdminCommon; ?>
+<script type="text/javascript">
+    function see_more_news(start, cnt)
+    {
+        $("#see_more_news").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'news'}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_news_div").append(html);
+            $("#see_more_news").appendTo("#see_more_news_div");
+            $("#loading_news").appendTo("#see_more_news_div");
+            $("#loading_news").hide();
+            $("#see_more_news").show();
+            $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ")");
+        }
+    }
+</script>
+
+<div class="main_dop_inner">
+    <div class="left_c">
+        <?php if ($current_sub['Subdivision_ID'] == 3 || $current_sub['Subdivision_ID'] == 1); ?>
+            <div class="news_t">Новости <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <?php elseif ($current_sub['Subdivision_ID'] == 14): ?>
+            <div class="news_t">Статьи <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <?php else: ?>
+            <div class="news_t"> <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <?php endif; ?>

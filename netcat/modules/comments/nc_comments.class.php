@@ -1049,7 +1049,7 @@ class nc_comments {
             setcookie($cookie_name, ( $like ? '2' : '1' ) , time() + 3600 * 24, "/");
             $res = 1;
         } elseif ( ($dislike AND $cookie_value == 2) OR ($like AND $cookie_value == 1) ) { //return "dislike".$cookie_value;
-			setcookie($cookie_name, false, time() -1, "/");
+            setcookie($cookie_name, false, time() -1, "/");
             $res = 1;
         }
 

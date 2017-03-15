@@ -3,34 +3,31 @@
 <!-- RecordTemplate --><? echo $f_AdminButtons; ?>
 
 <div class="module vote">
-		<h3 class="module-title">Опрос</h3>
-		<div class="module-content">
-			<p class="vote-title"><?= $f_myName ?></p>
-			<form method="post" name="vote" action="/interrogation/?vid=<?= $f_RowID ?>&cache=<?= md5($_SERVER['REMOTE_ADDR'].$f_RowID) ?>">
-			    <div class="answers">
-			        <div id="vote" style='<?= ($_COOKIE["interogation".$f_RowID] ? "display:none;" : NULL) ?>'>
-			        	<?= ($f_var1 ? '<label class="vote"><input name="vote_check" type="radio" checked="checked" value="1"> '.$f_var1.'</label>' : NULL) ?>
-			        	<?= ($f_var2 ? '<label class="vote"><input name="vote_check" type="radio" value="2"> '.$f_var2.'</label>' : NULL) ?>
-			        	<?= ($f_var3 ? '<label class="vote"><input name="vote_check" type="radio" value="3"> '.$f_var3.'</label>' : NULL) ?>
-			        	<?= ($f_var4 ? '<label class="vote"><input name="vote_check" type="radio" value="4"> '.$f_var4.'</label>' : NULL) ?>
-			        	<?= ($f_var5 ? '<label class="vote"><input name="vote_check" type="radio" value="5"> '.$f_var5.'</label>' : NULL) ?>
-			        	<?= ($f_var6 ? '<label class="vote"><input name="vote_check" type="radio" value="6"> '.$f_var6.'</label>' : NULL) ?>
-			        	<?= ($f_var7 ? '<label class="vote"><input name="vote_check" type="radio" value="7"> '.$f_var7.'</label>' : NULL) ?>
-			        	<?= ($f_var8 ? '<label class="vote"><input name="vote_check" type="radio" value="8"> '.$f_var8.'</label>' : NULL) ?>
-			        	<?= ($f_var9 ? '<label class="vote"><input name="vote_check" type="radio" value="9"> '.$f_var9.'</label>' : NULL) ?>
-			        	<?= ($f_var10 ? '<label class="vote"><input name="vote_check" type="radio" value="10"> '.$f_var10.'</label>' : NULL) ?>
-			        	<?= ($f_var11 ? '<label class="vote"><input name="vote_check" type="radio" value="11"> '.$f_var11.'</label>' : NULL) ?>
-			        	<?= ($f_var12 ? '<label class="vote"><input name="vote_check" type="radio" value="12"> '.$f_var12.'</label>' : NULL) ?>
-			        	<?= ($f_var13 ? '<label class="vote"><input name="vote_check" type="radio" value="13"> '.$f_var13.'</label>' : NULL) ?>
-			        	<?= ($f_var14 ? '<label class="vote"><input name="vote_check" type="radio" value="14"> '.$f_var14.'</label>' : NULL) ?>
-			        	<?= ($f_var15 ? '<label class="vote"><input name="vote_check" type="radio" value="15"> '.$f_var15.'</label>' : NULL) ?>
-			        	<?= ($f_var16 ? '<label class="vote"><input name="vote_check" type="radio" value="16"> '.$f_var16.'</label>' : NULL) ?>
-			        	<?= ($f_var17 ? '<label class="vote"><input name="vote_check" type="radio" value="17"> '.$f_var17.'</label>' : NULL) ?>
-			        	<?= ($f_var18 ? '<label class="vote"><input name="vote_check" type="radio" value="18"> '.$f_var18.'</label>' : NULL) ?>
-			        	<?= ($f_var19 ? '<label class="vote"><input name="vote_check" type="radio" value="19"> '.$f_var19.'</label>' : NULL) ?>
-	        		
-        			</div>
-			    </div>
+    <p class="vote-title"><?= $f_myName ?></p>
+	    <form method="post" name="vote" action="/interrogation/?vid=<?= $f_RowID ?>&cache=<?= md5($_SERVER['REMOTE_ADDR'].$f_RowID) ?>">
+			<div class="answers">
+			    <div id="vote" style='<?= ($_COOKIE["interogation".$f_RowID] ? "display:none;" : NULL) ?>'>
+                    <?= ($f_var1 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="1"><span class="radio-custom"></span><span class="label_v">'.$f_var1.'</span></label>' : NULL) ?>
+                    <?= ($f_var2 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="2"><span class="radio-custom"></span><span class="label_v">'.$f_var2.'</span></label>' : NULL) ?>
+                    <?= ($f_var3 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="3"><span class="radio-custom"></span><span class="label_v">'.$f_var3.'</span></label>' : NULL) ?>
+                    <?= ($f_var4 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="4"><span class="radio-custom"></span><span class="label_v">'.$f_var4.'</span></label>' : NULL) ?>
+                    <?= ($f_var5 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="5"><span class="radio-custom"></span><span class="label_v">'.$f_var5.'</span></label>' : NULL) ?>
+                    <?= ($f_var6 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="6"><span class="radio-custom"></span><span class="label_v">'.$f_var6.'</span></label>' : NULL) ?>
+                    <?= ($f_var7 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="7"><span class="radio-custom"></span><span class="label_v">'.$f_var7.'</span></label>' : NULL) ?>
+                    <?= ($f_var8 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="8"><span class="radio-custom"></span><span class="label_v">'.$f_var8.'</span></label>' : NULL) ?>
+                    <?= ($f_var9 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="9"><span class="radio-custom"></span><span class="label_v">'.$f_var9.'</span></label>' : NULL) ?>
+                    <?= ($f_var10 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="10"><span class="radio-custom"></span><span class="label_v">'.$f_var10.'</span></label>' : NULL) ?>
+                    <?= ($f_var11 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="11"><span class="radio-custom"></span><span class="label_v">'.$f_var11.'</span></label>' : NULL) ?>
+                    <?= ($f_var12 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="12"><span class="radio-custom"></span><span class="label_v">'.$f_var12.'</span></label>' : NULL) ?>
+                    <?= ($f_var13 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="13"><span class="radio-custom"></span><span class="label_v">'.$f_var13.'</span></label>' : NULL) ?>
+                    <?= ($f_var14 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="14"><span class="radio-custom"></span><span class="label_v">'.$f_var14.'</span></label>' : NULL) ?>
+                    <?= ($f_var15 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="15"><span class="radio-custom"></span><span class="label_v">'.$f_var15.'</span></label>' : NULL) ?>
+                    <?= ($f_var16 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="16"><span class="radio-custom"></span><span class="label_v">'.$f_var16.'</span></label>' : NULL) ?>
+                    <?= ($f_var17 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="17"><span class="radio-custom"></span><span class="label_v">'.$f_var17.'</span></label>' : NULL) ?>
+                    <?= ($f_var18 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="18"><span class="radio-custom"></span><span class="label_v">'.$f_var18.'</span></label>' : NULL) ?>
+			        <?= ($f_var19 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="19"><span class="radio-custom"></span><span class="label_v">'.$f_var19.'</span></label>' : NULL) ?>
+        		</div>
+			</div>
 <?php
 
 $all_answ = interogation_all($f_answers);
@@ -60,12 +57,11 @@ $all_answ = interogation_all($f_answers);
                     </div>
                 </div>
 
-			    <div class="vote-buttons">
-			    	<?= (!$_COOKIE["interogation".$f_RowID] ? '<input type="submit" class="no-change" value="Голосовать">' : NULL) ?>
-			    	<a href="javascript:void(0);" onClick="showArResults();" class="button no-change">Результаты</a>
+			    <div>
+			    	<?= (!$_COOKIE["interogation".$f_RowID] ? '<input type="submit" class="vote-button" value="Голосовать">' : NULL) ?>
+			    	<!--<a href="javascript:void(0);" onClick="showArResults();" class="button no-change">Результаты</a>-->
 			    </div>
 			</form>
-		</div>
 	</div><!-- /RecordTemplate -->
 
 <!-- FormSuffix --><!-- /FormSuffix -->

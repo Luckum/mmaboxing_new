@@ -1,60 +1,109 @@
 <div class='page-text'>
-	
-<?php
-$user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
-mysql_query("UPDATE Message2000 SET myViews=myViews+1 WHERE Message_ID=".$f_RowID);
-?>
-
-
-		<div class="content-inner">
-
-<div class="content-top">
-			<div class="top-l">
-		        <span class="title"><?= implode($f_newsType, ', ') ?></span>
-		        <span class="date"><?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?></span>
-				<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a></span>
-		    </div>
-		    <div class="top-r">
-		        <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus" data-yashareTheme="counter"></div>
-		    </div>
-		</div>
-
-<?= $f_myText ?>
-
-			<div class="content-bottom">
-				<ul class="tags">
-<?
-    $RuTags = explode(',',$f_myTags);
-    $EnTags = explode(',',$f_EnTags);
-    $Tags = array_combine($RuTags,$EnTags);
-foreach($Tags as $key => $value) {
-    echo "<li><a href='/tag/".$value."'>".$key."</a></li>";
-}
-?>
-				</ul>
-                
-			</div>
-
-		</div>
-
-<!-- комменты VK -->
-<p class="content-title">Комментарии:</p>
-<div id="vk_comments"></div>
 <script type="text/javascript">
-VK.Widgets.Comments("vk_comments", {limit: 20, width: "725", attach: "*", autoPublish: "0"});
+    function see_more_read_also(start, cnt, tags, m_id)
+    {
+        $("#see_more_read_also").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, tags: tags, id: m_id, action: 'read_also'}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_read_also_div").append(html);
+            $("#see_more_read_also").appendTo("#see_more_read_also_div");
+            $("#loading_news").appendTo("#see_more_read_also_div");
+            $("#loading_news").hide();
+            $("#see_more_read_also").show();
+            $("#see_more_read_also").attr("onclick", "see_more_read_also(" + (start+5) + ", " + cnt + ", '" + tags + "', " + m_id + ")");
+        }
+    }
 </script>
-<!-- комменты VK -->
+<?=nc_browse_path($browse_template)?>        
+<?php
+    require_once $_SERVER['DOCUMENT_ROOT']."netcat/require/lib/simple_html_dom.php";
+    $html = str_get_html($f_myText);
+    $frame = $html->find('iframe', 0);
+    $src = $frame->src;
+    $frame->outertext = '';
+    $f_myText = $html;
+    $f_myText = trim($f_myText, ':');
+    
+    $db->query("UPDATE `Message$classID` SET myViews = myViews + 1 WHERE `Message_ID` = $f_RowID");
+    $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
+    $month_arr = array(
+        '01'=>'января',
+        '02'=>'февраля',
+        '03'=>'марта',
+        '04'=>'апреля',
+        '05'=>'мая',
+        '06'=>'июня',
+        '07'=>'июля',
+        '08'=>'августа',
+        '09'=>'сентября',
+        '10'=>'октября',
+        '11'=>'ноября',
+        '12'=>'декабря',
+    );
+    $f_myTags = trim($f_myTags, ',');
+?>
+<div class="main_dop_inner">
+    <div class="left_c" id="see_more_read_also_div">
+        <div class="news_t">Видео <span class="video_tabs">></span><a href="/video" class="video_tabs">Все</a> <a href="/video/mma" class="video_tabs">MMA</a> <a href="/video/boxing" class="video_tabs">Бокс</a> <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a> <a href="/video/archive" class="video_tabs">Архив боёв</a> <a href="/video/translation" class="video_tabs">Переводы</a> <a href="/video/interview" class="video_tabs">Интервью</a></div>
+        <div class="inner_img"><iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src; ?>" width="728"></iframe></div>
+        <div class="inner_content">
+            <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
+            <div class="inner_title"><?= $f_myTitle; ?></div>
+            <div class="inner_date">
+                <? if($f_Date != 0) { ?>
+                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                <? }else{ ?>
+                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+            </div>
+            <div class="inner_text">
+                <?= $f_myText ?>
+            </div>
+            <ul class="tags">
+                <?php
+                    if (!empty($f_myTags)) {
+                        $RuTags = explode(',',$f_myTags);
+                        $EnTags = explode(',',trim($f_EnTags, ','));
+                        $Tags = array_combine($RuTags,$EnTags);
+                        foreach ($Tags as $key => $value) {
+                            echo "<li><a href='/tag/".$value."'>".$key."</a></li>";
+                        }
+                    }
+                ?>
+            </ul>
+            <div class="hr"></div>
+        </div>
+        <div class="banner_hor">
+            <?= banner_rotate(1,1);?>
+        </div>
+        <div><?= $nc_comments->wall($f_RowID); ?></div>
+        <div class="news_t">Читайте также</div>
+        <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>
+        <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(5, 5, '<?= $f_myTags ?>', <?= $f_Message_ID ?>)">Показать ещё</button>
+        <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+    </div>
+    <div class="right_s_video">
+        <div class="right_p_t"><a href="/news">Новости</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID) ?>
+    </div>
+    <div class="right_s_video">
+        <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031&current=" . $f_RowID) ?>
+    </div>
+    <div class="banner1">
+        <?= banner_rotate(2,1);?>
+    </div>
+    
+</div>
 
-		<p class="content-title">Читайте также:</p>
-		<div class="also col-3 clearfix">
-			<?= s_list_class(3,1,"&nc_ctpl=2018&recNum=6&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>	
-		</div>
 
-<!-- <?= s_list_class(25,27,"&newsLink=".$f_Message_ID) ?>
+        
 
-	<p class="content-title">Информация</p>
-	<div class="block-white">
-		Посетители, находящиеся в группе <strong>Гости</strong>, не могут оставлять комментарии к данной публикации.
-	</div> -->  
 </div>
 <style>blockquote P { margin:0px!important; }</style>

@@ -1,4 +1,6 @@
-<!-- FormPrefix --><? echo $f_AdminCommon; ?><!-- /FormPrefix -->
+<!-- FormPrefix -->
+<? echo $f_AdminCommon; ?>
+<!-- /FormPrefix -->
 
 <!-- RecordTemplate --><? echo $f_AdminButtons; ?>
 <?php
@@ -8,7 +10,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 
 ?>
 <div class="blog-item news-item">
-				<img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 220, 150, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=150&w=220")?>" alt="<?=$f_myTitle?>">
+                <img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 220, 150, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=150&w=220")?>" alt="<?=$f_myTitle?>">
 				<div class="item-content">
 					<p class="item-category"><?= implode($f_newsType, ', ') ?></p>
 <?= '2017class'; ?>                       
@@ -23,4 +25,6 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 				</div>
 			</div><!-- /RecordTemplate -->
 
-<!-- FormSuffix --><?= ($totRows>20 ? browse_messages($cc_env, 9)." <span class='nav_ext'>...</span><a href='?cur_cc=$cc&curPos=".ceil($totRows/$recNum)."'>".ceil($totRows/$recNum)."</a> </div>" : NULL) ?><!-- /FormSuffix -->
+<!-- FormSuffix -->
+<?= ($totRows>20 ? browse_messages($cc_env, 9)." <span class='nav_ext'>...</span><a href='?cur_cc=$cc&curPos=".ceil($totRows/$recNum)."'>".ceil($totRows/$recNum)."</a> </div>" : NULL) ?>
+<!-- /FormSuffix -->
