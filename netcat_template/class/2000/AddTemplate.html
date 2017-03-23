@@ -37,6 +37,11 @@
 <br />
 <?= nc_date_field('Date', "", ($class_id ? $class_id : $classID), 1) ?><br />
 <br />
+<?= nc_string_field('myFighter_1', "", ($class_id ? $class_id : $classID), 1) ?><br />
+<br />
+<?= nc_string_field('myFighter_2', "", ($class_id ? $class_id : $classID), 1) ?><br />
+<br />
+
 <? if (!$AUTH_USER_ID && $current_cc['UseCaptcha'] && $MODULE_VARS['captcha']) { ?><?= nc_captcha_formfield() ?><br/><br/><?= NETCAT_MODERATION_CAPTCHA ?> (*):<br/><input type='text' name='nc_captcha_code' size='10'><br/><br/><? } ?>
 <div><?= NETCAT_MODERATION_INFO_REQFIELDS ?></div><br/>
 <?= nc_submit_button(NETCAT_MODERATION_BUTTON_ADD) ?>

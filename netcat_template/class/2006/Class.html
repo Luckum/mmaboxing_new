@@ -1,25 +1,102 @@
 <!-- FormPrefix --><? echo $f_AdminCommon; ?>
-<div class="blog-item<?= ($current_cc['Sub_Class_Settings']['mainBlock']=='on' ? ' black': NULL) ?>">
-				<div class="item-content">
-					<div class="rating-title"><?= $current_cc['Sub_Class_Name'] ?></div><!-- /FormPrefix -->
+<script type="text/javascript">
+    function see_weights(cat, s_type)
+    {
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'weights', cat: $(cat).val(), s_type: s_type}
+        }).responseText;
+        if (html == '') {
+            html = '<p>Нет бойцов этой весовой категории</p>'
+        }
+        $("#ratings_inner_div").html(html);
+    }
+</script>
+<?php 
+    $weights = $db->get_results("SELECT weight_cat_ID, weight_cat_Name FROM classificator_weight_cat", ARRAY_A);
+?>
+<div class="main_dop_inner_l">
+    <div class="left_c">
+        <div class="news_t">Рейтинги <span class="video_tabs">></span><a href="/ratings/mma" class="video_tabs">MMA</a> <a href="/ratings/boxing" class="video_tabs">Бокс</a> <a href="/ratings/kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <div class="weight_cat">
+            Весовая категория
+            <select id="weight_cat" onchange="see_weights(this, <?= $current_sub['Subdivision_ID']; ?>)">
+                <option value="0">Pound For Pound</option>
+                <?php foreach ($weights as $cat): ?>
+                    <option value="<?= $cat['weight_cat_ID']; ?>"><?= $cat['weight_cat_Name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div id="ratings_inner_div">
+<!-- /FormPrefix -->
 
 <!-- RecordTemplate --><? echo $f_AdminButtons; ?>
 <?php
-  $sql_f = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID=$f_myFighter")); 
-  $foto = explode(':',$sql_f['myFoto']);
-  $sql_flag = mysql_fetch_assoc(mysql_query("SELECT * FROM Classificator_Country WHERE Country_ID=".$sql_f['myCountry']));
-  if($f_myPos)
-  {
-         $ps = str_replace('-', '<img src="/images/icon_ratings_minus.png" class="rating-arrow">', $f_myPos);
-         $ps = str_replace('+', '<img src="/images/icon_ratings_plus.png" class="rating-arrow">', $ps);
-  }
+    $sql_f = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID=$f_myFighter")); 
+    $foto = explode(':',$sql_f['myFoto']);
+    $sql_flag = mysql_fetch_assoc(mysql_query("SELECT * FROM Classificator_Country WHERE Country_ID=".$sql_f['myCountry']));
+    if ($f_myPos) {
+        $ps = str_replace('-', '<img src="/images/icon_ratings_minus.png" class="rating-arrow">', $f_myPos);
+        $ps = str_replace('+', '<img src="/images/icon_ratings_plus.png" class="rating-arrow">', $ps);
+    }
 ?>
-                    <div class="rating-item">
-						<img class="avatar" src="/netcat_files/<?= $foto[3] ?>">
-						<img class="ratings_flag" src="<?= $sql_flag['Value'] ?>">&nbsp;
-						<span class="item-title"><?= $sql_f['myName']?></span>
-						<div class="rating-info"><?= ($f_myPos ? $ps : NULL)?></div>
-					</div><!-- /RecordTemplate -->
+    <div class="post_c">
+        <div class="position"><?= $f_RowNum + 1; ?></div>
+        <img src="<?= getThumbNow('/netcat_files/' . $foto[3], 150, 150, 1, false, 95, -1) ?>" class="post_img">
+        <div>
+            <div class="rating_post_t"><?= $sql_f['myName']; ?></div>
+            <div class="rating_post_desk"><?= $sql_f['myPromotion']; ?></div>
+        </div>
+        <div class="small_d_c">
+            <?= $sql_f['myBio']; ?>
+        </div>
+        <div class="results">
+            Победы <?= $sql_f['myVictories']; ?>
+            Поражения <?= $sql_f['myDefeats']; ?>
+            Ничьи <?= $sql_f['myDraws']; ?>
+        </div>
+    </div>
+    <div class="hr"></div><!-- /RecordTemplate -->
 
-<!-- FormSuffix -->				</div>
-			</div><!-- /FormSuffix -->
+<!-- FormSuffix --></div>
+</div>
+    <div class="right_s">
+        <div class="right_p_t">Опросы<span class="video_tabs">></span></div>
+        <?= s_list_class(24,26); ?>
+    </div>
+    <div class="right_s r_s_d">
+        <div class="right_p_t">События<span class="video_tabs">></span></div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">mma</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(11,28,"?&showMain=1&recNum=2&showEvents=1") ?>
+            </div>
+        </div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">бокс</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(12,29,"?&showMain=1&recNum=2&showEvents=1") ?>
+            </div>
+        </div>
+        <div class="right_list_c">
+            <div class="right_list_d_c"><span class="right_l">кикбоксинг</span></div>
+            <div class="right_l_t">
+                <?= s_list_class(13,30,"?&showMain=1&recNum=2&showEvents=1") ?>
+            </div>
+        </div>
+    </div>
+    <div class="right_s_video">
+        <div class="right_p_t"><a href="/news">Новости</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID) ?>
+    </div>
+    <div class="right_s_video">
+        <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031&current=" . $f_RowID) ?>
+    </div>
+    <div class="banner1">
+        <?= banner_rotate(2,1);?>
+    </div>
+</div>
+<!-- /FormSuffix -->

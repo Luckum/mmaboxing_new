@@ -1,6 +1,6 @@
 <!-- FormPrefix --><? echo $f_AdminCommon; ?>
 <script type="text/javascript">
-    function see_more_videos(start, cnt)
+    function see_more_videos(start, cnt, s_type)
     {
         $("#see_more_videos").hide();
         $("#loading_news").show();
@@ -8,7 +8,7 @@
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start, cnt: cnt, action: 'videos'}
+            data: {start: start, cnt: cnt, action: 'videos', s_type: s_type}
         }).responseText;
         if (html != '') {
             $("#see_more_videos_div").append(html);
@@ -16,7 +16,7 @@
             $("#loading_news").appendTo("#see_more_videos_div");
             $("#loading_news").hide();
             $("#see_more_videos").show();
-            $("#see_more_videos").attr("onclick", "see_more_videos(" + (start+8) + ", " + cnt + ")");
+            $("#see_more_videos").attr("onclick", "see_more_videos(" + (start+8) + ", " + cnt + ", " + s_type + ")");
         }
     }
 </script>
@@ -159,7 +159,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                 </div>
             </div>
             <div class="right_s">
-                <div class="right_p_t"><a href="/video-archive">Архив боёв</a><span class="video_tabs">></span></div>
+                <div class="right_p_t"><a href="/video/archive">Архив боёв</a><span class="video_tabs">></span></div>
                 <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
             </div>
             <div class="banner1">
@@ -180,7 +180,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 }
 /* Конец служебной части */?><!-- /RecordTemplate -->
 
-<!-- FormSuffix -->        <button class="see_more" id="see_more_videos" value="more" onclick="see_more_videos(16, 8)">Показать ещё</button>
+<!-- FormSuffix -->        <button class="see_more" id="see_more_videos" value="more" onclick="see_more_videos(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
     <div class="right_s_video">

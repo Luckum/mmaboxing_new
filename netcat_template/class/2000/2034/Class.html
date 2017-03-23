@@ -1,0 +1,77 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+
+<?php
+    $month_arr = array(
+        '01'=>'января',
+        '02'=>'февраля',
+        '03'=>'марта',
+        '04'=>'апреля',
+        '05'=>'мая',
+        '06'=>'июня',
+        '07'=>'июля',
+        '08'=>'августа',
+        '09'=>'сентября',
+        '10'=>'октября',
+        '11'=>'ноября',
+        '12'=>'декабря',
+    );
+    $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
+?>
+
+<?php if ($f_big_thumb == 1): ?>
+    <div class="post_c_b">
+        <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 680, 340, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=340&w=680")?>" class="post_img"></a>
+        <div class="post_b_label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <div class="b_p"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+        <div class="b_p_t">
+            <?php if (!empty($f_ncDescription)): ?>
+                <?= $f_ncDescription; ?>
+            <?php else: ?>
+                <?= $f_myTitle; ?>
+            <?php endif; ?>
+        </div>
+        <div class="b_p_d">
+            <? if($f_Date != 0) { ?>
+                <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+            <? }else{ ?>
+                <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+            <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+        </div>
+    </div>
+    <div class="hr"></div>
+<?php else: ?>
+    <div class="post_c">
+        <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img"></a>
+        <div class="lab"><?= $f_newsType[0]; ?></div>
+        <div class="post_t_desk">
+            <div class="post_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="post_desk">
+                <?php if (!empty($f_ncDescription) && strlen($f_ncDescription) < 300): ?>
+                    <?= $f_ncDescription; ?>
+                <?php else: ?>
+                    <?= $f_myTitle; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="small_d_c">
+            <? if($f_Date != 0) { ?>
+                <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+            <? }else{ ?>
+                <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+            <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+        </div>
+        <div class="playback_video_page"><a href="<?= $fullLink ?>"><img src="/images/playback-start.png"></a></div>
+    </div>
+    <div class="hr"></div>
+    <?php if ($f_RowNum == 4): ?>
+        <div class="banner_hor">
+            <?= banner_rotate(1,1);?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

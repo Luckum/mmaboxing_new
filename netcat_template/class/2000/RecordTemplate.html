@@ -130,7 +130,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                 </div>
             </div>
             <div class="right_s">
-                <div class="right_p_t"><a href="/video-archive">Архив боёв</a><span class="video_tabs">></span></div>
+                <div class="right_p_t"><a href="/video/archive">Архив боёв</a><span class="video_tabs">></span></div>
                 <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
             </div>
             <div class="banner1">
@@ -138,11 +138,27 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
             </div>
         </div>
         <div class="main_dop_s">
-            <div class="right_p_t_b vid">Самые обсуждаемые новости<span class="video_tabs">></span></div>
-            <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2030") ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
+                <div class="right_p_t_b vid">Самые обсуждаемые новости<span class="video_tabs">></span></div>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
+                <div class="right_p_t_b vid">Самые обсуждаемые статьи<span class="video_tabs">></span></div>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
+                <div class="right_p_t_b vid">Самые обсуждаемые записи в блогах<span class="video_tabs">></span></div>
+            <?php endif; ?>
+            <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2030&s_type=" . $current_sub['Subdivision_ID']) ?>
         </div>
         <div class="main_dop_inner">
-            <div class="left_c" id="see_more_news_div">
+            <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
+                <div class="left_c" id="see_more_news_div">
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
+                <div class="left_c" id="see_more_articles_div">
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
+                <div class="left_c" id="see_more_blogs_div">
+            <?php endif; ?>
     <?php endif; ?>
 <?php endif; ?>
 

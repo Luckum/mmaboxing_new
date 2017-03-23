@@ -1,0 +1,23 @@
+<?php
+$nc_comments = new nc_comments($cc);
+$query_where = "1";
+if (isset($url)) {
+    if ($url !== '0') {
+        $sub = mysql_fetch_row(mysql_query("SELECT Subdivision_ID FROM Subdivision WHERE Hidden_URL like '%" . $url . "%'"));
+        $query_where .= " AND a.Subdivision_ID = " . $sub[0];
+    } else {
+        $query_where .= " AND sub.Parent_Sub_ID = 232";
+    }
+} else {
+    $query_where .= " AND sub.Parent_Sub_ID = 232";
+}
+if (isset($fighter) && $fighter !== '0') {
+    $query_where .= " AND (a.myFighter_1 = '" . $fighter . "' OR a.myFighter_2 = '" . $fighter . "')";
+}
+$ignore_sub=1;
+$ignore_cc=1;
+$query_select = "sub.`Subdivision_Name` AS SubName";
+
+$query_order = "Date DESC";
+
+?>

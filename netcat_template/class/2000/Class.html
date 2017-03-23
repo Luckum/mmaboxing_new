@@ -1,6 +1,25 @@
 <!-- FormPrefix --><? echo $f_AdminCommon; ?>
 <script type="text/javascript">
-    function see_more_news(start, cnt)
+    function see_more_articles(start, cnt, s_type)
+    {
+        $("#see_more_articles").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'articles', s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_articles_div").append(html);
+            $("#see_more_articles").appendTo("#see_more_articles_div");
+            $("#loading_news").appendTo("#see_more_articles_div");
+            $("#loading_news").hide();
+            $("#see_more_articles").show();
+            $("#see_more_articles").attr("onclick", "see_more_articles(" + (start+8) + ", " + cnt + ", " + s_type + ")");
+        }
+    }
+    function see_more_news(start, cnt, s_type)
     {
         $("#see_more_news").hide();
         $("#loading_news").show();
@@ -8,7 +27,7 @@
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start, cnt: cnt, action: 'news'}
+            data: {start: start, cnt: cnt, action: 'news', s_type: s_type}
         }).responseText;
         if (html != '') {
             $("#see_more_news_div").append(html);
@@ -16,19 +35,76 @@
             $("#loading_news").appendTo("#see_more_news_div");
             $("#loading_news").hide();
             $("#see_more_news").show();
-            $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ")");
+            $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ", " + s_type + ")");
+        }
+    }
+    function see_more_blogs(start, cnt, s_type)
+    {
+        $("#see_more_blogs").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'blogs', s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_blogs_div").append(html);
+            $("#see_more_blogs").appendTo("#see_more_blogs_div");
+            $("#loading_news").appendTo("#see_more_blogs_div");
+            $("#loading_news").hide();
+            $("#see_more_blogs").show();
+            $("#see_more_blogs").attr("onclick", "see_more_blogs(" + (start+8) + ", " + cnt + ", " + s_type + ")");
+        }
+    }
+    function toggle_blogs()
+    {
+        if ($("#blogs_all_div").is(":visible")) {
+            $("#blogs_all_div").hide();
+        } else {
+            $("#blogs_all_div").show();
         }
     }
 </script>
 
-<div class="main_dop_inner">
+<?php
+    $newsUrls = array('/news/', '/news/news-mma/', '/news/news-boxing/', '/news/news-kickboxing/');
+    $articlesUrls = array('/articles/', '/articles/mma/', '/articles/boxing/', '/articles/kickboxing/');
+    $blogsUrls = nc_get_sub_children('41');
+    $subs_arr = $db->get_results("SELECT Subdivision_ID, Subdivision_Name, Hidden_URL FROM Subdivision WHERE Subdivision_ID IN (".join(',', $blogsUrls).")", ARRAY_A);
+?>
+
+<div class="main_dop_inner_l">
     <div class="left_c">
-        <?php if ($current_sub['Subdivision_ID'] == 3 || $current_sub['Subdivision_ID'] == 1); ?>
+        <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
             <div class="news_t">Новости <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
-        <?php elseif ($current_sub['Subdivision_ID'] == 14): ?>
-            <div class="news_t">Статьи <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
-        <?php else: ?>
-            <div class="news_t"> <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <?php endif; ?>
+        <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
+            <div class="news_t">Статьи <span class="video_tabs">></span><a href="/articles/mma" class="video_tabs">MMA</a> <a href="/articles/boxing" class="video_tabs">Бокс</a> <a href="/articles/kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <?php endif; ?>
+        <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
+            <div class="news_t">Блоги <span class="video_tabs">></span>
+            <?php foreach ($subs_arr as $k => $sub): ?>
+                <?php if ($sub['Subdivision_ID'] != 41): ?>
+                    <?php if ($k < 4): ?>
+                        <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs"><?= $sub['Subdivision_Name'] ?></a>
+                    <?php else: ?>
+                        <a href="javascript:void(0)" class="video_tabs" onclick="toggle_blogs()">Ещё</a>
+                        <?php break; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+            <div class="blogs_all" id="blogs_all_div" style="display: none;">
+                <p>Все блоги</p>
+                <div class="blogs_columns">
+                <?php foreach ($subs_arr as $sub): ?>
+                    <?php if ($sub['Subdivision_ID'] != 41): ?>
+                        <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs"><?= $sub['Subdivision_Name'] ?></a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </div>
+            </div>
         <?php endif; ?>
 <!-- /FormPrefix -->
 
@@ -163,7 +239,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                 </div>
             </div>
             <div class="right_s">
-                <div class="right_p_t"><a href="/video-archive">Архив боёв</a><span class="video_tabs">></span></div>
+                <div class="right_p_t"><a href="/video/archive">Архив боёв</a><span class="video_tabs">></span></div>
                 <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
             </div>
             <div class="banner1">
@@ -171,11 +247,27 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
             </div>
         </div>
         <div class="main_dop_s">
-            <div class="right_p_t_b vid">Самые обсуждаемые новости<span class="video_tabs">></span></div>
-            <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2030") ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
+                <div class="right_p_t_b vid">Самые обсуждаемые новости<span class="video_tabs">></span></div>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
+                <div class="right_p_t_b vid">Самые обсуждаемые статьи<span class="video_tabs">></span></div>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
+                <div class="right_p_t_b vid">Самые обсуждаемые записи в блогах<span class="video_tabs">></span></div>
+            <?php endif; ?>
+            <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2030&s_type=" . $current_sub['Subdivision_ID']) ?>
         </div>
         <div class="main_dop_inner">
-            <div class="left_c" id="see_more_news_div">
+            <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
+                <div class="left_c" id="see_more_news_div">
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
+                <div class="left_c" id="see_more_articles_div">
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
+                <div class="left_c" id="see_more_blogs_div">
+            <?php endif; ?>
     <?php endif; ?>
 <?php endif; ?>
 
@@ -184,7 +276,16 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 }
 /* Конец служебной части */?><!-- /RecordTemplate -->
 
-<!-- FormSuffix -->        <button class="see_more" id="see_more_news" value="more" onclick="see_more_news(16, 8)">Показать ещё</button>
+<!-- FormSuffix -->            
+            <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
+                <button class="see_more" id="see_more_news" value="more" onclick="see_more_news(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
+                <button class="see_more" id="see_more_articles" value="more" onclick="see_more_articles(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
+                <button class="see_more" id="see_more_blogs" value="more" onclick="see_more_blogs(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+            <?php endif; ?>
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
     <div class="right_s_video">

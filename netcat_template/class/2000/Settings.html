@@ -15,20 +15,27 @@ if($current_sub['Subdivision_ID'] == 3 || $current_sub['Subdivision_ID'] == 1)
   $ignore_cc = 1;
   $ignore_limit = 1;
   $query_limit = 16;
-  $query_where = "a.Subdivision_ID NOT IN(20,117,118) AND NOW() >= Date";
+  $subs_arr = nc_get_sub_children('14');
+  $subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
+  $query_where = "a.Subdivision_ID NOT IN(20,117,118,14, " . $subs . ") AND NOW() >= Date";
 }
 if($current_sub['Subdivision_ID']==14&&!$inside_admin) {
     $subs_arr = nc_get_sub_children('14');
     $subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
     $ignore_sub=$ignore_cc=1;
     $query_where .= " AND a.Subdivision_ID IN($subs)";
-    
+    $ignore_limit = 1;
+    $query_limit = 16;
 }
 if($current_cc['Subdivision_ID'] == 41)
 {
-  $query_where = " (sub.Subdivision_ID=43 OR sub.Subdivision_ID=44 OR sub.Subdivision_ID=42 OR sub.Subdivision_ID=45) ";
-  $ignore_sub = 1;
-  $ignore_cc = 1;
+    $subs_arr = nc_get_sub_children('41');
+    $subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
+    $ignore_sub=$ignore_cc=1;
+    $query_where .= " AND a.Subdivision_ID IN($subs)";
+    $ignore_limit = 1;
+    $query_limit = 16;
+    $query_order = "Created DESC";
 }
 
 if($current_cc['Sub_Class_Settings']['newsType'] && !$_GET['tag'])

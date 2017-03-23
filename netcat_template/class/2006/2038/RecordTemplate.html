@@ -1,0 +1,27 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+
+<?php
+    $sql_f = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID=$f_myFighter")); 
+    $foto = explode(':',$sql_f['myFoto']);
+?>
+
+<div class="post_c">
+    <div class="position"><?= $f_RowNum + 1; ?></div>
+    <img src="<?= getThumbNow('/netcat_files/' . $foto[3], 150, 150, 1, false, 95, -1) ?>" class="post_img">
+    <div>
+        <div class="rating_post_t"><?= $sql_f['myName']; ?></div>
+        <div class="rating_post_desk"><?= $sql_f['myPromotion']; ?></div>
+    </div>
+    <div class="small_d_c">
+        <?= $sql_f['myBio']; ?>
+    </div>
+    <div class="results">
+        Победы <?= $sql_f['myVictories']; ?>
+        Поражения <?= $sql_f['myDefeats']; ?>
+        Ничьи <?= $sql_f['myDraws']; ?>
+    </div>
+</div>
+<div class="hr"></div>
+
+
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

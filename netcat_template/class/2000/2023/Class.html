@@ -1,0 +1,31 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+<?php
+$month_arr = array(
+    '01'=>'января',
+    '02'=>'февраля',
+    '03'=>'марта',
+    '04'=>'апреля',
+    '05'=>'мая',
+    '06'=>'июня',
+    '07'=>'июля',
+    '08'=>'августа',
+    '09'=>'сентября',
+    '10'=>'октября',
+    '11'=>'ноября',
+    '12'=>'декабря',
+);
+?>
+<div class="right_list_c">
+    <div class="right_list_d_c"><span class="right_l"><?= $f_newsType[0]; ?></span>
+        <? if($f_Date != 0) { ?>
+            <?= ($f_Date_month.$f_Date_day==date("md") ? 'Сегодня' : ($f_Date_month.$f_Date_day==date("md", mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"))) ? 'Вчера': $f_Date_day . " " . $month_arr[$f_Date_month]))?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+        <? }else{ ?>
+            <?= ($f_Created_month.$f_Created_day==date("md") ? 'Сегодня' : $f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+        <? } ?>
+    </div>
+    <div class="right_l_t"><a href="<?= $fullLink ?>"><?= $f_myTitle ?></a></div>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

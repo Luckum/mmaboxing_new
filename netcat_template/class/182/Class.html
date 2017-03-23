@@ -1,12 +1,122 @@
-<!-- FormPrefix --><? echo $f_AdminCommon;
+<!-- FormPrefix --><?php echo $f_AdminCommon; require_once $_SERVER['DOCUMENT_ROOT']."netcat/require/lib/simple_html_dom.php";?>
+<script type="text/javascript">
+    function see_more_videos(start, cnt)
+    {
+        $("#see_more_videos").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'archive'}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_videos_div").append(html);
+            $("#see_more_videos").appendTo("#see_more_videos_div");
+            $("#loading_news").appendTo("#see_more_videos_div");
+            $("#loading_news").hide();
+            $("#see_more_videos").show();
+            $("#see_more_videos").attr("onclick", "see_more_videos(" + (start+8) + ", " + cnt + ")");
+        }
+    }
+    function show_selected(start, cnt)
+    {
+        $('#loading_selected').show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'archive', url: $('#archive_tournament').val(), fighter: $('#archive_fighter').val()}
+        }).responseText;
+        $("#show_selected_div_1").html(html);
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start + 9, cnt: cnt, action: 'archive', url: $('#archive_tournament').val(), fighter: $('#archive_fighter').val()}
+        }).responseText;
+        $("#show_selected_div_2").html(html);
+        $('#loading_selected').hide();
+    }
+</script>
+
+<?php
+    $fighters_1 = $db->get_results("
+        SELECT a.myFighter_1 FROM message2000 a
+        LEFT JOIN subdivision sub ON a.Subdivision_ID = sub.Subdivision_ID
+        WHERE sub.Parent_Sub_ID = " . $current_sub['Subdivision_ID'] . " AND a.myFighter_1 IS NOT NULL
+        GROUP BY a.myFighter_1", ARRAY_A);
+    $fighters_2 = $db->get_results("
+        SELECT a.myFighter_2 FROM message2000 a
+        LEFT JOIN subdivision sub ON a.Subdivision_ID = sub.Subdivision_ID
+        WHERE sub.Parent_Sub_ID = " . $current_sub['Subdivision_ID'] . " AND a.myFighter_2 IS NOT NULL
+        GROUP BY a.myFighter_2", ARRAY_A);
+    $fighters = array();
+    foreach ($fighters_1 as $row) {
+        $fighters[] = $row['myFighter_1'];
+    }
+    foreach ($fighters_2 as $row) {
+        $fighters[] = $row['myFighter_2'];
+    }
+    $fighters = array_unique($fighters);
+    $sel_url = '';
+    $ref_url = parse_url($_SERVER['HTTP_REFERER']);
+    if (strpos($ref_url['path'], '.html') !== false) {
+        $str = explode('/', $ref_url['path']);
+        $sel_url = '/' . $str[1] . '/' . $str[2] . '/' . $str[3];
+    }
+?>
+
+<div class="main_dop_inner_l">
+    <div class="left_c_arch" id="see_more_videos_div">
+        <div class="news_t">Видео <span class="video_tabs">></span><a href="/video" class="video_tabs">Все</a> <a href="/video/mma" class="video_tabs">MMA</a> <a href="/video/boxing" class="video_tabs">Бокс</a> <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a> <a href="/video/archive" class="video_tabs">Архив боёв</a> <a href="/video/translation" class="video_tabs">Переводы</a> <a href="/video/interview" class="video_tabs">Интервью</a></div>
+
 <!-- /FormPrefix -->
 
-<!-- RecordTemplate --><main class="content page-text">
-	<h1><? echo nc_edit_inline('textTitle', $f_RowID, $cc);?></h1>
-		<div class="content-inner col-1">
-    <?  echo $f_AdminButtons; ?>
-        <div class="content-top">
-        <?  echo nc_edit_inline('TextArea', $f_RowID, $cc); ?>
-        </div><!-- /RecordTemplate -->
+<!-- RecordTemplate -->
+<?  echo $f_AdminButtons; ?>
+<?php
+    $html = str_get_html($f_TextArea);
+    $a_tags = $html->find('a');
+?>
+<!-- /RecordTemplate -->
 
-<!-- FormSuffix --><!-- /FormSuffix -->
+<!-- FormSuffix -->
+    <div class="archive_selects">
+        Турнир
+        <select name="archive_tournament" id="archive_tournament">
+            <option value="0">Все турниры</option>
+            <?php foreach ($a_tags as $tag): ?>
+                <option value="<?= $tag->href; ?>" <?php if ($tag->href == $sel_url): ?> selected <?php endif; ?>><?= $tag->innertext; ?></option>
+            <?php endforeach; ?>
+        </select>
+        Боец
+        <select name="archvie_fighter" id="archive_fighter">
+            <option value="0">Все бойцы</option>
+            <?php foreach ($fighters as $fighter): ?>
+                <option value="<?= $fighter; ?>"><?= $fighter; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button id="show_archive_selected" class="vote-button" onclick="show_selected(0, 9);">Показать</button>
+    </div>
+    <div id="loading_selected" class="loading_news_arch_sel" style="display: none;"><img src="/images/loading.gif"></div>
+    <div id="show_selected_div_1">
+        <?= s_list_class(3,1,"&recNum=9&nc_ctpl=2039") ?>
+    </div>
+    <div class="main_dop_s">
+        <div class="right_p_t_b vid">Самые обсуждаемые видео боёв<span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2040") ?>
+    </div>
+    <div id="show_selected_div_2">
+        <?= s_list_class(3,1,"&recNum=9&nc_ctpl=2039&curPos=9") ?>
+    </div>
+    <button class="see_more_arch" id="see_more_videos" value="more" onclick="see_more_videos(18, 18)">Показать ещё</button>
+    <div id="loading_news" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>
+</div>
+</div>
+<?php if (!empty($sel_url)): ?>
+    <script type="text/javascript">
+        $('#show_archive_selected').click();
+    </script>
+<?php endif; ?>
+<!-- /FormSuffix -->

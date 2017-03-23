@@ -1,6 +1,6 @@
 <? echo $f_AdminCommon; ?>
 <script type="text/javascript">
-    function see_more_videos(start, cnt)
+    function see_more_videos(start, cnt, s_type)
     {
         $("#see_more_videos").hide();
         $("#loading_news").show();
@@ -8,7 +8,7 @@
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start, cnt: cnt, action: 'videos'}
+            data: {start: start, cnt: cnt, action: 'videos', s_type: s_type}
         }).responseText;
         if (html != '') {
             $("#see_more_videos_div").append(html);
@@ -16,7 +16,7 @@
             $("#loading_news").appendTo("#see_more_videos_div");
             $("#loading_news").hide();
             $("#see_more_videos").show();
-            $("#see_more_videos").attr("onclick", "see_more_videos(" + (start+8) + ", " + cnt + ")");
+            $("#see_more_videos").attr("onclick", "see_more_videos(" + (start+8) + ", " + cnt + ", " + s_type + ")");
         }
     }
 </script>

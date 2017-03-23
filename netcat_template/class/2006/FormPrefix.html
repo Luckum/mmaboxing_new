@@ -1,4 +1,32 @@
 <? echo $f_AdminCommon; ?>
-<div class="blog-item<?= ($current_cc['Sub_Class_Settings']['mainBlock']=='on' ? ' black': NULL) ?>">
-				<div class="item-content">
-					<div class="rating-title"><?= $current_cc['Sub_Class_Name'] ?></div>
+<script type="text/javascript">
+    function see_weights(cat, s_type)
+    {
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'weights', cat: $(cat).val(), s_type: s_type}
+        }).responseText;
+        if (html == '') {
+            html = '<p>Нет бойцов этой весовой категории</p>'
+        }
+        $("#ratings_inner_div").html(html);
+    }
+</script>
+<?php 
+    $weights = $db->get_results("SELECT weight_cat_ID, weight_cat_Name FROM classificator_weight_cat", ARRAY_A);
+?>
+<div class="main_dop_inner_l">
+    <div class="left_c">
+        <div class="news_t">Рейтинги <span class="video_tabs">></span><a href="/ratings/mma" class="video_tabs">MMA</a> <a href="/ratings/boxing" class="video_tabs">Бокс</a> <a href="/ratings/kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <div class="weight_cat">
+            Весовая категория
+            <select id="weight_cat" onchange="see_weights(this, <?= $current_sub['Subdivision_ID']; ?>)">
+                <option value="0">Pound For Pound</option>
+                <?php foreach ($weights as $cat): ?>
+                    <option value="<?= $cat['weight_cat_ID']; ?>"><?= $cat['weight_cat_Name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div id="ratings_inner_div">

@@ -1,4 +1,13 @@
-        <button class="see_more" id="see_more_news" value="more" onclick="see_more_news(16, 8)">Показать ещё</button>
+            
+            <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
+                <button class="see_more" id="see_more_news" value="more" onclick="see_more_news(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
+                <button class="see_more" id="see_more_articles" value="more" onclick="see_more_articles(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
+                <button class="see_more" id="see_more_blogs" value="more" onclick="see_more_blogs(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+            <?php endif; ?>
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
     <div class="right_s_video">

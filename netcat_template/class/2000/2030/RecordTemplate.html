@@ -1,0 +1,19 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<div class="ca-item">
+            <div class="ca-item-main">
+                <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 240, 140, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=140&w=240")?>" alt="<?=$f_myTitle?>"></a>
+                <div class="post_b_label_s"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
+                <div class="v_title_s"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+                <span class="v_date">
+                    <? if($f_Date != 0) { ?>
+                        <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?>
+                    <? }else{ ?>
+                        <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>
+                    <? } ?> | <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+                </span>
+            </div>
+            <?php if ($f_Subdivision_ID == 20 || $f_Subdivision_ID == 117 || $f_Subdivision_ID == 118): ?>
+                <a  href="<?= $fullLink ?>" class="playback_s"><img src="/images/playback-start.png"></a>
+            <?php endif; ?>
+        </div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

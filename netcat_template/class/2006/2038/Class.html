@@ -1,0 +1,29 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+<?php
+    $sql_f = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID=$f_myFighter")); 
+    $foto = explode(':',$sql_f['myFoto']);
+?>
+
+<div class="post_c">
+    <div class="position"><?= $f_RowNum + 1; ?></div>
+    <img src="<?= getThumbNow('/netcat_files/' . $foto[3], 150, 150, 1, false, 95, -1) ?>" class="post_img">
+    <div>
+        <div class="rating_post_t"><?= $sql_f['myName']; ?></div>
+        <div class="rating_post_desk"><?= $sql_f['myPromotion']; ?></div>
+    </div>
+    <div class="small_d_c">
+        <?= $sql_f['myBio']; ?>
+    </div>
+    <div class="results">
+        Победы <?= $sql_f['myVictories']; ?>
+        Поражения <?= $sql_f['myDefeats']; ?>
+        Ничьи <?= $sql_f['myDraws']; ?>
+    </div>
+</div>
+<div class="hr"></div>
+
+<!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

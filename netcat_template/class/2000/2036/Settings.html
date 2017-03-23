@@ -1,0 +1,14 @@
+<?php
+$nc_comments = new nc_comments($cc);
+$ignore_sub=1;
+$ignore_cc=1;
+if (isset($s_type) && $s_type != 14) {
+    $query_where = "a.Subdivision_ID = " . $s_type . " AND NOW() >= Date";
+} else {
+    $subs_arr = nc_get_sub_children('14');
+    $subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
+    $query_where .= "a.Subdivision_ID IN($subs)";
+}
+$query_order = "Date DESC";
+
+?>
