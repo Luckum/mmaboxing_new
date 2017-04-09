@@ -1,4 +1,5 @@
 
+<?php if ($current_sub['Subdivision_ID'] != 10): ?>
     <div class="archive_selects">
         Турнир
         <select name="archive_tournament" id="archive_tournament">
@@ -36,3 +37,13 @@
         $('#show_archive_selected').click();
     </script>
 <?php endif; ?>
+<?php else: ?>
+    <div id="events_container">
+        <?= s_list_class(10,28,"&recNum=10&nc_ctpl=2044&showEvents=1"  . "&s_type=" . $current_sub['Subdivision_ID']) ?>
+        <button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_events(10, 10, <?= $current_sub['Subdivision_ID'] ?>)">Показать ещё</button>
+        <div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>
+    </div>
+</div>
+</div>
+<?php endif; ?>
+

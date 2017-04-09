@@ -1,13 +1,95 @@
 <? echo $f_AdminCommon; ?>
 <? echo $f_AdminButtons; ?>
+<script type="text/javascript">
+    function change_content(action, s_type)
+    {
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: action, s_type: s_type}
+        }).responseText;
+        html += '<button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_' + action + '(10, 10, ' + s_type + ')">Показать ещё</button>';
+        html += '<div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>';
+        $("#events_container").html(html);
+        if ($('#menu_events').hasClass('active_tab')) {
+            $('#menu_events').removeClass('active_tab');
+            $('#menu_results').addClass('active_tab');
+        } else {
+            $('#menu_results').removeClass('active_tab');
+            $('#menu_events').addClass('active_tab');
+        }
+    }
+    function see_more_events(start, cnt, s_type)
+    {
+        $("#see_more_events").hide();
+        $("#loading_news_ev").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'more_events', s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#events_container").append(html);
+            $("#see_more_events").appendTo("#events_container");
+            $("#loading_news_ev").appendTo("#events_container");
+            $("#loading_news_ev").hide();
+            $("#see_more_events").show();
+            $("#see_more_events").attr("onclick", "see_more_events(" + (start+10) + ", " + cnt + ", " + s_type + ")");
+        }
+    }
+    function see_more_results(start, cnt, s_type)
+    {
+        $("#see_more_events").hide();
+        $("#loading_news_ev").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'more_results', s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#events_container").append(html);
+            $("#see_more_events").appendTo("#events_container");
+            $("#loading_news_ev").appendTo("#events_container");
+            $("#loading_news_ev").hide();
+            $("#see_more_events").show();
+            $("#see_more_events").attr("onclick", "see_more_results(" + (start+10) + ", " + cnt + ", " + s_type + ")");
+        }
+    }
+    function see_content_by_date(start_date, end_date)
+    {
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'events_days', start_date: start_date, end_date: end_date, s_type: <?= $current_sub['Subdivision_ID']; ?>}
+        }).responseText;
+        $("#events_container").html(html);
+        $('#menu_events').removeClass('active_tab');
+        $('#menu_results').removeClass('active_tab');
+    }
+</script>
 <?php if(!$showMain): ?>
-<main class="content page-text">
-	<h1><?= $current_cc['Sub_Class_Name'] ?></h1>
-		<div class="content-inner col-1">
-    <?  echo $f_AdminButtons; ?>
-        <div class="content-top">
+<div class="main_dop_inner_l">
+    <div class="left_c_arch">
+        <div class="news_t">События <span class="video_tabs">></span>
+            <a href="/fight-calendar" class="video_tabs">Все</a> 
+            <a href="/fight-calendar/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+            <a href="/fight-calendar/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+            <a href="/fight-calendar/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
+            <a href="javascript:void(0)" id="menu_events" class="video_tabs active_tab" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
+            <a href="javascript:void(0)" id="menu_results" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+            <input type="hidden" class="fc_calendar" value="Календарь">
+        </div>
+        <div id="events_container">
+            <?= s_list_class(10,28,"&recNum=10&nc_ctpl=2044&showEvents=1" . "&s_type=" . $current_sub['Subdivision_ID']) ?>
+            <button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_events(10, 10, <?= $current_sub['Subdivision_ID'] ?>)">Показать ещё</button>
+            <div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>
+        </div>
+    </div>
+</div>
         
-<div class='fight-calendar'>
-<table width='100%'>
-<tr><th>Дата</th><th>Название</th><th>Место проведения</th><th>Дисциплина</th></tr>
+
 <?php endif; ?>

@@ -50,7 +50,7 @@
                 <?php if (!empty($f_ncDescription) && strlen($f_ncDescription) < 300): ?>
                     <?= $f_ncDescription; ?>
                 <?php else: ?>
-                    <?= $f_myTitle; ?>
+                    <?= cutStr(strip_tags($f_myText), 300); ?>
                 <?php endif; ?>
             </div>
         </div>

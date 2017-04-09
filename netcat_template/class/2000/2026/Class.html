@@ -25,15 +25,14 @@
         <div class="playback_angle"><a href="<?= $fullLink ?>"><img src="/images/playback-start_angle.png"></a></div>
     </div>
     <div class="small_video_descr">
-        <span class="v_label"><?= $f_SubName; ?></span><br />
-        <span class="v_date">
+        <div class="v_label"><?= $f_SubName; ?></div>
+        <div class="v_date">
         <? if($f_Date != 0) { ?>
             <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
         <? }else{ ?>
             <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
         <? } ?>
-        </span>
-        <br />  
+        </div>
         <div class="v_title_a"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
     </div>
 </div><!-- /RecordTemplate -->

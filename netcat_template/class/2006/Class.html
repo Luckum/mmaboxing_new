@@ -19,9 +19,14 @@
 ?>
 <div class="main_dop_inner_l">
     <div class="left_c">
-        <div class="news_t">Рейтинги <span class="video_tabs">></span><a href="/ratings/mma" class="video_tabs">MMA</a> <a href="/ratings/boxing" class="video_tabs">Бокс</a> <a href="/ratings/kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <div class="news_t">
+            Рейтинги <span class="video_tabs">></span>
+            <a href="/ratings/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+            <a href="/ratings/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+            <a href="/ratings/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+        </div>
         <div class="weight_cat">
-            Весовая категория
+            <span class='ves_cat'>Весовая категория</span>
             <select id="weight_cat" onchange="see_weights(this, <?= $current_sub['Subdivision_ID']; ?>)">
                 <option value="0">Pound For Pound</option>
                 <?php foreach ($weights as $cat): ?>
@@ -52,16 +57,17 @@
         <div class="small_d_c">
             <?= $sql_f['myBio']; ?>
         </div>
-        <div class="results">
-            Победы <?= $sql_f['myVictories']; ?>
-            Поражения <?= $sql_f['myDefeats']; ?>
-            Ничьи <?= $sql_f['myDraws']; ?>
-        </div>
+        <ul class="results">
+            <li><span>Победы </span><span><?= $sql_f['myVictories']; ?></span></li>
+            <li><span>Поражения </span><span><?= $sql_f['myDefeats']; ?></span></li>
+            <li><span>Ничьи </span><span><?= $sql_f['myDraws']; ?></span></li>
+        </ul>
     </div>
     <div class="hr"></div><!-- /RecordTemplate -->
 
 <!-- FormSuffix --></div>
 </div>
+<div id='rar'>
     <div class="right_s">
         <div class="right_p_t">Опросы<span class="video_tabs">></span></div>
         <?= s_list_class(24,26); ?>
@@ -96,7 +102,8 @@
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031&current=" . $f_RowID) ?>
     </div>
     <div class="banner1">
-        <?= banner_rotate(2,1);?>
+        <?= banner_rotate(2,1, false, 'banner-img');?>
     </div>
+</div>
 </div>
 <!-- /FormSuffix -->

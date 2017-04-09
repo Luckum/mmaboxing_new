@@ -22,13 +22,15 @@
         <div class="side_video_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <a  href="<?= $fullLink ?>" class="side_playback"><img src="/images/playback-start.png"></a>
         <div class="side_small_l_bg">
-            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
-            <div class="small_d_c">
+            <div class="side_video_desc">
+            <span class="small_l_t_v"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></span>
+            <span class="small_d_c_v">
                 <? if($f_Date != 0) { ?>
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
                 <? } ?> | <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+            </span>
             </div>
         </div>
     </div>

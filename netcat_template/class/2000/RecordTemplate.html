@@ -67,7 +67,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                 <?php if (!empty($f_ncDescription) && strlen($f_ncDescription) < 300): ?>
                     <?= $f_ncDescription; ?>
                 <?php else: ?>
-                    <?= $f_myTitle; ?>
+                    <?= cutStr(strip_tags($f_myText), 300); ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -88,7 +88,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
     <?php if ($f_RowNum == 7): ?>
             </div>
             <div class="right_s">
-                <div class="right_p_t">Результаты<span class="video_tabs">></span></div>
+                <div class="right_p_t"><a href="/fight-calendar">Результаты<a><span class="video_tabs">></span></div>
                 <div class="right_list_c">
                     <div class="right_list_d_c"><span class="right_l">mma</span></div>
                     <div class="right_l_t">
@@ -109,7 +109,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                 </div>
             </div>
             <div class="right_s r_s_d">
-                <div class="right_p_t">События<span class="video_tabs">></span></div>
+                <div class="right_p_t"><a href="/fight-calendar">События</a><span class="video_tabs">></span></div>
                 <div class="right_list_c">
                     <div class="right_list_d_c"><span class="right_l">mma</span></div>
                     <div class="right_l_t">

@@ -1,6 +1,10 @@
 <?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
 <? echo $f_AdminButtons; ?>
-
+<?php if ($admin_mode): ?>
+    <?= $f_myDate_year . '-' . $f_myDate_month . '-' . $f_myDate_day;?>
+    <?= $f_myName; ?>
+    <?= !empty($f_myText) ? ": " . $f_myText : ""; ?>
+<?php endif; ?>
 <?php
     $month_arr = array(
         '01'=>'января',
@@ -16,6 +20,8 @@
         '11'=>'ноября',
         '12'=>'декабря',
     );
+    $sql_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $f_main_card_fighter_1));
+    $sql_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $f_main_card_fighter_2));
 ?>
 
 <?php if($showMain): ?>
@@ -26,13 +32,14 @@
             <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
         <? } ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="color: #aaaaaa;" href="<?= $fullLink; ?>"><?= $f_myName; ?></a>
     </div>
-
-<?php else:?>
-<tr>
-<td><?= $f_myDate_year.'.'.$f_myDate_month.'.'.$f_myDate_day ?></td>
-<td><a href="<?=$fullLink?>"><?= $f_myName ?></a></td>
-<td><?= $f_myCountry.' '.$f_myCity ?></td>
-<td><?= $f_myType ?></td>
-</tr>
+    <div>
+        <?php if ($showResults): ?>
+            <?php if ($sql_fighter_1): ?>
+                <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_1['myName'] . " vs. "; ?><?php if ($f_main_card_winner == $f_main_card_fighter_2): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_2['myName']; ?>
+            <?php endif; ?>
+        <?php else: ?>
+            <?= $sql_fighter_1['myName'] . " vs. " . $sql_fighter_2['myName']; ?>
+        <?php endif; ?>
+    </div>
 <?php endif; ?>
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

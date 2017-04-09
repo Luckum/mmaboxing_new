@@ -70,6 +70,8 @@
 <?php
     $newsUrls = array('/news/', '/news/news-mma/', '/news/news-boxing/', '/news/news-kickboxing/');
     $articlesUrls = array('/articles/', '/articles/mma/', '/articles/boxing/', '/articles/kickboxing/');
+    $mblUrls = array('/mad-bear-live/');
+    $mbpUrls = array('/mb-production/');
     $blogsUrls = nc_get_sub_children('41');
     $subs_arr = $db->get_results("SELECT Subdivision_ID, Subdivision_Name, Hidden_URL FROM Subdivision WHERE Subdivision_ID IN (".join(',', $blogsUrls).")", ARRAY_A);
 ?>
@@ -77,17 +79,27 @@
 <div class="main_dop_inner_l">
     <div class="left_c">
         <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
-            <div class="news_t">Новости <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
+            <div class="news_t">
+                Новости <span class="video_tabs">></span>
+                <a href="/news/news-mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+                <a href="/news/news-boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+                <a href="/news/news-kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+            </div>
         <?php endif; ?>
         <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
-            <div class="news_t">Статьи <span class="video_tabs">></span><a href="/articles/mma" class="video_tabs">MMA</a> <a href="/articles/boxing" class="video_tabs">Бокс</a> <a href="/articles/kickboxing" class="video_tabs">Кикбоксинг</a></div>
+            <div class="news_t">
+                Статьи <span class="video_tabs">></span>
+                <a href="/articles/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+                <a href="/articles/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+                <a href="/articles/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+            </div>
         <?php endif; ?>
         <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
             <div class="news_t">Блоги <span class="video_tabs">></span>
             <?php foreach ($subs_arr as $k => $sub): ?>
                 <?php if ($sub['Subdivision_ID'] != 41): ?>
                     <?php if ($k < 4): ?>
-                        <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs"><?= $sub['Subdivision_Name'] ?></a>
+                        <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs<?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?> active_tab<?php endif; ?>"><?= $sub['Subdivision_Name'] ?></a>
                     <?php else: ?>
                         <a href="javascript:void(0)" class="video_tabs" onclick="toggle_blogs()">Ещё</a>
                         <?php break; ?>
@@ -105,4 +117,10 @@
                 <?php endforeach; ?>
                 </div>
             </div>
+        <?php endif; ?>
+        <?php if (in_array($current_sub['Hidden_URL'], $mblUrls)): ?>
+            <div class="news_t">Mad Bear Live <span class="video_tabs">></span></div>
+        <?php endif; ?>
+        <?php if (in_array($current_sub['Hidden_URL'], $mbpUrls)): ?>
+            <div class="news_t">MB Production <span class="video_tabs">></span></div>
         <?php endif; ?>

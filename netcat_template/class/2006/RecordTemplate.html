@@ -19,11 +19,11 @@
         <div class="small_d_c">
             <?= $sql_f['myBio']; ?>
         </div>
-        <div class="results">
-            Победы <?= $sql_f['myVictories']; ?>
-            Поражения <?= $sql_f['myDefeats']; ?>
-            Ничьи <?= $sql_f['myDraws']; ?>
-        </div>
+        <ul class="results">
+            <li><span>Победы </span><span><?= $sql_f['myVictories']; ?></span></li>
+            <li><span>Поражения </span><span><?= $sql_f['myDefeats']; ?></span></li>
+            <li><span>Ничьи </span><span><?= $sql_f['myDraws']; ?></span></li>
+        </ul>
     </div>
     <div class="hr"></div>
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

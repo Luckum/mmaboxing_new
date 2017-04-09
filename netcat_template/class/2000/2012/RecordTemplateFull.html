@@ -48,9 +48,18 @@
     );
     $f_myTags = trim($f_myTags, ',');
 ?>
-<div class="main_dop_inner">
+<div class="main_dop_inner_l">
     <div class="left_c" id="see_more_read_also_div">
-        <div class="news_t">Видео <span class="video_tabs">></span><a href="/video" class="video_tabs">Все</a> <a href="/video/mma" class="video_tabs">MMA</a> <a href="/video/boxing" class="video_tabs">Бокс</a> <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a> <a href="/video/archive" class="video_tabs">Архив боёв</a> <a href="/video/translation" class="video_tabs">Переводы</a> <a href="/video/interview" class="video_tabs">Интервью</a></div>
+        <div class="news_t">
+            Видео <span class="video_tabs">></span>
+            <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab<?php endif; ?>">Все</a> 
+            <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+            <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+            <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
+            <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab<?php endif; ?>">Архив боёв</a> 
+            <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab<?php endif; ?>">Переводы</a> 
+            <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab<?php endif; ?>">Интервью</a>
+        </div>
         <div class="inner_img"><iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src; ?>" width="728"></iframe></div>
         <div class="inner_content">
             <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>

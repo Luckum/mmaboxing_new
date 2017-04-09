@@ -1,18 +1,18 @@
 <div class="video_c">
-    <div class="right_p_t_b vid">Видео<span class="video_tabs">></span><a href="" class="video_tabs">MMA</a> <a href="" class="video_tabs">Бокс</a> <a href="" class="video_tabs">Кикбоксинг</a></div>
+    <div class="right_p_t_b vid"><a href="/video" class="a-white">Видео</a><span class="video_tabs">></span><a href="/video/mma" class="video_tabs">MMA</a> <a href="/video/boxing" class="video_tabs">Бокс</a> <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a></div>
     
     <?= s_list_class(20,32,"&recNum=5&nc_ctpl=2002") ?>
 </div>
 
 <div class="main_dop">
     <div class="left_c">
-        <div class="news_t">Последние новости <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
+        <div class="news_t"><a href="/news" class="a-black">Последние новости</a> <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
         <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4") ?>
         
         <div class="clr"></div>
     </div>
     <div class="right_s">
-        <div class="right_p_t">Результаты<span class="video_tabs">></span></div>
+        <div class="right_p_t"><a href="/fight-calendar" class="a-black">Результаты</a><span class="video_tabs">></span></div>
         <div class="right_list_c">
             <div class="right_list_d_c"><span class="right_l">mma</span></div>
             <div class="right_l_t">
@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="right_s r_s_d">
-        <div class="right_p_t">События<span class="video_tabs">></span></div>
+        <div class="right_p_t"><a href="/fight-calendar" class="a-black">События</a><span class="video_tabs">></span></div>
         <div class="right_list_c">
             <div class="right_list_d_c"><span class="right_l">mma</span></div>
             <div class="right_l_t">
@@ -58,7 +58,7 @@
         <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
     </div>
     <div class="banner1">
-        <?= banner_rotate(2,1);?>
+        <?= banner_rotate(2,1, false, 'banner-img');?>
     </div>
 </div>
 
@@ -75,14 +75,16 @@
     </div>
     <div class="right_s">
         <div class="right_p_t">Опросы<span class="video_tabs">></span></div>
-        <?= s_list_class(24,26); ?>
+        <div id="vote-container">
+            <?= s_list_class(24,26); ?>
+        </div>
     </div>
     <div class="right_s r_s_d">
         <div class="right_p_t"><a href="/blogs">Блоги</a><span class="video_tabs">></span></div>
         <?= s_list_class(41,54,"&recNum=4&nc_ctpl=2028") ?>
     </div>
     <div class="banner1_2">
-        <?= banner_rotate(2,1);?>
+        <?= banner_rotate(2,1, false, 'banner-img');?>
     </div>
 </div>
 
@@ -92,16 +94,23 @@
 </div>
 
 <div class="main_dop">
-    <div class="left_c">
+    <div class="left_c" id="see_more_news_div">
         <?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18") ?>
         
         <div class="clr"></div>
+        <button class="see_more" id="see_more_news" value="more" onclick="see_more_news(24, 8, 3)">Показать ещё</button>
+        <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
     <div class="right_s">
         <div class="right_p_t">Последние комментарии<span class="video_tabs">></span></div>
         <?= s_list_class(25,27,"&recNum=4&nc_ctpl=2029") ?>
     </div>
     <div class="banner1">
-        <?= banner_rotate(2,1);?>
+        <?= banner_rotate(2,1, false, 'banner-img');?>
+    </div>
+    <div class="right_s_twit">
+        <div class="right_p_twit">Twitter<span class="video_tabs">></span></div>
+        <a class="twitter-timeline" href="https://twitter.com/MMA_Boxing_ru">Tweets by MMA_Boxing_ru</a>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
 </div>

@@ -1,0 +1,111 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<? echo $f_AdminButtons; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? echo $f_AdminButtons; ?>
+
+<?php
+    $month_arr = array(
+        '01'=>'января',
+        '02'=>'февраля',
+        '03'=>'марта',
+        '04'=>'апреля',
+        '05'=>'мая',
+        '06'=>'июня',
+        '07'=>'июля',
+        '08'=>'августа',
+        '09'=>'сентября',
+        '10'=>'октября',
+        '11'=>'ноября',
+        '12'=>'декабря',
+    );
+?>
+
+<?php if($showMain): ?>
+    <div class="right_list_d_c">
+        <? if($f_myDate != 0) { ?>
+            <?= ($f_myDate_year.$f_myDate_month.$f_myDate_day==date("Ymd") ? 'Сегодня' : $f_myDate_day . " " . $month_arr[$f_myDate_month] . " " . $f_myDate_year)?>
+        <? } else { ?>
+            <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+        <? } ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="color: #aaaaaa;" href="<?= $fullLink; ?>"><?= $f_myName; ?></a>
+    </div>
+
+<?php else:?>
+<?php
+    $rest_fighters = array();
+    $sql_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $f_main_card_fighter_1));
+    $sql_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $f_main_card_fighter_2));
+    $sql_rest_fights = $db->get_results("SELECT * FROM Message2043 WHERE event = " . $f_RowID, ARRAY_A);
+    foreach ($sql_rest_fights as $row) {
+        $sql_rest_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_1']));
+        $sql_rest_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_2']));
+        if ($showResults) {
+            $rest_fighters[] = ($row['fighter_1'] == $row['winner']) ? $sql_rest_fighter_1['myName'] . " <span class='loser'>vs. " . $sql_rest_fighter_2['myName'] . "</span>" : "<span class='loser'>" . $sql_rest_fighter_1['myName'] . " vs. </span>" . $sql_rest_fighter_2['myName'];
+        } else {
+            $rest_fighters[] = $sql_rest_fighter_1['myName'] . " vs. " . $sql_rest_fighter_2['myName'];
+        }
+    }
+    $foto_1 = explode(':', $sql_fighter_1['myFoto']);
+    $foto_2 = explode(':', $sql_fighter_2['myFoto']);
+?>
+
+<div class="post_c_fc">
+    <a href="<?= $fullLink ?>"><img src="<?= getThumbNow('/netcat_files/' . $foto_1[3], 150, 300, 1, false, 95, -1) ?>" class="post_img"></a>
+    <?php if ($showResults): ?>
+        <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?>
+            <div class="fc_winner_1">
+                Победитель
+                <span><?= $f_win_type ?></span>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+    <a href="<?= $fullLink ?>"><img src="<?= getThumbNow('/netcat_files/' . $foto_2[3], 150, 300, 1, false, 95, -1) ?>" class="post_img"></a>
+    <?php if ($showResults): ?>
+        <?php if ($f_main_card_winner == $f_main_card_fighter_2): ?>
+            <div class="fc_winner_2">
+                Победитель
+                <span><?= $f_win_type ?></span>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+    <div class="vs_label"><img src="/images/VS.png"></div>
+    <div class="fc_date"><?= $f_myDate_day . " " . $month_arr[$f_myDate_month]; ?></div>
+    <div class="fc_s_type"><?= $f_myType; ?>&nbsp;&nbsp;<?= $f_myCity . ", " . $f_myCountry; ?></div>
+    <div class="fc_desc"><?= $f_myName?><?= !empty($f_myText) ? ": " . $f_myText : ""; ?></div>
+    <span>Основной бой</span>
+    <div class="fc_main_card">
+        <?php if ($showResults): ?>
+            <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_1['myName'] . " vs. "; ?><?php if ($f_main_card_winner == $f_main_card_fighter_2): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_2['myName']; ?>
+        <?php else: ?>
+            <?= $sql_fighter_1['myName'] . " vs. " . $sql_fighter_2['myName']; ?>
+        <?php endif; ?>
+    </div>
+    <span>Остальные бои</span>
+    <div class="fc_rest_card">
+        <?php foreach ($rest_fighters as $row):?>
+            <?= $row; ?><br />
+        <?php endforeach; ?>
+    </div>
+    <?php if (!$showResults): ?>
+        <div class="fc_add_alert">
+            <span class="addtocalendar atc-style-menu-wb">
+                <img src="/images/star_empty.png">
+                <a class="atcb-link">Добавить напоминание</a>
+                <var class="atc_event">
+                    <var class="atc_date_start"><?= $f_myDate_year . '-' . $f_myDate_month . '-' . $f_myDate_day ?></var>
+                    <var class="atc_date_end"><?= $f_myDate_year . '-' . $f_myDate_month . '-' . $f_myDate_day ?></var>
+                    <var class="atc_timezone">Europe/Moscow</var>
+                    <var class="atc_title"><?= $f_myName?></var>
+                    <var class="atc_description"><?= !empty($f_myText) ? ": " . $f_myText : ""; ?></var>
+                    <var class="atc_location"><?= $f_myCity . ", " . $f_myCountry; ?></var>
+                    <var class="atc_organizer"></var>
+                    <var class="atc_organizer_email"></var>
+                </var>
+            </span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php endif; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if(!$showMain) echo '</table>'; ?><!-- /FormSuffix -->

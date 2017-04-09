@@ -1,0 +1,20 @@
+<?php
+    $ignore_sub=1;
+    $ignore_cc=1;
+    if ($s_type == 10) {
+        $query_where = "1";
+    } else {
+        $query_where = "a.Subdivision_ID = " . $s_type;
+    }
+    
+    if ($showEvents) {
+        $query_where .= " AND myDate > NOW()";
+    }
+    if ($showResults) {
+        $query_where .= " AND myDate < NOW()";
+    }
+    if ($s_date && $e_date) {
+        $query_where .= " AND myDate BETWEEN '" . $s_date . "' AND '" . $e_date . "'";
+    }
+    $query_order = "myDate DESC";
+?>

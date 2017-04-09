@@ -55,17 +55,27 @@
     <div class="main_dop_inner_l">
         <div class="left_c" id="see_more_read_also_div">
             <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
-                <div class="news_t">Новости <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
+                <div class="news_t">
+                    Новости <span class="video_tabs">></span>
+                    <a href="/news/news-mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+                    <a href="/news/news-boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+                    <a href="/news/news-kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+                </div>
             <?php endif; ?>
             <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
-                <div class="news_t">Статьи <span class="video_tabs">></span><a href="/articles/mma" class="video_tabs">MMA</a> <a href="/articles/boxing" class="video_tabs">Бокс</a> <a href="/articles/kickboxing" class="video_tabs">Кикбоксинг</a></div>            
+                <div class="news_t">
+                    Статьи <span class="video_tabs">></span>
+                    <a href="/articles/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+                    <a href="/articles/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+                    <a href="/articles/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+                </div>
             <?php endif; ?>
             <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
                 <div class="news_t">Блоги <span class="video_tabs">></span>
                 <?php foreach ($subs_arr as $k => $sub): ?>
                     <?php if ($sub['Subdivision_ID'] != 41): ?>
                         <?php if ($k < 4): ?>
-                            <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs"><?= $sub['Subdivision_Name'] ?></a>
+                            <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs<?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?> active_tab<?php endif; ?>"><?= $sub['Subdivision_Name'] ?></a>
                         <?php else: ?>
                             <a href="javascript:void(0)" class="video_tabs" onclick="toggle_blogs()">Ещё</a>
                             <?php break; ?>
@@ -85,7 +95,16 @@
                 </div>
             <?php endif; ?>
             <?php if ($current_sub['Parent_Sub_ID'] == 232): ?>
-                <div class="news_t">Видео <span class="video_tabs">></span><a href="/video" class="video_tabs">Все</a> <a href="/video/mma" class="video_tabs">MMA</a> <a href="/video/boxing" class="video_tabs">Бокс</a> <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a> <a href="/video/archive" class="video_tabs">Архив боёв</a> <a href="/video/translation" class="video_tabs">Переводы</a> <a href="/video/interview" class="video_tabs">Интервью</a></div>
+                <div class="news_t">
+                    Видео <span class="video_tabs">></span>
+                    <a href="/video" class="video_tabs">Все</a> 
+                    <a href="/video/mma" class="video_tabs">MMA</a> 
+                    <a href="/video/boxing" class="video_tabs">Бокс</a> 
+                    <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a> 
+                    <a href="/video/archive" class="video_tabs active_tab">Архив боёв</a> 
+                    <a href="/video/translation" class="video_tabs">Переводы</a> 
+                    <a href="/video/interview" class="video_tabs">Интервью</a>
+                </div>
             <?php endif; ?>
             <div class="inner_img"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 728, 415, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=415&w=728")?>" class="post_img"></div>
             <div class="inner_content">

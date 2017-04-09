@@ -51,13 +51,16 @@
             <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 700, 390, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=390&w=700")?>" title="<?=$f_myTitle?>" alt="<?=$f_myTitle?>">
             <div class="v_s_label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
             <div class="big_video_bg">
-                <div class="big_video_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
-                <div class="big_video_date">
-                <? if($f_Date != 0) { ?>
-                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
-                <? }else{ ?>
-                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4</div>
+                <div class="side_video_desc">
+                    <span class="big_video_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></span>
+                    <span class="big_video_date">
+                        <? if($f_Date != 0) { ?>
+                            <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                        <? }else{ ?>
+                            <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                        <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="images/w.png"> 345 <img src="images/c.png"> 12 <img src="images/r.png" /> 4
+                    </span>
+                </div>
             </div>
             <div class="playback" id="playback"><img src="/images/playback-start.png"></div>
         </div>

@@ -1,7 +1,27 @@
+<script type="text/javascript">
+    $("#reg_submit").click(function() {
+        alert('12');
+        var form = $(this).parent();
+        var error = false;
+        
+        form.find('input').each(function() {
+            if ($(this).val() == '') {
+                $(this).addClass("error");
+                $(this).css({"background-color": "#f9e3e6", "color": "#d63d18", "border": "1px solid #d63d18"});
+                error = true;
+            }
+        });
+        
+        if (!error) {
+            form.submit();
+        }
+        return false;
+    });
+</script>
 <div id="auth_signup" class="tabcontent">
 <? $auth_settings = $nc_core->get_settings('', 'auth')?>
 <?= $auth_settings['deny_reg'] ? NETCAT_MODULE_AUTH_SELFREG_DISABLED : ($warnText ? "<div class='warnText'>$warnText</div>" : NULL ) ?>
-<form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' method='post' action='<?= $nc_core->SUB_FOLDER ?><?= $nc_core->HTTP_ROOT_PATH ?>add.php'>
+<form name='adminForm_reg_frm' id='adminForm_reg_frm' class='nc-form' enctype='multipart/form-data' method='post' action='<?= $nc_core->SUB_FOLDER ?><?= $nc_core->HTTP_ROOT_PATH ?>add.php'>
     <div id='nc_moderate_form'>
         <div class='nc_clear'></div>
         <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>' />
@@ -20,25 +40,25 @@
     </div>
     <div class="block" style="margin: 0px">
         <div class="input_text">
-            <input type="text" name="Email" value='' placeholder="E-mail">
+            <input type="text" name="Email" value='' placeholder="E-mail" class="send_input">
         </div>
     </div>
     <div class="block" style="margin: 0px">
         <div class="input_text">
-            <input type="text" name="u_name" value='' placeholder="Имя">
+            <input type="text" name="u_name" value='' placeholder="Имя" class="send_input">
         </div>
     </div>
     <div class="block" style="margin: 0px">
         <div class="input_text">
-            <input type="password" name="Password1" id="Password1" value='' placeholder="Пароль">
+            <input type="password" name="Password1" id="Password1" value='' placeholder="Пароль" class="send_input">
         </div>
     </div>
     <div class="block" style="margin: 0px">
         <div class="input_text">
-            <input type="password" name="Password2" id="Password2" value='' placeholder="Пароль ещё раз">
+            <input type="password" name="Password2" id="Password2" value='' placeholder="Пароль ещё раз" class="send_input">
         </div>
     </div>
     
-    <input type='submit' value='Войти' />
+    <input type='submit' class="send_input_submit" id="reg_submit" value='Войти' />
 </form>
 </div>

@@ -1,0 +1,40 @@
+
+<script type="text/javascript">
+    function see_more_news(start, cnt, s_type)
+    {
+        $("#see_more_news").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'news', s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_news_div").append(html);
+            $("#see_more_news").appendTo("#see_more_news_div");
+            $("#loading_news").appendTo("#see_more_news_div");
+            $("#loading_news").hide();
+            $("#see_more_news").show();
+            $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ", " + s_type + ")");
+            $("#bckClickerleft").css({"height": "+=1600px"});
+            $("#bckClickerright").css({"height": "+=1600px"});
+        }
+    }
+    function vote(vid, cache, class_id)
+    {
+        var vote_check = $('input[name="vote_check"]:checked').val();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'vote', vid: vid, cache: cache, class_id: class_id, vote_check: vote_check}
+        }).responseText;
+        
+        $("#vote-container").html(html);
+        $("#vote").hide();
+        $("#answers-res").show();
+        $(".vote-button").hide();
+        $("#ans-" + vote_check).css({"border-color": "#e73435"});
+    }
+</script>
