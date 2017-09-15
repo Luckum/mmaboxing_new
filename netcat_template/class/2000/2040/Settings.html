@@ -6,7 +6,7 @@ $query_select = "a.*, DATE_FORMAT(a.`Date`,'%Y') as Date_year, DATE_FORMAT(a.`Da
 $query_from = "Comments_Count cc";
 $query_join = " LEFT JOIN Message2000 a ON cc.Message_ID = a.Message_ID
                 LEFT JOIN Subdivision sub ON a.Subdivision_ID = sub.Subdivision_ID";
-$query_where = "sub.Parent_Sub_ID = 232";
+$query_where = "sub.Parent_Sub_ID = 153";
 $query_order = "(cc.CountComments + cc.CountReplies) DESC";
 $query_limit = "8";
 

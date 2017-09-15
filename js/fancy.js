@@ -5,6 +5,16 @@ $(document).ready(function() {
         'autoScale'     : false,
         'transitionIn'  : 'none',
         'transitionOut' : 'none',
-        'type'          : 'iframe'
+        'type'          : 'iframe',
+        'overlayColor'  : '#333333'
+    });
+    $(".auth_user").fancybox({
+        'width'         : 370,
+        'height'        : 485,
+        'autoScale'     : false,
+        'transitionIn'  : 'none',
+        'transitionOut' : 'none',
+        'type'          : 'iframe',
+        'overlayColor'  : '#333333'
     });
 });

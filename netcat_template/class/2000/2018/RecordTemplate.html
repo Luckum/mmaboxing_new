@@ -1,25 +1,70 @@
 <?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
-<?php $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1")); ?>
-<div class="post_c">
-    <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img"></a>
-    <div class="lab"><?= $f_newsType[0]; ?></div>
-    <div class="post_t_desk">
-        <div class="post_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
-        <div class="post_desk">
-            <?php if (!empty($f_ncDescription) && strlen($f_ncDescription) < 300): ?>
-                <?= $f_ncDescription; ?>
+
+<?php 
+    $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1")); 
+    $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+    $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
+?>
+<?php if ($f_RowNum == 1 && !isset($is_mob)): ?>
+    <div class="post_c_b">
+        <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 680, 340, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=340&w=680")?>" class="post_img"></a>
+        <div class="post_b_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <div class="b_p"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+        <div class="b_p_t">
+            <?php if (!empty($f_ncDescription)): ?>
+                <?= cutStr($f_ncDescription, 250); ?>
             <?php else: ?>
                 <?= $f_myTitle; ?>
             <?php endif; ?>
         </div>
+        <div class="b_p_d">
+            <? if($f_Date != 0) { ?>
+                <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+            <? }else{ ?>
+                <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+            <? } ?> &nbsp;|&nbsp; <span class="author-link"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span>
+        </div>
+        <?php if (in_array($f_Subdivision_ID, $video_subs)): ?>
+            <div class="playback_video_page_big"><a href="<?= $fullLink ?>"><img src="/images/playback-start.png"></a></div>
+        <?php endif; ?>
     </div>
-    <div class="small_d_c">
-        <? if($f_Date != 0) { ?>
-            <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
-        <? }else{ ?>
-            <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-        <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+    <div class="hr"></div>
+<?php else: ?>    
+    <div class="post_c" <?php if ($f_RowNum == 4): ?>style="margin-top: 45px;"<?php endif; ?>>
+        <a href="<?= $fullLink ?>">
+            <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img img-link-big">
+            <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 270, 180, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img img-link-small">
+        </a>
+        <div class="lab main-p-type"><?= $f_newsType[0]; ?></div>
+        <div class="post_b_label main-p-type-icon"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
+        <div class="post_t_desk">
+            <div class="post_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="post_desk">
+                <?php if (!empty($f_ncDescription) && strlen($f_ncDescription) < 300 && (strlen($f_myTitle) < 100)): ?>
+                    <?= $f_ncDescription; ?>
+                <?php else: ?>
+                    <?php if (strlen($f_myTitle) > 100): ?>
+                        <?= cutStr(strip_tags($f_myText), 100); ?>
+                    <?php else: ?>
+                        <?= cutStr(strip_tags($f_myText), 300); ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="small_d_c">
+            <? if($f_Date != 0) { ?>
+                <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+            <? }else{ ?>
+                <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+            <? } ?> | <span class="author-link"><?=$user_name['ForumName']?></span> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span>
+        </div>
     </div>
-</div>
-<div class="hr"></div>
+    <div class="hr hr-mob"></div>
+<?php endif; ?>
+<?php if ($f_RowNum == 3): ?>
+    <div class="banner_hor">
+        <?= banner_rotate(1,1);?>
+    </div>
+<?php endif; ?>
+
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

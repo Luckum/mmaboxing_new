@@ -2,13 +2,14 @@
 <script type="text/javascript">
     function see_more_videos(start, cnt, s_type)
     {
+        var is_mob = $(window).width() <= 1281 ? "1" : "0";
         $("#see_more_videos").hide();
         $("#loading_news").show();
         var html = $.ajax({
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start, cnt: cnt, action: 'videos', s_type: s_type}
+            data: {start: start, cnt: cnt, action: 'videos', s_type: s_type, is_mob: is_mob}
         }).responseText;
         if (html != '') {
             $("#see_more_videos_div").append(html);
@@ -23,15 +24,42 @@
 
 <div class="main_dop_inner_l">
     <div class="left_c">
-        <div class="news_t">
+        <div class="news_t video-cur-menu">
             Видео <span class="video_tabs">></span>
             <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab<?php endif; ?>">Все</a> 
             <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
             <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
             <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
-            <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab<?php endif; ?>">Архив боёв</a> 
+            <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab<?php endif; ?>">Архив боёв</a>
             <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab<?php endif; ?>">Переводы</a> 
             <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab<?php endif; ?>">Интервью</a>
+        </div>
+        <div class="news_t video-min-menu">
+            Видео <span class="video_tabs">></span>
+            <?php if ($current_sub['Hidden_URL'] == '/video/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/mma/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/boxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/archive/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Архив боёв&nbsp;&#8744;</a>
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/translation/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Переводы&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/interview/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Интервью&nbsp;&#8744;</a> 
+            <?php endif; ?>
+            <div class="min-menu-links" style="display: none;">
+                <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab_min<?php endif; ?>">Все</a> 
+                <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab_min<?php endif; ?>">MMA</a> 
+                <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab_min<?php endif; ?>">Бокс</a> 
+                <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab_min<?php endif; ?>">Кикбоксинг</a> 
+                <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab_min<?php endif; ?>">Архив боёв</a> 
+                <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab_min<?php endif; ?>">Переводы</a> 
+                <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab_min<?php endif; ?>">Интервью</a>
+            </div>
         </div>
 <!-- /FormPrefix -->
 
@@ -69,10 +97,11 @@ $month_arr = array(
 );
 $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
 $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE message_link=".$f_RowID));
-
+$url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+$likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 
-<?php if ($f_big_thumb == 1): ?>
+<?php if (($f_RowNum == 2 || $f_RowNum == 10) && !isset($is_mob)): ?>
     <div class="post_c_b">
         <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 680, 340, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=340&w=680")?>" class="post_img">
         <div class="post_b_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
@@ -89,15 +118,19 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                 <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
             <? }else{ ?>
                 <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-            <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+            <? } ?> &nbsp;|&nbsp; <span class="author-link"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span>
         </div>
         <div class="playback_video_page_big"><a href="<?= $fullLink ?>"><img src="/images/playback-start.png"></a></div>
     </div>
     <div class="hr"></div>
 <?php else: ?>
-    <div class="post_c">
-        <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img">
-        <div class="lab"><?= $f_newsType[0]; ?></div>
+    <div class="post_c" <?php if ($f_RowNum == 5 || $f_RowNum == 13): ?>style="margin-top: 45px;"<?php endif; ?>>
+        <a href="<?= $fullLink ?>">
+            <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img img-link-big">
+            <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 270, 180, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img img-link-small">
+        </a>
+        <div class="lab main-p-type"><?= $f_newsType[0]; ?></div>
+        <div class="post_b_label main-p-type-icon video-m-icon"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="post_t_desk">
             <div class="post_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
             <div class="post_desk">
@@ -113,15 +146,17 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                 <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
             <? }else{ ?>
                 <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-            <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+            <? } ?> &nbsp;|&nbsp; <span class="author-link"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span>
         </div>
         <div class="playback_video_page"><a href="<?= $fullLink ?>"><img src="/images/playback-start.png"></a></div>
     </div>
-    <div class="hr"></div>
-    <?php if ($f_RowNum == 4): ?>
+    <div class="hr hr-mob"></div>
+    <?php if ($f_RowNum == 4 || $f_RowNum == 12): ?>
+        <?php if (!$admin_mode): ?>
         <div class="banner_hor">
             <?= banner_rotate(1,1);?>
         </div>
+        <?php endif; ?>
     <?php endif; ?>
     <?php if ($f_RowNum == 7): ?>
             </div>
@@ -167,17 +202,25 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
                     </div>
                 </div>
             </div>
-            <div class="right_s">
+            <div class="right_s" style="height: 482px;">
                 <div class="right_p_t"><a href="/video/archive">Архив боёв</a><span class="video_tabs">></span></div>
                 <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
             </div>
+            <?php if (!$admin_mode): ?>
             <div class="banner1">
-                <?= banner_rotate(2,1);?>
+                <?= banner_rotate(2,1, false, 'banner-img');?>
             </div>
+            <?php endif; ?>
         </div>
-        <div class="main_dop_s">
+        <div class="main_dop_s to-slide">
             <div class="right_p_t_b vid">Самые обсуждаемые видео<span class="video_tabs">></span></div>
             <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2033") ?>
+        </div>
+        <div class="main_dop_s not-slide" style="display: none;">
+            <div class="right_p_t_b vid">Самые обсуждаемые видео<span class="video_tabs">></span></div>
+            <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2033") ?>            
+            <!-- <div class="right_p_t_b vid">MMA Boxing Production<span class="video_tabs">></span></div>
+            /* <?= s_list_class(232,242,"&recNum=4&nc_ctpl=2019") ?> */ -->
         </div>
         <div class="main_dop_inner">
             <div class="left_c" id="see_more_videos_div">
@@ -189,18 +232,33 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 }
 /* Конец служебной части */?><!-- /RecordTemplate -->
 
-<!-- FormSuffix -->        <button class="see_more" id="see_more_videos" value="more" onclick="see_more_videos(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+<!-- FormSuffix -->        <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_videos" value="more" onclick="see_more_videos(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
-    <div class="right_s_video">
+    <div class="right_s_video" style="width: 360px;">
         <div class="right_p_t"><a href="/video">Новости</a><span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032") ?>
+    
+    <?php if (!$admin_mode): ?>
+    <div class="banner1" style="border-top: 10px solid #eaeaea; border-bottom: 10px solid #eaeaea; margin-bottom: 0;">
+        <?= banner_rotate(2,1, false, 'banner-img');?>
     </div>
-    <div class="banner1">
-        <?= banner_rotate(2,1);?>
+    <?php endif; ?>
+    <?php if (!$admin_mode): ?>
+        <div class="right_s_twit" style="height: 524px;">
+            <div class="right_p_twit">Twitter<span class="video_tabs">></span></div>
+            <a class="twitter-timeline" href="https://twitter.com/MMA_Boxing_ru">Tweets by MMA_Boxing_ru</a>
+            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+    <?php endif; ?>
     </div>
 </div>
 
 
 
+<?php if ($admin_mode): ?>
+    <? if($nextLink || $prevLink) { ?>
+        <?= browse_messages($cc_env, 10); ?>
+    <? } ?>
+<?php endif; ?>
 <!-- /FormSuffix -->

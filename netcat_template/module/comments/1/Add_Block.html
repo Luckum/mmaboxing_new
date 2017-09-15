@@ -1,12 +1,10 @@
-<div>
-<span id='%GUEST_NAME_ID'>Ваше имя<input type='text' name='%GUEST_NAME_ID'></span> 
-<span id='%GUEST_EMAIL_ID'>Ваш email<input type='text'  name='%GUEST_EMAIL_ID'></span>
-".(%ISBBCODES ? nc_bbcode_bar('this', '%FORM_ID', '%TEXTAREA_ID', 1, array("SIZE", "COLOR", "SMILE", "B", "I", "U", "S", "LIST", "QUOTE", "CODE", "IMG", "URL"), "<div style='margin:5px 0'>", "</div>", true) : "")."
-<textarea id='%TEXTAREA_ID' name='%TEXTAREA_ID' style='width:50%'>%TEXTAREA_VALUE</textarea>
+<div id='page_comment_block'>
+    <div id='fhhgfhfgh'>Ваш комментарий</div>
+<span id='%GUEST_NAME_ID' style='padding-right:1.1%;'><input type='text' name='%GUEST_NAME_ID' placeholder='Ваше имя'></span> 
+<span id='%GUEST_EMAIL_ID'><input type='text'  name='%GUEST_EMAIL_ID' placeholder='Ваш email(не будет опубликован)'></span>
+".(%ISBBCODES ? nc_bbcode_bar('this', '%FORM_ID', '%TEXTAREA_ID', 1, array("SIZE", "COLOR", "SMILE", "B", "I", "U", "S", "LIST", "QUOTE", "CODE", "IMG", "URL"), "<div id='block_jc_format' style='margin:5px 0'>", "</div>", true) : "")."
+<textarea id='%TEXTAREA_ID' name='%TEXTAREA_ID' style='width:50%' placeholder='Комментарий'>%TEXTAREA_VALUE</textarea>
 <br/>
- ".( $AUTH_USER_ID ? "" : "".nc_captcha_formfield()."
- <br/>
-Введите код на картинке: <input type='text' name='nc_captcha_code' value=''>
-" )."
-<br/> <button id='%SUBMIT_BUTTON_ID' name='%SUBMIT_BUTTON_ID'>".NETCAT_MODULE_COMMENTS_ADD_FORM_APPEND_BUTTON."</button> <button onclick='%CANCEL_BUTTON_ACTION' id='%CANCEL_BUTTON_ID' name='%CANCEL_BUTTON_ID'>".NETCAT_MODULE_COMMENTS_ADD_FORM_CANCEL_BUTTON."</button>
+
+<br/> <div class='submit_comment_inline' style='padding-right:10px;'><button id='%SUBMIT_BUTTON_ID' name='%SUBMIT_BUTTON_ID'>Оставить комментарий</button></div><div class='submit_comment_inline' id='comment-reg-lbl'>Оставляя комментарий<br> вы регистрируетесь на сайте </div> <button onclick='%CANCEL_BUTTON_ACTION' id='%CANCEL_BUTTON_ID' name='%CANCEL_BUTTON_ID'>".NETCAT_MODULE_COMMENTS_ADD_FORM_CANCEL_BUTTON."</button>
 </div>

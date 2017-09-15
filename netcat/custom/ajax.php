@@ -3,6 +3,10 @@ if ($_POST) {
     $name = htmlspecialchars($_POST["sender_name"]);
     $email = htmlspecialchars($_POST["sender_email"]);
     $message = htmlspecialchars($_POST["sender_comment"]);
+    $email_to = htmlspecialchars($_POST["email_to"]);
+    $email_body = htmlspecialchars($_POST["email_body"]);
+    $subject = htmlspecialchars($_POST["email_subject"]);
+    
     $json = array();
     if (!preg_match("|^[-0-9a-z_\.]+@[-0-9a-z_^\.]+\.[a-z]{2,6}$|i", $email)) {
         $json['error'] = 'Нe вeрный фoрмaт email! >_<';
@@ -10,8 +14,6 @@ if ($_POST) {
         die();
     }
     
-    $to = 'admin@mmaboxing.com';
-
     if (!empty($_FILES['sender_file']['tmp_name'] ) && $_FILES['sender_file']['error'] == 0) {
         $filepath = $_FILES['sender_file']['tmp_name'];
         $filename = $_FILES['sender_file']['name'];
@@ -20,20 +22,20 @@ if ($_POST) {
         $filename = '';
     }
  
-    $body = "Имя:\r\n".$name."\r\n\r\n";
-    $body .= "E-mail:\r\n".$email."\r\n\r\n";
-    $body .= "Комментарий:\r\n".$message;
+    $search = array('%email%', '%name%', '%comment%');
+    $replace = array($email, $name, $message);
+    
+    $body = str_replace($search, $replace, $email_body);
  
-    send_mail($to, $body, $email, $filepath, $filename);
+    send_mail($email_to, $body, $email, $filepath, $filename, $subject);
     $json['error'] = 0;
 
     echo json_encode($json); 
 }
 
 
-function send_mail($to, $body, $email, $filepath, $filename)
+function send_mail($to, $body, $email, $filepath, $filename, $subject)
 {
-    $subject = 'New material';
     $boundary = "--".md5(uniqid(time()));
     $headers = "From: ".$email."\r\n";   
     $headers .= "MIME-Version: 1.0\r\n";

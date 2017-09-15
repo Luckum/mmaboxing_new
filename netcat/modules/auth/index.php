@@ -73,9 +73,11 @@ do {
     }
 
 // Авторизация через facebook
+
     if ($nc_fb && $nc_auth_fb->enabled() && ($fb_token = $_GET['token'])) {
         if (function_exists('curl_init')) {
-            $tuCurl = curl_init();
+            $res = json_decode(file_get_contents('https://graph.facebook.com/me?access_token='.$fb_token), true);
+            /*$tuCurl = curl_init();
             curl_setopt($tuCurl, CURLOPT_URL, "https://graph.facebook.com/me?access_token=".$fb_token);
             curl_setopt($tuCurl, CURLOPT_PORT, 443);
             curl_setopt($tuCurl, CURLOPT_VERBOSE, 0);
@@ -84,7 +86,7 @@ do {
             curl_setopt($tuCurl, CURLOPT_SSL_VERIFYPEER, 0);
             curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, 1);
 
-            $res = json_decode(curl_exec($tuCurl));
+            $res = json_decode(curl_exec($tuCurl));*/
         } else {
             $res = null;
         }
@@ -252,7 +254,9 @@ do {
     }
 
     if ((!$AuthPhase || !$IsAuthorized) && !$nc_core->get_settings('user_login_form_disable', 'auth')) {
-        $nc_auth->login_form();
+        //$nc_auth->login_form();
+        header("Location: http://".$HTTP_HOST.$REQUESTED_FROM . "?error");
+        exit;
     } else {
         $redirect = "http://".$HTTP_HOST.$REQUESTED_FROM;
 

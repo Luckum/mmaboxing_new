@@ -17,7 +17,8 @@ $month_arr = array(
 );
 $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
 $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE message_link=".$f_RowID));
-
+$url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+$likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 
 <?php if ($f_RowNum == 0): ?>
@@ -27,20 +28,20 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 	<div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
     <div class="big_post_bg">
         <div class="side_video_desc">
-            <span class="big_post_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></span>
+            <span class="big_post_title"><a href="<?= $fullLink ?>"><?= cutStr($f_myTitle, 150); ?></a></span>
             <span class="big_post_date">
                 <? if($f_Date != 0) { ?>
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png"> 12 <img src="images/r.png" /> 4
+                <? } ?> | <span class="author-link"><?=$user_name['ForumName']?></span> <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
             </span>
         </div>
     </div>
 </div>
 
 <div class="right_p">
-    <div class="right_p_t">Главные новости<span class="video_tabs">></span></div>
+    <div class="right_p_t">Новости одной строкой<span class="video_tabs">></span></div>
 
     <?= s_list_class(3,1,"&recNum=5&nc_ctpl=2023") ?>
 </div>
@@ -55,13 +56,13 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
         <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>"></a>
         <div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="small_l_bg">
-            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=cutStr($f_myTitle, 120);?></a></div>
             <div class="small_d_c">
                 <? if($f_Date != 0) { ?>
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png"> 12 <img src="images/r.png" /> 4
+                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
             </div>
         </div>
     </div>
@@ -72,13 +73,13 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
         <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>"></a>
         <div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="small_l_bg">
-            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=cutStr($f_myTitle, 120);?></a></div>
             <div class="small_d_c">
                 <? if($f_Date != 0) { ?>
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png"> 12 <img src="images/r.png" /> 4
+                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
             </div>
         </div>
     </div>
@@ -89,13 +90,13 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
         <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>"></a>
         <div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="small_l_bg">
-            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="small_l_t"><a href="<?= $fullLink ?>"><?=cutStr($f_myTitle, 120);?></a></div>
             <div class="small_d_c">
                 <? if($f_Date != 0) { ?>
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png"> 12 <img src="images/r.png" /> 4
+                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
             </div>
         </div>
     </div>
@@ -105,8 +106,4 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
     <div class="clr"></div>
 </div>
 <?php endif; ?>
-
-
-
-
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

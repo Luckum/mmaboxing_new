@@ -35,30 +35,34 @@
     
     <div class="block" style="margin: 0px">
         <p>Войти через соцсети:</p>
-        <button>FB</button>
-        <button>VK</button>
+        <span class="social-btn" id="fb-account">
+            <img src="/images/fb_btn.png" />
+        </span>
+        <span class="social-btn" onclick='nc_vk_login()'>
+            <img src="/images/vk_btn.png" />
+        </span>
     </div>
     <div class="block" style="margin: 0px">
         <div class="input_text">
-            <input type="text" name="Email" value='' placeholder="E-mail" class="send_input">
+            <input type="text" name="Email" value='' placeholder="E-mail" class="send_input auth-input">
         </div>
     </div>
     <div class="block" style="margin: 0px">
         <div class="input_text">
-            <input type="text" name="u_name" value='' placeholder="Имя" class="send_input">
+            <input type="text" name="u_name" value='' placeholder="Имя" class="send_input auth-input">
         </div>
     </div>
     <div class="block" style="margin: 0px">
         <div class="input_text">
-            <input type="password" name="Password1" id="Password1" value='' placeholder="Пароль" class="send_input">
+            <input type="password" name="Password1" id="Password1" value='' placeholder="Пароль" class="send_input auth-input">
         </div>
     </div>
     <div class="block" style="margin: 0px">
         <div class="input_text">
-            <input type="password" name="Password2" id="Password2" value='' placeholder="Пароль ещё раз" class="send_input">
+            <input type="password" name="Password2" id="Password2" value='' placeholder="Пароль ещё раз" class="send_input auth-input">
         </div>
     </div>
     
-    <input type='submit' class="send_input_submit" id="reg_submit" value='Войти' />
+    <input type='submit' class="send_input_submit auth-btn" id="reg_submit" value='Войти' />
 </form>
 </div>

@@ -14,11 +14,19 @@
         '12'=>'декабря',
     );
 ?>
-<div id="ca-container" class="ca-container">
+<?php if ($recNum == 8): ?>
+<div id="ca-container-mbl" class="ca-container">
     <div class="ca-wrapper">
+<?php else: ?>
+    <div class="small_video_l_right">
+<?php endif; ?>
 <!-- /FormPrefix -->
 
-<!-- RecordTemplate --><div class="ca-item">
+<!-- RecordTemplate -->
+    <?php $url = 'http://' . $nc_core->HTTP_HOST . $fullLink; ?>
+    <?php $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt; ?>
+    <?php if ($recNum == 8): ?>
+        <div class="ca-item">
             <div class="ca-item-main">
                 <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 240, 140, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=140&w=240")?>" alt="<?=$f_myTitle?>"></a>
                 <div class="post_b_label_s"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
@@ -28,15 +36,41 @@
                         <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?>
                     <? }else{ ?>
                         <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>
-                    <? } ?> | <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+                    <? } ?> | <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span>
                 </span>
             </div>
             <?php if ($f_Subdivision_ID == 20 || $f_Subdivision_ID == 117 || $f_Subdivision_ID == 118): ?>
                 <a  href="<?= $fullLink ?>" class="playback_s"><img src="/images/playback-start.png"></a>
             <?php endif; ?>
-        </div><!-- /RecordTemplate -->
+        </div>
+    <?php else: ?>
+        <div class="small_video_l">
+            <div class="small_video_img">
+                <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 90, 90, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=90&w=90")?>" title="<?=$f_myTitle?>" alt="<?=$f_myTitle?>">
+                <?php if ($f_Subdivision_ID == 20 || $f_Subdivision_ID == 117 || $f_Subdivision_ID == 118): ?>
+                    <div class="playback_angle"><img src="/images/playback-start_angle.png"></div>
+                <?php endif; ?>
+            </div>
+            <div class="small_video_descr">
+                <span class="v_label"><?= $f_newsType[0]; ?></span>
+                <span class="v_date">
+                <? if($f_Date != 0) { ?>
+                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                <? }else{ ?>
+                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                <? } ?>
+                </span>
+                <br />
+                <span class="v_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></span>
+            </div>
+        </div>
+    <?php endif; ?>
+<!-- /RecordTemplate -->
 
-<!-- FormSuffix -->    </div>
+<!-- FormSuffix -->    
+<?php if ($recNum == 8): ?>    
+    </div>
+<?php endif; ?>
 </div>
 
 <!-- /FormSuffix -->

@@ -5,6 +5,7 @@
     <?= $f_myName; ?>
     <?= !empty($f_myText) ? ": " . $f_myText : ""; ?>
 <?php endif; ?>
+
 <?php
     $month_arr = array(
         '01'=>'января',
@@ -30,7 +31,7 @@
             <?= ($f_myDate_year.$f_myDate_month.$f_myDate_day==date("Ymd") ? 'Сегодня' : $f_myDate_day . " " . $month_arr[$f_myDate_month] . " " . $f_myDate_year)?>
         <? } else { ?>
             <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-        <? } ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="color: #aaaaaa;" href="<?= $fullLink; ?>"><?= $f_myName; ?></a>
+        <? } ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="color: #aaaaaa;" href="<?= $fullLink; ?>"><?= cutStr($f_myName, 50); ?></a>
     </div>
     <div>
         <?php if ($showResults): ?>

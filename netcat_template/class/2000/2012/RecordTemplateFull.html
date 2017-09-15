@@ -20,9 +20,62 @@
         }
     }
 </script>
+<script type='text/javascript'>
+    $(function() {
+        if (document.getElementById('fb-account')) {
+            window.fbAsyncInit = function() {
+                FB.init({ appId: '<?= $nc_auth_fb->get_app_id() ?>',
+                    status: true, 
+                    cookie: true,
+                    xfbml: true,
+                    oauth: true,
+                    version: 'v2.8'
+                });
+                function updateButton(response) {
+                    var button = document.getElementById('fb-account');
+                    if (response.authResponse) {
+                        button.innerHTML = "выход";
+                        button.onclick = function() {
+                            FB.logout(function(response) {
+                            });
+                        };
+                    } else {
+                        button.onclick = function() {
+                            FB.login(function(response) {
+                                if (response.authResponse) {
+                                    location.href = '<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH."modules/auth/?nc_fb=1&token=" ?>'+response.authResponse.accessToken+'&REQUESTED_FROM=<?= htmlspecialchars($REQUEST_URI, ENT_QUOTES) ?>';
+                                } else {
+                                    
+                                }
+                            }, {scope:'email'});      
+                        }
+                    }
+                }
+                FB.getLoginStatus(updateButton);
+                FB.Event.subscribe('auth.statusChange', updateButton);    
+            };    
+            (function() {
+                var e = document.createElement('script'); e.async = true;
+                e.src = document.location.protocol 
+                + '//connect.facebook.net/ru_RU/all.js';
+                document.getElementById('fb-root').appendChild(e);
+            }());
+        }
+    });
+</script>
+<script src='http://vk.com/js/api/openapi.js' type='text/javascript'></script>
+<script type='text/javascript'>
+    function nc_vk_login ( is_member ) {
+        var is_mem = is_member || 0;
+        if ( !is_mem ) VK.Auth.login( nc_vk_login );
+        else
+            location.href='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH; ?>modules/auth/?nc_vk=1&REQUESTED_FROM=<?= htmlspecialchars($REQUEST_URI,ENT_QUOTES ); ?>';
+    }
+    VK.init({ apiId: <?= $nc_auth_vk->get_app_id(); ?> });
+</script>
 <?=nc_browse_path($browse_template)?>        
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT']."netcat/require/lib/simple_html_dom.php";
+    require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
     $html = str_get_html($f_myText);
     $frame = $html->find('iframe', 0);
     $src = $frame->src;
@@ -47,10 +100,16 @@
         '12'=>'декабря',
     );
     $f_myTags = trim($f_myTags, ',');
+    
+    $title = $f_myTitle;
+    $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+    $summary = cutStr(strip_tags($f_myText), 300);
+    $image = 'http://' . $nc_core->HTTP_HOST . getThumbNow($f_myPhoto, 100, 100, 1, false, 95, -1);
+    $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 <div class="main_dop_inner_l">
     <div class="left_c" id="see_more_read_also_div">
-        <div class="news_t">
+        <div class="news_t video-cur-menu">
             Видео <span class="video_tabs">></span>
             <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab<?php endif; ?>">Все</a> 
             <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
@@ -60,16 +119,44 @@
             <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab<?php endif; ?>">Переводы</a> 
             <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab<?php endif; ?>">Интервью</a>
         </div>
+        <div class="news_t video-min-menu">
+            Видео <span class="video_tabs">></span>
+            <?php if ($current_sub['Hidden_URL'] == '/video/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/mma/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/boxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/archive/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Архив боёв&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/translation/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Переводы&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/interview/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Интервью&nbsp;&#8744;</a> 
+            <?php endif; ?>
+            <div class="min-menu-links" style="display: none;">
+                <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab_min<?php endif; ?>">Все</a> 
+                <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab_min<?php endif; ?>">MMA</a> 
+                <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab_min<?php endif; ?>">Бокс</a> 
+                <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab_min<?php endif; ?>">Кикбоксинг</a> 
+                <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab_min<?php endif; ?>">Архив боёв</a> 
+                <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab_min<?php endif; ?>">Переводы</a> 
+                <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab_min<?php endif; ?>">Интервью</a>
+            </div>
+        </div>
         <div class="inner_img"><iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src; ?>" width="728"></iframe></div>
         <div class="inner_content">
             <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
             <div class="inner_title"><?= $f_myTitle; ?></div>
             <div class="inner_date">
+                <span class="n-date">
                 <? if($f_Date != 0) { ?>
                     <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                 <? }else{ ?>
                     <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+                <? } ?></span>&nbsp;&nbsp;<span class="n-delim">|</span>&nbsp;&nbsp;<span class="n-name"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;<span class="n-socs"><img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span></span>
             </div>
             <div class="inner_text">
                 <?= $f_myText ?>
@@ -86,29 +173,43 @@
                     }
                 ?>
             </ul>
-            <div class="hr"></div>
+            <div class="hr hr-mob-inner"></div>
+            <div class="share">
+                <div data-share-data='{"url": "<?= $url; ?>", "img": "<?= $image; ?>", "title": "<?= htmlspecialchars($title); ?>", "text": "<?= $summary; ?>", "id": "<?= $f_RowID; ?>"}'>
+                    <div onclick="share.facebook($(this))" class="facebook">
+                        <span class="icon"></span>
+                    </div>
+                    <div onclick="share.vk($(this))" class="vk">
+                        <span class="icon"></span>
+                    </div>
+                    <div onclick="share.twitter($(this))" class="twitter">
+                        <span class="icon"></span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="banner_hor">
             <?= banner_rotate(1,1);?>
         </div>
         <div><?= $nc_comments->wall($f_RowID); ?></div>
-        <div class="news_t">Читайте также</div>
-        <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>
-        <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(5, 5, '<?= $f_myTags ?>', <?= $f_Message_ID ?>)">Показать ещё</button>
-        <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+        <div class="read-more-container">
+            <div class="news_t">Читайте также</div>
+            <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>
+            <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(5, 5, '<?= $f_myTags ?>', <?= $f_Message_ID ?>)">Показать ещё</button>
+            <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+        </div>
     </div>
-    <div class="right_s_video">
+    <div class="right_s_video" style="width: 360px;">
         <div class="right_p_t"><a href="/news">Новости</a><span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID) ?>
     </div>
-    <div class="right_s_video">
+    <div class="banner1">
+        <?= banner_rotate(2,1, false, 'banner-img');?>
+    </div>
+    <div class="right_s_video" style="width: 360px;">
         <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031&current=" . $f_RowID) ?>
     </div>
-    <div class="banner1">
-        <?= banner_rotate(2,1);?>
-    </div>
-    
 </div>
 
 

@@ -32,7 +32,7 @@ function interogation_self($field,$all,$id,$pc=false)
 		if($res[0] == $id)
 		{
 			$pco = round(((100/$all)*$res[1]),2);
-			return (!$pc ? $res[1].' ('.$pco.'%)' : $pco);
+			return (!$pc ? $res[1] : $pco);
 			break;
 		}
 	}
@@ -40,35 +40,28 @@ function interogation_self($field,$all,$id,$pc=false)
 
 // Запись результата опроса
 
-function addArrogRes($vid, $check, $class_id)
+function addArrogRes($vid, $check, $class_id, $vote_check)
 {
-	if(!is_numeric($_GET['vid'])){ die(); }
-	if(md5($_SERVER['REMOTE_ADDR'].$_GET['vid']) == $_GET['cache'])
-	{
-	setcookie ("interogation".$_GET['vid'], $_GET['cache'], time() + 3600*9999, '/');
-		if(is_numeric($vid))
-		{
-			$sql = mysql_fetch_assoc(mysql_query("SELECT answers FROM Message".$class_id." WHERE Message_ID=".$vid." LIMIT 0,1"));
-			if($sql['answers'])
-			{
-				$arr = explode(',',$sql['answers']);
-				foreach($arr as $key=>$val)
-					{
-						$res = explode('-',$val);
-						if($res[0] == $_POST['vote_check'])
-						{
-							$arr[$key] = $res[0].'-'.($res[1]+1);
-							break;
-						}
+	if (md5($_SERVER['REMOTE_ADDR'] . $vid) == $check)	{
+        setcookie ("interogation" . $vid, $check, time() + 3600*9999, '/');
+	    setcookie ("interogation" . $vid . "-answer", $vote_check, time() + 3600*9999, '/');
+		if (is_numeric($vid)) {
+			$sql = mysql_fetch_assoc(mysql_query("SELECT answers FROM Message" . $class_id . " WHERE Message_ID=" . $vid . " LIMIT 0,1"));
+			if ($sql['answers']) {
+				$arr = explode(',', $sql['answers']);
+				foreach ($arr as $key => $val) {
+				    $res = explode('-', $val);
+					if ($res[0] == $vote_check) {
+					    $arr[$key] = $res[0] . '-' . ($res[1] + 1);
+						break;
 					}
-				$sql_ins = "UPDATE Message".$class_id." SET answers='".implode(',',$arr)."' WHERE Message_ID=".$vid;
+				}
+				$sql_ins = "UPDATE Message" . $class_id . " SET answers='" . implode(',', $arr) . "' WHERE Message_ID=" . $vid;
 				mysql_query($sql_ins);
-				echo $sql_ins;
-				
+				return 1;
 			}
 		}
 	}
-	header('Location: '.$_SERVER['HTTP_REFERER'].'');
 }
 
 
@@ -144,5 +137,14 @@ $listenObj = new  ListenUser();
 function my_func () {
 }
 */
+
+function cutStr($str, $length=50, $postfix='...')
+{
+    if (strlen($str) <= $length)
+        return $str;
+ 
+    $temp = substr($str, 0, $length);
+    return substr($temp, 0, strrpos($temp, ' ') ) . $postfix;
+}
 
 ?>

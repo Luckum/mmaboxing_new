@@ -1,3 +1,28 @@
+<script type="text/javascript">
+    function redirect_event(url)
+    {
+        window.open(url, '_blank');
+    }
+    function see_more_read_also(start, cnt, tags, m_id)
+    {
+        $("#see_more_read_also").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, tags: tags, id: m_id, action: 'read_also'}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_read_also_div").append(html);
+            $("#see_more_read_also").appendTo("#see_more_read_also_div");
+            $("#loading_news").appendTo("#see_more_read_also_div");
+            $("#loading_news").hide();
+            $("#see_more_read_also").show();
+            $("#see_more_read_also").attr("onclick", "see_more_read_also(" + (start+6) + ", " + cnt + ", '" + tags + "', " + m_id + ")");
+        }
+    }
+</script>
 <? echo $f_AdminCommon; ?>
 <?=nc_browse_path($browse_template)?>		
 <?php                                  
@@ -19,7 +44,7 @@
     $rest_fighters = array();
     $sql_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $f_main_card_fighter_1));
     $sql_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $f_main_card_fighter_2));
-    $sql_rest_fights = $db->get_results("SELECT * FROM Message2043 WHERE event = " . $f_RowID, ARRAY_A);
+    $sql_rest_fights = $db->get_results("SELECT * FROM Message2045 WHERE event = " . $f_RowID, ARRAY_A);
     $foto_1 = explode(':', $sql_fighter_1['myFoto']);
     $foto_2 = explode(':', $sql_fighter_2['myFoto']);
     if ($f_myDate < date('Y-m-d H:i:s')) {
@@ -29,30 +54,63 @@
 
 <div class="main_dop_inner_l">
     <div class="left_c_arch">
-        <div class="news_t">
+        <div class="news_t events-cur-menu">
             События <span class="video_tabs">></span>
             <a href="/fight-calendar" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/'): ?> active_tab<?php endif; ?>">Все</a> 
             <a href="/fight-calendar/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
             <a href="/fight-calendar/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
             <a href="/fight-calendar/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
-            <a href="javascript:void(0)" class="video_tabs<?php if (!$showResults): ?> active_tab<?php endif; ?>">Предстоящие</a> 
-            <a href="javascript:void(0)" class="video_tabs<?php if ($showResults): ?> active_tab<?php endif; ?>">Результаты</a>
+            <span class="delimiter_v">
+                <a href="javascript:void(0)" class="video_tabs<?php if (!$showResults): ?> active_tab<?php endif; ?>">Предстоящие</a> 
+                <a href="javascript:void(0)" class="video_tabs<?php if ($showResults): ?> active_tab<?php endif; ?>">Результаты</a>
+            </span>
         </div>
-        <div class="fc_inner_date"><?= $f_myDate_day . " " . $month_arr[$f_myDate_month]; ?></div>
-        <div class="fc_inner_s_type"><?= $f_myType; ?>&nbsp;&nbsp;<?= $f_myCity . ", " . $f_myCountry; ?></div>
-        <div class="fc_inner_desc"><?= $f_myName?><?= !empty($f_myText) ? ": " . $f_myText : ""; ?></div>
+        <div class="news_t events-min-menu">
+            События <span class="video_tabs">></span>
+            <?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">MMA&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/fight-calendar/kickboxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a> 
+            <?php endif; ?>
+            <?php if (!$showResults): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min_ev">Предстоящие</a> 
+            <?php endif; ?>
+            <?php if ($showResults): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min_ev">Результаты</a> 
+            <?php endif; ?>
+            <div class="min-menu-links" style="display: none;">
+                <a href="/fight-calendar" class="video_tabs active_tab_min">Все</a> 
+                <a href="/fight-calendar/mma" class="video_tabs">MMA</a> 
+                <a href="/fight-calendar/boxing" class="video_tabs">Бокс</a> 
+                <a href="/fight-calendar/kickboxing" class="video_tabs">Кикбоксинг</a> 
+            </div>
+        </div>
+		<div id='top2container'>
+        <div class="fc_inner_date"><div id='ddday' <?php if (!$showResults): ?> style="background-color: #e73435; color: #fff;" <?php endif; ?>><?= $f_myDate_day . "</div><div id='mmmonth'> " . $month_arr[$f_myDate_month]; ?></div></div>
+        <div class="fc_inner_s_type"><span id='mmmma'><?= $f_myType; ?></span>&nbsp;&nbsp;<span id='cf_2'><?= $f_myCity . ", " . $f_myCountry; ?></span></div>
+        <div class="fc_inner_desc"><p><?= $f_myName?><?= !empty($f_myText) ? ": " . strip_tags($f_myText) : ""; ?></p></div>
         <?php if (!$showResults): ?>
-            <div class="fc_inner_buttons">
+            <div class="fc_inner_buttons" <?php if ((!empty($f_bet_link) && empty($f_buy_link)) || (empty($f_bet_link) && !empty($f_buy_link))): ?>style="margin-top: 0"<?php endif; ?>>
                 <?php if (!empty($f_bet_link)): ?>
-                    <button class="fc_inner_bet" id="bet_btn">Ставки</button>
+                    <button class="fc_inner_bet" id="bet_btn" onclick="redirect_event('<?= $f_bet_link; ?>')">Ставки</button>
                 <?php endif; ?>
                 <?php if (!empty($f_buy_link)): ?>
-                    <button class="fc_inner_ticket" id="ticket_btn">Купить билет</button>
+                    <button class="fc_inner_ticket" id="ticket_btn" onclick="redirect_event('<?= $f_buy_link; ?>')">Купить билет</button>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-        <span>Основной бой</span>
-        <img src="<?= getThumbNow('/netcat_files/' . $foto_1[3], 300, 300, 1, false, 95, -1) ?>" class="post_img">
+		</div>
+        <div id='osn_2'>Основной бой</div>
+		<div class="fc_main_fighter_1">
+            <?= $sql_fighter_1['myName']; ?>
+            <span class="fc_main_fighter_1_data">Возраст <?= year_format($sql_fighter_1['myAge']); ?></span>
+            <span class="fc_main_fighter_1_data">Рост <?= $sql_fighter_1['myGrouth']; ?> см</span>
+            <span class="fc_main_fighter_1_data">Вес <?= $sql_fighter_1['myWeight']; ?> кг</span>
+        </div>
+		<div id='imgfc2'>
+        <img src="<?= getThumbNow('/netcat_files/' . $foto_1[3], 300, 300, 1, false, 95, -1) ?>" class="post_img ev-in-img">
         <?php if ($showResults): ?>
             <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?>
                 <div class="fc_inner_winner_1">
@@ -61,7 +119,7 @@
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-        <img src="<?= getThumbNow('/netcat_files/' . $foto_2[3], 300, 300, 1, false, 95, -1) ?>" class="post_img">
+        <img src="<?= getThumbNow('/netcat_files/' . $foto_2[3], 300, 300, 1, false, 95, -1) ?>" class="post_img ev-in-img">
         <?php if ($showResults): ?>
             <?php if ($f_main_card_winner == $f_main_card_fighter_2): ?>
                 <div class="fc_inner_winner_2">
@@ -70,23 +128,46 @@
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-        <div class="vs_label"><img src="/images/VS.png"></div>
-        <div class="fc_main_fighter_1"><?= $sql_fighter_1['myName']; ?></div>
-        <div class="fc_main_fighter_2"><?= $sql_fighter_2['myName']; ?></div>
-        <span>Остальные бои</span>
-        <?php foreach ($sql_rest_fights as $row): ?>
-            <?php $sql_rest_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_1'])); ?>
-            <?php $sql_rest_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_2'])); ?>
-            <div class="fc_rest_fighter_1"><?php if ($showResults && $row['fighter_1'] == $row['winner']): ?><img src="/images/star.png"><?php endif; ?><?= $sql_rest_fighter_1['myName']; ?></div>
-            <div class="fc_rest_fighter_2"><?= $sql_rest_fighter_2['myName']; ?><?php if ($showResults && $row['fighter_2'] == $row['winner']): ?><img src="/images/star.png"><?php endif; ?></div>
-        <?php endforeach; ?>
+	        <div class="vs_label_inner"><img src="/images/VS.png"></div>
+		</div >
+        <div class="fc_main_fighter_2">
+            <?= $sql_fighter_2['myName']; ?>
+            <span class="fc_main_fighter_1_data">Возраст <?= year_format($sql_fighter_2['myAge']); ?></span>
+            <span class="fc_main_fighter_1_data">Рост <?= $sql_fighter_2['myGrouth']; ?> см</span>
+            <span class="fc_main_fighter_1_data">Вес <?= $sql_fighter_2['myWeight']; ?> кг</span>
+        </div>
+
+
+        <?php if ($sql_rest_fights): ?>
+            <div id='ost2page'>Остальные бои</div>
+            <?php foreach ($sql_rest_fights as $row): ?>
+                <?php $sql_rest_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_1'])); ?>
+                <?php $sql_rest_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_2'])); ?>
+                <div id='otherfight_container'>
+                    <div class="fc_rest_fighter_1">
+                        <?php if ($showResults && $row['fighter_1'] == $row['winner']): ?><img src="/images/star.png"><?php endif; ?><?= $sql_rest_fighter_1['myName']; ?>
+                    </div>
+                    <div id='tire'>—</div>
+                    <div class="fc_rest_fighter_2">
+                        <?= $sql_rest_fighter_2['myName']; ?><?php if ($showResults && $row['fighter_2'] == $row['winner']): ?><img src="/images/star.png"><?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
-    <div class="left_c">
+    <div class="left_c event-inner" id="see_more_read_also_div">
         <div class="news_t">Новости по теме</div>
-        <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_tags."&curID=".$f_Message_ID) ?>
+        <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=6&searchTags=".$f_tags."&curID=0") ?>
+        <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(6, 6, '<?= $f_tags ?>', <?= $f_Message_ID ?>)">Показать ещё</button>
+        <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
-    <div class="right_s_video">
+    <div id='sdg' class="right_s_video" style="width: 360px;">
         <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031") ?>
     </div>
+    <?php if (!$admin_mode): ?>
+        <div class="banner1">
+            <?= banner_rotate(2,1, false, 'banner-img');?>
+        </div>
+    <?php endif; ?>
 </div>

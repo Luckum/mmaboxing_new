@@ -1,23 +1,41 @@
             
             <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
-                <button class="see_more" id="see_more_news" value="more" onclick="see_more_news(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+                <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_news" value="more" onclick="see_more_news(16, 8, <?= $current_sub['Subdivision_ID']; ?>, <?= isset($_GET['search']) ? '\'' . $_GET['search'] . '\'' : '\'\'' ?>)">Показать ещё</button>
             <?php endif; ?>
             <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
-                <button class="see_more" id="see_more_articles" value="more" onclick="see_more_articles(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+                <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_articles" value="more" onclick="see_more_articles(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
             <?php endif; ?>
             <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
-                <button class="see_more" id="see_more_blogs" value="more" onclick="see_more_blogs(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+                <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_blogs" value="more" onclick="see_more_blogs(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $mbpUrls)): ?>
+                <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_mbps" value="more" onclick="see_more_mbps(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
             <?php endif; ?>
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
-    <div class="right_s_video">
-        <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
-        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031") ?>
-    </div>
-    <div class="banner1">
-        <?= banner_rotate(2,1);?>
+    <div class="right-side">
+        <div class="right_s_video" style="width: 360px;">
+            <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
+            <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031") ?>
+        </div>
+        <?php if (!$admin_mode): ?>
+            <div class="banner1">
+                <?= banner_rotate(2,1, false, 'banner-img');?>
+            </div>
+        <?php endif; ?>
+        <?php if (!$admin_mode): ?>
+            <div class="right_s_twit" style="height: 534px;">
+                <div class="right_p_twit">Twitter<span class="video_tabs">></span></div>
+                <a class="twitter-timeline" href="https://twitter.com/MMA_Boxing_ru">Tweets by MMA_Boxing_ru</a>
+                <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
 
-
+<?php if ($admin_mode): ?>
+    <? if($nextLink || $prevLink) { ?>
+        <?= browse_messages($cc_env, 10); ?>
+    <? } ?>
+<?php endif; ?>

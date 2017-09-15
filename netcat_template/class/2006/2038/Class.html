@@ -7,7 +7,7 @@
 ?>
 
 <div class="post_c">
-    <div class="position"><?= $f_RowNum + 1; ?></div>
+    <div class="position"><?= $f_myPos; ?></div>
     <img src="<?= getThumbNow('/netcat_files/' . $foto[3], 150, 150, 1, false, 95, -1) ?>" class="post_img">
     <div>
         <div class="rating_post_t"><?= $sql_f['myName']; ?></div>
@@ -16,11 +16,11 @@
     <div class="small_d_c">
         <?= $sql_f['myBio']; ?>
     </div>
-    <ul class="results">
-        <li><span>Победы </span><span><?= $sql_f['myVictories']; ?></span></li>
-        <li><span>Поражения </span><span><?= $sql_f['myDefeats']; ?></span></li>
-        <li><span>Ничьи </span><span><?= $sql_f['myDraws']; ?></span></li>
-    </ul>
+    <div class="results">
+        Победы <?= $sql_f['myVictories']; ?>
+        Поражения <?= $sql_f['myDefeats']; ?>
+        Ничьи <?= $sql_f['myDraws']; ?>
+    </div>
 </div>
 <div class="hr"></div>
 

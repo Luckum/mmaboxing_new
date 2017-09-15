@@ -196,6 +196,8 @@ nc_Comments.prototype = {
         // hide nc_comments_guest_name input
     	if (this.show_name!=1 && document.getElementById(this.COMMENT_GUEST_NAME_ID)) {
           document.getElementById(this.COMMENT_GUEST_NAME_ID).style.display='none';
+          jQuery("#page_comment_block").css({'margin-left': '30px', 'margin-bottom': '30px'});
+          jQuery("#comment-reg-lbl").hide();
     	}
 
     	// hide nc_comments_guest_email input
@@ -274,6 +276,13 @@ nc_Comments.prototype = {
       var rating = nc_Comments.obj.xhr.responseText;
       if (rating) {
         rating_obj.innerHTML = rating;
+        if (rating > 0) {
+            rating_obj.style.color = "green";
+        } else if (rating < 0) {
+            rating_obj.style.color = "red";
+        } else {
+            rating_obj.style.color = "#aaaaaa";
+        }
       }
     };
     nc_Comments.obj.xhr.send();

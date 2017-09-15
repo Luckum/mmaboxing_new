@@ -9,12 +9,15 @@
     
     if ($showEvents) {
         $query_where .= " AND myDate > NOW()";
+        $query_order = "myDate ASC";
     }
     if ($showResults) {
         $query_where .= " AND myDate < NOW()";
+        $query_order = "myDate DESC";
     }
     if ($s_date && $e_date) {
         $query_where .= " AND myDate BETWEEN '" . $s_date . "' AND '" . $e_date . "'";
+        $query_order = "myDate DESC";
     }
-    $query_order = "myDate DESC";
+    
 ?>

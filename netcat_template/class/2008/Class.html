@@ -1,5 +1,4 @@
-<!-- FormPrefix -->
-<? echo $f_AdminCommon; ?>
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
 
 <!-- /FormPrefix -->
 
@@ -8,7 +7,8 @@
 <div class="module vote">
     <p class="vote-title"><?= $f_myName ?></p>
 			<div class="answers">
-			    <div id="vote" style='<?= ($_COOKIE["interogation".$f_RowID] ? "display:none;" : NULL) ?>'>
+			    <div style="display: none;"><?= $nc_core->input->fetch_cookie("interogation".$f_RowID) ?></div>
+                <div id="vote" style='<?= ($_COOKIE["interogation".$f_RowID] ? "display:none;" : NULL) ?>'>
                     <?= ($f_var1 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="1"><span class="radio-custom"></span><span class="label_v">'.$f_var1.'</span></label>' : NULL) ?>
                     <?= ($f_var2 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="2"><span class="radio-custom"></span><span class="label_v">'.$f_var2.'</span></label>' : NULL) ?>
                     <?= ($f_var3 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="3"><span class="radio-custom"></span><span class="label_v">'.$f_var3.'</span></label>' : NULL) ?>

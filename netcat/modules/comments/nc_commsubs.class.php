@@ -100,4 +100,48 @@ class nc_commsubs {
         $parent_sub = nc_core('subdivision')->get_by_id($sub, 'Parent_Sub_ID');
         return $parent_sub ? array_merge(array($sub), $this->get_sub_parents($parent_sub)) : array($sub);
     }
+    
+    public function register($email, $name)
+    {
+        $user = $this->db->get_row("SELECT * FROM User WHERE Email = '" . $email . "'", ARRAY_A);
+        if (!$user) {
+            $pass = substr(md5(time()), 5, 8);
+            $this->db->get_var("INSERT INTO `User`
+                (`Email`, `Login`, `ForumName`, `Password`, `PermissionGroup_ID`, `Created`, `Catalogue_ID`)
+                VALUES
+                ('" . $email . "', '" . $name . "', '" . $name . "', MD5('" . $pass . "'), 5, '" . date("Y-m-d H:i:s") . "', 1)");
+            $res = $this->db->insert_id;
+            $this->send_mail($email, $pass);
+            return $res;
+        } else {
+            return false;
+        }
+    }
+    
+    protected function send_mail($to, $pass)
+    {
+        $email_tpl = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2046 WHERE Message_ID = 1"));
+        $email_from = $email_tpl['email_from'];
+        $name_from = $email_tpl['name_from'];
+        $search = array('%email%', '%password%');
+        $replace = array($to, $pass);
+        $body = str_replace($search, $replace, $email_tpl['email_body']);
+        $subject = $email_tpl['email_subject'];
+        $boundary = "--".md5(uniqid(time()));
+        $headers = "From: " . $name_from . "<" . $email_from . ">\r\n";   
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .="Content-Type: multipart/mixed; boundary=\"".$boundary."\"\r\n";
+        $multipart = "--".$boundary."\r\n";
+        $multipart .= "Content-type: text/plain; charset=\"utf-8\"\r\n";
+        $multipart .= "Content-Transfer-Encoding: quoted-printable\r\n\r\n";
+
+        $body = $body."\r\n\r\n";
+
+        $multipart .= $body;
+
+        $file = '';
+        
+        $multipart .= $file."--".$boundary."--\r\n";
+        mail($to, $subject, $multipart, $headers);
+    }
 }

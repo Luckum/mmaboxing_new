@@ -11,7 +11,7 @@ $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE Use
 			<div class="top-l">
 		        <span class="title"><?= implode($f_newsType, ', ') ?></span>
 		        <span class="date"><?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?></span>
-				<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a></span>
+				<span class="author"><?=$user_name['ForumName']?></span>
 		    </div>
 		    <div class="top-r">
 		        <script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="small" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus" data-yashareTheme="counter"></div>

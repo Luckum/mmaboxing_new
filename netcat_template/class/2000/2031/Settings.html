@@ -3,7 +3,7 @@ $nc_comments = new nc_comments($cc);
 $ignore_sub=1;
 $ignore_cc=1;
 $cur_video = isset($current) ? " AND Message_ID != " . $current : "";
-$query_where = "a.Subdivision_ID IN(20,117,118) AND NOW() >= Date" . $cur_video;
+$query_where = "a.Subdivision_ID IN(20, 117, 118, 226, 227, 228, 229) AND NOW() >= Date" . $cur_video;
 $query_order = "Date DESC";
 
 ?>

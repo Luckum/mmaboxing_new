@@ -90,9 +90,19 @@ if ($_POST['message_cc'] && $_POST['message_id']) {
   if (!$comment_edit && $comment) {
     // append comment into the base
     try {
-      $comment_id = $nc_comments->addComment($message_id, $parent_mess_id, $comment, $user_id, $nc_comments_guest_name, $nc_comments_guest_email);
-      require_once($MODULE_FOLDER."comments/nc_commsubs.class.php");
-      $nc_commsubs = new nc_commsubs();
+        require_once($MODULE_FOLDER."comments/nc_commsubs.class.php");
+        $nc_commsubs = new nc_commsubs();
+        if ($user_id == 0) {
+            $user_reged = $nc_commsubs->register($nc_comments_guest_email, $nc_comments_guest_name);
+            if (!$user_reged) {
+                die("{'error':'Пользователь с таким e-mail существует'}");
+            } else {
+                $user_id = $user_reged;
+            }
+        }
+        
+        $comment_id = $nc_comments->addComment($message_id, $parent_mess_id, $comment, $user_id, $nc_comments_guest_name, $nc_comments_guest_email);
+      
       $nc_commsubs->new_comment($comment_id, $nc_comments->getMailTemplate(), $nc_comments->getMailSubject());
       //подписать комментатора если имеет право и еще не подписан
       if ($settings['Subscribe_Auto'] && $nc_comments->isRightsToSubscribe(0, $message_id) && !$nc_commsubs->is_subscribe($user_id, $message_cc, $message_id, 0)) {

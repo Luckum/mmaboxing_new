@@ -591,7 +591,7 @@ class nc_Core extends nc_System {
         $current_sub = $this->subdivision->get_current();
         $current_cc = $this->sub_class->get_current();
 
-        if ($current_cc['System_Table_ID'] == 3 || in_array($current_sub['Subdivision_ID'], nc_preg_split("/\s*,\s*/", $this->get_settings('modify_sub', 'auth')))) {
+        if ($current_cc['System_Table_ID'] == 3 || $current_sub['Subdivision_ID'] == 27 || in_array($current_sub['Subdivision_ID'], nc_preg_split("/\s*,\s*/", $this->get_settings('modify_sub', 'auth')))) {
 //            $action = "message";
             $user_table_mode = true;
         } else {

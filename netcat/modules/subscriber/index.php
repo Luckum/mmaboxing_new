@@ -27,9 +27,10 @@ require($INCLUDE_FOLDER."index.php");
 //if ( !$AUTH_USER_ID && ! Authorize() ) exit();
 Authorize();
 
-$input = array_merge((array) $_GET, (array) $_POST);
+//$input = array_merge((array) $_GET, (array) $_POST);
 
-krsort($input);
+//krsort($input);
+$input['fields']['Email'] = $_POST['email'];
 
 if (!$AUTH_USER_ID && $current_cc['UseCaptcha'] && $MODULE_VARS['captcha'] && function_exists('imagegif')) {
     if (!nc_captcha_verify_code($nc_captcha_code)) {
@@ -45,7 +46,22 @@ if (!$status) {
 
     try {
         if (!empty($input)) {
-            foreach ($input as $k => $v) {
+            $mailer_id = 2;
+            $cond = $nc_subscriber->get($mailer_id, 'SubscribeCond');
+            $posting = 1;
+            if ($cond) eval($cond);
+            
+            if ($nc_subscriber->subscription_add($mailer_id, 0, 0, 'on', $input['fields'])) {
+                $status = 1;
+                $act = $nc_subscriber->get($mailer_id, 'SubscribeAction');
+                if ($act) {
+                    eval("echo \"".$act."\";");
+                }
+            }
+            send_mail($input['fields']['Email']);
+            $msg = "Ваша подписка активирована. Спасибо!";
+            return $msg;
+            /*foreach ($input as $k => $v) {
                 if (substr($k, 0, 9) == 'subscribe') {
                     $mailer_id = intval(substr($k, 10));
 
@@ -78,7 +94,7 @@ if (!$status) {
                     $sbs_id = $db->get_var("SELECT `ID` FROM `Subscriber_Subscription` WHERE `Mailer_ID` = '".$mailer_id."' AND `User_ID` = '".$AUTH_USER_ID."'");
                     $nc_subscriber->subscription_change_period($sbs_id, $v);
                 }
-            }
+            }*/
         }
     } catch (ExceptionEmail $e) {
         $status = 2; // неправильный email
@@ -111,4 +127,29 @@ if ($REDIRECT_STATUS == 'on') {
 
 
 exit();
+
+function send_mail($to)
+{
+    $email_tpl = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2046 WHERE Message_ID = 3"));
+    $email_from = $email_tpl['email_from'];
+    $name_from = $email_tpl['name_from'];
+    $body = $email_tpl['email_body'];
+    $subject = $email_tpl['email_subject'];
+    $boundary = "--".md5(uniqid(time()));
+    $headers = "From: " . $name_from . "<" . $email_from . ">\r\n";   
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .="Content-Type: multipart/mixed; boundary=\"".$boundary."\"\r\n";
+    $multipart = "--".$boundary."\r\n";
+    $multipart .= "Content-type: text/plain; charset=\"utf-8\"\r\n";
+    $multipart .= "Content-Transfer-Encoding: quoted-printable\r\n\r\n";
+
+    $body = $body."\r\n\r\n";
+
+    $multipart .= $body;
+
+    $file = '';
+    
+    $multipart .= $file."--".$boundary."--\r\n";
+    mail($to, $subject, $multipart, $headers);
+}
 ?>

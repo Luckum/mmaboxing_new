@@ -6,10 +6,10 @@ if (isset($url)) {
         $sub = mysql_fetch_row(mysql_query("SELECT Subdivision_ID FROM Subdivision WHERE Hidden_URL like '%" . $url . "%'"));
         $query_where .= " AND a.Subdivision_ID = " . $sub[0];
     } else {
-        $query_where .= " AND sub.Parent_Sub_ID = 232";
+        $query_where .= " AND sub.Parent_Sub_ID = 153";
     }
 } else {
-    $query_where .= " AND sub.Parent_Sub_ID = 232";
+    $query_where .= " AND sub.Parent_Sub_ID = 153";
 }
 if (isset($fighter) && $fighter !== '0') {
     $query_where .= " AND (a.myFighter_1 = '" . $fighter . "' OR a.myFighter_2 = '" . $fighter . "')";

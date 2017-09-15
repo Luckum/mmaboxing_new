@@ -1,6 +1,5 @@
 <?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
-
-<?php
+<?php
 $month_arr = array(
     '01'=>'января',
     '02'=>'февраля',
@@ -18,11 +17,11 @@ $month_arr = array(
 ?>
 <div class="right_list_c">
     <div class="right_list_d_c"><span class="right_l"><?= $f_newsType[0]; ?></span>
-        <? if($f_Date != 0) { ?>
+        <? /* if($f_Date != 0) { ?>
             <?= ($f_Date_month.$f_Date_day==date("md") ? 'Сегодня' : ($f_Date_month.$f_Date_day==date("md", mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"))) ? 'Вчера': $f_Date_day . " " . $month_arr[$f_Date_month]))?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
         <? }else{ ?>
             <?= ($f_Created_month.$f_Created_day==date("md") ? 'Сегодня' : $f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-        <? } ?>
+        <? } */ ?>
     </div>
     <div class="right_l_t"><a href="<?= $fullLink ?>"><?= $f_myTitle ?></a></div>
 </div>

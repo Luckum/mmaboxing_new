@@ -1,7 +1,9 @@
 
 <?php 
     echo $f_AdminCommon; 
-    require_once $_SERVER['DOCUMENT_ROOT']."netcat/require/lib/simple_html_dom.php";
+    require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
+    $cnt_events_sql = mysql_fetch_assoc(mysql_query("SELECT count(Message_ID) as cnt FROM Message2010 WHERE myDate > NOW() AND Checked = 1"));
+    $cnt_results_sql = mysql_fetch_assoc(mysql_query("SELECT count(Message_ID) as cnt FROM Message2010 WHERE myDate < NOW() AND Checked = 1"));
 ?>
 <script type="text/javascript">
     function see_more_videos(start, cnt)
@@ -50,8 +52,17 @@
             type: "POST",
             data: {action: action, s_type: s_type}
         }).responseText;
-        html += '<button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_' + action + '(10, 10, ' + s_type + ')">Показать ещё</button>';
-        html += '<div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>';
+        if (action == 'results') {
+            <?php if ($cnt_results_sql['cnt'] > 10): ?>
+                html += '<button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_' + action + '(10, 10, ' + s_type + ')">Показать ещё</button>';
+                html += '<div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>';
+            <?php endif; ?>
+        } else if (action == 'events') {
+            <?php if ($cnt_events_sql['cnt'] > 10): ?>
+                html += '<button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_' + action + '(10, 10, ' + s_type + ')">Показать ещё</button>';
+                html += '<div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>';
+            <?php endif; ?>
+        }
         $("#events_container").html(html);
         if ($('#menu_events').hasClass('active_tab')) {
             $('#menu_events').removeClass('active_tab');
@@ -60,6 +71,16 @@
             $('#menu_results').removeClass('active_tab');
             $('#menu_events').addClass('active_tab');
         }
+        if ($('#menu_events_min').hasClass('active_tab_min')) {
+            $('#menu_events_min').removeClass('active_tab_min');
+            $('#menu_results_min').addClass('active_tab_min');
+            $(".active_tab_min_ev").html('Результаты&nbsp;&#8744;');
+        } else {
+            $('#menu_results_min').removeClass('active_tab_min');
+            $('#menu_events_min').addClass('active_tab_min');
+            $(".active_tab_min_ev").html('Предстоящие&nbsp;&#8744;');
+        }
+        $(".min-menu-links-ev").hide();
     }
     function see_more_events(start, cnt, s_type)
     {
@@ -115,12 +136,12 @@
 
 <?php
     $fighters_1 = $db->get_results("
-        SELECT a.myFighter_1 FROM message2000 a
+        SELECT a.myFighter_1 FROM Message2000 a
         LEFT JOIN subdivision sub ON a.Subdivision_ID = sub.Subdivision_ID
         WHERE sub.Parent_Sub_ID = " . $current_sub['Subdivision_ID'] . " AND a.myFighter_1 IS NOT NULL
         GROUP BY a.myFighter_1", ARRAY_A);
     $fighters_2 = $db->get_results("
-        SELECT a.myFighter_2 FROM message2000 a
+        SELECT a.myFighter_2 FROM Message2000 a
         LEFT JOIN subdivision sub ON a.Subdivision_ID = sub.Subdivision_ID
         WHERE sub.Parent_Sub_ID = " . $current_sub['Subdivision_ID'] . " AND a.myFighter_2 IS NOT NULL
         GROUP BY a.myFighter_2", ARRAY_A);
@@ -143,18 +164,71 @@
 <div class="main_dop_inner_l">
     <?php if ($current_sub['Subdivision_ID'] == 10): ?>
     <div class="left_c_arch">
-        <div class="news_t">
+        <div class="news_t events-cur-menu">
             События <span class="video_tabs">></span>
             <a href="/fight-calendar" class="video_tabs active_tab">Все</a> 
             <a href="/fight-calendar/mma" class="video_tabs">MMA</a> 
             <a href="/fight-calendar/boxing" class="video_tabs">Бокс</a> 
             <a href="/fight-calendar/kickboxing" class="video_tabs">Кикбоксинг</a> 
-            <a href="javascript:void(0)" class="video_tabs active_tab" id="menu_events" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
-            <a href="javascript:void(0)" id="menu_results" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+            <span class="delimiter_v">
+                <a href="javascript:void(0)" class="video_tabs active_tab" id="menu_events" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
+                <a href="javascript:void(0)" id="menu_results" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+            </span>
             <input type="hidden" class="fc_calendar" value="Календарь">
+        </div>
+        <div class="news_t events-min-menu">
+            События <span class="video_tabs">></span>
+            <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
+            <a href="javascript:void(0)" class="video_tabs active_tab_min_ev">Предстоящие&nbsp;&#8744;</a> 
+            <div class="min-menu-links" style="display: none;">
+                <a href="/fight-calendar" class="video_tabs active_tab_min">Все</a> 
+                <a href="/fight-calendar/mma" class="video_tabs">MMA</a> 
+                <a href="/fight-calendar/boxing" class="video_tabs">Бокс</a> 
+                <a href="/fight-calendar/kickboxing" class="video_tabs">Кикбоксинг</a> 
+            </div>
+            <div class="min-menu-links-ev" style="display: none;">
+                <a href="javascript:void(0)" class="video_tabs active_tab_min" id="menu_events_min" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
+                <a href="javascript:void(0)" id="menu_results_min" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+            </div>
         </div>
     <?php else: ?>
     <div class="left_c_arch" id="see_more_videos_div">
-        <div class="news_t">Видео <span class="video_tabs">></span><a href="/video" class="video_tabs">Все</a> <a href="/video/mma" class="video_tabs">MMA</a> <a href="/video/boxing" class="video_tabs">Бокс</a> <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a> <a href="/video/archive" class="video_tabs active_tab">Архив боёв</a> <a href="/video/translation" class="video_tabs">Переводы</a> <a href="/video/interview" class="video_tabs">Интервью</a></div>
+        <div class="news_t video-cur-menu">
+            Видео <span class="video_tabs">></span>
+            <a href="/video" class="video_tabs">Все</a> 
+            <a href="/video/mma" class="video_tabs">MMA</a> 
+            <a href="/video/boxing" class="video_tabs">Бокс</a> 
+            <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a> 
+            <a href="/video/archive" class="video_tabs active_tab">Архив боёв</a> 
+            <a href="/video/translation" class="video_tabs">Переводы</a> 
+            <a href="/video/interview" class="video_tabs">Интервью</a>
+        </div>
+        <div class="news_t video-min-menu">
+            Видео <span class="video_tabs">></span>
+            <?php if ($current_sub['Hidden_URL'] == '/video/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/mma/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/boxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/archive/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Архив боёв&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/translation/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Переводы&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/interview/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Интервью&nbsp;&#8744;</a> 
+            <?php endif; ?>
+            <div class="min-menu-links" style="display: none;">
+                <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab_min<?php endif; ?>">Все</a> 
+                <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab_min<?php endif; ?>">MMA</a> 
+                <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab_min<?php endif; ?>">Бокс</a> 
+                <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab_min<?php endif; ?>">Кикбоксинг</a> 
+                <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab_min<?php endif; ?>">Архив боёв</a> 
+                <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab_min<?php endif; ?>">Переводы</a> 
+                <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab_min<?php endif; ?>">Интервью</a>
+            </div>
+        </div>
     <?php endif; ?>
 

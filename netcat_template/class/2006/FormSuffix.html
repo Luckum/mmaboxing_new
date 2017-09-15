@@ -1,9 +1,17 @@
+
+<div class="hr hr-mob" style="border-bottom: solid 10px #eaeaea; margin-top: -20px;"></div>
+<div class="news_t" id="criteria">Критерии составления рейтинга</div>
+<div class="raiting-criteria">
+    Критерии составления рейтинга
+</div>
 </div>
 </div>
 <div id='rar'>
     <div class="right_s">
         <div class="right_p_t">Опросы<span class="video_tabs">></span></div>
-        <?= s_list_class(24,26); ?>
+        <div id="vote-container">
+            <?= s_list_class(24,26); ?>
+        </div>
     </div>
     <div class="right_s r_s_d">
         <div class="right_p_t">События<span class="video_tabs">></span></div>
@@ -23,19 +31,26 @@
             <div class="right_list_d_c"><span class="right_l">кикбоксинг</span></div>
             <div class="right_l_t">
                 <?= s_list_class(13,30,"?&showMain=1&recNum=2&showEvents=1") ?>
-            </div>
+            </div> 
         </div>
     </div>
-    <div class="right_s_video">
+    <div class="right_s_video" style="width: 360px;">
         <div class="right_p_t"><a href="/news">Новости</a><span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID) ?>
-    </div>
-    <div class="right_s_video">
-        <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
-        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031&current=" . $f_RowID) ?>
     </div>
     <div class="banner1">
         <?= banner_rotate(2,1, false, 'banner-img');?>
     </div>
+    <div class="right_s_video" style="width: 360px;">
+        <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031&current=" . $f_RowID) ?>
+    </div>
+    
+	</div>
 </div>
-</div>
+
+<?php if ($admin_mode): ?>
+    <? if($nextLink || $prevLink) { ?>
+        <?= browse_messages($cc_env, 10); ?>
+    <? } ?>
+<?php endif; ?>

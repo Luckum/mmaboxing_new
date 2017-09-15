@@ -8,22 +8,45 @@
         $ps = str_replace('-', '<img src="/images/icon_ratings_minus.png" class="rating-arrow">', $f_myPos);
         $ps = str_replace('+', '<img src="/images/icon_ratings_plus.png" class="rating-arrow">', $ps);
     }
+    $query = "SELECT * FROM Message2010 WHERE (main_card_fighter_1 = $f_myFighter OR main_card_fighter_2 = $f_myFighter) AND myDate > NOW() ORDER BY myDate ASC LIMIT 1";
+    $sql_n = mysql_fetch_assoc(mysql_query($query));
+    if (!$sql_n) {
+        $query = "SELECT b.* FROM Message2045 a LEFT JOIN Message2010 b ON a.event = b.Message_ID WHERE (a.fighter_1 = $f_myFighter OR a.fighter_2 = $f_myFighter) AND b.myDate > NOW() ORDER BY b.myDate ASC LIMIT 1";
+        $sql_n = mysql_fetch_assoc(mysql_query($query));
+    }
+    $next_f = $sql_n ? $sql_n['myName'] : '';
 ?>
-    <div class="post_c">
-        <div class="position"><?= $f_RowNum + 1; ?></div>
-        <img src="<?= getThumbNow('/netcat_files/' . $foto[3], 150, 150, 1, false, 95, -1) ?>" class="post_img">
+    <div class="brd-m" style="display: none;"></div>
+    <div class="post_c_r<?php if ($f_RowNum == 5): ?> rat-mob-n" style="margin-top: 55px;"<?php else: ?>"<?php endif; ?>>
+        <div class="position"><?= $f_myPos; ?></div>
+        <img src="<?= getThumbNow('/netcat_files/' . $foto[3], 180, 180, 1, false, 95, -1) ?>" class="post_img_r">
         <div>
             <div class="rating_post_t"><?= $sql_f['myName']; ?></div>
             <div class="rating_post_desk"><?= $sql_f['myPromotion']; ?></div>
         </div>
-        <div class="small_d_c">
-            <?= $sql_f['myBio']; ?>
+        <?php if (!empty($next_f)): ?>
+            <div class="next-fight">
+                <span class="next-fight-t">Предстоящий бой</span>
+                <span class="next-fight-n"><?= $next_f; ?></span>
+            </div>
+        <?php endif; ?>
+        <div class="small_d_c_r">
+            <?= cutStr($sql_f['myBio'], 200); ?>
         </div>
         <ul class="results">
-            <li><span>Победы </span><span><?= $sql_f['myVictories']; ?></span></li>
-            <li><span>Поражения </span><span><?= $sql_f['myDefeats']; ?></span></li>
+            <li><span>Победы </span><span><?= $sql_f['myVictories']; ?></span><div class="hr hr-rat"></div></li>
+            <li><span>Поражения </span><span><?= $sql_f['myDefeats']; ?></span><div class="hr hr-rat"></div></li>
             <li><span>Ничьи </span><span><?= $sql_f['myDraws']; ?></span></li>
         </ul>
     </div>
-    <div class="hr"></div>
+    <?php if ($f_RowNum == 4): ?>
+        <?php if (!$admin_mode): ?>
+        <div class="banner_hor">
+            <?= banner_rotate(1,1);?>
+        </div>
+        <?php endif; ?>
+    <?php else: ?>
+        <div class="hr" style="border-bottom: solid 10px #eaeaea; margin-top: -20px;"></div>
+    <?php endif; ?>
+
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

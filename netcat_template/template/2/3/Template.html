@@ -1,14 +1,157 @@
 <!-- Header -->%Header
-
-
-<div class="clr"></div>
-<div class="middle">
-	<main class="content">
-		<h1 class="page-title">Новости бокса, ММА и кикбоксинга</h1>
-		<div class="content-inner col-1">
-			
             
 
 <!-- /Header -->
 
-<!-- Footer -->%Footer<!-- /Footer -->
+<!-- Footer --><!-- SIDEBAR_RIGHT -->
+
+<aside class="sidebar-right sidebar">
+	<div class="module events">
+		<h3 class="module-title">События</h3>
+		<div class="module-content">
+			<div class="tabs">
+				<ul class="tabs-title">
+					<li id="tab-1" class="tab-title active">MMA</li>
+					<li id="tab-2" class="tab-title">Бокс</li>
+					<li id="tab-3" class="tab-title">Кик</li>
+				</ul>
+				<div class="tabs-content">
+					<div id="c-tab-1" class="tab-content active">
+						<?= s_list_class(11,28,"?&showMain=1&recNum=5") ?>
+					</div>
+					<div id="c-tab-2" class="tab-content">
+						<?= s_list_class(12,29,"?&showMain=1&recNum=5") ?>
+					</div>
+					<div id="c-tab-3" class="tab-content">
+                        <?= s_list_class(13,30,"?&showMain=1&recNum=5") ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- end .events-->
+
+		<a href="/fight-calendar/" class="readmore">Смотреть полностью</a>
+	</div>
+    
+    <div class="module bnr1 sidebar-bnr">
+		<div class="module-content">
+        <?= s_list_class(30,44,"?&position=3") ?>
+		</div>
+	</div> 
+	<!-- end .bnr1 -->
+	
+    <!-- ОПРОСЫ -->
+    <?= s_list_class(24,26); ?>
+    <!-- // ОПРОС -->
+    
+	<div class="module popular">
+		<h3 class="module-title">Популярное</h3>
+		<div class="module-content">
+        
+        <?= s_list_class(3,1,"&recNum=10&nc_ctpl=2013") ?>
+        
+		</div>
+	</div> 
+	<!-- end .popular -->
+    
+    <div class="module bnr2 sidebar-bnr">
+		<div class="module-content">
+        <?= s_list_class(30,44,"?&position=4") ?>     
+		</div>
+	</div> 
+	<!-- end .bnr2 -->
+ 
+	<div class="module rating">
+		<h3 class="module-title">Рейтинги</h3>
+		<div class="module-content">
+			<div class="tabs">
+				<ul class="tabs-title">
+					<li id="tab-4" class="tab-title active">MMA</li>
+					<li id="tab-5" class="tab-title">Бокс</li>
+				</ul>
+				<div class="tabs-content">
+					<div id="c-tab-4" class="tab-content active">
+                        
+                        <?= s_list_class(18,23,"&recNum=10&nc_ctpl=2011") ?>
+                        
+                        
+					</div> <!-- end .tab-4 -->
+
+					<div id="c-tab-5" class="tab-content">
+						
+                        <?= s_list_class(19,31,"&recNum=10&nc_ctpl=2011") ?>
+                        
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div> 
+	<!-- end .rating--> 
+    
+    <div class="module bnr3 sidebar-bnr">
+		<div class="module-content">
+        <?= s_list_class(30,44,"?&position=5") ?>               
+		</div>
+	</div> 
+	<!-- end .bnr3 -->
+
+	<div class="module snets">
+		<h3 class="module-title">Мы в соц. сетях</h3>
+		<div class="module-content">
+			<div class="tabs">
+				<ul class="tabs-title">
+					<li id="tab-6" class="tab-title active">VK</li>
+                    <li id="tab-7" class="tab-title">OK</li>
+					<li id="tab-8" class="tab-title">FB</li>
+					<li id="tab-9" class="tab-title">TW</li>
+					<!-- <li id="tab-10" class="tab-title">IN</li> -->
+				</ul>
+				<div class="tabs-content">
+					<div id="c-tab-6" class="tab-content active">
+						<div id="vk_groups"></div>
+                        <script type="text/javascript">
+                        VK.Widgets.Group("vk_groups", {mode: 4, width: "200", height: "590", color1: 'FFFFFF', color2: '005292', color3: '005292'}, 131882332);
+                        </script>
+						<!-- <a href="javascript:void(0);" id="subscribe">Подписаться на новости</a> -->
+					</div>
+				    <div id="c-tab-8" class="tab-content">
+						<div class="fb-page" data-href="https://www.facebook.com/mmaboxingru2016/" data-tabs="timeline" data-width="200" data-height="590" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/mmaboxingru2016/"><a href="https://www.facebook.com/mmaboxingru2016/">MMABoxing</a></blockquote></div></div>
+					</div>
+                    
+				    <div id="c-tab-9" class="tab-content">
+						<a class="twitter-timeline" href="https://twitter.com/MMA_Boxing_ru" data-widget-id="701480238572765184">Твиты от @MMA_Boxing_ru</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					</div>
+                    
+                    <!-- <div id="c-tab-10" class="tab-content">
+						<iframe src='/inwidget/index.php?width=200&inline=1&view=3&toolbar=false' scrolling='no' frameborder='no' style='border:none;width:200px;height:590px;overflow:hidden;'></iframe>
+					</div> -->                  
+
+				    <div id="c-tab-7" class="tab-content">
+						<div id="ok_group_widget"></div>
+                            <script>
+                            !function (d, id, did, st) {
+                            var js = d.createElement("script");
+                            js.src = "https://connect.ok.ru/connect.js";
+                            js.onload = js.onreadystatechange = function () {
+                            if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
+                            if (!this.executed) {
+                              this.executed = true;
+                              setTimeout(function () {
+                              OK.CONNECT.insertGroupWidget(id,did,st);
+                              }, 0);
+                              }
+                            }}
+                            d.documentElement.appendChild(js);
+                            }(document,"ok_group_widget","52561040375964","{width:200,height:335}");
+                            </script>
+					    </div>                                        
+				</div>
+			</div>
+		</div>
+	</div>
+</aside>
+
+<!-- // SIDEBAR_RIGHT -->
+
+%Footer<!-- /Footer -->

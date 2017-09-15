@@ -23,7 +23,7 @@ $myTags = mb_strtolower($f_myTags);
 $TagsRu = str_replace(', ',',',$myTags);
 $TagsRuTrans = nc_transliterate($TagsRu);
 $TagsRuTrans2 = str_replace(' ','-',$TagsRuTrans);
-$db->query("UPDATE Message2000 SET EnTags='".$TagsRuTrans2."' WHERE Message_ID=".$message);
+$db->query('UPDATE Message2000 SET EnTags="'.$TagsRuTrans2.'" WHERE Message_ID='.$message);
 
 
 

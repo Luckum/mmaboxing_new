@@ -13,17 +13,68 @@
         }
         $("#ratings_inner_div").html(html);
     }
+    function see_more_ratings(start, cnt, s_type)
+    {
+        $("#see_more_ratings").hide();
+        $("#loading_news_ev").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'more_ratings', s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#ratings_inner_div").append(html);
+            $("#see_more_ratings").appendTo("#ratings_inner_div");
+            $("#loading_news_ev").appendTo("#ratings_inner_div");
+            $("#loading_news_ev").hide();
+            $("#see_more_ratings").show();
+            $("#see_more_ratings").attr("onclick", "see_more_ratings(" + (start+10) + ", " + cnt + ", " + s_type + ")");
+        }
+    }
+    function vote(vid, cache, class_id)
+    {
+        var vote_check = $('input[name="vote_check"]:checked').val();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'vote', vid: vid, cache: cache, class_id: class_id, vote_check: vote_check}
+        }).responseText;
+        
+        $("#vote-container").html(html);
+        $("#vote").hide();
+        $("#answers-res").show();
+        $(".vote-button").hide();
+        $("#ans-" + vote_check).css({"border-color": "#e73435"});
+    }
 </script>
 <?php 
-    $weights = $db->get_results("SELECT weight_cat_ID, weight_cat_Name FROM classificator_weight_cat", ARRAY_A);
+    $weights = $db->get_results("SELECT weight_cat_ID, weight_cat_Name FROM Classificator_weight_cat", ARRAY_A);
+    $cnt_ratings_sql = mysql_fetch_assoc(mysql_query("SELECT count(Message_ID) as cnt FROM Message2006 WHERE myPos != '' AND Subdivision_ID = " . $current_sub['Subdivision_ID']));
 ?>
 <div class="main_dop_inner_l">
     <div class="left_c">
-        <div class="news_t">
+        <div class="news_t rat-cur-menu">
             Рейтинги <span class="video_tabs">></span>
             <a href="/ratings/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
             <a href="/ratings/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
             <a href="/ratings/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+        </div>
+        <div class="news_t rat-min-menu">
+            Рейтинги <span class="video_tabs">></span>
+            <?php if ($current_sub['Hidden_URL'] == '/ratings/boxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a>
+            <?php else: ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
+            <?php endif; ?>
+            <div class="min-menu-links" style="display: none;">
+                <a href="/ratings/mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/mma/'): ?>active_tab_min<?php endif; ?>">MMA</a> 
+                <a href="/ratings/boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/boxing/'): ?>active_tab_min<?php endif; ?>">Бокс</a> 
+                <a href="/ratings/kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?>active_tab_min<?php endif; ?>">Кикбоксинг</a>
+            </div>
         </div>
         <div class="weight_cat">
             <span class='ves_cat'>Весовая категория</span>
@@ -33,5 +84,6 @@
                     <option value="<?= $cat['weight_cat_ID']; ?>"><?= $cat['weight_cat_Name']; ?></option>
                 <?php endforeach; ?>
             </select>
+			<div id='criterii_sostavleniya'><a href="#criteria">Критерии составления</a></div>
         </div>
         <div id="ratings_inner_div">

@@ -5,12 +5,16 @@ $query_select = "a.`Message_ID`, a.`User_ID`, a.`IP`, a.`UserAgent`, a.`LastUser
 $query_from = "Message2006 a";
 $query_join = " LEFT JOIN `Subdivision` AS sub ON sub.`Subdivision_ID` = a.`Subdivision_ID`
                 LEFT JOIN `Sub_Class` AS cc ON cc.`Sub_Class_ID` = a.`Sub_Class_ID`
-                LEFT JOIN `message2007` b ON a.myFighter = b.Message_ID";
+                LEFT JOIN `Message2007` b ON a.myFighter = b.Message_ID";
 $query_where = "a.`Subdivision_ID` = '" . $s_type . "' AND a.`Checked` = 1";
 if ($weight_cat != 0) {
     $query_where .= " AND b.myWeightCat = " . $weight_cat;
 }
 $query_order = "a.myPos ASC ";
-$query_limit = "10";
+if (isset($curPos)) {
+    $query_limit = $curPos . ",10";
+} else {
+    $query_limit = "10";
+}
 
 ?>

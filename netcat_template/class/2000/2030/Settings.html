@@ -15,7 +15,7 @@ if ($current_sub['Subdivision_ID'] == 3 || $current_sub['Subdivision_ID'] == 1) 
     $ignore_sub=$ignore_cc=1;
     $query_where .= "a.Subdivision_ID IN($subs)";
 } elseif ($current_sub['Subdivision_ID'] == 41) {
-    $subs_arr = nc_get_sub_children('14');
+    $subs_arr = nc_get_sub_children('41');
     $subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
     $ignore_sub=$ignore_cc=1;
     $query_where .= "a.Subdivision_ID IN($subs)";
@@ -24,6 +24,6 @@ if ($current_sub['Subdivision_ID'] == 3 || $current_sub['Subdivision_ID'] == 1) 
 }
 
 $query_order = "(cc.CountComments + cc.CountReplies) DESC";
-$query_limit = "8";
+$query_limit = $recNum;
 
 ?>

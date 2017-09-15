@@ -16,7 +16,7 @@ $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE 
 					<div class="blog-item-text"><?=mb_substr(trim(str_replace('&nbsp;','',strip_tags($f_myText))),0,165)?>...</div>
 					<div class="blog-item-info">
 						<span class="date"><?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?></span>
-						<span class="author"><a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a></span>
+						<span class="author"><?=$user_name['ForumName']?></span>
 						<!-- <span class="comments"><a href="<?= $fullLink ?>"><?=$sql_post[0]?></a></span> -->
 					</div>
 				</div>

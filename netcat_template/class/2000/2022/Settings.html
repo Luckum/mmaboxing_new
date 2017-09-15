@@ -1,9 +1,11 @@
 <?php
-
+$nc_comments = new nc_comments($cc);
 $ignore_sub = 1;
 $ignore_cc = 1;
 
-$query_where = "a.Subdivision_ID NOT IN(20,117,118) AND NOW() >= Date";
+$subs_arr = nc_get_sub_children('14');
+$subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
+$query_where = "a.Subdivision_ID NOT IN(20, 117, 118, 226, 227, 228, 229) AND NOW() >= Date";
 $query_order = "Date DESC";
 
 ?>

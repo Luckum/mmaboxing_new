@@ -3,8 +3,10 @@
 <script type="text/javascript">
     function close_popup()
     {
-        window.location = '/netcat/modules/auth/?logoff=1';
-        parent.$.fancybox.close();
+        FB.logout(function(response) {
+        });
+        window.location = '/netcat/modules/auth/?logoff=1&REQUESTED_FROM=/auth/';
+        //parent.$.fancybox.close();
     }
 </script>
 <? if (!$current_user['User_ID']) {
@@ -15,8 +17,8 @@ echo "<script>$('.registration .login_submit').val('Войти');</script>";
 }
 else
 {
-    echo "<p>Вы авторизованы на сайте как <b>".$current_user['ForumName']."</b></p>";
-    echo "<a href='javascript:void(0)' onclick='close_popup()'>Выйти</a>";
+    echo "<p style='font-family: Arial; font-size: 14px;'>Вы авторизованы на сайте как <b>".$current_user['ForumName']."</b></p>";
+    echo "<a style='font-family: Arial; font-size: 14px;' href='javascript:void(0)' onclick='close_popup()'>Выйти</a>";
 }
 ?>
 </div>

@@ -2,6 +2,9 @@
 <div class='type_block'>
     <div class="title"><?= constant('NETCAT_MODULE_AUTH_AUTHORIZATION') ?></div>
 <? endif; ?>
+    <?php if (isset($_GET['error'])): ?>
+        <p style="color: #ce645c; font-family: 'Arial'; font-size: 14px;">Авторизационные данные неверны!</p>
+    <?php endif; ?>
     <form method="post" action="/netcat/modules/auth/">
         <input type='hidden' name='AuthPhase' value='1' />
         <input type='hidden' name='REQUESTED_FROM' value='<?= $REQUESTED_FROM ? htmlspecialchars($REQUESTED_FROM, ENT_QUOTES) : (strpos($_SERVER['REQUEST_URI'], 'netcat/modules/auth') !== false ? str_replace('http://', '', str_replace($_SERVER['HTTP_HOST'], '', $_SERVER['HTTP_REFERER'])) : $_SERVER['REQUEST_URI']) ?>' />
@@ -11,26 +14,30 @@
         <input type='hidden' name='cc' value='<?= $cc ?>' />
         <div class="block" style="margin: 0px">
             <p>Войти через соцсети:</p>
-            <button>FB</button>
-            <button>VK</button>
+            <span class="social-btn" id="fb-account">
+                <img src="/images/fb_btn.png" />
+            </span>
+            <span class="social-btn" onclick='nc_vk_login(<?= $nc_auth_vk->is_member(); ?>)'>
+                <img src="/images/vk_btn.png" />
+            </span>
         </div>
         <div class="block" style="margin: 0px">
             <div class="input_text">
-                <input type="text" name="AUTH_USER" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>' placeholder="Email">
+                <input type="text" name="AUTH_USER" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>' placeholder="Email" class="send_input auth-input">
                 <div class="left"></div>
                 <div class="right"></div>
             </div>
         </div>
         <div class="block" style="margin: 0px">
             <div class="input_text">
-                <input type="password" name="AUTH_PW" value="" placeholder="<?= NETCAT_MODULE_AUTH_PASSWORD ?>">
+                <input type="password" name="AUTH_PW" value="" placeholder="<?= NETCAT_MODULE_AUTH_PASSWORD ?>" class="send_input auth-input">
                 <div class="left"></div>
                 <div class="right"></div>
             </div>
         </div>
         
         <input type="hidden" value="1" name="AuthPhase">
-        <input type='submit' class='login_submit'  name='submit' value='Войти' />
+        <input type='submit' class="send_input_submit auth-btn"  name='submit' value='Войти' />
     </form>
     <!--<div id="login_social">
         <div id="social_name">Войти через социальные сети</div>

@@ -2,7 +2,7 @@
 
 /* $Id: function.inc.php 6206 2012-02-10 10:12:34Z denis $ */
 
-function banner_rotate($zone, $number=1, $rand=false) {
+function banner_rotate($zone, $number=1, $rand=false, $class = "") {
     global $db, $MODULE_VARS;
     global $catalogue, $sub, $cc, $message;
     global $HTTP_FILES_PATH, $HTTP_ROOT_PATH, $admin_mode;
@@ -179,7 +179,7 @@ function banner_rotate($zone, $number=1, $rand=false) {
         switch ($banner_type) {
             case 1:
                 $code = "<a ".$click_target." href='".$SUB_FOLDER.$HTTP_ROOT_PATH."modules/banner/?b={$banner_id}&amp;c={$campaign_id}&amp;z={$zone}&amp;r={$url_for_stats}&amp;rnd={$random_value}&amp;click=1'>";
-                $code .= "<img style='border:none;' src='{$file_url}' width='{$banner_width}' height='{$banner_height}' alt='{$banner_alt}' /></a>";
+                $code .= "<img style='border:none;' class='{$class}' src='{$file_url}' width='{$banner_width}' height='{$banner_height}' alt='{$banner_alt}' /></a>";
                 break;
 
             case 2:

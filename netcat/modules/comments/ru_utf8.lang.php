@@ -9,10 +9,10 @@ define("NETCAT_MODULE_COMMENTS_LINK_REPLY", "ответить");
 define("NETCAT_MODULE_COMMENTS_LINK_EDIT", "редактировать");
 define("NETCAT_MODULE_COMMENTS_LINK_DELETE", "удалить");
 define("NETCAT_MODULE_COMMENTS_LINK_COMMENT", "оставить комментарий");
-define("NETCAT_MODULE_COMMENTS_SUBSCRIBE_TO_ALL", "подписаться на все комментарии");
+define("NETCAT_MODULE_COMMENTS_SUBSCRIBE_TO_ALL", "");
 define("NETCAT_MODULE_COMMENTS_UNSUBSCRIBE_FROM_ALL", "отписаться от всех комментариев");
 define("NETCAT_MODULE_COMMENTS_LINK_AUTH", "войти");
-define("NETCAT_MODULE_COMMENTS_MODERATOR_CLOSE", "закрыть");
+define("NETCAT_MODULE_COMMENTS_MODERATOR_CLOSE", "");
 define("NETCAT_MODULE_COMMENTS_MODERATOR_OPEN", "открыть");
 
 define("NETCAT_MODULE_COMMENTS_ADD_FORM_DELETE_QUESTION", "Удалить этот комментарий?");

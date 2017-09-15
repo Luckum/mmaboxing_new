@@ -8,7 +8,8 @@ class nc_comments {
     protected $core;
     private $_message_cc, $_current_catalogue, $_current_sub, $_parent_sub_tree, $_current_cc;
     private $_commentsData, $_mainArr, $_nestArr, $_showCommentsForm, $_showCommentsQuantity;
-    private $_comment_rules, $_accessibilityAdd, $_accessibilityEdit, $_accessibilityDelete, $_accessibilitySubscribe;
+    private $_comment_rules, $_accessibilityAdd, $_accessibilityEdit, $_accessibilityDelete;
+    private $_accessibilitySubscribe = false;
     private $_showAuthLink;
     private $db, $_perm, $_accessibility;
     // поле из таблицы User для %USER_NAME%
@@ -630,6 +631,14 @@ class nc_comments {
             $delete_link = "<!-- nocache -->" . str_replace($demountable, $replacing, $templateData['Delete_Link']) . "<!-- /nocache -->";
         }
 
+        $rating = $data['Like'] - $data['Dislike'];
+        if ($rating > 0) {
+            $rating_style = "color: green;";
+        } else if ($rating < 0) {
+            $rating_style = "color: red;";
+        } else {
+            $rating_style = "color: #aaaaaa;";
+        }
         // Rating block
         $rating_block_tpl = "";
         if ($this->_enable_rating) {
@@ -640,6 +649,8 @@ class nc_comments {
                 "%LIKE"           => $data['Like'],
                 "%DISLIKE"        => $data['Dislike'],
                 "%RATING"         => $data['Like'] - $data['Dislike'],
+                "%AUTH_USER_ID"   => $this->AUTH_USER_ID,
+                "%STYLE"          => $rating_style,
             );
             $rating_block_tpl = str_replace(array_keys($replacing), $replacing, $templateData['Rating_Block']);
         }
@@ -1049,7 +1060,7 @@ class nc_comments {
             setcookie($cookie_name, ( $like ? '2' : '1' ) , time() + 3600 * 24, "/");
             $res = 1;
         } elseif ( ($dislike AND $cookie_value == 2) OR ($like AND $cookie_value == 1) ) { //return "dislike".$cookie_value;
-            setcookie($cookie_name, false, time() -1, "/");
+			setcookie($cookie_name, false, time() -1, "/");
             $res = 1;
         }
 

@@ -22,9 +22,21 @@
 ?>
 <div class="right_list_c">
     <div class="right_list_d_c">
-        <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?php if ($f_User_ID != 0): echo $user_name['ForumName']; else: echo $f_Guest_Name; endif; ?></a>
+        <?php if ($f_User_ID != 0): echo $user_name['ForumName']; else: echo $f_Guest_Name; endif; ?>
     </div>
-    <div class="right_l_t_bl"><?= $f_Comment ?></div>
+    <div class="right_l_t_bl">
+<?
+    $subUrl = $nc_core->db->get_var("select Hidden_URL from Subdivision where Subdivision_ID = (select Subdivision_ID from Message2000 where Message_ID = ".$f_Message_ID.")");
+    $newsKwrd = $nc_core->db->get_var("select Keyword from Message2000 where Message_ID = ".$f_Message_ID."");
+?>
+        <a href="<?=$subUrl."".$newsKwrd;?>.html">
+        <?php if (strlen($f_Comment) > 85): ?>
+            <?= cutStr(strip_tags($f_Comment), 85); ?>
+        <?php else: ?>
+            <?= $f_Comment ?>
+        <?php endif; ?>
+        </a>
+    </div>
     <div class="right_list_d_c_d">
         <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
     </div>

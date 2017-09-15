@@ -1,14 +1,14 @@
 
 <?php if ($current_sub['Subdivision_ID'] != 10): ?>
     <div class="archive_selects">
-        Турнир
+        <span class='ves_cat'>Турнир</span>
         <select name="archive_tournament" id="archive_tournament">
             <option value="0">Все турниры</option>
             <?php foreach ($a_tags as $tag): ?>
                 <option value="<?= $tag->href; ?>" <?php if ($tag->href == $sel_url): ?> selected <?php endif; ?>><?= $tag->innertext; ?></option>
             <?php endforeach; ?>
         </select>
-        Боец
+        <span class='ves_cat'>Боец</span>
         <select name="archvie_fighter" id="archive_fighter">
             <option value="0">Все бойцы</option>
             <?php foreach ($fighters as $fighter): ?>
@@ -18,14 +18,18 @@
         <button id="show_archive_selected" class="vote-button" onclick="show_selected(0, 9);">Показать</button>
     </div>
     <div id="loading_selected" class="loading_news_arch_sel" style="display: none;"><img src="/images/loading.gif"></div>
-    <div id="show_selected_div_1">
+    <div id="show_selected_div_1" class="arch-container">
         <?= s_list_class(3,1,"&recNum=9&nc_ctpl=2039") ?>
     </div>
-    <div class="main_dop_s">
+    <div class="main_dop_s to-slide">
         <div class="right_p_t_b vid">Самые обсуждаемые видео боёв<span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2040") ?>
     </div>
-    <div id="show_selected_div_2">
+    <div class="main_dop_s not-slide" style="display: none;">
+        <div class="right_p_t_b vid">Самые обсуждаемые<span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2040") ?>
+    </div>
+    <div id="show_selected_div_2" class="arch-container">
         <?= s_list_class(3,1,"&recNum=9&nc_ctpl=2039&curPos=9") ?>
     </div>
     <button class="see_more_arch" id="see_more_videos" value="more" onclick="see_more_videos(18, 18)">Показать ещё</button>
@@ -40,8 +44,10 @@
 <?php else: ?>
     <div id="events_container">
         <?= s_list_class(10,28,"&recNum=10&nc_ctpl=2044&showEvents=1"  . "&s_type=" . $current_sub['Subdivision_ID']) ?>
-        <button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_events(10, 10, <?= $current_sub['Subdivision_ID'] ?>)">Показать ещё</button>
-        <div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>
+        <?php if ($cnt_events_sql['cnt'] > 10): ?>
+            <button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_events(10, 10, <?= $current_sub['Subdivision_ID'] ?>)">Показать ещё</button>
+            <div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>
+        <?php endif; ?>
     </div>
 </div>
 </div>

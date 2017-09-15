@@ -7,18 +7,20 @@
 	<title><?= ($nc_core->page->get_title() ? $nc_core->page->get_title().(strstr($_SERVER['REQUEST_URI'],'.html') ? ' - '.$current_sub['moreTitle'] : NULL) : $current_sub['Subdivision_Name'].(strstr($_SERVER['REQUEST_URI'],'.html') ? ' - '.$current_sub['moreTitle'] : NULL)) ?></title>
     <?=( ($nc_core->page->get_keywords()) ? "<meta name='keywords' content='".$nc_core->page->get_keywords()."' />" : "" ) ?>
     <?=( ($nc_core->page->get_description()) ? "<meta name='description' content='".$nc_core->page->get_description()."' />" : "" ) ?>
-    
+    <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width" />
+
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
 	<link rel="stylesheet" href="/css/base.css">
 	<link rel="stylesheet" href="/css/flexslider.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/responsive.css">
 	<link rel="stylesheet" href="/js/fancybox/jquery.fancybox-1.3.1.css">
     <link rel="stylesheet" type="text/css" href="/js/scrollpane/css/jquery.jscrollpane.css"/>
     <link rel="stylesheet" type="text/css" href="/js/scrollpane/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/netcat/require/lib/mistakes/mistakes.css"/>
-    
+    <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]>
         <script>
             var e = ("article,aside,figcaption,figure,footer,header,hgroup,nav,section,time,main").split(',');
@@ -27,27 +29,31 @@
             }
         </script>
 	<![endif]-->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/jquery.datepicker.extension.range.min.js"></script>
 	<script src="/js/jquery.arcticmodal.js"></script>
 	<script src="/js/jquery.flexslider-min.js"></script>
-	<script src="/js/actions.js"></script>
+    <script src="/js/actions.js"></script>
+    <script src="/js/share.js"></script>
+	<script src="/js/share_evt.js"></script>
     <script src="/js/addition.js"></script>
-    <script src="http://mmaboxing.ru/player/uppod.js" type="text/javascript"></script>
-    <script type="text/javascript" src="http://mmaboxing.ru/player/st/video234-109.js"></script>
+    <script src="/js/custom.js"></script>
+    <!-- <script src="http://mmaboxing.ru/player/uppod.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://mmaboxing.ru/player/st/video234-109.js"></script> -->
     <script type="text/javascript" src="/js/calendar.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/fancybox/jquery.easing-1.3.pack.js"></script>
-    <script type="text/javascript" src="/js/scrollpane/js/jquery.easing.compatibility.js"></script>
+    <script type="text/javascript" src="/js/fancybox/jquery.easing-1.3.js"></script>
     <script type="text/javascript" src="/js/fancybox/jquery.fancybox-1.3.1.js"></script>
     <script type="text/javascript" src="/js/fancy.js"></script>
+    <script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js"></script>
+    <script type="text/javascript" src="/js/responsive.js"></script>
     <script type="text/javascript" src="/js/scrollpane/js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="/js/scrollpane/js/jquery.contentcarousel.js"></script>
     <script type="text/javascript" src="/netcat/require/lib/mistakes/mistakes.js"></script>
-    
-    
-    
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
     <script type="text/javascript">
+	(function($){
         $(document).ready(function()
         {
             initToolTips();
@@ -56,56 +62,117 @@
                 if ($(this).scrollTop() > 84) {
                     $('.menu_count').hide();
                     $('.menu_count_fixed').show();
+                    $('#bckClickertop').css({'height': '116px'});
                 } else if ($(this).scrollTop() < 84) {
                     $('.menu_count').show();
                     $('.menu_count_fixed').hide();
+                    $('#bckClickertop').css({'height': '200px'});
                 }
             });
-            
             $('#ca-container').contentcarousel();
             $('#ca-container-mbl').contentcarousel();
-         });
- </script>
- 
+            $('.fc_calendar').datepicker({
+                range: 'period',
+                showOn:"button", 
+                buttonText: "Календарь",
+                showButtonPanel:true,
+                dateFormat: "yy-mm-dd",
+                onSelect: function(dateText, inst, extensionRange) {
+                    see_content_by_date(extensionRange.startDateText, extensionRange.endDateText);
+                },
+                beforeShow: function(input, inst) {
+                    inst.dpDiv.css({marginTop: -input.offsetHeight + 'px', marginLeft: '-205px'});
+                }
+            });
+            if ($(window).width() >= 1281) {
+                var resolut = 0;
+            } else {
+                var resolut = 1;
+            }
+            var vk_cnt = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'set_resolution', resol: resolut}
+            }).responseText;
+        });
+		})(jQuery);
+        share.init(".share");
+        //share_evt.init(".share-evnt");
+    </script>
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MGDSP9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MGDSP9');</script>
+<!-- End Google Tag Manager -->
 
 </head>
 <!-- // HEAD -->
 
 <body>
 
-<!-- Google Tag Manager -->
-<!-- End Google Tag Manager -->
-
-<!-- BEGIN ADVERTSERVE CODE
+<!-- addtocalendar script -->
 <script type="text/javascript">
-if (!document.cookie || document.cookie.indexOf('AVPDCAP=') == -1) {
-  document.write('<scr'+'ipt src="http://adbetnet.advertserve.com/servlet/view/dynamic/javascript/zone?zid=271&pid=88&resolution='+screen.width+'x'+screen.height+'&random='+Math.floor(89999999*Math.random()+10000000)+'&millis='+new Date().getTime()+'&referrer='+encodeURIComponent((window!=top&&window.location.ancestorOrigins)?window.location.ancestorOrigins[window.location.ancestorOrigins.length-1]:document.location)+'" type="text/javascript"></scr'+'ipt>');
-}
+(function () {
+    if (window.addtocalendar)
+        if (typeof window.addtocalendar.start == "function")
+            return;
+    if (window.ifaddtocalendar == undefined) { 
+        window.ifaddtocalendar = 1;
+        var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+        s.type = 'text/javascript';
+        s.charset = 'UTF-8';
+        s.async = true;
+        s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+        var h = d[g]('body')[0];h.appendChild(s);
+    }
+})();
 </script>
-END ADVERTSERVE CODE -->
+<!-- addtocalendar script -->
 
 <!-- start fb script -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <!-- end fb script -->
 
 <!-- Ссылка для фона -->
-
 <header class="header">
     <div class="head">
         <div class="logo"><a href="/"><img src="/images/logo.png"></a></div>
         <div class="logo_slog">Всё о боксе, MMA  и кикбоксинге.<br>Новости, видео, статьи, обзоры</div>
 
-        <div class="user"><a class="auth_user" href="/auth"><img src="/images/user.png" class="user_icon"></a></div>
-        <div class="search" id="search_turn"><a href="javascript:void(0);"><img src="/images/search.png" class="serche_icon"></a></div>
+        <div class="user"><a class="auth_user" href="/auth"><img src="/images/user.png" class="user_icon"><img src="/images/user_light.png" class="user_icon_light"></a></div>
+        <div class="search" id="search_turn"><a href="javascript:void(0);"><img src="/images/search.png" class="serche_icon"><img src="/images/search_light.png" class="serche_icon_light"></a></div>
         <div class="search_expand" id="search_expand" style="display: none">
             <form action="/news/" method="get">
-                <div>
+                <div class="search_container">
                     <input name="search" value="" type="text" class="s_text">
                     <input class="search_button" type="submit" title="Найти" value="Найти">
-                    <span class="search_close"><a href="javascript:void(0);" rel="nofollow"><img src="/images/close.png" id="imgsrcliclose" title="Закрыть" alt="Закрыть"></a></span>
+                </div>
+                <div class="search_close close_icon">
+                    <a href="javascript:void(0);" rel="nofollow">
+                        <img src="/images/close.png" id="imgsrcliclose" title="Закрыть" alt="Закрыть" style="width: 10px; height: 10px;">
+                    </a>
+                </div>
+                <div class="search_close close_icon_light">
+                    <a href="javascript:void(0);" rel="nofollow">
+                        <img src="/images/close_light.png" id="imgsrcliclose" title="Закрыть" alt="Закрыть" style="width: 10px; height: 10px;">
+                    </a>
                 </div>
             </form>
         </div>
-        <div class="send_article"><a class="send_material" href="/send"><img src="/images/mail.png" class="send_icon">Прислать материал</a></div>
+        <div class="send_article"><a class="send_material" href="/send"><img src="/images/mail.png" class="send_icon"><img src="/images/mail_light.png" class="send_icon_light">Прислать материал</a></div>
         
         <div class="clr"></div>
     </div>
@@ -116,12 +183,12 @@ END ADVERTSERVE CODE -->
                 <li><a href="/news">Новости</a></li>
                 <li><a href="/video">видео</a></li>
                 <li><a href="/articles">Статьи</a></li>
-                <li><a href="">События</a></li>
+                <li><a href="/fight-calendar">События</a></li>
                 <li><a href="/ratings">Рейтинги</a></li>
                 <li><a href="/blogs">Блоги</a></li>
-                <li><a href="/mb-production">MB Production</a></li>
-                <li><a href="/mad-bear-live">mad bear live</a></li>
-                <li><a href="">Ставки</a></li>
+                <li><a href="/mad-bear-live">Mad Bear live</a></li>
+                <li><a href="/floyd-vs-konor">Флойд vs. Конор</a></li>
+                <!-- <li><a href="">Ставки</a></li> -->
             </ul>
             <div class="clr"></div>
         </div>
@@ -131,49 +198,86 @@ END ADVERTSERVE CODE -->
         <div class="menu_c_fixed">
             <ul class="menu_fixed">
                 <li><a href="/"><img src="/images/logo-small.png"></a></li>
-                <li id="menu_fixed" style="display: none;">
-                    <form action="/news/" method="get">
-                        <div>
-                            <input name="search" value="" type="text" class="s_text_fixed">
-                            <input class="search_button" type="submit" title="Найти" value="Найти">
-                            <span class="search_close_fixed"><a href="javascript:void(0);" rel="nofollow"><img src="/images/close.png" id="imgsrcliclose" title="Закрыть" alt="Закрыть"></a></span>
-                        </div>
-                    </form>
-                </li>
             </ul>
             <ul class="menu_2_fixed" id="menu_2_fixed">
                 <li><a href="/news">Новости</a></li>
                 <li><a href="/video">видео</a></li>
                 <li><a href="/articles">Статьи</a></li>
-                <li><a href="">События</a></li>
+                <li><a href="/fight-calendar">События</a></li>
                 <li><a href="/ratings">Рейтинги</a></li>
                 <li><a href="/blogs">Блоги</a></li>
-                <li><a href="/mb-production">MB Production</a></li>
-                <li><a href="">Ставки</a></li>
+                <li><a href="/mad-bear-live">Mad Bear live</a></li>
+                <li><a href="/floyd-vs-konor">Флойд vs. Конор</a></li>
+                <!-- <li><a href="">Ставки</a></li> -->
             </ul>
             <ul class="menu_3_fixed" id="menu_3_fixed">
                 <li><a href="javascript:void(0);" id="search_turn_fixed"><img src="/images/search.png" class="serche_icon"></a></li>
             </ul>
-            
+            <ul class="menu_4_fixed" id="menu_fixed" style="display: none;">
+                <li>
+                    <form action="/news/" method="get">
+                        <div class="search_container_fixed">
+                            <input name="search" value="" type="text" class="s_text_fixed">
+                            <input class="search_button" type="submit" title="Найти" value="Найти">
+                        </div>
+                        <div class="search_close_fixed"><a href="javascript:void(0);" rel="nofollow"><img src="/images/close.png" id="imgsrcliclose" title="Закрыть" alt="Закрыть" style="width: 10px; height: 10px;"></a></div>
+                    </form>
+                </li>
+            </ul>
             <div class="clr"></div>
         </div>
     </div>
     
 </header>
-<div class="main">
-    <!--<div class="bckClickerleft" onClick="window.open('https://www.instagram.com/mmaboxingofficial/') "></div>-->
-    <!--<div class="bckClickerright" onClick="window.open('https://vk.com/mmaboxing_mma') "></div>-->
-<!-- Ссылка для фона -->
-  
-<!-- HEADER -->
 
 
-<!-- <div class="pre-head">
-    <?= s_list_class(30,44,"?&position=1") ?>
-</div> -->
-
-
-<div class="post-head-bnr">
-<?= s_list_class(30,44,"?&position=2") ?>
-</div>
 <!-- // HEADER -->
+
+<div class="main">
+    <div class="bckClickerleft"><a id="bckClickerleft" href="" target="_blank" rel="nofollow" style="display: none;"></a></div>
+    <div class="bckClickerright"><a id="bckClickerright" href="" target="_blank" rel="nofollow" style="display: none;"></a></div>
+    <div class="bckClickertop"><a id="bckClickertop" href="" target="_blank" rel="nofollow" style="display: none;"></a></div>
+    
+<?php
+    $wallpapers = $db->get_results("SELECT * FROM Message2048 WHERE Checked = 1 AND section = " . $current_sub['Subdivision_ID'] . " AND NOW() BETWEEN date_start AND date_end ORDER BY RAND()", ARRAY_A);
+    if ($wallpapers):
+        $image = explode(':', $wallpapers[0]['image']);
+        $link = $wallpapers[0]['link'];
+?>
+        <script type="text/javascript">
+            if ($(window).width() >= 1281) {
+                $('#bckClickerleft').show();
+                $('#bckClickerright').show();
+                $('#bckClickertop').show();
+                $('body').css({'background': 'url("/netcat_files/<?= $image[3] ?>") no-repeat center top / 2000px auto fixed rgba(37,37,37,1)'});
+                $('#bckClickerleft').attr('href', '<?= $link ?>');
+                $('#bckClickerright').attr('href', '<?= $link ?>');
+                $('#bckClickertop').attr('href', '<?= $link ?>');
+                $('.main').css({'margin-top': '200px'});
+                $('#bckClickertop').show();
+            }
+        </script>
+<?php
+    else:
+        $wallpapers = $db->get_results("SELECT * FROM Message2048 WHERE Checked = 1 AND section = 0 AND NOW() BETWEEN date_start AND date_end ORDER BY RAND()", ARRAY_A);
+        if ($wallpapers):
+            $image = explode(':', $wallpapers[0]['image']);
+            $link = $wallpapers[0]['link'];
+?>
+            <script type="text/javascript">
+                if ($(window).width() >= 1281) {
+                    $('#bckClickerleft').show();
+                    $('#bckClickerright').show();
+                    $('#bckClickertop').show();
+                    $('body').css({'background': 'url("/netcat_files/<?= $image[3] ?>") no-repeat center top / 2000px auto fixed rgba(37,37,37,1)'});
+                    $('#bckClickerleft').attr('href', '<?= $link ?>');
+                    $('#bckClickerright').attr('href', '<?= $link ?>');
+                    $('#bckClickertop').attr('href', '<?= $link ?>');
+                    $('.main').css({'margin-top': '200px'});
+                    $('#bckClickertop').show();
+                }
+            </script>
+<?php
+        endif;
+    endif;
+?>

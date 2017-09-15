@@ -1,14 +1,15 @@
-
+<? echo $f_AdminCommon; ?>
 <script type="text/javascript">
     function see_more_news(start, cnt, s_type)
     {
+        var is_mob = $(window).width() <= 1281 ? "1" : "0";
         $("#see_more_news").hide();
         $("#loading_news").show();
         var html = $.ajax({
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start, cnt: cnt, action: 'news', s_type: s_type}
+            data: {start: start, cnt: cnt, action: 'news', s_type: s_type, is_mob: is_mob}
         }).responseText;
         if (html != '') {
             $("#see_more_news_div").append(html);
@@ -19,6 +20,11 @@
             $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ", " + s_type + ")");
             $("#bckClickerleft").css({"height": "+=1600px"});
             $("#bckClickerright").css({"height": "+=1600px"});
+            if ($(window).width() <= 601) {
+                $('.img-link-small').show();
+                $('.img-link-big').hide();
+                $('.main-p-type-icon').show();
+            }
         }
     }
     function vote(vid, cache, class_id)

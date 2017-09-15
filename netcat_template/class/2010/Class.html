@@ -1,5 +1,9 @@
 <!-- FormPrefix --><? echo $f_AdminCommon; ?>
 <? echo $f_AdminButtons; ?>
+<?php
+    $cnt_events_sql = mysql_fetch_assoc(mysql_query("SELECT count(Message_ID) as cnt FROM Message2010 WHERE myDate > NOW() AND Checked = 1"));
+    $cnt_results_sql = mysql_fetch_assoc(mysql_query("SELECT count(Message_ID) as cnt FROM Message2010 WHERE myDate < NOW() AND Checked = 1"));
+?>
 <script type="text/javascript">
     function change_content(action, s_type)
     {
@@ -9,8 +13,17 @@
             type: "POST",
             data: {action: action, s_type: s_type}
         }).responseText;
-        html += '<button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_' + action + '(10, 10, ' + s_type + ')">Показать ещё</button>';
-        html += '<div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>';
+        if (action == 'results') {
+            <?php if ($cnt_results_sql['cnt'] > 10): ?>
+                html += '<button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_' + action + '(10, 10, ' + s_type + ')">Показать ещё</button>';
+                html += '<div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>';
+            <?php endif; ?>
+        } else if (action == 'events') {
+            <?php if ($cnt_events_sql['cnt'] > 10): ?>
+                html += '<button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_' + action + '(10, 10, ' + s_type + ')">Показать ещё</button>';
+                html += '<div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>';
+            <?php endif; ?>
+        }
         $("#events_container").html(html);
         if ($('#menu_events').hasClass('active_tab')) {
             $('#menu_events').removeClass('active_tab');
@@ -19,6 +32,16 @@
             $('#menu_results').removeClass('active_tab');
             $('#menu_events').addClass('active_tab');
         }
+        if ($('#menu_events_min').hasClass('active_tab_min')) {
+            $('#menu_events_min').removeClass('active_tab_min');
+            $('#menu_results_min').addClass('active_tab_min');
+            $(".active_tab_min_ev").html('Результаты&nbsp;&#8744;');
+        } else {
+            $('#menu_results_min').removeClass('active_tab_min');
+            $('#menu_events_min').addClass('active_tab_min');
+            $(".active_tab_min_ev").html('Предстоящие&nbsp;&#8744;');
+        }
+        $(".min-menu-links-ev").hide();
     }
     function see_more_events(start, cnt, s_type)
     {
@@ -74,24 +97,50 @@
 <?php if(!$showMain): ?>
 <div class="main_dop_inner_l">
     <div class="left_c_arch">
-        <div class="news_t">События <span class="video_tabs">></span>
+        <div class="news_t events-cur-menu">
+            События <span class="video_tabs">></span>
             <a href="/fight-calendar" class="video_tabs">Все</a> 
             <a href="/fight-calendar/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
             <a href="/fight-calendar/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
             <a href="/fight-calendar/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
-            <a href="javascript:void(0)" id="menu_events" class="video_tabs active_tab" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
-            <a href="javascript:void(0)" id="menu_results" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+            <span class="delimiter_v">
+                <a href="javascript:void(0)" id="menu_events" class="video_tabs active_tab" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
+                <a href="javascript:void(0)" id="menu_results" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+            </span>
             <input type="hidden" class="fc_calendar" value="Календарь">
+        </div>
+        <div class="news_t events-min-menu">
+            События <span class="video_tabs">></span>
+            <?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">MMA&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/fight-calendar/kickboxing/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a> 
+            <?php endif; ?>
+            <a href="javascript:void(0)" class="video_tabs active_tab_min_ev">Предстоящие&nbsp;&#8744;</a> 
+            <div class="min-menu-links" style="display: none;">
+                <a href="/fight-calendar" class="video_tabs active_tab_min">Все</a> 
+                <a href="/fight-calendar/mma" class="video_tabs">MMA</a> 
+                <a href="/fight-calendar/boxing" class="video_tabs">Бокс</a> 
+                <a href="/fight-calendar/kickboxing" class="video_tabs">Кикбоксинг</a> 
+            </div>
+            <div class="min-menu-links-ev" style="display: none;">
+                <a href="javascript:void(0)" class="video_tabs active_tab_min" id="menu_events_min" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
+                <a href="javascript:void(0)" id="menu_results_min" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+            </div>
         </div>
         <div id="events_container">
             <?= s_list_class(10,28,"&recNum=10&nc_ctpl=2044&showEvents=1" . "&s_type=" . $current_sub['Subdivision_ID']) ?>
-            <button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_events(10, 10, <?= $current_sub['Subdivision_ID'] ?>)">Показать ещё</button>
-            <div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>
+            <?php if ($cnt_events_sql['cnt'] > 10): ?>
+                <button class="see_more_arch" id="see_more_events" value="more" onclick="see_more_events(10, 10, <?= $current_sub['Subdivision_ID'] ?>)">Показать ещё</button>
+                <div id="loading_news_ev" class="loading_news_arch" style="display: none;"><img src="/images/loading.gif"></div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
         
-
+        
 <?php endif; ?><!-- /FormPrefix -->
 
 <!-- RecordTemplate --><? echo $f_AdminButtons; ?>
@@ -100,6 +149,7 @@
     <?= $f_myName; ?>
     <?= !empty($f_myText) ? ": " . $f_myText : ""; ?>
 <?php endif; ?>
+
 <?php
     $month_arr = array(
         '01'=>'января',
@@ -125,7 +175,7 @@
             <?= ($f_myDate_year.$f_myDate_month.$f_myDate_day==date("Ymd") ? 'Сегодня' : $f_myDate_day . " " . $month_arr[$f_myDate_month] . " " . $f_myDate_year)?>
         <? } else { ?>
             <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-        <? } ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="color: #aaaaaa;" href="<?= $fullLink; ?>"><?= $f_myName; ?></a>
+        <? } ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="color: #aaaaaa;" href="<?= $fullLink; ?>"><?= cutStr($f_myName, 50); ?></a>
     </div>
     <div>
         <?php if ($showResults): ?>

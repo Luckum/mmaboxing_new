@@ -5,9 +5,21 @@ $ignore_cc=1;
 if (isset($s_type) && $s_type != 3) {
     $query_where = "a.Subdivision_ID = " . $s_type . " AND NOW() >= Date";
 } else {
-    $subs_arr = nc_get_sub_children('14');
-    $subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
-    $query_where = "a.Subdivision_ID NOT IN(20,117,118,14, " . $subs . ") AND NOW() >= Date";
+    if (isset($s_type) && $s_type == 3 && $cur_type == 3) {
+        $query_where = "a.Subdivision_ID IN (3, 6, 7, 8) AND NOW() >= Date";
+    } else {
+        $video_mess = $db->get_results("SELECT Message_ID FROM Message2000 WHERE Subdivision_ID IN(20, 117, 118, 226, 227, 228, 229) AND NOW() >= Date ORDER BY Date DESC LIMIT 0,5", ARRAY_A);
+        $ids = '';
+        foreach ($video_mess as $row) {
+            $ids .= $row['Message_ID'] . ',';
+        }
+        $ids = substr($ids, 0, -1);
+        $query_where = "a.Message_ID NOT IN(" . $ids . ") AND NOW() >= Date";
+    }
+}
+
+if (!empty($search)) {
+    $query_where = "myTitle LIKE '%".trim(addslashes(strip_tags($search)))."%' OR myText LIKE '%".trim(addslashes(strip_tags($search)))."%' OR myTags LIKE '%".trim(addslashes(strip_tags($search)))."%'";
 }
 
 $query_order = "Date DESC";

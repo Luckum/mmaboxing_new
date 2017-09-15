@@ -3,11 +3,11 @@
     <div style='line-height:25px;".("%IS_NEW" ? "background-color: #ffbf7a;" : "")."'>
         <span style='color: #aaaaaa;'>
             ".("%USER_AVATAR" ? "<img src='%USER_AVATAR' width='20' height='20' />" : "")."
-            <b>".(%USER_ID ? "<a style='vertical-align: top;' href='".nc_auth_profile_url(%USER_ID)."'>%USER_NAME</a>" : ('%GUEST_NAME' ? '%GUEST_NAME' : 'Гость'))." </b>
-        </span><span style='color: #aaaaaa;'>&nbsp;|&nbsp;".date("d-m-Y H:i", %DATE)."</span>
+            <b>".(%USER_ID ? "<span style='vertical-align: top;'>%USER_NAME</span>" : ('%GUEST_NAME' ? '%GUEST_NAME' : 'Гость'))." </b>
+        </span><span style='color: #aaaaaa;'>&nbsp;&nbsp;|&nbsp;&nbsp;".date("d-m-Y H:i", %DATE)."</span>
     </div>
 %RATING_BLOCK
 
-<div>%REPLY_LINK &nbsp; %EDIT_LINK &nbsp; %DELETE_LINK</div>
+<div class='gerger'>%REPLY_LINK &nbsp; %EDIT_LINK &nbsp; %DELETE_LINK</div>
 %REPLY_BLOCK
 </div>

@@ -6,8 +6,16 @@
 
 <div class="main_dop">
     <div class="left_c">
-        <div class="news_t"><a href="/news" class="a-black">Последние новости</a> <span class="video_tabs">></span><a href="/news/news-mma" class="video_tabs">MMA</a> <a href="/news/news-boxing" class="video_tabs">Бокс</a> <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a></div>
-        <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4") ?>
+        <div class="news_t">
+            <a href="/news" class="a-black">Новости</a> <span class="video_tabs">></span>
+            <span class="news_t-links">
+                <a href="/news/news-mma" class="video_tabs">MMA</a> 
+                <a href="/news/news-boxing" class="video_tabs">Бокс</a> 
+                <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a>
+            </span>
+        </div>
+        <div class="news-main-part"><?= s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4") ?></div>
+        <div class="news-main-all"><?= s_list_class(3,1,"&recNum=12&nc_ctpl=2024&is_mob=1") ?></div>
         
         <div class="clr"></div>
     </div>
@@ -53,8 +61,8 @@
             </div>
         </div>
     </div>
-    <div class="right_s">
-        <div class="right_p_t"><a href="/video/archive">Архив боёв</a><span class="video_tabs">></span></div>
+    <div class="right_s" style="height: 482px;">
+        <div class="right_p_t"><a href="/video/archive" class="a-black">Архив боёв</a><span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
     </div>
     <div class="banner1">
@@ -62,25 +70,42 @@
     </div>
 </div>
 
-<div class="main_dop_s">
-    <div class="right_p_t_b vid">MMA Boxing Promotion<span class="video_tabs">></span></div>
-    <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2019") ?>
+<!-- start MMA Boxing Production -->
+<div class="main_dop_s to-slide">
+    <div class="right_p_t_b vid">
+        <a href="/floyd-vs-konor" class="a-white">Флойд vs. Конор</a><span class="video_tabs">></span>
+        <span class="soc-slider">
+            MMABoxing.ru в соцсетях:
+            <a href="https://vk.com/mmaboxing_mma" target="_blank"><img src="/images/vk.png" hspace="10"></a>
+            <a href="https://www.facebook.com/mmaboxingru2016/" target="_blank"><img src="/images/icon.png" hspace="10"></a>
+            <a href="https://www.instagram.com/mmaboxingofficial/" target="_blank"><img src="/images/insta.png" hspace="10"></a>
+            <a href="https://www.youtube.com/user/mmaboxingtv" target="_blank"><img src="/images/yuo.png" hspace="10"></a>
+        </span>
+    </div>
+    <?= s_list_class(232,242,"&recNum=8&nc_ctpl=2019") ?>
 </div>
+
+<div class="main_dop_s not-slide" style="display: none;">
+    <div class="right_p_t_b vid"><a href="/mb-production" class="a-white">Флойд vs. Конор</a><span class="video_tabs">></span></div>
+    <?= s_list_class(232,242,"&recNum=4&nc_ctpl=2019") ?>
+</div>
+<!-- end MMA Boxing Production -->
 
 <div class="main_dop">
     <div class="left_c">
-        <?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12") ?>
+        <div class="news-main-part"><?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12") ?></div>
+        <div class="news-main-all"><?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12&is_mob=1") ?></div>
         
         <div class="clr"></div>
     </div>
-    <div class="right_s">
+    <div class="right_s" style="height: 537px;">
         <div class="right_p_t">Опросы<span class="video_tabs">></span></div>
         <div id="vote-container">
             <?= s_list_class(24,26); ?>
         </div>
     </div>
     <div class="right_s r_s_d">
-        <div class="right_p_t"><a href="/blogs">Блоги</a><span class="video_tabs">></span></div>
+        <div class="right_p_t"><a href="/blogs" class="a-black">Блоги</a><span class="video_tabs">></span></div>
         <?= s_list_class(41,54,"&recNum=4&nc_ctpl=2028") ?>
     </div>
     <div class="banner1_2">
@@ -88,14 +113,31 @@
     </div>
 </div>
 
-<div class="main_dop_s">
-    <div class="right_p_t_b vid">Mad Bear Live<span class="video_tabs">></span></div>
-    <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2027") ?>
+<!-- start Mad Bear Live -->
+<div class="main_dop_s to-slide">
+    <div class="right_p_t_b vid">
+        <a href="/mad-bear-live" class="a-white">Mad Bear Live</a><span class="video_tabs">></span>
+        <span class="soc-slider">
+            Mad Bear Live в соцсетях:
+            <a href="https://vk.com/madbearlive" target="_blank"><img src="/images/vk.png" hspace="10"></a>
+            <a href="https://www.facebook.com/MadBear-276231726078548/" target="_blank"><img src="/images/icon.png" hspace="10"></a>
+            <a href="https://www.instagram.com/mad_bear_live/" target="_blank"><img src="/images/insta.png" hspace="10"></a>
+            <a href="https://www.youtube.com/user/madbear4ik" target="_blank"><img src="/images/yuo.png" hspace="10"></a>
+        </span>
+    </div>
+    <?= s_list_class(233,243,"&recNum=8&nc_ctpl=2027") ?>
 </div>
+
+<div class="main_dop_s not-slide" style="display: none;">
+    <div class="right_p_t_b vid"><a href="/mad-bear-live" class="a-white">Mad Bear Live</a><span class="video_tabs">></span></div>
+    <?= s_list_class(233,243,"&recNum=4&nc_ctpl=2027") ?>
+</div>
+<!-- end Mad Bear Live -->
 
 <div class="main_dop">
     <div class="left_c" id="see_more_news_div">
-        <?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18") ?>
+        <div class="news-main-part"><?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18") ?></div>
+        <div class="news-main-all"><?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18&is_mob=1") ?></div>
         
         <div class="clr"></div>
         <button class="see_more" id="see_more_news" value="more" onclick="see_more_news(24, 8, 3)">Показать ещё</button>

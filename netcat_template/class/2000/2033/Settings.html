@@ -7,6 +7,6 @@ $query_from = "Comments_Count cc";
 $query_join = " LEFT JOIN Message2000 a ON cc.Message_ID = a.Message_ID";
 $query_where = "a.Subdivision_ID IN(20,117,118) AND NOW() >= Date";
 $query_order = "(cc.CountComments + cc.CountReplies) DESC";
-$query_limit = "8";
+$query_limit = $recNum;
 
 ?>

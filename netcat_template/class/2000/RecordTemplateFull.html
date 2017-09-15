@@ -28,6 +28,59 @@
             }
         }
     </script>
+    <script type='text/javascript'>
+        $(function() {
+            if (document.getElementById('fb-account')) {
+                window.fbAsyncInit = function() {
+                    FB.init({ appId: '<?= $nc_auth_fb->get_app_id() ?>',
+                        status: true, 
+                        cookie: true,
+                        xfbml: true,
+                        oauth: true,
+                        version: 'v2.8'
+                    });
+                    function updateButton(response) {
+                        var button = document.getElementById('fb-account');
+                        if (response.authResponse) {
+                            button.innerHTML = "выход";
+                            button.onclick = function() {
+                                FB.logout(function(response) {
+                                });
+                            };
+                        } else {
+                            button.onclick = function() {
+                                FB.login(function(response) {
+                                    if (response.authResponse) {
+                                        location.href = '<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH."modules/auth/?nc_fb=1&token=" ?>'+response.authResponse.accessToken+'&REQUESTED_FROM=<?= htmlspecialchars($REQUEST_URI, ENT_QUOTES) ?>';
+                                    } else {
+                                        
+                                    }
+                                }, {scope:'email'});      
+                            }
+                        }
+                    }
+                    FB.getLoginStatus(updateButton);
+                    FB.Event.subscribe('auth.statusChange', updateButton);    
+                };    
+                (function() {
+                    var e = document.createElement('script'); e.async = true;
+                    e.src = document.location.protocol 
+                    + '//connect.facebook.net/ru_RU/all.js';
+                    document.getElementById('fb-root').appendChild(e);
+                }());
+            }
+        });
+    </script>
+    <script src='http://vk.com/js/api/openapi.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+        function nc_vk_login ( is_member ) {
+            var is_mem = is_member || 0;
+            if ( !is_mem ) VK.Auth.login( nc_vk_login );
+            else
+                location.href='<?= $nc_core->SUB_FOLDER.$nc_core->HTTP_ROOT_PATH; ?>modules/auth/?nc_vk=1&REQUESTED_FROM=<?= htmlspecialchars($REQUEST_URI,ENT_QUOTES ); ?>';
+        }
+        VK.init({ apiId: <?= $nc_auth_vk->get_app_id(); ?> });
+    </script>
     <?=nc_browse_path($browse_template)?>		
     <?php
         $db->query("UPDATE `Message$classID` SET myViews = myViews + 1 WHERE `Message_ID` = $f_RowID");
@@ -50,51 +103,122 @@
         $newsUrls = array('/news/', '/news/news-mma/', '/news/news-boxing/', '/news/news-kickboxing/');
         $articlesUrls = array('/articles/', '/articles/mma/', '/articles/boxing/', '/articles/kickboxing/');
         $blogsUrls = nc_get_sub_children('41');
+        $mblUrls = array('/mad-bear-live/');
+        $mbpUrls = array('/floyd-vs-konor/');
         $subs_arr = $db->get_results("SELECT Subdivision_ID, Subdivision_Name, Hidden_URL FROM Subdivision WHERE Subdivision_ID IN (".join(',', $blogsUrls).")", ARRAY_A);
+        
+        $title = $f_myTitle;
+        $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+        $summary = cutStr(strip_tags($f_myText), 100);
+        $image = 'http://' . $nc_core->HTTP_HOST . getThumbNow($f_myPhoto, 100, 100, 1, false, 95, -1);
+        $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
     ?>
     <div class="main_dop_inner_l">
         <div class="left_c" id="see_more_read_also_div">
             <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
-                <div class="news_t">
-                    Новости <span class="video_tabs">></span>
-                    <a href="/news/news-mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
-                    <a href="/news/news-boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
-                    <a href="/news/news-kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+                <div class="news_t news-cur-menu">
+                Новости <span class="video_tabs">></span>
+                <a href="/news/news-mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+                <a href="/news/news-boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+                <a href="/news/news-kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+            </div>
+            <div class="news_t news-min-menu">
+                Новости <span class="video_tabs">></span>
+                <?php if ($current_sub['Hidden_URL'] == '/news/'): ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
+                <?php elseif ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
+                <?php elseif ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a>
+                <?php else: ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
+                <?php endif; ?>
+                <div class="min-menu-links" style="display: none;">
+                    <a href="/news" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/'): ?> active_tab_min<?php endif; ?>">Все</a>
+                    <a href="/news/news-mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?>active_tab_min<?php endif; ?>">MMA</a> 
+                    <a href="/news/news-boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?>active_tab_min<?php endif; ?>">Бокс</a> 
+                    <a href="/news/news-kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?>active_tab_min<?php endif; ?>">Кикбоксинг</a>
                 </div>
+            </div>
             <?php endif; ?>
             <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
-                <div class="news_t">
-                    Статьи <span class="video_tabs">></span>
-                    <a href="/articles/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
-                    <a href="/articles/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
-                    <a href="/articles/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+                <div class="news_t art-cur-menu">
+                Статьи <span class="video_tabs">></span>
+                <a href="/articles/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+                <a href="/articles/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+                <a href="/articles/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+            </div>
+            <div class="news_t art-min-menu">
+                Статьи <span class="video_tabs">></span>
+                <?php if ($current_sub['Hidden_URL'] == '/articles/'): ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
+                <?php elseif ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
+                <?php elseif ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a>
+                <?php else: ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
+                <?php endif; ?>
+                <div class="min-menu-links" style="display: none;">
+                    <a href="/articles" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/'): ?> active_tab_min<?php endif; ?>">Все</a> 
+                    <a href="/articles/mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?>active_tab_min<?php endif; ?>">MMA</a> 
+                    <a href="/articles/boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?>active_tab_min<?php endif; ?>">Бокс</a> 
+                    <a href="/articles/kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?>active_tab_min<?php endif; ?>">Кикбоксинг</a>
                 </div>
+            </div>
             <?php endif; ?>
             <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
-                <div class="news_t">Блоги <span class="video_tabs">></span>
-                <?php foreach ($subs_arr as $k => $sub): ?>
+                <div class="news_t blogs-cur-menu">Блоги <span class="video_tabs">></span>
+            <?php foreach ($subs_arr as $k => $sub): ?>
+                <?php if ($sub['Subdivision_ID'] != 41): ?>
+                    <?php if ($k < 4): ?>
+                        <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs<?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?> active_tab<?php endif; ?>"><?= $sub['Subdivision_Name'] ?></a>
+                    <?php else: ?>
+                        <a href="javascript:void(0)" class="video_tabs" onclick="toggle_blogs()">Ещё</a>
+                        <?php break; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+            <div class="blogs_all" id="blogs_all_div" style="display: none;">
+                <p>Все блоги</p>
+                <div class="blogs_columns">
+                <?php foreach ($subs_arr as $sub): ?>
                     <?php if ($sub['Subdivision_ID'] != 41): ?>
-                        <?php if ($k < 4): ?>
-                            <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs<?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?> active_tab<?php endif; ?>"><?= $sub['Subdivision_Name'] ?></a>
-                        <?php else: ?>
-                            <a href="javascript:void(0)" class="video_tabs" onclick="toggle_blogs()">Ещё</a>
-                            <?php break; ?>
-                        <?php endif; ?>
+                        <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs"><?= $sub['Subdivision_Name'] ?></a>
                     <?php endif; ?>
                 <?php endforeach; ?>
                 </div>
-                <div class="blogs_all" id="blogs_all_div" style="display: none;">
-                    <p>Все блоги</p>
-                    <div class="blogs_columns">
+            </div>
+            <div class="news_t blogs-min-menu">Блоги <span class="video_tabs">></span>
+                <?php $sel_link = false; ?>
+                <?php foreach ($subs_arr as $sub): ?>
+                    <?php if ($sub['Subdivision_ID'] != 41): ?>
+                        <?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?>
+                            <a href="javascript:void(0)" class="video_tabs active_tab_min"><?= $sub['Subdivision_Name'] ?>&nbsp;&#8744;</a>
+                            <?php $sel_link = true; ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if (!$sel_link): ?>
+                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a>
+                <?php endif; ?>
+                <div class="min-menu-links" style="display: none;">
                     <?php foreach ($subs_arr as $sub): ?>
                         <?php if ($sub['Subdivision_ID'] != 41): ?>
-                            <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs"><?= $sub['Subdivision_Name'] ?></a>
+                            <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs<?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?> active_tab_min<?php endif; ?>"><?= $sub['Subdivision_Name'] ?></a>
                         <?php endif; ?>
                     <?php endforeach; ?>
-                    </div>
                 </div>
+            </div>
             <?php endif; ?>
-            <?php if ($current_sub['Parent_Sub_ID'] == 232): ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $mblUrls)): ?>
+                <div class="news_t">Mad Bear Live <span class="video_tabs">></span></div>
+            <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $mbpUrls)): ?>
+                <div class="news_t">Флойд vs. Конор <span class="video_tabs">></span></div>
+            <?php endif; ?>
+            <?php if ($current_sub['Parent_Sub_ID'] == 153): ?>
                 <div class="news_t">
                     Видео <span class="video_tabs">></span>
                     <a href="/video" class="video_tabs">Все</a> 
@@ -108,18 +232,19 @@
             <?php endif; ?>
             <div class="inner_img"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 728, 415, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=415&w=728")?>" class="post_img"></div>
             <div class="inner_content">
-                <?php if ($current_sub['Parent_Sub_ID'] == 232): ?>
+                <?php if ($current_sub['Parent_Sub_ID'] == 153): ?>
                     <div class="inner_label"><img src="/images/sporticons/1.png"></div>
                 <?php else: ?>
                     <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
                 <?php endif; ?>
                 <div class="inner_title"><?= $f_myTitle; ?></div>
                 <div class="inner_date">
+                    <span class="n-date">
                     <? if($f_Date != 0) { ?>
                         <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
                     <? }else{ ?>
                         <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                    <? } ?> | <a href="javascript:void(0);" onClick="loadUserInfo(<?=$f_User_ID?>,'<?=addslashes($user_name['ForumName'])?>');"><?=$user_name['ForumName']?></a> <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> 4
+                    <? } ?></span>&nbsp;&nbsp;<span class="n-delim">|</span>&nbsp;&nbsp;<span class="n-name"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;<span class="n-socs"><img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span></span>
                 </div>
                 <div class="inner_text">
                     <?= $f_myText ?>
@@ -141,28 +266,44 @@
                         }
                     ?>
                 </ul>
-                <div class="hr"></div>
+                <div class="hr hr-mob-inner"></div>
+                <div class="share">
+                    <div data-share-data='{"url": "<?= $url; ?>", "img": "<?= $image; ?>", "title": "<?= htmlspecialchars($title); ?>", "text": "<?= $summary; ?>", "id": "<?= $f_RowID; ?>"}'>
+                        <div onclick="share.facebook($(this))" class="facebook">
+                            <span class="icon"></span>
+                        </div>
+                        <div onclick="share.vk($(this))" class="vk">
+                            <span class="icon"></span>
+                        </div>
+                        <div onclick="share.twitter($(this))" class="twitter">
+                            <span class="icon"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="banner_hor">
                 <?= banner_rotate(1,1);?>
             </div>
-            <div><?= $nc_comments->wall($f_RowID); ?></div>
-            <?php if ($current_sub['Parent_Sub_ID'] != 232): ?>
-            <div class="news_t">Читайте также</div>
-            <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>
-            <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(5, 5, '<?= $f_myTags ?>', <?= $f_Message_ID ?>)">Показать ещё</button>
-            <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+            <div class="comments-inner-cnt"><?= $nc_comments->wall($f_RowID); ?></div>
+            <div id='fb-root'></div>
+            <?php if ($current_sub['Parent_Sub_ID'] != 153): ?>
+            <div class="read-more-container">
+                <div class="news_t">Читайте также</div>
+                <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>
+                <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(5, 5, '<?= $f_myTags ?>', <?= $f_Message_ID ?>)">Показать ещё</button>
+                <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+            </div>
         </div>
-        <div class="right_s_video">
+        <div class="right_s_video" style="width: 360px;">
             <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
             <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031") ?>
         </div>
-        <div class="right_s_video">
+        <div class="banner1">
+            <?= banner_rotate(2,1, false, 'banner-img');?>
+        </div>
+        <div class="right_s_video" style="width: 360px;">
             <div class="right_p_t"><a href="/news">Новости</a><span class="video_tabs">></span></div>
             <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID) ?>
-        </div>
-        <div class="banner1">
-            <?= banner_rotate(2,1);?>
         </div>
         <?php else: ?>
             </div>
