@@ -71,7 +71,7 @@
             }
         });
     </script>
-    <script src='http://vk.com/js/api/openapi.js' type='text/javascript'></script>
+    <script src='https://vk.com/js/api/openapi.js' type='text/javascript'></script>
     <script type='text/javascript'>
         function nc_vk_login ( is_member ) {
             var is_mem = is_member || 0;
@@ -108,9 +108,9 @@
         $subs_arr = $db->get_results("SELECT Subdivision_ID, Subdivision_Name, Hidden_URL FROM Subdivision WHERE Subdivision_ID IN (".join(',', $blogsUrls).")", ARRAY_A);
         
         $title = $f_myTitle;
-        $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+        $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
         $summary = cutStr(strip_tags($f_myText), 100);
-        $image = 'http://' . $nc_core->HTTP_HOST . getThumbNow($f_myPhoto, 100, 100, 1, false, 95, -1);
+        $image = 'https://' . $nc_core->HTTP_HOST . getThumbNow($f_myPhoto, 100, 100, 1, false, 95, -1);
         $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
     ?>
     <div class="main_dop_inner_l">
@@ -246,13 +246,26 @@
                         <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
                     <? } ?></span>&nbsp;&nbsp;<span class="n-delim">|</span>&nbsp;&nbsp;<span class="n-name"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;<span class="n-socs"><img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span></span>
                 </div>
+<?
+    require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
+    $html = str_get_html($f_myText);
+    $frame = $html->find('iframe', 0);
+    $src = $frame->src;
+    $frame->outertext = '';
+    $f_myText = $html;
+    $f_myText = trim($f_myText, ':');
+?>
                 <div class="inner_text">
                     <?= $f_myText ?>
                 
-                    <? if (!empty($f_Video)): ?>
+                    <? if (!empty($f_Video)) { ?>
                         <div id="videoplayer<?= $f_RowID ;?>" style="width:660px;height:371px;" ></div>
                         <script type="text/javascript">this.videoplayer<?= $f_RowID ;?> = new Uppod({m:"video",uid:"videoplayer<?= $f_RowID ;?>",comment:"Битва",file:"<?= $f_Video ;?>",st:"uppodvideo"});</script>
-                    <? endif; ?>
+                    <? }elseif(!empty($src)){ ?>
+        <div class="inner_img" style="overflow:hidden;">
+            <iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src; ?>" width="100%"></iframe>
+        </div>
+                    <? } ?>
                 </div>
                 <ul class="tags">
                     <?php

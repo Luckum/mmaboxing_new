@@ -16,10 +16,9 @@
 ?>
 <!-- /FormPrefix -->
 
-<!-- RecordTemplate -->
-<?php 
+<!-- RecordTemplate --><?php 
     $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1")); 
-    $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+    $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
     $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 <?php if ($f_RowNum == 1 && !isset($is_mob)): ?>
@@ -82,7 +81,6 @@
     <div class="banner_hor">
         <?= banner_rotate(1,1);?>
     </div>
-<?php endif; ?>
-<!-- /RecordTemplate -->
+<?php endif; ?><!-- /RecordTemplate -->
 
 <!-- FormSuffix --><!-- /FormSuffix -->

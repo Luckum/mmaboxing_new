@@ -17,7 +17,7 @@ $month_arr = array(
 );
 $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
 $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE message_link=".$f_RowID));
-$url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+$url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
 $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 

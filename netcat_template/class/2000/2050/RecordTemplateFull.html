@@ -1,0 +1,132 @@
+<div class='page-text'>
+<script type="text/javascript">
+    function see_more_read_also(start, cnt, tags, m_id)
+    {
+        $("#see_more_read_also").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, tags: tags, id: m_id, action: 'read_also'}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_read_also_div").append(html);
+            $("#see_more_read_also").appendTo("#see_more_read_also_div");
+            $("#loading_news").appendTo("#see_more_read_also_div");
+            $("#loading_news").hide();
+            $("#see_more_read_also").show();
+            $("#see_more_read_also").attr("onclick", "see_more_read_also(" + (start+5) + ", " + cnt + ", '" + tags + "', " + m_id + ")");
+        }
+    }
+</script>
+<?=nc_browse_path($browse_template)?>        
+<?php
+    require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
+    $html = str_get_html($f_myText);
+    $frame = $html->find('iframe', 0);
+    $src = $frame->src;
+    $frame->outertext = '';
+    $f_myText = $html;
+    $f_myText = trim($f_myText, ':');
+    
+    $db->query("UPDATE `Message$classID` SET myViews = myViews + 1 WHERE `Message_ID` = $f_RowID");
+    $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
+    $month_arr = array(
+        '01'=>'января',
+        '02'=>'февраля',
+        '03'=>'марта',
+        '04'=>'апреля',
+        '05'=>'мая',
+        '06'=>'июня',
+        '07'=>'июля',
+        '08'=>'августа',
+        '09'=>'сентября',
+        '10'=>'октября',
+        '11'=>'ноября',
+        '12'=>'декабря',
+    );
+    $f_myTags = trim($f_myTags, ',');
+    
+    $title = $f_myTitle;
+    $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+    $summary = cutStr(strip_tags($f_myText), 300);
+    $image = 'http://' . $nc_core->HTTP_HOST . getThumbNow($f_myPhoto, 100, 100, 1, false, 95, -1);
+?>
+<div class="main_dop_inner_l">
+    <div class="left_c" id="see_more_read_also_div">
+        <div class="news_t">
+            Mad Bear Live <span class="video_tabs">></span>
+        </div>
+        
+        <div class="inner_img"><iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src; ?>" width="728"></iframe></div>
+        <div class="inner_content">
+            <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
+            <div class="inner_title"><?= $f_myTitle; ?></div>
+            <div class="inner_date">
+                <span class="n-date">
+                <? if($f_Date != 0) { ?>
+                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                <? }else{ ?>
+                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                <? } ?></span>&nbsp;&nbsp;<span class="n-delim">|</span>&nbsp;&nbsp;<span class="n-name"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;<span class="n-socs"><img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span></span>
+            </div>
+            <div class="inner_text">
+                <?= $f_myText ?>
+            </div>
+            <ul class="tags">
+                <?php
+                    if (!empty($f_myTags)) {
+                        $RuTags = explode(',',$f_myTags);
+                        $EnTags = explode(',',trim($f_EnTags, ','));
+                        $Tags = array_combine($RuTags,$EnTags);
+                        foreach ($Tags as $key => $value) {
+                            echo "<li><a href='/tag/".$value."'>".$key."</a></li>";
+                        }
+                    }
+                ?>
+            </ul>
+            <div class="hr hr-mob-inner"></div>
+            <div class="share">
+                <div data-share-data='{"url": "<?= $url; ?>", "img": "<?= $image; ?>", "title": "<?= htmlspecialchars($title); ?>", "text": "<?= $summary; ?>"}'>
+                    <div onclick="share.facebook($(this))" class="facebook">
+                        <span class="icon"></span>
+                    </div>
+                    <div onclick="share.vk($(this))" class="vk">
+                        <span class="icon"></span>
+                    </div>
+                    <div onclick="share.twitter($(this))" class="twitter">
+                        <span class="icon"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner_hor">
+            <?= banner_rotate(1,1);?>
+        </div>
+        <div><?= $nc_comments->wall($f_RowID); ?></div>
+        <div class="read-more-container">
+            <div class="news_t">Читайте также</div>
+            <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>
+            <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(5, 5, '<?= $f_myTags ?>', <?= $f_Message_ID ?>)">Показать ещё</button>
+            <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+        </div>
+    </div>
+    <div class="right_s_video" style="width: 360px;">
+        <div class="right_p_t"><a href="/news">Новости</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID) ?>
+    </div>
+    <div class="banner1">
+        <?= banner_rotate(2,1, false, 'banner-img');?>
+    </div>
+    <div class="right_s_video" style="width: 360px;">
+        <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031&current=" . $f_RowID) ?>
+    </div>
+</div>
+
+
+        
+
+</div>
+<style>blockquote P { margin:0px!important; }</style>

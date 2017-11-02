@@ -1,5 +1,16 @@
 <div id='page_comment_block'>
     <div id='fhhgfhfgh'>Ваш комментарий</div>
+    <span class='comment_socials' id='comm-soc'>
+        <span class='social-enter soc-comms'>Войти через соцсети:</span>
+        <div class='soc-comms-btns'>
+            <span class='social-btn' id='fb-account'>
+                <img src='/images/fb_btn.png' />
+            </span>
+            <span class='social-btn' onclick='nc_vk_login(" . $nc_auth_vk->is_member() . ")'>
+                <img src='/images/vk_btn.png' />
+            </span>
+        </div>
+    </span>
 <span id='%GUEST_NAME_ID' style='padding-right:1.1%;'><input type='text' name='%GUEST_NAME_ID' placeholder='Ваше имя'></span> 
 <span id='%GUEST_EMAIL_ID'><input type='text'  name='%GUEST_EMAIL_ID' placeholder='Ваш email(не будет опубликован)'></span>
 ".(%ISBBCODES ? nc_bbcode_bar('this', '%FORM_ID', '%TEXTAREA_ID', 1, array("SIZE", "COLOR", "SMILE", "B", "I", "U", "S", "LIST", "QUOTE", "CODE", "IMG", "URL"), "<div id='block_jc_format' style='margin:5px 0'>", "</div>", true) : "")."

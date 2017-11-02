@@ -21,7 +21,7 @@
     );
     $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
     $video_subs = array(20, 117, 118, 226, 227, 228, 229);
-    $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+    $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
     $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 
@@ -90,7 +90,6 @@
             <?= banner_rotate(1,1);?>
         </div>
     <?php endif; ?>
-<?php endif; ?>
-<!-- /RecordTemplate -->
+<?php endif; ?><!-- /RecordTemplate -->
 
 <!-- FormSuffix --><!-- /FormSuffix -->

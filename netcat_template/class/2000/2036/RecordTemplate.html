@@ -17,7 +17,7 @@
         '12'=>'декабря',
     );
     $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
-    $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+    $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
     $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
     
 ?>
@@ -72,5 +72,4 @@
         </div>
     <?php endif; ?>
 <?php endif; ?>
-
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

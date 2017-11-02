@@ -1,0 +1,10 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php 
+    echo $f_AdminButtons; 
+?>
+
+<img src="<?= getThumbNow($f_image, 400, 350, 4, false, 95, -1); ?>" class="post_img">
+<p>Интервал публицации: с <?= $f_date_start ?> по <?= $f_date_end ?></p><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

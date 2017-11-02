@@ -1,0 +1,12 @@
+<?php
+$nc_comments = new nc_comments($cc);
+if($current_sub['Subdivision_ID']==232) {
+$ignore_sub=1;
+$ignore_cc=1;
+$ignore_limit = 1;
+$query_limit = 16;
+$query_where = "a.Subdivision_ID IN(20, 117, 118, 226, 227, 228, 229) AND NOW() >= Date";
+$query_order = "Date DESC";
+}
+
+?>

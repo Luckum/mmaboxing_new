@@ -1,0 +1,23 @@
+        <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_videos" value="more" onclick="see_more_videos(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+        <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+    </div>
+    <div class="right_s_video" style="width: 360px;">
+        <div class="right_p_t"><a href="/video">Новости</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032") ?>
+    </div>
+    <?php if (!$admin_mode): ?>
+    <div class="banner1">
+        <?= banner_rotate(2,1, false, 'banner-img');?>
+    </div>
+    <?php endif; ?>
+    <?php if (!$admin_mode): ?>
+        <div class="right_s_twit" style="height: 534px;">
+            <div class="right_p_twit">Twitter<span class="video_tabs">></span></div>
+            <a class="twitter-timeline" href="https://twitter.com/MMA_Boxing_ru">Tweets by MMA_Boxing_ru</a>
+            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+    <?php endif; ?>
+</div>
+
+
+

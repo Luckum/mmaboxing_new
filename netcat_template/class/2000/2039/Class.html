@@ -18,7 +18,7 @@
         '11'=>'ноября',
         '12'=>'декабря',
     );
-    $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+    $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
     $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 <div class="small_l_c_l_arch">
@@ -33,8 +33,7 @@
         <? } ?> | <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span>
     </div>
     <div class="playback_arch_page"><a href="<?= $fullLink ?>"><img src="/images/playback-start.png"></a></div>
-</div>
-<!-- /RecordTemplate -->
+</div><!-- /RecordTemplate -->
 
 <!-- FormSuffix --><div class="clr"></div>
 <!-- /FormSuffix -->

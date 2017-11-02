@@ -1,0 +1,31 @@
+<? echo $f_AdminCommon; ?>
+<script type="text/javascript">
+    function see_more_videos(start, cnt, s_type)
+    {
+        $("#see_more_videos").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, action: 'videos', s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_videos_div").append(html);
+            $("#see_more_videos").appendTo("#see_more_videos_div");
+            $("#loading_news").appendTo("#see_more_videos_div");
+            $("#loading_news").hide();
+            $("#see_more_videos").show();
+            $("#see_more_videos").attr("onclick", "see_more_videos(" + (start+8) + ", " + cnt + ", " + s_type + ")");
+        }
+    }
+</script>
+
+<div class="main_dop_inner_l">
+    <div class="left_c">
+        <div class="news_t video-cur-menu">
+           Видеоблоги <span class="video_tabs">></span>
+        </div>
+        <div class="news_t video-min-menu">
+           Видеоблоги <span class="video_tabs">></span>
+        </div>

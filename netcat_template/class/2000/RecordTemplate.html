@@ -1,4 +1,5 @@
-<?/* Служебная часть */
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?/* Служебная часть */
 for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {
     if($fetch_row[$f_RowNum] instanceof Iterator) {
         extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");
@@ -46,7 +47,7 @@ $month_arr = array(
 );
 $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
 $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE message_link=".$f_RowID));
-$url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+$url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
 $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 
@@ -215,3 +216,4 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
     echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);
 }
 /* Конец служебной части */?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

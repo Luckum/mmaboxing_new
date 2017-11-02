@@ -4,8 +4,7 @@
 <div class="module vote">
     <p class="vote-title"><?= $f_myName ?></p>
 			<div class="answers">
-			    <div style="display: none;"><?= $nc_core->input->fetch_cookie("interogation".$f_RowID) ?></div>
-                <div id="vote" style='<?= ($_COOKIE["interogation".$f_RowID] ? "display:none;" : NULL) ?>'>
+                <div id="vote" style="display: none;">
                     <?= ($f_var1 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="1"><span class="radio-custom"></span><span class="label_v">'.$f_var1.'</span></label>' : NULL) ?>
                     <?= ($f_var2 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="2"><span class="radio-custom"></span><span class="label_v">'.$f_var2.'</span></label>' : NULL) ?>
                     <?= ($f_var3 ? '<label class="vote"><input class="radio" name="vote_check" type="radio" value="3"><span class="radio-custom"></span><span class="label_v">'.$f_var3.'</span></label>' : NULL) ?>
@@ -33,7 +32,7 @@ $all_answ = interogation_all($f_answers);
 $checked_ans = !$_COOKIE["interogation" . $f_RowID . "-answer"] ? 0 : $_COOKIE["interogation" . $f_RowID . "-answer"];
 ?>
 
-                <div class="answers answRes" id="answers-res" style='<?= (!$_COOKIE["interogation".$f_RowID] ? "display:none;" : NULL) ?>'>
+                <div class="answers answRes" id="answers-res" style="display: none;">
                     <div id="dle-vote">
                         <?= ($f_var1 ? '<div class="vote"><span class="radio-custom-voted" id="ans-1"></span><!--colorstart:#333333--><span style="color:#000000"><!--/colorstart-->'.$f_var1.'<!--colorend--></span><!--/colorend--> '.interogation_self($f_answers,$all_answ,1,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,1,true)).'%;" class="vote1">'.interogation_self($f_answers,$all_answ,1,true).'%</span></div>' : NULL) ?>
                         <?= ($f_var2 ? '<div class="vote"><span class="radio-custom-voted" id="ans-2"></span><!--colorstart:#FF0000--><span style="color:#000000"><!--/colorstart-->'.$f_var2.'<!--colorend--></span><!--/colorend--> '.interogation_self($f_answers,$all_answ,2,false).'</div><div class="voteprogress"><span style="width:'.ceil(interogation_self($f_answers,$all_answ,2,true)).'%;" class="vote2">'.interogation_self($f_answers,$all_answ,2,true).'%</span></div>' : NULL) ?>
@@ -59,12 +58,39 @@ $checked_ans = !$_COOKIE["interogation" . $f_RowID . "-answer"] ? 0 : $_COOKIE["
                 </div>
                 
                 <script type="text/javascript">
-                    $("#ans-<?= $checked_ans; ?>").css({"border-color": "#e73435"});
+                    
                 </script>
 
-			    <div>
-			    	<?= (!$_COOKIE["interogation".$f_RowID] ? '<input type="button" onclick="vote(' . $f_RowID . ', \'' . md5($_SERVER['REMOTE_ADDR'].$f_RowID) . '\', 2008)" class="vote-button" value="Голосовать">' : NULL) ?>
+			    <div id="vote-btn" style="display: none;">
+			    	<?= '<input type="button" onclick="vote(' . $f_RowID . ', \'' . md5($_SERVER['REMOTE_ADDR'].$f_RowID) . '\', 2008)" class="vote-button" value="Голосовать">' ?>
 			    	<!--<a href="javascript:void(0);" onClick="showArResults();" class="button no-change">Результаты</a>-->
 			    </div>
 	</div>
+    
+    
+<script type="text/javascript">
+    function readCookie(name) {  
+        var cookiename = name + "=";  
+        var ca = document.cookie.split(';');  
+        for (var i=0;i < ca.length;i++) {  
+            var c = ca[i];  
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(cookiename) == 0) return c.substring(cookiename.length,c.length);
+        }  
+        return null;  
+    }
+    if (readCookie("interogation<?= $f_RowID ?>")) {
+        var answ = readCookie("interogation<?= $f_RowID ?>-answer");
+        $("#vote").hide();
+        $("#vote-btn").hide();
+        $("#answers-res").show();
+        $("#ans-" + answ).css({"border-color": "#e73435"});
+    } else {
+        $("#vote").show();
+        $("#vote-btn").show();
+        $("#answers-res").hide();
+    }
+</script>
+
+    
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

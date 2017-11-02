@@ -15,7 +15,7 @@
         '11'=>'ноября',
         '12'=>'декабря',
     );
-    $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
+    $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
     $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
 <div class="side_video_l_a">
@@ -37,6 +37,4 @@
         </div>
     </div>
 </div>
-
-
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

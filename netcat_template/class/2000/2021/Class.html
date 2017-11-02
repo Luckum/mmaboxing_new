@@ -1,17 +1,17 @@
 <!-- FormPrefix --><?= "<?xml version='1.0' encoding='{$nc_core->NC_CHARSET}'?>"; ?>
                 <?= "<?xml-stylesheet type='text/xsl' href='/images/rss.xsl'?>"; ?>
-<rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+<rss xmlns:yandex="https://news.yandex.ru" xmlns:media="https://search.yahoo.com/mrss/" version="2.0">
                         <channel>
                             <title><?= htmlspecialchars($system_env["ProjectName"], ENT_QUOTES); ?></title>
-                            <link>http://<?= $_SERVER["HTTP_HOST"]; ?>/</link>
+                            <link>https://<?= $_SERVER["HTTP_HOST"]; ?>/</link>
                             <description><?= htmlspecialchars(strip_tags($current_sub["Description"]), ENT_QUOTES); ?></description>
-                            <yandex:logo>http://mmaboxing.ru/images/logo100x22.png</yandex:logo>
-                            <yandex:logo type="square">http://mmaboxing.ru/images/logo180x180.png</yandex:logo>
+                            <yandex:logo>https://mmaboxing.ru/images/logo100x22.png</yandex:logo>
+                            <yandex:logo type="square">https://mmaboxing.ru/images/logo180x180.png</yandex:logo>
 <!-- /FormPrefix -->
 
 <!-- RecordTemplate --><item>
                 <title><?= htmlspecialchars($f_myTitle); ?></title>
-                <link>http://<?= $_SERVER["HTTP_HOST"] . $fullLink; ?></link>
+                <link>https://<?= $_SERVER["HTTP_HOST"] . $fullLink; ?></link>
                 <description><?= $f_ncDescription ;?></description>
                 <enclosure url="http://<?= $_SERVER["HTTP_HOST"] . $f_myPhoto; ?>" type="image/jpeg"/>
                 <category><?= htmlspecialchars($current_sub["Subdivision_Name"]); ?></category>

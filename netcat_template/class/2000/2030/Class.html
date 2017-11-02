@@ -22,8 +22,7 @@
 <?php endif; ?>
 <!-- /FormPrefix -->
 
-<!-- RecordTemplate -->
-    <?php $url = 'http://' . $nc_core->HTTP_HOST . $fullLink; ?>
+<!-- RecordTemplate --><?php $url = 'https://' . $nc_core->HTTP_HOST . $fullLink; ?>
     <?php $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt; ?>
     <?php if ($recNum == 8): ?>
         <div class="ca-item">
@@ -64,8 +63,7 @@
                 <span class="v_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></span>
             </div>
         </div>
-    <?php endif; ?>
-<!-- /RecordTemplate -->
+    <?php endif; ?><!-- /RecordTemplate -->
 
 <!-- FormSuffix -->    
 <?php if ($recNum == 8): ?>    
