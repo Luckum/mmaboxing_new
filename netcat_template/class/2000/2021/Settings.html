@@ -2,4 +2,5 @@
 $nc_last_update = $db->get_var("SELECT MAX(UNIX_TIMESTAMP(`Created`)) FROM `Message".$classID."` WHERE `Sub_Class_ID` = '".$cc."' AND `Checked` = 1 ");
 header("Content-type: text/xml; charset=".$nc_core->NC_CHARSET);
 $ignore_cc=$ignore_sub=1;
+$query_where = "NOW() >= Date";
 ?>

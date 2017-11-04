@@ -29,7 +29,7 @@
             <div class="ca-item-main">
                 <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 240, 140, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=140&w=240")?>" alt="<?=$f_myTitle?>"></a>
                 <div class="post_b_label_s"><img src="/images/sporticons/1.png"></div>
-                <div class="v_title_s"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+                <div class="v_title_s"><a href="<?= $fullLink ?>"><h2><?=$f_myTitle?></h2></a></div>
                 <span class="v_date">
                     <? if($f_Date != 0) { ?>
                         <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?>
@@ -58,7 +58,7 @@
                 <? } ?>
                 </span>
                 <br />
-                <span class="v_title"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></span>
+                <span class="v_title"><a href="<?= $fullLink ?>"><h2><?=$f_myTitle?></h2></a></span>
             </div>
         </div>
     <?php endif; ?><!-- /RecordTemplate -->

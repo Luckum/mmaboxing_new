@@ -54,9 +54,11 @@
     $cnt_ratings_sql = mysql_fetch_assoc(mysql_query("SELECT count(Message_ID) as cnt FROM Message2006 WHERE myPos != '' AND Subdivision_ID = " . $current_sub['Subdivision_ID']));
 ?>
 <div class="main_dop_inner_l">
+    <div class="breadcrumbs-hdr" id="breadcrumbs">
+        <?= setBreadcrumbs($current_sub['Hidden_URL']); ?>
+    </div>
     <div class="left_c">
         <div class="news_t rat-cur-menu">
-            Рейтинги <span class="video_tabs">></span>
             <a href="/ratings/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
             <a href="/ratings/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
             <a href="/ratings/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>

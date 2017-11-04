@@ -101,10 +101,13 @@
 ?>
 
 <div class="main_dop_inner_l">
+    <div class="breadcrumbs-hdr">
+        <?= setBreadcrumbs($current_sub['Hidden_URL']); ?>
+    </div>
     <div class="left_c">
         <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
             <div class="news_t news-cur-menu">
-                Новости <span class="video_tabs">></span>
+                <a href="/news" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/'): ?> active_tab<?php endif; ?>">Все</a> 
                 <a href="/news/news-mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
                 <a href="/news/news-boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
                 <a href="/news/news-kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
@@ -130,7 +133,7 @@
         <?php endif; ?>
         <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
             <div class="news_t art-cur-menu">
-                Статьи <span class="video_tabs">></span>
+                <a href="/articles" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/'): ?> active_tab<?php endif; ?>">Все</a> 
                 <a href="/articles/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
                 <a href="/articles/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
                 <a href="/articles/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
@@ -155,7 +158,7 @@
             </div>
         <?php endif; ?>
         <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
-            <div class="news_t blogs-cur-menu">Блоги <span class="video_tabs">></span>
+            <div class="news_t blogs-cur-menu">
             <?php foreach ($subs_arr as $k => $sub): ?>
                 <?php if ($sub['Subdivision_ID'] != 41): ?>
                     <?php if ($k < 4): ?>
@@ -263,7 +266,7 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
     <div class="post_c_b">
         <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 680, 340, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=340&w=680")?>" class="post_img"></a>
         <div class="post_b_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
-        <div class="b_p"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+        <div class="b_p"><a href="<?= $fullLink ?>"><h2><?=$f_myTitle?></h2></a></div>
         <div class="b_p_t">
             <?php if (!empty($f_ncDescription)): ?>
                 <?= cutStr($f_ncDescription, 250); ?>
@@ -287,7 +290,7 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
         <div class="lab main-p-type"><?= $f_newsType[0]; ?></div>
             <div class="post_b_label main-p-type-icon"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="post_t_desk">
-            <div class="post_t"><a href="<?= $fullLink ?>"><?=$f_myTitle?></a></div>
+            <div class="post_t"><a href="<?= $fullLink ?>"><h2><?=$f_myTitle?></h2></a></div>
             <div class="post_desk">
                 <?php if (!empty($f_ncDescription) && strlen($f_ncDescription) < 300): ?>
                     <?= $f_ncDescription; ?>

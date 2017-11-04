@@ -101,10 +101,13 @@
 ?>
 
 <div class="main_dop_inner_l">
+    <div class="breadcrumbs-hdr">
+        <?= setBreadcrumbs($current_sub['Hidden_URL']); ?>
+    </div>
     <div class="left_c">
         <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
             <div class="news_t news-cur-menu">
-                Новости <span class="video_tabs">></span>
+                <a href="/news" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/'): ?> active_tab<?php endif; ?>">Все</a> 
                 <a href="/news/news-mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
                 <a href="/news/news-boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
                 <a href="/news/news-kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
@@ -130,7 +133,7 @@
         <?php endif; ?>
         <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
             <div class="news_t art-cur-menu">
-                Статьи <span class="video_tabs">></span>
+                <a href="/articles" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/'): ?> active_tab<?php endif; ?>">Все</a> 
                 <a href="/articles/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
                 <a href="/articles/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
                 <a href="/articles/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
@@ -155,7 +158,7 @@
             </div>
         <?php endif; ?>
         <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
-            <div class="news_t blogs-cur-menu">Блоги <span class="video_tabs">></span>
+            <div class="news_t blogs-cur-menu">
             <?php foreach ($subs_arr as $k => $sub): ?>
                 <?php if ($sub['Subdivision_ID'] != 41): ?>
                     <?php if ($k < 4): ?>

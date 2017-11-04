@@ -115,9 +115,9 @@
             <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
             <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
             <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
-            <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab<?php endif; ?>">Архив боёв</a> 
             <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab<?php endif; ?>">Переводы</a> 
-            <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab<?php endif; ?>">Интервью</a>
+            <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab<?php endif; ?>">Архив боёв</a> 
+            <!-- <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab<?php endif; ?>">Интервью</a> -->
         </div>
         <div class="news_t video-min-menu">
             Видео <span class="video_tabs">></span>
@@ -129,21 +129,21 @@
                 <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
             <?php elseif ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?>
                 <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/video/archive/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Архив боёв&nbsp;&#8744;</a> 
             <?php elseif ($current_sub['Hidden_URL'] == '/video/translation/'): ?>
                 <a href="javascript:void(0)" class="video_tabs active_tab_min">Переводы&nbsp;&#8744;</a> 
+            <?php elseif ($current_sub['Hidden_URL'] == '/video/archive/'): ?>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min">Архив боёв&nbsp;&#8744;</a>
             <?php elseif ($current_sub['Hidden_URL'] == '/video/interview/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Интервью&nbsp;&#8744;</a> 
+                <!-- <a href="javascript:void(0)" class="video_tabs active_tab_min">Интервью&nbsp;&#8744;</a> -->
             <?php endif; ?>
             <div class="min-menu-links" style="display: none;">
                 <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab_min<?php endif; ?>">Все</a> 
                 <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab_min<?php endif; ?>">MMA</a> 
                 <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab_min<?php endif; ?>">Бокс</a> 
                 <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab_min<?php endif; ?>">Кикбоксинг</a> 
-                <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab_min<?php endif; ?>">Архив боёв</a> 
-                <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab_min<?php endif; ?>">Переводы</a> 
-                <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab_min<?php endif; ?>">Интервью</a>
+                <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab_min<?php endif; ?>">Переводы</a>
+                <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab_min<?php endif; ?>">Архив боёв</a>  
+                <!-- <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab_min<?php endif; ?>">Интервью</a> -->
             </div>
         </div>
         <div class="inner_img">
@@ -151,7 +151,7 @@
         </div>
         <div class="inner_content">
             <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
-            <div class="inner_title"><?= $f_myTitle; ?></div>
+            <div class="inner_title"><h1><?= $f_myTitle; ?></h1></div>
             <div class="inner_date">
                 <span class="n-date">
                 <? if($f_Date != 0) { ?>

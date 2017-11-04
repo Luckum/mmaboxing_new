@@ -5,7 +5,7 @@
     $cnt_results_sql = mysql_fetch_assoc(mysql_query("SELECT count(Message_ID) as cnt FROM Message2010 WHERE myDate < NOW() AND Checked = 1"));
 ?>
 <script type="text/javascript">
-    function change_content(action, s_type)
+    function change_content(action, s_type, url)
     {
         var html = $.ajax({
             url: "/netcat/modules/default/ajax.php?isNaked=1",
@@ -42,6 +42,15 @@
             $(".active_tab_min_ev").html('Предстоящие&nbsp;&#8744;');
         }
         $(".min-menu-links-ev").hide();
+        
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'chg_breadcrumbs', chg_action: action, url: url}
+        }).responseText;
+        
+        $("#breadcrumbs").html(html);
     }
     function see_more_events(start, cnt, s_type)
     {
@@ -96,16 +105,18 @@
 </script>
 <?php if(!$showMain): ?>
 <div class="main_dop_inner_l">
+    <div class="breadcrumbs-hdr" id="breadcrumbs">
+        <?= setBreadcrumbs($current_sub['Hidden_URL']); ?>
+    </div>
     <div class="left_c_arch">
         <div class="news_t events-cur-menu">
-            События <span class="video_tabs">></span>
             <a href="/fight-calendar" class="video_tabs">Все</a> 
             <a href="/fight-calendar/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
             <a href="/fight-calendar/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
             <a href="/fight-calendar/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
             <span class="delimiter_v">
-                <a href="javascript:void(0)" id="menu_events" class="video_tabs active_tab" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
-                <a href="javascript:void(0)" id="menu_results" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+                <a href="javascript:void(0)" id="menu_events" class="video_tabs active_tab" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>, '<?= $current_sub['Hidden_URL']; ?>')">Предстоящие</a> 
+                <a href="javascript:void(0)" id="menu_results" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>, '<?= $current_sub['Hidden_URL']; ?>')">Результаты</a>
             </span>
             <input type="hidden" class="fc_calendar" value="Календарь">
         </div>
@@ -126,8 +137,8 @@
                 <a href="/fight-calendar/kickboxing" class="video_tabs">Кикбоксинг</a> 
             </div>
             <div class="min-menu-links-ev" style="display: none;">
-                <a href="javascript:void(0)" class="video_tabs active_tab_min" id="menu_events_min" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>)">Предстоящие</a> 
-                <a href="javascript:void(0)" id="menu_results_min" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>)">Результаты</a>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min" id="menu_events_min" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>, <?= $current_sub['Hidden_URL']; ?>)">Предстоящие</a> 
+                <a href="javascript:void(0)" id="menu_results_min" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>, <?= $current_sub['Hidden_URL']; ?>)">Результаты</a>
             </div>
         </div>
         <div id="events_container">

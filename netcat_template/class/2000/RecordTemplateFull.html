@@ -215,9 +215,9 @@
             <?php if (in_array($current_sub['Hidden_URL'], $mblUrls)): ?>
                 <div class="news_t">Mad Bear Live <span class="video_tabs">></span></div>
             <?php endif; ?>
-            <?php if (in_array($current_sub['Hidden_URL'], $mbpUrls)): ?>
+            <!-- <?php if (in_array($current_sub['Hidden_URL'], $mbpUrls)): ?>
                 <div class="news_t">Флойд vs. Конор <span class="video_tabs">></span></div>
-            <?php endif; ?>
+            <?php endif; ?> -->
             <?php if ($current_sub['Parent_Sub_ID'] == 153): ?>
                 <div class="news_t">
                     Видео <span class="video_tabs">></span>
@@ -237,7 +237,7 @@
                 <?php else: ?>
                     <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
                 <?php endif; ?>
-                <div class="inner_title"><?= $f_myTitle; ?></div>
+                <div class="inner_title"><h1><?= $f_myTitle; ?></h1></div>
                 <div class="inner_date">
                     <span class="n-date">
                     <? if($f_Date != 0) { ?>

@@ -23,9 +23,11 @@
 </script>
 
 <div class="main_dop_inner_l">
+    <div class="breadcrumbs-hdr">
+        <?= setBreadcrumbs($current_sub['Hidden_URL']); ?>
+    </div>
     <div class="left_c">
         <div class="news_t video-cur-menu">
-            Видео <span class="video_tabs">></span>
             <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab<?php endif; ?>">Все</a> 
             <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
             <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 

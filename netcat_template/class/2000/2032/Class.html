@@ -27,7 +27,7 @@
         <div class="side_video_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="side_small_l_bg_news">
             <div class="side_video_desc">
-                <span class="small_l_t_v"><a href="<?= $fullLink ?>"><?=cutStr($f_myTitle, 150);?></a></span>
+                <span class="small_l_t_v"><a href="<?= $fullLink ?>"><h2><?=cutStr($f_myTitle, 150);?></h2></a></span>
                 <span class="small_d_c_v">
                     <? if($f_Date != 0) { ?>
                         <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>

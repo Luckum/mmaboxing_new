@@ -63,6 +63,7 @@ if($tpl == 'video')
 if($_GET['search'])
 {
     $query_where = "myTitle LIKE '%".trim(addslashes(strip_tags($_GET['search'])))."%' OR myText LIKE '%".trim(addslashes(strip_tags($_GET['search'])))."%' OR myTags LIKE '%".trim(addslashes(strip_tags($_GET['search'])))."%'";
+    $query_where .= " AND NOW() >= Date";
     
 }
 
