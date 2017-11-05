@@ -207,7 +207,6 @@ class nc_User extends nc_Essence {
                 AND `u`.User_ID = ug.`User_ID`".$this->get_cond(1)."
                 ORDER BY ug.ID", ARRAY_A);
         }
-        
 
         if (!$user_result) return false;
 

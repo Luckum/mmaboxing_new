@@ -10,8 +10,6 @@ require_once($INCLUDE_FOLDER . "classes/nc_imagetransform.class.php");
 
 ob_start();
 
-$file = fopen('log_add.txt', 'a');
-fputs($file, "start\n");
 do {
     // Выводить данные только одного ифоблока
     $cc_only = (int)$nc_core->input->fetch_get('cc_only');
@@ -46,15 +44,13 @@ do {
         $use_multi_sub_class = 0;
     }
 
-    
     if ($classPreview == ($current_cc["Class_Template_ID"] ? $current_cc["Class_Template_ID"] : $current_cc["Class_ID"])) {
         $magic_gpc = get_magic_quotes_gpc();
         $addTemplate = $magic_gpc ? stripslashes($_SESSION["PreviewClass"][$classPreview]["AddTemplate"]) : $_SESSION["PreviewClass"][$classPreview]["AddTemplate"];
         $addCond = $magic_gpc ? stripslashes($_SESSION["PreviewClass"][$classPreview]["AddCond"]) : $_SESSION["PreviewClass"][$classPreview]["AddCond"];
         $addActionTemplate = $magic_gpc ? stripslashes($_SESSION["PreviewClass"][$classPreview]["AddActionTemplate"]) : $_SESSION["PreviewClass"][$classPreview]["AddActionTemplate"];
-        fputs($file, "add tpl\n");
     }
-    
+
     $alter_goBackLink = "";
     $alter_goBackLink_true = false;
 
@@ -307,7 +303,7 @@ do {
                 $resMsg = $db->query("INSERT INTO `User`
     			(" . $fieldString . "`Password`, `PermissionGroup_ID`, `Checked`, `Created`" . ($nc_core->get_settings('confirm', 'auth') ? ", `Confirmed`" : "") . ", Catalogue_ID)
     			VALUES
-    			(" . $valueString . " " . $nc_core->MYSQL_ENCRYPT . "('" . $Password . "'), '" . $mainGroup . "', '" . $IsChecked . "', \"" . date("Y-m-d H:i:s") . "\"" . ($nc_core->get_settings('confirm', 'auth') ? ",'0'" : "") . ", " . $catalogue . ")");
+    			(" . $valueString . " " . $nc_core->MYSQL_ENCRYPT . "('" . $Password . "'), '" . $mainGroup . "', '1', \"" . date("Y-m-d H:i:s") . "\"" . ($nc_core->get_settings('confirm', 'auth') ? ",'0'" : "") . ", " . $catalogue . ")");
                 $msgID = $db->insert_id;
                 // execute core action
                 $nc_core->event->execute("addUser", $msgID);
@@ -374,28 +370,22 @@ do {
                         break;
                 }
             }
-            fputs($file, "here\n");
+
             if ($resMsg) {
-                fputs($file, "here1\n");
                 if ($cc && !$user_table_mode && $IsChecked && $MODULE_VARS['subscriber']
                     && (!$MODULE_VARS['subscriber']['VERSION'] || $MODULE_VARS['subscriber']['VERSION'] == 1)
                 ) {
-                    fputs($file, "here2\n");
                     eval("\$mailbody = \"" . $subscribeTemplate . "\";");
                     subscribe_sendmail(($to_cc ? $to_cc : $cc), $mailbody);
                 }
 
                 if ($cc_env['File_Mode']) {
-                    fputs($file, "here3\n");
                     $nc_parent_field_path = $file_class->get_parent_fiend_path('AddActionTemplate');
-                    fputs($file, "here3 - " . $nc_parent_field_path . "\n");
                     $nc_field_path = $file_class->get_field_path('AddActionTemplate');
-                    fputs($file, "here3 - " . $nc_field_path . "\n");
                     $action_exists = filesize($nc_field_path) > 0 ? true : false;
                 }
 
                 if ($cc_env['File_Mode'] && $action_exists) {
-                    fputs($file, "here4\n");
                     // check and include component part
                     try {
                         if (nc_check_php_file($nc_field_path)) {
@@ -411,11 +401,9 @@ do {
                     $nc_field_path = null;
                 }
                 else if ($addActionTemplate) {
-                    fputs($file, "12\n");
                     eval("echo \"" . $addActionTemplate . "\";");
                 }
                 else {
-                    fputs($file, "here5\n");
                     if ($inside_admin) {
                         ob_end_clean();
                         header("Location: " . $goBackLink . "&inside_admin=1");
@@ -427,12 +415,10 @@ do {
                 }
             }
             else {
-                fputs($file, "21\n");
                 echo NETCAT_MODERATION_ERROR_NOOBJADD . "<br/><br/>" . $goBack;
             }
         }
     }
-    fputs($file, "4545\n");
     $cc_add = $cc;
     if (count($cc_array) > 1 && $use_multi_sub_class && !$inside_admin) {
         foreach ($cc_array AS $cc) {
@@ -468,7 +454,6 @@ else {
     echo $nc_result_msg;
     eval("echo \"" . $template_footer . "\";");
 }
-fclose($file);
 
 // выполнить необходимую обработку кода страницы и отдать результат пользователю:
 $nc_core->output_page_buffer();
@@ -476,7 +461,7 @@ $nc_core->output_page_buffer();
 
 function send_mail($to, $pass)
 {
-    $email_tpl = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2046 WHERE Message_ID = 1"));
+    $email_tpl = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2047 WHERE Message_ID = 1"));
     $email_from = $email_tpl['email_from'];
     $name_from = $email_tpl['name_from'];
     $search = array('%email%', '%password%');

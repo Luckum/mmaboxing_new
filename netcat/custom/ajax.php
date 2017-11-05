@@ -57,7 +57,7 @@ function send_mail($to, $body, $email, $filepath, $filename, $subject)
             $file .= "--".$boundary."\r\n";
             $file .= "Content-Type: application/octet-stream\r\n";
             $file .= "Content-Transfer-Encoding: base64\r\n";
-            $file .= "Content-Disposition: attachment; filename==?utf-8?Q?\"".$filename."?=\"\r\n\r\n";
+            $file .= "Content-Disposition: attachment; filename==?utf-8?Q?".$filename."?=\r\n\r\n";
             $file .= chunk_split(base64_encode($content))."\r\n";
         }
     }

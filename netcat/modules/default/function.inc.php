@@ -42,7 +42,7 @@ function interogation_self($field,$all,$id,$pc=false)
 
 function addArrogRes($vid, $check, $class_id, $vote_check)
 {
-	if (md5($_SERVER['REMOTE_ADDR'] . $vid) == $check)	{
+    //if (md5($_SERVER['REMOTE_ADDR'] . $vid) == $check)	{
         setcookie ("interogation" . $vid, $check, time() + 3600*9999, '/');
 	    setcookie ("interogation" . $vid . "-answer", $vote_check, time() + 3600*9999, '/');
 		if (is_numeric($vid)) {
@@ -61,7 +61,7 @@ function addArrogRes($vid, $check, $class_id, $vote_check)
 				return 1;
 			}
 		}
-	}
+	//}
 }
 
 
@@ -145,6 +145,342 @@ function cutStr($str, $length=50, $postfix='...')
  
     $temp = substr($str, 0, $length);
     return substr($temp, 0, strrpos($temp, ' ') ) . $postfix;
+}
+
+function setTwitCount($id)
+{
+    $sql = "UPDATE `Message2000` SET twits_cnt = twits_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getTwitCount($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT twits_cnt FROM `Message2000` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
+
+function setFbCount($id)
+{
+    $sql = "UPDATE `Message2000` SET fb_cnt = fb_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getFbCount($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT fb_cnt FROM `Message2000` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
+function setVkCount($id)
+{
+    $sql = "UPDATE `Message2000` SET vk_cnt = vk_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getVkCount($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT vk_cnt FROM `Message2000` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
+function setTwitCountEvt($id)
+{
+    $sql = "UPDATE `Message2010` SET twits_cnt = twits_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getTwitCountEvt($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT twits_cnt FROM `Message2010` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
+
+function setFbCountEvt($id)
+{
+    $sql = "UPDATE `Message2010` SET fb_cnt = fb_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getFbCountEvt($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT fb_cnt FROM `Message2010` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
+function setVkCountEvt($id)
+{
+    $sql = "UPDATE `Message2010` SET vk_cnt = vk_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getVkCountEvt($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT vk_cnt FROM `Message2010` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
+function year_format($i)
+{
+    ereg("..$", $i, $t);
+    $s = $t[0];
+    if ($s >= 5 && $s <= 20) {
+        $res = $i . " лет";
+    } else {
+        ereg(".$", $i, $t);
+        $s = $t[0];
+        if ($s == "1") {
+            $res = $i . " год";
+        } elseif (in_array($s, array("2", "3", "4"))) {
+            $res = $i . " года";
+        } else {
+            $res = $i . " лет";
+        }
+    }
+    return $res;
+}
+
+function set_resolution($resol)
+{
+    setcookie ("resol", $resol, time() + 3600*9999, '/');
+}
+
+function get_resolution()
+{
+    if ($_COOKIE["resol"] == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function setBreadcrumbs($cur_url, $action = '')
+{
+    $page_title = '';
+    $breadcrumbs = '<div class="breadcrumbs-path">';
+    $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+    $breadcrumbs .= '<a href="/" itemprop="url">';
+    $breadcrumbs .= '<span itemprop="title">Главная</span>';
+    $breadcrumbs .= '</a>';
+    $breadcrumbs .= '</div>';
+    
+    switch ($cur_url) {
+        case '/news/':
+            $page_title = 'Новости мира ММА, бокса и кикбоксинга';
+        break;
+        case '/news/news-kickboxing/':
+            $page_title = 'Новости кикбоксинга: онлайн-трансляции, статистика боев, последние новости';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/news" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Новости</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/news/news-boxing/':
+            $page_title = 'Новости бокса: онлайн-трансляции, статистика боев, видео';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/news" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Новости</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/news/news-mma/':
+            $page_title = 'Новости ММА: онлайн-трансляции, статистика боев, видео';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/news" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Новости</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/video/':
+            $page_title = 'Видео боев ММА, бокса и кикбоксинга';
+        break;
+        case '/video/mma/':
+            $page_title = 'Видео боев ММА: UFC, Bellator';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/video" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Видео</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/video/boxing/':
+            $page_title = 'Видео боев по профессиональному боксу';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/video" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Видео</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/video/kickboxing/':
+            $page_title = 'Видео боев по профессиональному кикбоксингу';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/video" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Видео</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/video/archive/':
+            $page_title = 'Видеоархив боев ММА, бокса, кикбоксинга';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/video" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Видео</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/video/translation/':
+            $page_title = 'Переводы боев ММА, бокса, кикбоксинга';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/video" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Видео</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/video/interview/':
+            $page_title = 'Интервью бойцов ММА, бокса, кикбоксинга';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/video" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Видео</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/articles/':
+            $page_title = 'Статьи о ММА, боксе и кикбоксинге';
+        break;
+        case '/articles/mma/':
+            $page_title = 'Статьи о ММА';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/articles" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Статьи</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/articles/boxing/':
+            $page_title = 'Статьи о боксе';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/articles" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Статьи</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/articles/kickboxing/':
+            $page_title = 'Статьи о кикбоксинге';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/articles" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Статьи</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/fight-calendar/':
+            $page_title = 'События и календарь предстоящих боев ММА, бокса и кикбоксинга';
+            if (!empty($action) && $action == 'results') {
+                $page_title = 'Результаты прошедших боев ММА, бокса и кикбоксинга';
+            }
+        break;
+        case '/fight-calendar/mma/':
+            $page_title = 'События и календарь предстоящих боев ММА';
+            if (!empty($action) && $action == 'results') {
+                $page_title = 'Результаты прошедших боев ММА';
+            }
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/fight-calendar" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">События</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/fight-calendar/boxing/':
+            $page_title = 'События и календарь предстоящих боев по боксу';
+            if (!empty($action) && $action == 'results') {
+                $page_title = 'Результаты прошедших боев по боксу';
+            }
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/fight-calendar" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">События</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/fight-calendar/kickboxing/':
+            $page_title = 'События и календарь предстоящих боев по кикбоксингу';
+            if (!empty($action) && $action == 'results') {
+                $page_title = 'Результаты прошедших боев по кикбоксингу';
+            }
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/fight-calendar" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">События</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/ratings/mma/':
+            $page_title = 'Рейтинг бойцов ММА';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/ratings" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Рейтинги</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/ratings/boxing/':
+            $page_title = 'Рейтинг бойцов по боксу';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/ratings" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Рейтинги</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/ratings/kickboxing/':
+            $page_title = 'Рейтинг бойцов по кикбоксингу';
+            $breadcrumbs .= '<span class="path-arrow"></span>';
+            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+            $breadcrumbs .= '<a href="/ratings" itemprop="url">';
+            $breadcrumbs .= '<span itemprop="title">Рейтинги</span>';
+            $breadcrumbs .= '</a>';
+            $breadcrumbs .= '</div>';
+        break;
+        case '/blogs/':
+            $page_title = 'Блоги о боях и мире ММА, бокса и кикбоксинга';
+        break;
+        case '/videoblogi/':
+            $page_title = 'Mad Bear Live – блог о спорте и спортивной жизни';
+        break;
+        default:
+            $blogsUrls = nc_get_sub_children('41');
+            $res = mysql_query("SELECT Subdivision_ID, Subdivision_Name, Hidden_URL FROM Subdivision WHERE Subdivision_ID IN (".join(',', $blogsUrls).")");
+            while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+                if ($row['Subdivision_ID'] != 41) {
+                    $subs_arr[] = $row;
+                }
+            }
+            foreach ($subs_arr as $sub) {
+                if ($sub['Hidden_URL'] == $cur_url) {
+                    $page_title = $sub['Subdivision_Name'];
+                    $breadcrumbs .= '<span class="path-arrow"></span>';
+                    $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
+                    $breadcrumbs .= '<a href="/blogs" itemprop="url">';
+                    $breadcrumbs .= '<span itemprop="title">Блоги</span>';
+                    $breadcrumbs .= '</a>';
+                    $breadcrumbs .= '</div>';
+                }
+            }
+        break;
+    }
+            
+    $breadcrumbs .= '<span class="path-last"></span>';
+    $breadcrumbs .= '</div>';
+    $breadcrumbs .= '<div class="breadcrumbs-pagetitle">';
+    $breadcrumbs .= '<h1>' . $page_title . '</h1>';
+    $breadcrumbs .= '</div>';
+        
+    return $breadcrumbs;
 }
 
 ?>

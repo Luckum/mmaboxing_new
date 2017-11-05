@@ -196,8 +196,10 @@ nc_Comments.prototype = {
         // hide nc_comments_guest_name input
     	if (this.show_name!=1 && document.getElementById(this.COMMENT_GUEST_NAME_ID)) {
           document.getElementById(this.COMMENT_GUEST_NAME_ID).style.display='none';
-          jQuery("#page_comment_block").css({'margin-left': '30px', 'margin-bottom': '30px'});
+          jQuery("#page_comment_block").css({'margin-left': '40px', 'margin-bottom': '50px'});
           jQuery("#comment-reg-lbl").hide();
+          jQuery("#comm-soc").hide();
+          jQuery("#nc_commentsForm").css({'margin-right': '40px'});
     	}
 
     	// hide nc_comments_guest_email input

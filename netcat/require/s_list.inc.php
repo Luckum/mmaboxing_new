@@ -882,7 +882,8 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
             // error info for the supervisor
             nc_print_status($db->last_error, 'error');
             trigger_error(sprintf(NETCAT_FUNCTION_OBJECTS_LIST_SQL_ERROR_SUPERVISOR, $sub, $cc, $query_string, ($err ? $err . ", " : "")), E_USER_WARNING);
-        //} else {
+        //}
+        //else {
             // error info for the simple users
             //echo NETCAT_FUNCTION_OBJECTS_LIST_SQL_ERROR_USER;
         //}
@@ -915,7 +916,7 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
 
     // *** Подсчёт количества объектов в результатах ($rowCount) и общего ($totRows) ***
     //echo $message_select;
-    
+
     $totRows = 0;
     if ($message_select) {
         // object in this page

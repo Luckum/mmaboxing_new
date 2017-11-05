@@ -245,8 +245,10 @@
 			inner.css('overflow', (currentOpts.scrolling == 'auto' ? (currentOpts.type == 'image' || currentOpts.type == 'iframe' || currentOpts.type == 'swf' ? 'hidden' : 'auto') : (currentOpts.scrolling == 'yes' ? 'auto' : 'visible')));
 
 			if (!$.support.opacity) {
-				inner.get(0).style.removeAttribute('filter');
-				wrap.get(0).style.removeAttribute('filter');
+				//inner.get(0).style.removeAttribute('filter');
+				//wrap.get(0).style.removeAttribute('filter');
+                $('#fancybox-content').css('filter', 0);
+                $('#fancybox-wrap').css('filter', 0);
 			}
 
 			$('#fancybox-title').show();

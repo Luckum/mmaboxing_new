@@ -73,7 +73,6 @@ do {
     }
 
 // Авторизация через facebook
-
     if ($nc_fb && $nc_auth_fb->enabled() && ($fb_token = $_GET['token'])) {
         if (function_exists('curl_init')) {
             $res = json_decode(file_get_contents('https://graph.facebook.com/me?access_token='.$fb_token), true);
