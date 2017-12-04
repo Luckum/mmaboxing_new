@@ -10,9 +10,9 @@ class nc_tags {
         $this->core = nc_Core::get_object();
         $this->db = $this->core->db;
 
-        $this->core->event->bind($this, array("addMessage" => "add_message"));
-        $this->core->event->bind($this, array("dropMessage" => "drop_message"));
-        $this->core->event->bind($this, array("updateMessage" => "update_message"));
+        //$this->core->event->bind($this, array("addMessage" => "add_message"));
+        //$this->core->event->bind($this, array("dropMessage" => "drop_message"));
+        //$this->core->event->bind($this, array("updateMessage" => "update_message"));
     }
 
     /**
@@ -113,7 +113,7 @@ class nc_tags {
     public function add_tag($class_id, $cc_id, $message_id, $tags) {
         // обрабатываем каждый тег
         if (!empty($tags))
-                foreach ($tags as $tag) {
+            foreach ($tags as $tag) {
                 $tag = $this->db->escape(trim($tag));
                 if (!$tag) continue;
 
@@ -184,9 +184,9 @@ class nc_tags {
         $component = new nc_Component($class_id);
         $fields = $component->get_fields(NC_FIELDTYPE_STRING);
         if (!empty($fields))
-                foreach ($fields as $v) {
-                if ($v['format'] == 'tags')
-                        $field_name = $this->db->escape($v['name']);
+            foreach ($fields as $v) {
+                if (trim($v['format'],':') == 'tags')
+                    $field_name = $this->db->escape($v['name']);
             }
         if (!$field_name) return false;
 
@@ -194,7 +194,7 @@ class nc_tags {
         $tags_str = $this->db->get_var("SELECT `".$field_name."` FROM `Message".$class_id."` WHERE `Message_ID` = '".$message_id."' ");
         $tags_str = trim($tags_str);
         if (!$tags_str) $tags_str = '';
-
+        
         return $tags_str;
     }
 

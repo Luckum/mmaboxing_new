@@ -54,38 +54,11 @@
 
 <div class="main_dop_inner_l">
     <div class="left_c_arch">
-        <div class="news_t events-cur-menu">
-            События <span class="video_tabs">></span>
-            <a href="/fight-calendar" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/'): ?> active_tab<?php endif; ?>">Все</a> 
-            <a href="/fight-calendar/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
-            <a href="/fight-calendar/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
-            <a href="/fight-calendar/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fight-calendar/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
-            <span class="delimiter_v">
-                <a href="javascript:void(0)" class="video_tabs<?php if (!$showResults): ?> active_tab<?php endif; ?>">Предстоящие</a> 
-                <a href="javascript:void(0)" class="video_tabs<?php if ($showResults): ?> active_tab<?php endif; ?>">Результаты</a>
-            </span>
+        <div class="news_t events-cur-menu inner-breadcrumbs-class">
+            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true); ?>
         </div>
-        <div class="news_t events-min-menu">
-            События <span class="video_tabs">></span>
-            <?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">MMA&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/fight-calendar/kickboxing/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a> 
-            <?php endif; ?>
-            <?php if (!$showResults): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min_ev">Предстоящие</a> 
-            <?php endif; ?>
-            <?php if ($showResults): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min_ev">Результаты</a> 
-            <?php endif; ?>
-            <div class="min-menu-links" style="display: none;">
-                <a href="/fight-calendar" class="video_tabs active_tab_min">Все</a> 
-                <a href="/fight-calendar/mma" class="video_tabs">MMA</a> 
-                <a href="/fight-calendar/boxing" class="video_tabs">Бокс</a> 
-                <a href="/fight-calendar/kickboxing" class="video_tabs">Кикбоксинг</a> 
-            </div>
+        <div class="news_t events-min-menu inner-breadcrumbs-class">
+            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true); ?>
         </div>
 		<div id='top2container'>
         <div class="fc_inner_date"><div id='ddday' <?php if (!$showResults): ?> style="background-color: #e73435; color: #fff;" <?php endif; ?>><?= $f_myDate_day . "</div><div id='mmmonth'> " . $month_arr[$f_myDate_month]; ?></div></div>
@@ -104,7 +77,7 @@
 		</div>
         <div id='osn_2'>Основной бой</div>
 		<div class="fc_main_fighter_1">
-            <?= $sql_fighter_1['myName']; ?>
+            <?= $sql_fighter_1['myName_ru']; ?>
             <span class="fc_main_fighter_1_data">Возраст <?= year_format($sql_fighter_1['myAge']); ?></span>
             <span class="fc_main_fighter_1_data">Рост <?= $sql_fighter_1['myGrouth']; ?> см</span>
             <span class="fc_main_fighter_1_data">Вес <?= $sql_fighter_1['myWeight']; ?> кг</span>
@@ -131,7 +104,7 @@
 	        <div class="vs_label_inner"><img src="/images/VS.png"></div>
 		</div >
         <div class="fc_main_fighter_2">
-            <?= $sql_fighter_2['myName']; ?>
+            <?= $sql_fighter_2['myName_ru']; ?>
             <span class="fc_main_fighter_1_data">Возраст <?= year_format($sql_fighter_2['myAge']); ?></span>
             <span class="fc_main_fighter_1_data">Рост <?= $sql_fighter_2['myGrouth']; ?> см</span>
             <span class="fc_main_fighter_1_data">Вес <?= $sql_fighter_2['myWeight']; ?> кг</span>
@@ -145,11 +118,11 @@
                 <?php $sql_rest_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_2'])); ?>
                 <div id='otherfight_container'>
                     <div class="fc_rest_fighter_1">
-                        <?php if ($showResults && $row['fighter_1'] == $row['winner']): ?><img src="/images/star.png"><?php endif; ?><?= $sql_rest_fighter_1['myName']; ?>
+                        <?php if ($showResults && $row['fighter_1'] == $row['winner']): ?><img src="/images/star.png"><?php endif; ?><?= $sql_rest_fighter_1['myName_ru']; ?>
                     </div>
                     <div id='tire'>—</div>
                     <div class="fc_rest_fighter_2">
-                        <?= $sql_rest_fighter_2['myName']; ?><?php if ($showResults && $row['fighter_2'] == $row['winner']): ?><img src="/images/star.png"><?php endif; ?>
+                        <?= $sql_rest_fighter_2['myName_ru']; ?><?php if ($showResults && $row['fighter_2'] == $row['winner']): ?><img src="/images/star.png"><?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>

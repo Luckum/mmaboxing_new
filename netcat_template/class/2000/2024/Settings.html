@@ -22,6 +22,10 @@ if (!empty($search)) {
     $query_where = "myTitle LIKE '%".trim(addslashes(strip_tags($search)))."%' OR myText LIKE '%".trim(addslashes(strip_tags($search)))."%' OR myTags LIKE '%".trim(addslashes(strip_tags($search)))."%'";
 }
 
+if (!empty($tag)) {
+    $query_where = "EnTags LIKE '%" . $tag . "%'";
+}
+
 $query_order = "Date DESC";
 
 ?>

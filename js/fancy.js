@@ -22,4 +22,16 @@ $(document).ready(function() {
             'overlayColor'  : '#333333'
         });
     }
+    
+    if ($(window).width() > 810) {
+        $(".f_show_video").fancybox({
+            'width'         : 743,
+            'height'        : 435,
+            'autoScale'     : false,
+            'transitionIn'  : 'none',
+            'transitionOut' : 'none',
+            'type'          : 'iframe',
+            'overlayColor'  : '#333333'
+        });
+    }
 });

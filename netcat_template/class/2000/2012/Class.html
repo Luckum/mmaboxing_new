@@ -37,7 +37,6 @@
             <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab<?php endif; ?>">Интервью</a>
         </div>
         <div class="news_t video-min-menu">
-            Видео <span class="video_tabs">></span>
             <?php if ($current_sub['Hidden_URL'] == '/video/'): ?>
                 <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
             <?php elseif ($current_sub['Hidden_URL'] == '/video/mma/'): ?>
@@ -155,9 +154,13 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
     <div class="hr hr-mob"></div>
     <?php if ($f_RowNum == 4 || $f_RowNum == 12): ?>
         <?php if (!$admin_mode): ?>
-        <div class="banner_hor">
-            <?= banner_rotate(1,1);?>
-        </div>
+            
+            <!-- баннер 728х90 в разеделе видео -->
+            <div class="banner_hor">
+                <?= banner_rotate(1,1);?>
+            </div>
+            <!-- баннер 728х90 в разеделе видео -->
+            
         <?php endif; ?>
     <?php endif; ?>
     <?php if ($f_RowNum == 7): ?>
@@ -209,9 +212,13 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
                 <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
             </div>
             <?php if (!$admin_mode): ?>
+            
+            <!-- баннер 300х600-1 в разделе видео -->
             <div class="banner1">
                 <?= banner_rotate(2,1, false, 'banner-img');?>
             </div>
+            <!-- баннер 300х600-1 в разделе видео -->
+            
             <?php endif; ?>
         </div>
         <div class="main_dop_s to-slide">
@@ -242,6 +249,8 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032") ?>
         
         <?php if (!$admin_mode): ?>
+            
+            <!-- баннер 300х600-2 в разделе видео -->
             <div class="banner1" style="border-top: 10px solid #eaeaea; border-bottom: 10px solid #eaeaea; margin-bottom: 0;">
                 <div id="unit_90111"><a href="https://smi2.ru/" rel="nofollow">Новости smi2.ru</a></div>
                 <script type="text/javascript" charset="utf-8">
@@ -252,6 +261,7 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
                     }());
                 </script>    
             </div>
+            <!-- баннер 300х600-2 в разделе видео -->
 
             <!-- <div class="banner1" style="border-top: 10px solid #eaeaea; border-bottom: 10px solid #eaeaea; margin-bottom: 0;">
                 <?= banner_rotate(2,1, false, 'banner-img');?>

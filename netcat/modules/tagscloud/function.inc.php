@@ -90,8 +90,13 @@ function nc_tag_cloud($Sub_Class_ID, $design, $adress_str="", $quantity="") {
             $temp_cloud = "";
             $Tag_Size = Tag_Size($tags_array[$i]['Tag_Count'], $Max_Count, $Min_Count, $Sum_Count);
             // обрабатываем внутритекстовые переменные
+            
+            $myTag = mb_strtolower($db->escape($tags_array[$i]['Tag_Text']));
+            $TagsRuTrans = nc_transliterate($myTag);
+            $TagsRuTrans2 = str_replace(' ','-',$TagsRuTrans);
+            
             $temp_cloud = str_replace("%TAG_HEIGHT", $Tag_Size, $design);
-            $temp_cloud = str_replace("%TAG_LINK", "?tag=".$tags_array[$i]['Tag_ID'], $temp_cloud);
+            $temp_cloud = str_replace("%TAG_LINK", $TagsRuTrans2, $temp_cloud);
             $temp_cloud = str_replace("%TAG_ID", $tags_array[$i]['Tag_ID'], $temp_cloud);
             $temp_cloud = str_replace("%TAG_SUB_LINK", $adress_str, $temp_cloud);
             $temp_cloud = str_replace("%TAG_NAME", $db->escape($tags_array[$i]['Tag_Text']), $temp_cloud);

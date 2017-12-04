@@ -9,6 +9,7 @@
  */
 function nc_transliterate($text, $use_url_rules = false) {
 
+    echo $text;
     $tr = array("А" => "A", "а" => "a", "Б" => "B", "б" => "b",
             "В" => "V", "в" => "v", "Г" => "G", "г" => "g",
             "Д" => "D", "д" => "d", "Е" => "E", "е" => "e",

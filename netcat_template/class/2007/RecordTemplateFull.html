@@ -1,0 +1,503 @@
+<script type="text/javascript">
+    function see_more_read_also(start, cnt, tags, m_id)
+    {
+        $("#see_more_read_also").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start, cnt: cnt, tags: tags, id: m_id, action: 'read_also'}
+        }).responseText;
+        if (html != '') {
+            $("#see_more_read_also_div").append(html);
+            if ($(window).width() < 1281) {
+                $("#see_more_read_also_mob").appendTo("#see_more_read_also_div");
+                $("#loading_news_mob").appendTo("#see_more_read_also_div");
+                $("#loading_news_mob").hide();
+                $("#see_more_read_also_mob").show();
+                $("#see_more_read_also_mob").attr("onclick", "see_more_read_also(" + (start+5) + ", " + cnt + ", '" + tags + "', " + m_id + ")");
+            } else {
+                $("#see_more_read_also").appendTo("#see_more_read_also_div");
+                $("#loading_news").appendTo("#see_more_read_also_div");
+                $("#loading_news").hide();
+                $("#see_more_read_also").show();
+                $("#see_more_read_also").attr("onclick", "see_more_read_also(" + (start+5) + ", " + cnt + ", '" + tags + "', " + m_id + ")");
+            }
+        }
+    }
+</script>
+<?php
+    $c_country = mysql_fetch_assoc(mysql_query("SELECT * FROM Classificator_country_en WHERE country_en_ID = " . $f_myCountry_id));
+    $events = $db->get_results("SELECT * FROM Message2010 WHERE main_card_fighter_1 = " . $f_RowID . " OR main_card_fighter_2 = " . $f_RowID, ARRAY_A);
+    $other_fights = $db->get_results("SELECT * FROM Message2045 WHERE fighter_1 = " . $f_RowID . " OR fighter_2 = " . $f_RowID, ARRAY_A);
+    
+    $pro_fights = setFightersStatistic($events, $other_fights, 1, $f_RowID);
+    $ama_fights = setFightersStatistic($events, $other_fights, 2, $f_RowID);
+    
+    $wins_total = $f_victory_ko + $f_victory_decision + $f_victory_submision;
+    $defeats_total = $f_defeat_ko + $f_defeat_decision + $f_defeat_submision;
+    
+    $title = $f_myName_ru . ' - Биография и статистика';
+    $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
+    $summary = 'Биография и статистика';
+    $image = 'https://' . $nc_core->HTTP_HOST . getThumbNow($f_myFoto, 100, 100, 1, false, 95, -1);
+    
+    $month_arr = array(
+        '01'=>'января',
+        '02'=>'февраля',
+        '03'=>'марта',
+        '04'=>'апреля',
+        '05'=>'мая',
+        '06'=>'июня',
+        '07'=>'июля',
+        '08'=>'августа',
+        '09'=>'сентября',
+        '10'=>'октября',
+        '11'=>'ноября',
+        '12'=>'декабря',
+    );
+    if (!empty($f_video_1)) {
+        $src_1 = getFrameSrc($f_video_1);
+        $v_preview_1 = getVideoPreview($src_1);
+    }
+    if (!empty($f_video_2)) {
+        $src_2 = getFrameSrc($f_video_2);
+        $v_preview_2 = getVideoPreview($src_2);
+    }
+    if (!empty($f_video_3)) {
+        $src_3 = getFrameSrc($f_video_3);
+        $v_preview_3 = getVideoPreview($src_3);
+    }
+    
+    
+    
+?>
+<div class='page-text'>
+    <div class="main_dop_inner_l">
+        <div class="breadcrumbs-hdr">
+            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true, $f_myName_ru . ' / ' . $f_myName_en); ?>
+        </div>
+        <div class="fighter-card">
+            <div class="f-promotion">
+                <span class="f-title">Промоушен</span>
+                <span class="f-descr f-reds"><?= $f_myPromotion; ?></span>
+            </div>
+            <div class="f-birthdate">
+                <span class="f-title">Дата рождения</span>
+                <span class="f-descr"><?= date("Y-m-d", strtotime($f_birth_date)); ?></span>
+            </div>
+            <div class="f-age">
+                <span class="f-title">Возраст</span>
+                <span class="f-descr"><?= calcAge($f_birth_date); ?></span>
+            </div>
+            <div class="f-flag">
+                <img src="/images/flags/<?= $c_country['Value']; ?>">
+            </div>
+            <div class="f-country">
+                <span class="f-title"><?= !empty($f_birth_place) ? $f_birth_place : '&nbsp;'; ?></span>
+                <span class="f-descr f-country-country"><?= $c_country['country_en_Name']; ?></span>
+            </div>
+            <div class="f-row">
+                <div class="f-photo">
+                    <img src="<?= getThumbNow($f_myFoto, 390, 289, 0, false, 95, -1); ?>">
+                </div>
+                <div class="f-other">
+                    <div class="row-1">
+                        <div class="f-grouth">
+                            <span class="f-title">Рост</span>
+                            <span class="f-descr"><?= $f_myGrouth; ?> <span class="no-margin">см</span></span>
+                            <span class="f-descr f-sm"><?= metricToFoot($f_myGrouth); ?></span>
+                        </div>
+                        <div class="f-weight">
+                            <span class="f-title">Вес</span>
+                            <span class="f-descr"><?= $f_myWeight; ?> <span class="no-margin">кг</span></span>
+                            <span class="f-descr f-sm"><?= kgrammsToLbs($f_myWeight); ?> lbs</span>
+                        </div>
+                        <div class="f-weight">
+                            <span class="f-title">Весовая категория</span>
+                            <span class="f-descr"><?= $f_myWeightCat_ru; ?></span>
+                            <span class="f-descr f-sm"><?= $f_myWeightCat_en ?></span>
+                        </div>
+                    </div>
+                    <div class="row-2">
+                        <div class="f-wins">
+                            <span class="f-title">Победы</span>
+                            <span class="f-descr f-reds f-bot"><?= $wins_total; ?></span>
+                            <span class="f-descr f-sm"><span><?= $f_victory_ko; ?></span> <span>KO/TKO</span></span>
+                            <span class="f-descr f-sm"><span><?= $f_victory_decision; ?></span> <span>решением</span></span>
+                            <span class="f-descr f-sm"><span><?= $f_victory_submision; ?></span> <span>сабмишном</span></span>
+                        </div>
+                        <div class="f-defeats">
+                            <span class="f-title">Поражения</span>
+                            <span class="f-descr f-reds f-bot"><?= $defeats_total; ?></span>
+                            <span class="f-descr f-sm"><span><?= $f_defeat_ko; ?></span> <span>KO/TKO</span></span>
+                            <span class="f-descr f-sm"><span><?= $f_defeat_decision; ?></span> <span>решением</span></span>
+                            <span class="f-descr f-sm"><span><?= $f_defeat_submision; ?></span> <span>сабмишном</span></span>
+                        </div>
+                        <div class="f-draws">
+                            <span class="f-title">Ничьи</span>
+                            <span class="f-descr f-reds"><?= $f_draw; ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fighter-card-mob">
+            <div class="f-mob-row-1">
+                <div class="f-promotion">
+                    <span class="f-title">Промоушен</span>
+                    <span class="f-descr f-reds"><?= $f_myPromotion; ?></span>
+                </div>
+                <div class="f-photo">
+                    <img src="<?= getThumbNow($f_myFoto, 270, 208, 1, false, 95, -1); ?>">
+                </div>
+            </div>
+            <div class="f-mob-row-2">
+                <div class="f-mob-row-20">
+                    <div class="f-flag">
+                        <img src="/images/flags/<?= $c_country['Value']; ?>">
+                    </div>
+                    <div class="f-country">
+                        <span class="f-title"><?= !empty($f_birth_place) ? $f_birth_place : '&nbsp;'; ?></span>
+                        <span class="f-descr f-country-country"><?= $c_country['country_en_Name']; ?></span>
+                    </div>
+                </div>
+                <div class="f-mob-row-21">
+                    <div class="f-birthdate">
+                        <span class="f-title">Дата рождения</span>
+                        <span class="f-descr f-mob-bg"><?= date("Y-m-d", strtotime($f_birth_date)); ?></span>
+                    </div>
+                    <div class="f-age">
+                        <span class="f-title">Возраст</span>
+                        <span class="f-descr f-mob-bg"><?= calcAge($f_birth_date); ?></span>
+                    </div>
+                </div>
+                <div class="f-mob-row-22">
+                    <div class="f-grouth">
+                        <span class="f-title">Рост</span>
+                        <span class="f-descr f-mob-bg"><?= $f_myGrouth; ?> <span class="no-margin">см</span></span>
+                        <span class="f-descr f-sm"><?= metricToFoot($f_myGrouth); ?></span>
+                    </div>
+                    <div class="f-weight">
+                        <span class="f-title">Вес</span>
+                        <span class="f-descr f-mob-bg"><?= $f_myWeight; ?> <span class="no-margin no-padding">кг</span></span>
+                        <span class="f-descr f-sm"><?= kgrammsToLbs($f_myWeight); ?> lbs</span>
+                    </div>
+                </div>
+                <div class="f-mob-row-23">
+                    <div class="f-weight-cat">
+                        <span class="f-title">Весовая категория</span>
+                        <span class="f-descr f-mob-bg"><?= $f_myWeightCat_ru; ?></span>
+                        <span class="f-descr f-sm"><?= $f_myWeightCat_en ?></span>
+                    </div>
+                </div>
+                <div class="f-mob-row-24">
+                    <div class="f-wins">
+                        <span class="f-title">Победы</span>
+                        <span class="f-descr f-reds f-bot f-mob-lg"><?= $wins_total; ?></span>
+                        <span class="f-descr f-sm"><span><?= $f_victory_ko; ?></span> <span>KO/TKO</span></span>
+                        <span class="f-descr f-sm"><span><?= $f_victory_decision; ?></span> <span>решением</span></span>
+                        <span class="f-descr f-sm"><span><?= $f_victory_submision; ?></span> <span>сабмишном</span></span>
+                    </div>
+                </div>
+                <span class="f-mob-hr-stat"></span>
+                <div class="f-mob-row-25">
+                    <div class="f-defeats no-padding">
+                        <span class="f-title">Поражения</span>
+                        <span class="f-descr f-reds f-bot f-mob-lg"><?= $defeats_total; ?></span>
+                        <span class="f-descr f-sm"><span><?= $f_defeat_ko; ?></span> <span>KO/TKO</span></span>
+                        <span class="f-descr f-sm"><span><?= $f_defeat_decision; ?></span> <span>решением</span></span>
+                        <span class="f-descr f-sm"><span><?= $f_defeat_submision; ?></span> <span>сабмишном</span></span>
+                    </div>
+                </div>
+                <span class="f-mob-hr-stat"></span>
+                <div class="f-mob-row-26">
+                    <div class="f-draws no-padding">
+                        <span class="f-title">Ничьи</span>
+                        <span class="f-descr f-reds f-mob-lg"><?= $f_draw; ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="left_c" id="see_more_read_also_div">
+        <?php if (!empty($f_bio)): ?>
+            <div class="news_t f-h2-tag">
+                <h2>Биография</h2>
+            </div>
+            <div class="f-bio">
+                <?= $f_bio; ?>
+                <span class="f-hr"></span>
+                <div class="f-share">
+                    <div data-share-data='{"url": "<?= $url; ?>", "img": "<?= $image; ?>", "title": "<?= htmlspecialchars($title); ?>", "text": "<?= $summary; ?>", "id": "<?= $f_RowID; ?>"}'>
+                        <div onclick="share_fgt.facebook($(this))" class="facebook">
+                            <span class="icon"></span>
+                        </div>
+                        <div onclick="share_fgt.vk($(this))" class="vk">
+                            <span class="icon"></span>
+                        </div>
+                        <div onclick="share_fgt.twitter($(this))" class="twitter">
+                            <span class="icon"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="news_t f-h2-tag">
+            <h2>Профессиональные бои</h2>
+        </div>
+        <div class="f-pro-fights">
+            <?php if (count($pro_fights) > 0): ?>
+                <table class="f-fights">
+                    <thead>
+                        <th class="f-col-1">Результат</th>
+                        <th class="f-col-2">Соперник</th>
+                        <th class="f-col-3">Событие / Судья</th>
+                        <th class="f-col-4">Р</th>
+                        <th class="f-col-5">Время</th>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($pro_fights as $k => $fight): ?>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?> f-t-row-1">
+                                <td class="f-col-1 border-t pad-20"><?= $fight['result'] == 1 ? "<span class='f-result-w'>Выиграл</span>" : "<span class='f-result-d'>Проиграл</span>"; ?></td>
+                                <td class="f-col-2 border-r border-t pad-20"><?= $fight['o_name_ru']; ?><br /><?= $fight['o_name_en']; ?></td>
+                                <td class="f-col-3 border-r border-t pad-20"><?= $fight['event_name']; ?></td>
+                                <td class="f-col-4 border-r border-t pad-20"><?= $fight['win_round']; ?></td>
+                                <td class="f-col-5 center border-t pad-20"><?= $fight['win_time']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?> f-t-row-2">
+                                <td class="f-col-1 border-r grey-sm pad-15" colspan="2"><?= $fight['win_type']; ?></td>
+                                <td class="f-col-3 border-r grey-sm pad-15"><?= date("j " . $month_arr[date("m", strtotime($fight['event_date']))] . " Y", strtotime($fight['event_date'])) . " / " . $fight['referee']; ?></td>
+                                <?php if (!empty($fight['video'])): ?>
+                                    <td class="border-t grey-sm center pad-15" colspan="2"><a class="f-video-link" href="javascript:void(0);">ВИДЕО<span class="f-play-icon"></span></a></td>
+                                <?php else: ?>
+                                    <td class="border-r"></td>
+                                    <td></td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php foreach ($pro_fights as $k => $fight): ?>
+                    <?php if (!empty($fight['video'])): ?>
+                        <table class="f-fights-mob">
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="pad-15"><?= $fight['event_name']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="grey-sm pad-10"><?= date("j " . $month_arr[date("m", strtotime($fight['event_date']))] . " Y", strtotime($fight['event_date'])) . " / " . $fight['referee']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="pad-10"><?= $fight['o_name_ru']; ?><br /><?= $fight['o_name_en']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td class="f-col-1-m pad-10"><?= $fight['result'] == 1 ? "<span class='f-result-w'>Выиграл</span>" : "<span class='f-result-d'>Проиграл</span>"; ?></td>
+                                <td class="f-col-2-m pad-10">Р: <?= $fight['win_round']; ?></td>
+                                <td class="f-col-3-m pad-10">В: <?= $fight['win_time']; ?></td>
+                                <td class="f-col-4-m pad-10"><a class="f-video-link" href="javascript:void(0);">ВИДЕО<span class="f-play-icon"></span></a></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="grey-sm pad-10 pad-15-b"><?= $fight['win_type']; ?></td>
+                            </tr>
+                        </table>
+                    <?php else: ?>
+                        <table class="f-fights-mob">
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="3" class="pad-15"><?= $fight['event_name']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="3" class="grey-sm pad-10"><?= date("j " . $month_arr[date("m", strtotime($fight['event_date']))] . " Y", strtotime($fight['event_date'])) . " / " . $fight['referee']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="3" class="pad-10"><?= $fight['o_name_ru']; ?><br /><?= $fight['o_name_en']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td class="f-col-1-clsp pad-10"><?= $fight['result'] == 1 ? "<span class='f-result-w'>Выиграл</span>" : "<span class='f-result-d'>Проиграл</span>"; ?></td>
+                                <td class="f-col-2-clsp pad-10">Р: <?= $fight['win_round']; ?></td>
+                                <td class="f-col-3-clsp pad-10">В: <?= $fight['win_time']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="grey-sm pad-10 pad-15-b"><?= $fight['win_type']; ?></td>
+                            </tr>
+                        </table>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <span class="f-no-info">Нет информации</span>
+            <?php endif; ?>
+        </div>
+        <div class="banner_hor">
+            <?= banner_rotate(1,1);?>
+        </div>
+        <div class="news_t f-h2-tag marg-20 f-ama-fts-t">
+            <h2>Любительские бои</h2>
+        </div>
+        <div class="news_t f-h2-tag f-ama-fts-t-m">
+            <h2>Любительские бои</h2>
+        </div>
+        <div class="f-pro-fights">
+            <?php if (count($ama_fights) > 0): ?>
+                <table class="f-fights">
+                    <thead>
+                        <th class="f-col-1">Результат</th>
+                        <th class="f-col-2">Соперник</th>
+                        <th class="f-col-3">Событие / Судья</th>
+                        <th class="f-col-4">Р</th>
+                        <th class="f-col-5">Время</th>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($ama_fights as $k => $fight): ?>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?> f-t-row-1">
+                                <td class="f-col-1 border-t pad-20"><?= $fight['result'] == 1 ? "<span class='f-result-w'>Выиграл</span>" : "<span class='f-result-d'>Проиграл</span>"; ?></td>
+                                <td class="f-col-2 border-r border-t pad-20"><?= $fight['o_name_ru']; ?><br /><?= $fight['o_name_en']; ?></td>
+                                <td class="f-col-3 border-r border-t pad-20"><?= $fight['event_name']; ?></td>
+                                <td class="f-col-4 border-r border-t pad-20"><?= $fight['win_round']; ?></td>
+                                <td class="f-col-5 center border-t pad-20"><?= $fight['win_time']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?> f-t-row-2">
+                                <td class="f-col-1 border-r grey-sm pad-15" colspan="2"><?= $fight['win_type']; ?></td>
+                                <td class="f-col-3 border-r grey-sm pad-15"><?= date("j " . $month_arr[date("m", strtotime($fight['event_date']))] . " Y", strtotime($fight['event_date'])) . " / " . $fight['referee']; ?></td>
+                                <?php if (!empty($fight['video'])): ?>
+                                    <td class="border-t grey-sm center pad-15" colspan="2"><a class="f-video-link" href="javascript:void(0);">ВИДЕО<span class="f-play-icon"></span></a></td>
+                                <?php else: ?>
+                                    <td class="border-r"></td>
+                                    <td></td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php foreach ($ama_fights as $k => $fight): ?>
+                    <?php if (!empty($fight['video'])): ?>
+                        <table class="f-fights-mob">
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="pad-15"><?= $fight['event_name']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="grey-sm pad-10"><?= date("j " . $month_arr[date("m", strtotime($fight['event_date']))] . " Y", strtotime($fight['event_date'])) . " / " . $fight['referee']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="pad-10"><?= $fight['o_name_ru']; ?><br /><?= $fight['o_name_en']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td class="f-col-1-m pad-10"><?= $fight['result'] == 1 ? "<span class='f-result-w'>Выиграл</span>" : "<span class='f-result-d'>Проиграл</span>"; ?></td>
+                                <td class="f-col-2-m pad-10">Р: <?= $fight['win_round']; ?></td>
+                                <td class="f-col-3-m pad-10">В: <?= $fight['win_time']; ?></td>
+                                <td class="f-col-4-m pad-10"><a class="f-video-link" href="javascript:void(0);">ВИДЕО<span class="f-play-icon"></span></a></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="grey-sm pad-10 pad-15-b"><?= $fight['win_type']; ?></td>
+                            </tr>
+                        </table>
+                    <?php else: ?>
+                        <table class="f-fights-mob">
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="3" class="pad-15"><?= $fight['event_name']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="3" class="grey-sm pad-10"><?= date("j " . $month_arr[date("m", strtotime($fight['event_date']))] . " Y", strtotime($fight['event_date'])) . " / " . $fight['referee']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="3" class="pad-10"><?= $fight['o_name_ru']; ?><br /><?= $fight['o_name_en']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td class="f-col-1-clsp pad-10"><?= $fight['result'] == 1 ? "<span class='f-result-w'>Выиграл</span>" : "<span class='f-result-d'>Проиграл</span>"; ?></td>
+                                <td class="f-col-2-clsp pad-10">Р: <?= $fight['win_round']; ?></td>
+                                <td class="f-col-3-clsp pad-10">В: <?= $fight['win_time']; ?></td>
+                            </tr>
+                            <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
+                                <td colspan="4" class="grey-sm pad-10 pad-15-b"><?= $fight['win_type']; ?></td>
+                            </tr>
+                        </table>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <span class="f-no-info">Нет информации</span>
+            <?php endif; ?>
+        </div>
+        <?php if (!empty($f_video_1) || !empty($f_video_2) || !empty($f_video_3)): ?>
+            <div class="f-video-mob">
+                <div class="right_p_t f-h2-tag"><h2>Видео</h2></div>
+                <?php if (!empty($f_video_1)): ?>
+                    <div class="side_video_l_a f-side_video_l_a-mob">
+                        <div class="side_video_img">
+                            <a class="f_show_video" href="/fighter-video?src=<?= $src_1; ?>"><img src="<?= $v_preview_1; ?>" width="310" height="310"></a>
+                            <a href="/fighter-video?src=<?= $src_1; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($f_video_2)): ?>
+                    <div class="side_video_l_a f-side_video_l_a-mob">
+                        <div class="side_video_img">
+                            <a class="f_show_video" href="/fighter-video?src=<?= $src_2; ?>"><img src="<?= $v_preview_2; ?>" width="310" height="310"></a>
+                            <a href="/fighter-video?src=<?= $src_2; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($f_video_3)): ?>
+                    <div class="side_video_l_a f-side_video_l_a-mob">
+                        <div class="side_video_img">
+                            <a class="f_show_video" href="/fighter-video?src=<?= $src_3; ?>"><img src="<?= $v_preview_3; ?>" width="310" height="310"></a>
+                            <a href="/fighter-video?src=<?= $src_3; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+        <div class="read-more-container f-r-more">
+            <div class="news_t">Новости по теме</div>
+            <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=3&searchTags=".$f_myName_ru."&curID=0") ?>
+            <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(3, 5, '<?= $f_myName_ru; ?>', 0)">Показать ещё</button>
+            <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+        </div>
+        <div class="read-more-container f-mob-r-more">
+            <div class="news_t">Новости по теме</div>
+            <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=3&searchTags=".$f_myName_ru."&curID=0&is_mob") ?>
+            <button class="see_more" id="see_more_read_also_mob" value="more" onclick="see_more_read_also(3, 5, '<?= $f_myName_ru; ?>', 0)">Показать ещё</button>
+            <div id="loading_news_mob" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
+        </div>
+    </div>
+    <?php if (!empty($f_video_1) || !empty($f_video_2) || !empty($f_video_3)): ?>
+        <div class="right_s_video" style="width: 360px;">
+            <div class="right_p_t f-h2-tag"><h2>Видео</h2></div>
+            <?php if (!empty($f_video_1)): ?>
+                <div class="side_video_l_a">
+                    <div class="side_video_img">
+                        <a class="f_show_video" href="/fighter-video?src=<?= $src_1; ?>"><img src="<?= $v_preview_1; ?>" width="310" height="310"></a>
+                        <a href="/fighter-video?src=<?= $src_1; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if (!empty($f_video_2)): ?>
+                <div class="side_video_l_a">
+                    <div class="side_video_img">
+                        <a class="f_show_video" href="/fighter-video?src=<?= $src_2; ?>"><img src="<?= $v_preview_2; ?>" width="310" height="310"></a>
+                        <a href="/fighter-video?src=<?= $src_2; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if (!empty($f_video_3)): ?>
+                <div class="side_video_l_a">
+                    <div class="side_video_img">
+                        <a class="f_show_video" href="/fighter-video?src=<?= $src_3; ?>"><img src="<?= $v_preview_3; ?>" width="310" height="310"></a>
+                        <a href="/fighter-video?src=<?= $src_3; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+    <div class="banner1" <?php if (empty($f_video_1) && empty($f_video_2) && empty($f_video_3)): ?>style="margin-top: 0;"<?php endif; ?>>
+        <?= banner_rotate(2,1, false, 'banner-img');?>
+    </div>
+    <div class="right_s" style="height: 482px;">
+        <div class="right_p_t"><a href="/video/archive" class="a-black">Архив боёв</a><span class="video_tabs">></span></div>
+        <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
+    </div>
+    <div class="right_s" style="margin-top: 10px;">
+        <div class="right_p_t">Теги<span class="video_tabs">></span></div>
+        <div class="right_list_c">
+            <?= nc_tag_cloud_all($catalogue, "<a class='tag-cloud-link' href='/tag/%TAG_LINK'>%TAG_NAME</a>", 31); ?>
+        </div>
+    </div>
+</div>

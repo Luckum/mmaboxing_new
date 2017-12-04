@@ -227,7 +227,7 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 </div>
 
 <!-- start MMA Boxing Production -->
-<div class="main_dop_s to-slide">
+<div class="main_dop_s to-slide" style="display: none;">
     <div class="right_p_t_b vid">
         <a href="/floyd-vs-konor" class="a-white">Флойд vs. Конор</a><span class="video_tabs">></span>
         <span class="soc-slider">
@@ -254,16 +254,21 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
         
         <div class="clr"></div>
     </div>
-    <div class="right_s" style="height: 537px;">
-        <div class="right_p_t">Опросы<span class="video_tabs">></span></div>
-        <div id="vote-container">
-            <?= s_list_class(24,26); ?>
+    <?php $vote = s_list_class(24,26); ?>
+    <div class="right_s" style="margin-bottom: 10px; <?php if (strlen($vote) <= 2): ?>height: 1030px;<?php endif; ?>">
+        <div class="right_p_t">Последние комментарии<span class="video_tabs">></span></div>
+        <?php $records = strlen($vote) > 2 ? 4 : 9; ?>
+        <?= s_list_class(25,27,"&recNum=" . $records . "&nc_ctpl=2029") ?>
+    </div>
+    <?php if (strlen($vote) > 2): ?>
+        <div class="right_s" style="height: 537px; margin-bottom: 10px;">
+            <div class="right_p_t">Опросы<span class="video_tabs">></span></div>
+            <div id="vote-container">
+                <?= $vote; ?>
+            </div>
         </div>
-    </div>
-    <div class="right_s r_s_d">
-        <div class="right_p_t"><a href="/blogs" class="a-black">Блоги</a><span class="video_tabs">></span></div>
-        <?= s_list_class(41,54,"&recNum=4&nc_ctpl=2028") ?>
-    </div>
+    <?php endif; ?>
+    
     <div class="banner1_2">
         <?= banner_rotate(2,1, false, 'banner-img');?>
     </div>
@@ -300,8 +305,10 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
     <div class="right_s">
-        <div class="right_p_t">Последние комментарии<span class="video_tabs">></span></div>
-        <?= s_list_class(25,27,"&recNum=4&nc_ctpl=2029") ?>
+        <div class="right_p_t">Теги<span class="video_tabs">></span></div>
+        <div class="right_list_c">
+            <?= nc_tag_cloud_all($catalogue, "<a class='tag-cloud-link' href='/tag/%TAG_LINK'>%TAG_NAME</a>", 31); ?>
+        </div>
     </div>
     <div class="banner1">
         <div id="unit_90111"><a href="https://smi2.ru/" rel="nofollow">Новости smi2.ru</a></div>

@@ -36,10 +36,10 @@
     <div>
         <?php if ($showResults): ?>
             <?php if ($sql_fighter_1): ?>
-                <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_1['myName'] . " vs. "; ?><?php if ($f_main_card_winner == $f_main_card_fighter_2): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_2['myName']; ?>
+                <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_1['myName_ru'] . " vs. "; ?><?php if ($f_main_card_winner == $f_main_card_fighter_2): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_2['myName_ru']; ?>
             <?php endif; ?>
         <?php else: ?>
-            <?= $sql_fighter_1['myName'] . " vs. " . $sql_fighter_2['myName']; ?>
+            <?= $sql_fighter_1['myName_ru'] . " vs. " . $sql_fighter_2['myName_ru']; ?>
         <?php endif; ?>
     </div>
 <?php endif; ?>

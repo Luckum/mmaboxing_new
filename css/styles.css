@@ -186,7 +186,7 @@ body {margin:0px; padding:0px; background:#000000; color:#000; font-family:Arial
 .left_c {width:728px; float:left; background:#FFF;}
 .left_c_arch {width:100%; float:left; background:#FFF;}
 
-.news_t {font-size:20px; font-weight:bold; border-left:5px solid #e73435; border-bottom: solid 1px #eaeaea; padding:15px; background:#fff; color:#000;}
+.news_t {font-size:20px; font-weight:bold; border-left:5px solid #e73435; border-bottom: solid 1px #eaeaea; padding:15px; background:#fff; color:#000; padding-left: 18px;}
 
 .post_c {width:95%; margin:25px auto; height: 111px; margin-left: 24px;}
 .post_c_r {width:95%; margin:35px auto; height: 114px; margin-left: 30px;}
@@ -351,6 +351,13 @@ body {margin:0px; padding:0px; background:#000000; color:#000; font-family:Arial
     left: 131px;
     cursor: pointer;
     z-index: 100;
+}
+.f_side_playback {
+	position: relative;
+   top: -182px;
+   left: 131px;
+   cursor: pointer;
+   z-index: 100;
 }
 .playback_s {
     position: relative;
@@ -698,19 +705,19 @@ body {margin:0px; padding:0px; background:#000000; color:#000; font-family:Arial
     background-color: #777;
 }
 
-.share, .share-evnt{
+.share, .share-evnt, .f-share{
 	display: inline-block;
 	padding: 7px 5px;
     margin-top: 50px;
     margin-bottom: 55px;
 }
-.share div[data-share-data]:after, .share-evnt div[data-share-data]:after{
+.share div[data-share-data]:after, .share-evnt div[data-share-data]:after, .f-share div[data-share-data]:after{
 content: "";
 display: block;
 clear: both;
 height: 0;
 }
-.share div[data-share-data] div:first-child, .share-evnt div[data-share-data] div:first-child{
+.share div[data-share-data] div:first-child, .share-evnt div[data-share-data] div:first-child, .f-share div[data-share-data] div:first-child{
 	margin-left: 0;
 }
 .share .twitter,
@@ -718,7 +725,10 @@ height: 0;
 .share .facebook,
 .share-evnt .twitter,
 .share-evnt .vk,
-.share-evnt .facebook{
+.share-evnt .facebook,
+.f-share .twitter,
+.f-share .vk,
+.f-share .facebook{
 	float: left;
 	margin-left: 15px;
 	cursor: pointer;
@@ -730,7 +740,10 @@ height: 0;
 .share .facebook .icon:after,
 .share-evnt .twitter .icon:after,
 .share-evnt .vk .icon:after,
-.share-evnt .facebook .icon:after{
+.share-evnt .facebook .icon:after,
+.f-share .twitter .icon:after,
+.f-share .vk .icon:after,
+.f-share .facebook .icon:after{
 	content: "";
 	display: block;
 	clear: both;
@@ -741,22 +754,28 @@ height: 0;
 .share .facebook .icon,
 .share-evnt .twitter .icon,
 .share-evnt .vk .icon,
-.share-evnt .facebook .icon{
+.share-evnt .facebook .icon,
+.f-share .twitter .icon,
+.f-share .vk .icon,
+.f-share .facebook .icon{
 	float: left;
 	height: 17px;
 	width: 17px;
 	background-repeat: no-repeat;
 }
 .share .twitter .icon,
-.share-evnt .twitter .icon{
+.share-evnt .twitter .icon,
+.f-share .twitter .icon{
 	background-image: url(../images/tw_share.png);
 }
 .share .vk .icon,
-.share-evnt .vk .icon{
+.share-evnt .vk .icon,
+.f-share .vk .icon{
 	background-image: url(../images/vk_share.png);
 }
 .share .facebook .icon,
-.share-evnt .facebook .icon{
+.share-evnt .facebook .icon,
+.f-share .facebook .icon{
 	background-image: url(../images/fb_share.png);
 }
 .share .twitter .count,
@@ -764,7 +783,10 @@ height: 0;
 .share .facebook .count,
 .share-evnt .twitter .count,
 .share-evnt .vk .count,
-.share-evnt .facebook .count{
+.share-evnt .facebook .count,
+.f-share .twitter .count,
+.f-share .vk .count,
+.f-share .facebook .count{
 	float: left;
 	font-family: Arial, sans-serif;
 	margin-left: 10px;
@@ -773,7 +795,7 @@ height: 0;
 	line-height: 18px;
 	color: #000;
 }
-.news-min-menu, .art-min-menu, .blogs-min-menu, .video-min-menu, .events-min-menu, .rat-min-menu, .news-main-all {
+.news-min-menu, .art-min-menu, .blogs-min-menu, .video-min-menu, .events-min-menu, .rat-min-menu, .news-main-all, .videoblog-min-menu {
     display: none;
 }
 
@@ -881,7 +903,8 @@ a.blogs_tabs:hover:after {
 .small_l_t_arch > a > h2,
 .inner_title > h1,
 .small_l_t_v > a > h2,
-.breadcrumbs-pagetitle > h1 {
+.breadcrumbs-pagetitle > h1,
+.f-h2-tag > h2 {
 	font-size: inherit;
 	line-height: normal;
 	font-family: inherit;
@@ -896,7 +919,7 @@ a.blogs_tabs:hover:after {
 	border-left: 5px solid #e73435;
 	margin-bottom: 10px;
 	background-color: #fff;
-	padding-left: 15px;
+	padding-left: 20px;
 	padding-top: 15px;
 }
 .breadcrumbs-path a {
@@ -931,4 +954,284 @@ a.blogs_tabs:hover:after {
 	height: 6px;
 	margin-left: 2px;
 	margin-right: 1px;
+}
+.inner-pagetitle {
+	margin-top: 0;
+}
+.inner-path-item {
+	vertical-align: bottom;
+	padding-top: 3px;
+}
+.inner-path-link {
+	display: block;
+	height: 25px;
+}
+.inner-arrow-class {
+	height: 12px;
+}
+ .breadcrumbs-hdr {
+	height: auto;
+	padding-bottom: 10px;
+	padding-right: 20px;
+}
+.videoblog-cur-menu {
+	padding: 0;
+	border: none;
+}
+.news-cur-menu, .art-cur-menu, .blogs-cur-menu, .video-cur-menu, .events-cur-menu, .rat-cur-menu, .videoblog-cur-menu {
+	padding-left: 10px;
+}
+.inner-breadcrumbs-class {
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 12px;
+}
+.tag-cloud-link {
+	font-size: 14px;
+	display: inline-block;
+	height: 18px;
+	background-color: #aaa;
+	color: #fff;
+	margin-right: 2px;
+	margin-bottom: 10px;
+	padding-top: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.tag-cloud-link:hover {
+	text-decoration: none;
+	background-color: #ef4340;
+}
+
+.fighter-card {
+	height: 340px;
+	background: linear-gradient(to bottom, #040404, #1e1e1e);
+	padding-top: 25px;
+	padding-left: 25px;
+	padding-right: 20px;
+}
+.f-promotion, .f-birthdate, .f-age, .f-country, .f-flag, .f-photo, .f-grouth, .f-weight, .f-wins, .f-defeats, .f-draws {
+	display: inline-block;
+}
+.f-promotion {
+	width: 412px;
+}
+.f-birthdate {
+	width: 198px;
+}
+.f-flag, .f-country {
+	float: right;
+}
+.f-photo {
+	width: 415px;
+}
+.f-country {
+	text-align: right;
+	padding-right: 10px;
+}
+.f-grouth {
+	padding-top: 35px;
+	width: 198px;
+}
+.f-weight {
+	width: 193px;
+}
+.f-title {
+	font-family: 'ProximaNova-Regular';
+	font-size: 12px;
+	color: #aaa;
+	text-transform: uppercase;
+}
+.f-descr {
+	font-family: 'ProximaNova-Extrabld';
+	font-size: 28px;
+	color: #fff;
+	text-transform: uppercase;
+	display: block;
+}
+.f-flag img {
+	width: 65px;
+	height: 45px;
+}
+.f-country-country {
+	font-size: 20px;
+	padding-top: 2px;
+}
+.f-row {
+	display: flex;
+}
+.no-margin {
+	margin: 0 !important;
+}
+.f-descr span:last-child {
+	text-transform: none;
+	display: inline-block;
+	margin-left: 7px;
+}
+.f-descr span:first-child {
+	display: inline-block;
+	width: 25px;
+}
+
+.f-sm {
+	font-size: 20px;
+	position: relative;
+	top: -5px;
+}
+.f-reds {
+	color: #e73435;
+}
+.f-wins {
+	margin-top: 35px;
+	border-right: 1px solid #fff;
+	width: 175px;
+	height: 143px;
+}
+.f-bot {
+	margin-bottom: 5px;
+}
+.f-defeats {
+	margin-top: 35px;
+	padding-left: 25px;
+	width: 175px;
+	border-right: 1px solid #fff;
+	height: 143px;
+}
+.f-draws {
+	margin-top: 35px;
+	padding-left: 20px;
+}
+.row-2 {
+	display: flex;
+}
+.fighter-card {
+	margin-bottom: 10px;
+}
+.f-h2-tag {
+	font-family: 'Proxima-Nova-Bold';
+}
+.f-bio {
+	font-size: 16px;
+	padding-left: 40px;
+	padding-top: 45px;
+	padding-bottom: 40px;
+	padding-right: 40px;
+	border-bottom: 10px solid #eaeaea;
+}
+.f-hr {
+	display: block;
+	width: 600px;
+	margin-top: 35px;
+	border-bottom: solid 1px #eaeaea;
+}
+.f-share {
+	margin-top: 40px;
+	padding-left: 0;
+	margin-bottom: 0;
+}
+.f-no-info {
+	font-family: 'Proxima-Nova-Bold';
+	font-size: 16px;
+	display: block;
+	padding-top: 30px;
+	padding-left: 25px;
+	padding-bottom: 30px;
+}
+.f-pro-fights table {
+	color: #222;
+}
+.f-pro-fights table th {
+	font-family: 'Proxima-Nova-Bold';
+	font-size: 17px;
+	background-color: #f7f7f7;
+	vertical-align: middle;
+	height: 50px;
+}
+.f-pro-fights table td {
+	font-family: 'ProximaNova-Regular';
+	font-size: 17px;
+}
+.f-col-1 {
+	width: 88px;
+	padding-left: 25px;
+}
+.f-col-2 {
+	width: 209px;
+	padding-left: 16px;
+}
+.f-col-3 {
+	width: 257px;
+	padding-left: 16px;
+}
+.f-col-4 {
+	width: 24px;
+	padding-left: 14px;
+}
+.f-col-5 {
+	width: 65px;
+	padding-left: 10px;
+}
+th.f-col-1, th.f-col-2, th.f-col-3, th.f-col-4 {
+	border-right: 1px solid #eaeaea;
+}
+.even td {
+	background-color: #fff;
+}
+.odd td {
+	background-color: #f7f7f7;
+}
+.f-result-w {
+	color: #009901;
+}
+.f-result-d {
+	color: #e73435;
+}
+.border-r {
+	border-right: 1px solid #eaeaea;
+}
+.border-t {
+	border-top: 1px solid #eaeaea;
+}
+.center {
+	text-align: center;
+	padding-left: 0;
+}
+.f-t-row-1 {
+	height: 55px;
+}
+.f-t-row-2 {
+	height: 50px;
+}
+.grey-sm {
+	font-size: 15px !important;
+	color: #666;
+}
+.pad-20 {
+	padding-top: 20px;
+}
+.pad-15 {
+	padding-top: 15px;
+}
+.pad-15-b {
+	padding-bottom: 15px;
+}
+.pad-10 {
+	padding-top: 10px;
+}
+.f-play-icon {
+	background: url(../images/play-fighter-video.png) no-repeat;
+	display: inline-block;
+	width: 8px;
+	height: 11px;
+	margin-left: 6px;
+}
+.f-video-link {
+	color: #666;
+}
+.marg-20 {
+	margin-top: 20px;
+}
+.fighter-card-mob, .f-fights-mob, .f-ama-fts-t-m, .f-mob-r-more, .f-video-mob {
+	display: none;
 }

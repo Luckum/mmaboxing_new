@@ -1,5 +1,6 @@
 <?
 
+$nc_tags->add_message($catalogue,$sub, $cc, $classID, $message);
 mysql_query("UPDATE User SET posts=posts+1 WHERE USER_ID=".$current_user['User_ID']);
 $newkey = $f_myTitle;
 $newkey = str_replace('ь','',$newkey);

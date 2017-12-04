@@ -54,7 +54,17 @@
             <div class="v_s_label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
             <div class="big_video_bg">
                 <div class="side_video_desc">
-                    <span class="big_video_title"><a href="<?= $fullLink ?>"><h2><?=$f_myTitle?></h2></a></span>
+                    <span class="big_video_title">
+                        <a href="<?= $fullLink ?>">
+                            <h2>
+                                <?php if (strlen($f_myTitle) > 70): ?>
+                                    <?= cutStr(strip_tags($f_myTitle), 70); ?>
+                                <?php else: ?>
+                                    <?= $f_myTitle; ?>
+                                <?php endif; ?>
+                            </h2>
+                        </a>
+                    </span>
                     <span class="big_video_date">
                         <? if($f_Date != 0) { ?>
                             <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>

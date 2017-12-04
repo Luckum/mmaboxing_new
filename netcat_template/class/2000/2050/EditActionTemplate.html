@@ -1,0 +1,20 @@
+<?
+$myTags = mb_strtolower($f_myTags);
+$TagsRu = str_replace(', ',',',$myTags);
+$TagsRu = str_replace('ь','',$TagsRu);
+$TagsRuTrans = nc_transliterate($TagsRu); # Транслируем текст
+$TagsRuTrans2 = str_replace(' ','-',$TagsRuTrans); # Заменяем пробелы на дефис
+$db->query('UPDATE Message2000 SET EnTags="'.$TagsRuTrans2.'" WHERE Message_ID='.$message); # Вписываем в базу данных
+$nc_tags->update_message($catalogue,$sub, $cc, $classID, $message);
+
+
+
+if($inside_admin) {
+    ob_end_clean();
+    header('Location: '.$goBackLink.'&inside_admin=1');
+    exit;
+} else { 
+	echo NETCAT_MODERATION_MSG_OBJCHANGED;
+	echo "<br /><br />".$goBack;
+}
+?>

@@ -77,9 +77,18 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
     $html = str_get_html($f_myText);
-    $frame = $html->find('iframe', 0);
-    $src = $frame->src;
-    $frame->outertext = '';
+    $frames = $html->find('iframe');
+    foreach ($frames as $k => $frame) {
+        $src = $frame->src;
+        if ($k == 0) {
+            $src_first = $src;
+            $frame->outertext = '';
+        } else {
+            $frame->outertext = '<div class="inner_img" style="overflow:hidden;">
+                                    <iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src=' . $src . ' width="100%"></iframe>
+                                </div>';
+        }
+    }
     $f_myText = $html;
     $f_myText = trim($f_myText, ':');
     
@@ -109,45 +118,14 @@
 ?>
 <div class="main_dop_inner_l">
     <div class="left_c" id="see_more_read_also_div">
-        <div class="news_t video-cur-menu">
-            Видео <span class="video_tabs">></span>
-            <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab<?php endif; ?>">Все</a> 
-            <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
-            <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
-            <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a> 
-            <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab<?php endif; ?>">Переводы</a> 
-            <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab<?php endif; ?>">Архив боёв</a> 
-            <!-- <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab<?php endif; ?>">Интервью</a> -->
+        <div class="news_t video-cur-menu inner-breadcrumbs-class">
+            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true); ?>
         </div>
-        <div class="news_t video-min-menu">
-            Видео <span class="video_tabs">></span>
-            <?php if ($current_sub['Hidden_URL'] == '/video/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/video/mma/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/video/boxing/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/video/translation/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Переводы&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/video/archive/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Архив боёв&nbsp;&#8744;</a>
-            <?php elseif ($current_sub['Hidden_URL'] == '/video/interview/'): ?>
-                <!-- <a href="javascript:void(0)" class="video_tabs active_tab_min">Интервью&nbsp;&#8744;</a> -->
-            <?php endif; ?>
-            <div class="min-menu-links" style="display: none;">
-                <a href="/video" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/'): ?> active_tab_min<?php endif; ?>">Все</a> 
-                <a href="/video/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/mma/'): ?> active_tab_min<?php endif; ?>">MMA</a> 
-                <a href="/video/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/boxing/'): ?> active_tab_min<?php endif; ?>">Бокс</a> 
-                <a href="/video/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/kickboxing/'): ?> active_tab_min<?php endif; ?>">Кикбоксинг</a> 
-                <a href="/video/translation" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/translation/'): ?> active_tab_min<?php endif; ?>">Переводы</a>
-                <a href="/video/archive" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/archive/'): ?> active_tab_min<?php endif; ?>">Архив боёв</a>  
-                <!-- <a href="/video/interview" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/video/interview/'): ?> active_tab_min<?php endif; ?>">Интервью</a> -->
-            </div>
+        <div class="news_t video-min-menu inner-breadcrumbs-class">
+            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true); ?>
         </div>
         <div class="inner_img">
-            <iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src; ?>" width="728"></iframe>
+            <iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src_first; ?>" width="728"></iframe>
         </div>
         <div class="inner_content">
             <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
@@ -190,9 +168,13 @@
                 </div>
             </div>
         </div>
+        
+        <!-- баннер 728х90 в видео -->
         <div class="banner_hor">
             <?= banner_rotate(1,1);?>
         </div>
+        <!-- баннер 728х90 в видео -->
+        
         <div><?= $nc_comments->wall($f_RowID); ?></div>
         <div class="read-more-container">
             <div class="news_t">Читайте также</div>
@@ -205,9 +187,13 @@
         <div class="right_p_t"><a href="/news">Новости</a><span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID) ?>
     </div>
+    
+    <!-- баннер 300х600 в видео -->
     <div class="banner1">
         <?= banner_rotate(2,1, false, 'banner-img');?>
     </div>
+    <!-- баннер 300х600 в видео -->
+    
     <div class="right_s_video" style="width: 360px;">
         <div class="right_p_t"><a href="/video">Видео</a><span class="video_tabs">></span></div>
         <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031&current=" . $f_RowID) ?>

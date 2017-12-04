@@ -1,5 +1,6 @@
 <?php
 $nc_comments = new nc_comments($cc);
+$nc_tags = new nc_tags();
 if(!$admin_mode) {
 $query_where = "NOW() >= Date";
 }
@@ -78,7 +79,5 @@ if($_GET['history'])
     #$ignore_calc;
     $query_where = " DATE_FORMAT(a.Created, GET_FORMAT(DATE,'ISO'))='".trim(addslashes(strip_tags($dt)))."' ";
 }
-
-
 
 ?>

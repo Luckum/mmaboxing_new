@@ -21,7 +21,7 @@
         <div class="position"><?= $f_myPos; ?></div>
         <img src="<?= getThumbNow('/netcat_files/' . $foto[3], 180, 180, 1, false, 95, -1) ?>" class="post_img_r">
         <div>
-            <div class="rating_post_t"><?= $sql_f['myName']; ?></div>
+            <div class="rating_post_t"><?= $sql_f['myName_ru']; ?></div>
             <div class="rating_post_desk"><?= $sql_f['myPromotion']; ?></div>
         </div>
         <?php if (!empty($next_f)): ?>
@@ -34,9 +34,9 @@
             <?= cutStr($sql_f['myBio'], 200); ?>
         </div>
         <ul class="results">
-            <li><span>Победы </span><span><?= $sql_f['myVictories']; ?></span><div class="hr hr-rat"></div></li>
-            <li><span>Поражения </span><span><?= $sql_f['myDefeats']; ?></span><div class="hr hr-rat"></div></li>
-            <li><span>Ничьи </span><span><?= $sql_f['myDraws']; ?></span></li>
+            <li><span>Победы </span><span><?= $sql_f['victory_ko'] + $sql_f['victory_decision'] + $sql_f['victory_submision']; ?></span><div class="hr hr-rat"></div></li>
+            <li><span>Поражения </span><span><?= $sql_f['defeat_ko'] + $sql_f['defeat_decision'] + $sql_f['defeat_submision']; ?></span><div class="hr hr-rat"></div></li>
+            <li><span>Ничьи </span><span><?= $sql_f['draw']; ?></span></li>
         </ul>
     </div>
     <?php if ($f_RowNum == 4): ?>

@@ -24,7 +24,7 @@
             }
         }
     }
-    function see_more_news(start, cnt, s_type, srch)
+    function see_more_news(start, cnt, s_type, srch, tag)
     {
         $("#see_more_news").hide();
         $("#loading_news").show();
@@ -32,7 +32,7 @@
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start, cnt: cnt, action: 'news', s_type: s_type, search: srch, cur_type: '3'}
+            data: {start: start, cnt: cnt, action: 'news', s_type: s_type, search: srch, cur_type: '3', tag: tag}
         }).responseText;
         if (html != '') {
             $("#see_more_news_div").append(html);
@@ -40,7 +40,7 @@
             $("#loading_news").appendTo("#see_more_news_div");
             $("#loading_news").hide();
             $("#see_more_news").show();
-            $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ", " + s_type + ", '" + srch + "')");
+            $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ", " + s_type + ", '" + srch + "', '" + tag + "')");
         }
     }
     function see_more_blogs(start, cnt, s_type)
@@ -94,12 +94,14 @@
 <?php
     $newsUrls = array('/news/', '/news/news-mma/', '/news/news-boxing/', '/news/news-kickboxing/', '/tag/');
     $articlesUrls = array('/articles/', '/articles/mma/', '/articles/boxing/', '/articles/kickboxing/');
-    $mblUrls = array('/mad-bear-live/');
+    $mblUrls = array('/videoblogi/');
+    $trUrls = array('/translyatsii/');
     $mbpUrls = array('/floyd-vs-konor/');
     $blogsUrls = nc_get_sub_children('41');
     $subs_arr = $db->get_results("SELECT Subdivision_ID, Subdivision_Name, Hidden_URL FROM Subdivision WHERE Subdivision_ID IN (".join(',', $blogsUrls).")", ARRAY_A);
 ?>
 
+<!-- вывод заголовка на разделе новости -->
 <div class="main_dop_inner_l">
     <div class="breadcrumbs-hdr">
         <?= setBreadcrumbs($current_sub['Hidden_URL']); ?>
@@ -113,21 +115,11 @@
                 <a href="/news/news-kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
             </div>
             <div class="news_t news-min-menu">
-                Новости <span class="video_tabs">></span>
-                <?php if ($current_sub['Hidden_URL'] == '/news/'): ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
-                <?php elseif ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
-                <?php elseif ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a>
-                <?php else: ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
-                <?php endif; ?>
-                <div class="min-menu-links" style="display: none;">
-                    <a href="/news" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/'): ?> active_tab_min<?php endif; ?>">Все</a>
-                    <a href="/news/news-mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?>active_tab_min<?php endif; ?>">MMA</a> 
-                    <a href="/news/news-boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?>active_tab_min<?php endif; ?>">Бокс</a> 
-                    <a href="/news/news-kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?>active_tab_min<?php endif; ?>">Кикбоксинг</a>
+                <div class="min-menu-links">
+                    <a href="/news" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/news/'): ?> active_tab<?php endif; ?>">Все</a>
+                    <a href="/news/news-mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-mma/'): ?>active_tab<?php endif; ?>">MMA</a> 
+                    <a href="/news/news-boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-boxing/'): ?>active_tab<?php endif; ?>">Бокс</a> 
+                    <a href="/news/news-kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/news/news-kickboxing/'): ?>active_tab<?php endif; ?>">Кикбоксинг</a>
                 </div>
             </div>
         <?php endif; ?>
@@ -139,21 +131,11 @@
                 <a href="/articles/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
             </div>
             <div class="news_t art-min-menu">
-                Статьи <span class="video_tabs">></span>
-                <?php if ($current_sub['Hidden_URL'] == '/articles/'): ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a> 
-                <?php elseif ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
-                <?php elseif ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a>
-                <?php else: ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
-                <?php endif; ?>
-                <div class="min-menu-links" style="display: none;">
-                    <a href="/articles" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/'): ?> active_tab_min<?php endif; ?>">Все</a> 
-                    <a href="/articles/mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?>active_tab_min<?php endif; ?>">MMA</a> 
-                    <a href="/articles/boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?>active_tab_min<?php endif; ?>">Бокс</a> 
-                    <a href="/articles/kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?>active_tab_min<?php endif; ?>">Кикбоксинг</a>
+                <div class="min-menu-links">
+                    <a href="/articles" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/articles/'): ?> active_tab<?php endif; ?>">Все</a> 
+                    <a href="/articles/mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/mma/'): ?>active_tab<?php endif; ?>">MMA</a> 
+                    <a href="/articles/boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/boxing/'): ?>active_tab<?php endif; ?>">Бокс</a> 
+                    <a href="/articles/kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/articles/kickboxing/'): ?>active_tab<?php endif; ?>">Кикбоксинг</a>
                 </div>
             </div>
         <?php endif; ?>
@@ -180,7 +162,7 @@
                 <?php endforeach; ?>
                 </div>
             </div>
-            <div class="news_t blogs-min-menu">Блоги <span class="video_tabs">></span>
+            <div class="news_t blogs-min-menu">
                 <?php $sel_link = false; ?>
                 <?php foreach ($subs_arr as $sub): ?>
                     <?php if ($sub['Subdivision_ID'] != 41): ?>
@@ -202,9 +184,6 @@
                 </div>
             </div>
         <?php endif; ?>
-        <?php if (in_array($current_sub['Hidden_URL'], $mblUrls)): ?>
-            <div class="news_t">Видеоблоги <span class="video_tabs">></span></div>
-        <?php endif; ?>
-        <?php if (in_array($current_sub['Hidden_URL'], $mbpUrls)): ?>
-            <div class="news_t">Флойд vs. Конор <span class="video_tabs">></span></div>
+        <?php if (in_array($current_sub['Hidden_URL'], $trUrls)): ?>
+            <div class="news_t tr-min-menu"></div>
         <?php endif; ?>

@@ -1,6 +1,6 @@
             
             <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
-                <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_news" value="more" onclick="see_more_news(16, 8, <?= $current_sub['Subdivision_ID']; ?>, <?= isset($_GET['search']) ? '\'' . $_GET['search'] . '\'' : '\'\'' ?>)">Показать ещё</button>
+                <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_news" value="more" onclick="see_more_news(16, 8, <?= $current_sub['Subdivision_ID']; ?>, <?= isset($_GET['search']) ? '\'' . $_GET['search'] . '\'' : '\'\''; ?>, <?= isset($_GET['tags']) ? '\'' . $_GET['tags'] . '\'' : '\'\''; ?>)">Показать ещё</button>
             <?php endif; ?>
             <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
                 <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_articles" value="more" onclick="see_more_articles(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
@@ -11,6 +11,9 @@
             <?php if (in_array($current_sub['Hidden_URL'], $mbpUrls)): ?>
                 <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_mbps" value="more" onclick="see_more_mbps(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
             <?php endif; ?>
+            <?php if (in_array($current_sub['Hidden_URL'], $trUrls)): ?>
+                <button style="margin-top: 65px; margin-bottom: 65px;" class="see_more" id="see_more_mbps" value="more" onclick="see_more_mbps(16, 8, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
+            <?php endif; ?>
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
     <div class="right-side">
@@ -19,6 +22,7 @@
             <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2031") ?>
         </div>
         <?php if (!$admin_mode): ?>
+            <!-- баннер 300х600-2 раздел новости -->
             <div class="banner1">
             <div id="unit_90111"><a href="https://smi2.ru/" rel="nofollow">Новости smi2.ru</a></div>
                 <script type="text/javascript" charset="utf-8">
@@ -29,6 +33,7 @@
                     }());
                 </script>
             </div>
+            <!-- баннер 300х600-2 раздел новости -->
             <!-- <div class="banner1">
                 <?= banner_rotate(2,1, false, 'banner-img');?>
             </div> -->

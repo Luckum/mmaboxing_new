@@ -5,6 +5,6 @@ $query_select = "a.*, DATE_FORMAT(a.`Date`,'%Y') as Date_year, DATE_FORMAT(a.`Da
     DATE_FORMAT(a.`Date`,'%d') as Date_day, DATE_FORMAT(a.`Date`,'%H') as Date_hours, DATE_FORMAT(a.`Date`,'%i') as Date_minutes, DATE_FORMAT(a.`Date`,'%s') as Date_seconds";
 $query_from = "Comments_Text a";
 $query_order = "a.Date DESC";
-$query_limit = "4";
+$query_limit = $recNum;
 
 ?>

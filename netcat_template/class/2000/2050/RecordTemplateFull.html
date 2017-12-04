@@ -24,9 +24,18 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
     $html = str_get_html($f_myText);
-    $frame = $html->find('iframe', 0);
-    $src = $frame->src;
-    $frame->outertext = '';
+    $frames = $html->find('iframe');
+    foreach ($frames as $k => $frame) {
+        $src = $frame->src;
+        if ($k == 0) {
+            $src_first = $src;
+            $frame->outertext = '';
+        } else {
+            $frame->outertext = '<div class="inner_img" style="overflow:hidden;">
+                                    <iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src=' . $src . ' width="100%"></iframe>
+                                </div>';
+        }
+    }
     $f_myText = $html;
     $f_myText = trim($f_myText, ':');
     
@@ -55,11 +64,11 @@
 ?>
 <div class="main_dop_inner_l">
     <div class="left_c" id="see_more_read_also_div">
-        <div class="news_t">
-            Видеоблоги <span class="video_tabs">></span>
+        <div class="news_t vb-menu inner-breadcrumbs-class">
+            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true); ?>
         </div>
         
-        <div class="inner_img"><iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src; ?>" width="728"></iframe></div>
+        <div class="inner_img"><iframe id="v-iframe" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="<?= $src_first; ?>" width="728"></iframe></div>
         <div class="inner_content">
             <div class="inner_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
             <div class="inner_title"><h1><?= $f_myTitle; ?></h1></div>

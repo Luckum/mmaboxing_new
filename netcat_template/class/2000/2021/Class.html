@@ -25,7 +25,19 @@
             <guid><?= md5($f_Message_ID); ?></guid>
             <pubDate><?= date(DATE_RSS, strtotime($f_Created) ); ?></pubDate>
             <description><?= $f_ncDescription ;?></description>
-            <content:encoded><?= htmlspecialchars($f_myText); ?></content:encoded>
+            <content:encoded>
+                <![CDATA[<!doctype html>
+                <html lang="ru" prefix="op: http://media.facebook.com/op#">
+                    <head>
+                        <meta charset="utf-8">
+                        <link rel="canonical" href="https://<?= $_SERVER["HTTP_HOST"] . $fullLink; ?>">
+                        <meta property="op:markup_version" content="v1.0">
+                    </head>
+                    <body>
+                        <?= $f_myText; ?>
+                    </body>
+                </html>]]>
+            </content:encoded>
         </item>
 <?php else: ?><item>
                 <title><?= htmlspecialchars($f_myTitle); ?></title>

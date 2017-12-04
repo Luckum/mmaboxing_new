@@ -64,18 +64,10 @@
             <a href="/ratings/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
         </div>
         <div class="news_t rat-min-menu">
-            Рейтинги <span class="video_tabs">></span>
-            <?php if ($current_sub['Hidden_URL'] == '/ratings/boxing/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Бокс&nbsp;&#8744;</a> 
-            <?php elseif ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">Кикбоксинг&nbsp;&#8744;</a>
-            <?php else: ?>
-                <a href="javascript:void(0)" class="video_tabs active_tab_min">ММА&nbsp;&#8744;</a> 
-            <?php endif; ?>
-            <div class="min-menu-links" style="display: none;">
-                <a href="/ratings/mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/mma/'): ?>active_tab_min<?php endif; ?>">MMA</a> 
-                <a href="/ratings/boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/boxing/'): ?>active_tab_min<?php endif; ?>">Бокс</a> 
-                <a href="/ratings/kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?>active_tab_min<?php endif; ?>">Кикбоксинг</a>
+            <div class="min-menu-links">
+                <a href="/ratings/mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/mma/'): ?>active_tab<?php endif; ?>">MMA</a> 
+                <a href="/ratings/boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/boxing/'): ?>active_tab<?php endif; ?>">Бокс</a> 
+                <a href="/ratings/kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/ratings/kickboxing/'): ?>active_tab<?php endif; ?>">Кикбоксинг</a>
             </div>
         </div>
         <div class="weight_cat">

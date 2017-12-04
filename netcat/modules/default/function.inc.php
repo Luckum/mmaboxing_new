@@ -215,6 +215,40 @@ function getVkCountEvt($id)
     $sql = mysql_fetch_assoc(mysql_query("SELECT vk_cnt FROM `Message2010` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
     return $sql;
 }
+function setTwitCountFgt($id)
+{
+    $sql = "UPDATE `Message2007` SET twits_cnt = twits_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getTwitCountFgt($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT twits_cnt FROM `Message2007` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
+
+function setFbCountFgt($id)
+{
+    $sql = "UPDATE `Message2007` SET fb_cnt = fb_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getFbCountFgt($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT fb_cnt FROM `Message2007` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
+function setVkCountFgt($id)
+{
+    $sql = "UPDATE `Message2007` SET vk_cnt = vk_cnt + 1 WHERE `Message_ID` = " . $id;
+    mysql_query($sql);
+}
+
+function getVkCountFgt($id)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT vk_cnt FROM `Message2007` WHERE `Message_ID` = " . $id . " LIMIT 0,1"));
+    return $sql;
+}
 function year_format($i)
 {
     ereg("..$", $i, $t);
@@ -249,210 +283,615 @@ function get_resolution()
     }
 }
 
-function setBreadcrumbs($cur_url, $action = '')
+function setBreadcrumbs($cur_url, $action = '', $inner = false, $title = '')
 {
+    $header = mysql_fetch_assoc(mysql_query("SELECT Value FROM `Classificator_pageheaders` WHERE `pageheaders_Name` = '" . $cur_url . "' LIMIT 0,1"));
+    if (!empty($action) && $action == 'results') {
+        $header = mysql_fetch_assoc(mysql_query("SELECT Value FROM `Classificator_pageheaders` WHERE `pageheaders_Name` = '" . $cur_url . $action . "' LIMIT 0,1"));
+    }
     $page_title = '';
-    $breadcrumbs = '<div class="breadcrumbs-path">';
-    $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-    $breadcrumbs .= '<a href="/" itemprop="url">';
-    $breadcrumbs .= '<span itemprop="title">Главная</span>';
-    $breadcrumbs .= '</a>';
-    $breadcrumbs .= '</div>';
+    $add_class = $add_path_class = $add_link_class = $add_arrow_class = '';
     
     switch ($cur_url) {
         case '/news/':
-            $page_title = 'Новости мира ММА, бокса и кикбоксинга';
+            $page_title = '<h1>' . $header['Value'] . '</h1>';
         break;
         case '/news/news-kickboxing/':
-            $page_title = 'Новости кикбоксинга: онлайн-трансляции, статистика боев, последние новости';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/news" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Новости</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news/news-kickboxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости кикбоксинга</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/news/news-boxing/':
-            $page_title = 'Новости бокса: онлайн-трансляции, статистика боев, видео';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/news" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Новости</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news/news-boxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости бокса</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/news/news-mma/':
-            $page_title = 'Новости ММА: онлайн-трансляции, статистика боев, видео';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/news" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Новости</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news/news-mma" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости ММА</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/news" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Новости</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/video/':
-            $page_title = 'Видео боев ММА, бокса и кикбоксинга';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+            }
         break;
         case '/video/mma/':
-            $page_title = 'Видео боев ММА: UFC, Bellator';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/video" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Видео</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video/mma" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео боев ММА</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/video/boxing/':
-            $page_title = 'Видео боев по профессиональному боксу';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/video" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Видео</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video/boxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео боев по боксу</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/video/kickboxing/':
-            $page_title = 'Видео боев по профессиональному кикбоксингу';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/video" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Видео</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video/kickboxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео боев по кикбоксингу</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/video/archive/':
-            $page_title = 'Видеоархив боев ММА, бокса, кикбоксинга';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/video" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Видео</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video/archive" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видеоархив боев</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/video/translation/':
-            $page_title = 'Переводы боев ММА, бокса, кикбоксинга';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/video" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Видео</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video/translation" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Переводы боев</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/video/interview/':
-            $page_title = 'Интервью бойцов ММА, бокса, кикбоксинга';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/video" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Видео</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video/interview" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Интервью бойцов</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/articles/':
-            $page_title = 'Статьи о ММА, боксе и кикбоксинге';
+            $page_title = '<h1>' . $header['Value'] . '</h1>';
         break;
         case '/articles/mma/':
-            $page_title = 'Статьи о ММА';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/articles" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Статьи</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles/mma" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи о ММА</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/articles/boxing/':
-            $page_title = 'Статьи о боксе';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/articles" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Статьи</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles/boxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи о боксе</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/articles/kickboxing/':
-            $page_title = 'Статьи о кикбоксинге';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/articles" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Статьи</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles/kickboxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи о кикбоксинге</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/articles" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Статьи</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            }
         break;
         case '/fight-calendar/':
-            $page_title = 'События и календарь предстоящих боев ММА, бокса и кикбоксинга';
-            if (!empty($action) && $action == 'results') {
-                $page_title = 'Результаты прошедших боев ММА, бокса и кикбоксинга';
-            }
+            $page_title = '<h1>' . $header['Value'] . '</h1>';
         break;
         case '/fight-calendar/mma/':
-            $page_title = 'События и календарь предстоящих боев ММА';
-            if (!empty($action) && $action == 'results') {
-                $page_title = 'Результаты прошедших боев ММА';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar/mma" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События боев ММА</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
             }
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/fight-calendar" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">События</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
         break;
         case '/fight-calendar/boxing/':
-            $page_title = 'События и календарь предстоящих боев по боксу';
-            if (!empty($action) && $action == 'results') {
-                $page_title = 'Результаты прошедших боев по боксу';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar/boxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События боев по боксу</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
             }
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/fight-calendar" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">События</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
         break;
         case '/fight-calendar/kickboxing/':
-            $page_title = 'События и календарь предстоящих боев по кикбоксингу';
-            if (!empty($action) && $action == 'results') {
-                $page_title = 'Результаты прошедших боев по кикбоксингу';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar/kickboxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События боев по кикбоксингу</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fight-calendar" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">События</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
             }
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/fight-calendar" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">События</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
         break;
         case '/ratings/mma/':
-            $page_title = 'Рейтинг бойцов ММА';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/ratings" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Рейтинги</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            $page_title = '<h1>' . $header['Value'] . '</h1>';
+            $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+            $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+            $breadcrumbs_inner .= '<a href="/ratings" itemprop="url" class="' . $add_link_class . '">';
+            $breadcrumbs_inner .= '<span itemprop="title">Рейтинги</span>';
+            $breadcrumbs_inner .= '</a>';
+            $breadcrumbs_inner .= '</div>';
         break;
         case '/ratings/boxing/':
-            $page_title = 'Рейтинг бойцов по боксу';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/ratings" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Рейтинги</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            $page_title = '<h1>' . $header['Value'] . '</h1>';
+            $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+            $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+            $breadcrumbs_inner .= '<a href="/ratings" itemprop="url" class="' . $add_link_class . '">';
+            $breadcrumbs_inner .= '<span itemprop="title">Рейтинги</span>';
+            $breadcrumbs_inner .= '</a>';
+            $breadcrumbs_inner .= '</div>';
         break;
         case '/ratings/kickboxing/':
-            $page_title = 'Рейтинг бойцов по кикбоксингу';
-            $breadcrumbs .= '<span class="path-arrow"></span>';
-            $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-            $breadcrumbs .= '<a href="/ratings" itemprop="url">';
-            $breadcrumbs .= '<span itemprop="title">Рейтинги</span>';
-            $breadcrumbs .= '</a>';
-            $breadcrumbs .= '</div>';
+            $page_title = '<h1>' . $header['Value'] . '</h1>';
+            $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+            $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+            $breadcrumbs_inner .= '<a href="/ratings" itemprop="url" class="' . $add_link_class . '">';
+            $breadcrumbs_inner .= '<span itemprop="title">Рейтинги</span>';
+            $breadcrumbs_inner .= '</a>';
+            $breadcrumbs_inner .= '</div>';
         break;
         case '/blogs/':
-            $page_title = 'Блоги о боях и мире ММА, бокса и кикбоксинга';
+            $page_title = '<h1>' . $header['Value'] . '</h1>';
         break;
         case '/videoblogi/':
-            $page_title = 'Mad Bear Live – блог о спорте и спортивной жизни';
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/videoblogi" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Видеоблоги</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+            }
+        break;
+        case '/translyatsii/':
+            if ($inner) {
+                $add_path_class = ' inner-path-item';
+                $add_class = ' inner-pagetitle';
+                $add_link_class = 'inner-path-link';
+                $add_arrow_class = ' inner-arrow-class';
+                
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/translyatsii" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Трансляции</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+            } else {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+            }
+        break;
+        case '/tag/':
+            $page_title = '<h1>Новости по теме ' . getRuTagName($_GET['tags']) . '</h1>';
+        break;
+        case '/fighters/mma/':
+            if ($inner) {
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fighters/mma" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Бойцы ММА</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                if (!empty($title)) {
+                    $page_title = '<h1>' . $title . '</h1>';
+                }
+            } else {
+                
+            }
+        break;
+        case '/fighters/boxing/':
+            if ($inner) {
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fighters/boxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Бойцы бокс</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                if (!empty($title)) {
+                    $page_title = '<h1>' . $title . '</h1>';
+                }
+            } else {
+                
+            }
+        break;
+        case '/fighters/kickboxing/':
+            if ($inner) {
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fighters/kickboxing" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Бойцы кик</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
+                
+                if (!empty($title)) {
+                    $page_title = '<h1>' . $title . '</h1>';
+                }
+            } else {
+                
+            }
         break;
         default:
+            if (!$inner) {
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+            }
+            $subs_arr = $subs_arch_arr = [];
             $blogsUrls = nc_get_sub_children('41');
             $res = mysql_query("SELECT Subdivision_ID, Subdivision_Name, Hidden_URL FROM Subdivision WHERE Subdivision_ID IN (".join(',', $blogsUrls).")");
             while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
@@ -462,25 +901,216 @@ function setBreadcrumbs($cur_url, $action = '')
             }
             foreach ($subs_arr as $sub) {
                 if ($sub['Hidden_URL'] == $cur_url) {
-                    $page_title = $sub['Subdivision_Name'];
-                    $breadcrumbs .= '<span class="path-arrow"></span>';
-                    $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item">';
-                    $breadcrumbs .= '<a href="/blogs" itemprop="url">';
-                    $breadcrumbs .= '<span itemprop="title">Блоги</span>';
-                    $breadcrumbs .= '</a>';
-                    $breadcrumbs .= '</div>';
+                    if ($inner) {
+                        $add_path_class = ' inner-path-item';
+                        $add_class = ' inner-pagetitle';
+                        $add_link_class = 'inner-path-link';
+                        $add_arrow_class = ' inner-arrow-class';
+                        
+                        $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                        $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                        $breadcrumbs_inner .= '<a href="/blogs" itemprop="url" class="' . $add_link_class . '">';
+                        $breadcrumbs_inner .= '<span itemprop="title">Блоги</span>';
+                        $breadcrumbs_inner .= '</a>';
+                        $breadcrumbs_inner .= '</div>';
+                        
+                        $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                        $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                        $breadcrumbs_inner .= '<a href="' . $sub['Hidden_URL'] . '" itemprop="url" class="' . $add_link_class . '">';
+                        $breadcrumbs_inner .= '<span itemprop="title">' . $sub['Subdivision_Name'] . '</span>';
+                        $breadcrumbs_inner .= '</a>';
+                        $breadcrumbs_inner .= '</div>';
+                    } else {
+                        $page_title = '<h1>' . $sub['Subdivision_Name'] . '</h1>';
+                        $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                        $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                        $breadcrumbs_inner .= '<a href="/blogs" itemprop="url" class="' . $add_link_class . '">';
+                        $breadcrumbs_inner .= '<span itemprop="title">Блоги</span>';
+                        $breadcrumbs_inner .= '</a>';
+                        $breadcrumbs_inner .= '</div>';
+                    }
+                }
+            }
+            $archiveUrls = nc_get_sub_children('153');
+            $res = mysql_query("SELECT Subdivision_ID, Subdivision_Name, Hidden_URL FROM Subdivision WHERE Subdivision_ID IN (".join(',', $archiveUrls).")");
+            while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+                if ($row['Subdivision_ID'] != 41) {
+                    $subs_arch_arr[] = $row;
+                }
+            }
+            foreach ($subs_arch_arr as $sub) {
+                if ($sub['Hidden_URL'] == $cur_url) {
+                    $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                    $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                    $breadcrumbs_inner .= '<a href="/video" itemprop="url" class="' . $add_link_class . '">';
+                    $breadcrumbs_inner .= '<span itemprop="title">Видео</span>';
+                    $breadcrumbs_inner .= '</a>';
+                    $breadcrumbs_inner .= '</div>';
+                    
+                    $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                    $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                    $breadcrumbs_inner .= '<a href="/video/archive" itemprop="url" class="' . $add_link_class . '">';
+                    $breadcrumbs_inner .= '<span itemprop="title">Архив боев</span>';
+                    $breadcrumbs_inner .= '</a>';
+                    $breadcrumbs_inner .= '</div>';
                 }
             }
         break;
     }
-            
-    $breadcrumbs .= '<span class="path-last"></span>';
+    
+    $breadcrumbs = '<div class="breadcrumbs-path">';
+    $breadcrumbs .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+    $breadcrumbs .= '<a href="/" itemprop="url" class="' . $add_link_class . '">';
+    $breadcrumbs .= '<span itemprop="title">Главная</span>';
+    $breadcrumbs .= '</a>';
+    $breadcrumbs .= '</div>';        
+    $breadcrumbs .= $breadcrumbs_inner;    
+    $breadcrumbs .= '<span class="path-last' . $add_arrow_class . '"></span>';
     $breadcrumbs .= '</div>';
-    $breadcrumbs .= '<div class="breadcrumbs-pagetitle">';
-    $breadcrumbs .= '<h1>' . $page_title . '</h1>';
+    $breadcrumbs .= '<div class="breadcrumbs-pagetitle' . $add_class . '">';
+    $breadcrumbs .= $page_title;
     $breadcrumbs .= '</div>';
         
     return $breadcrumbs;
 }
 
-?>
+function getRuTagName($enTag)
+{
+    $sql = mysql_fetch_assoc(mysql_query("SELECT myTags, EnTags FROM `Message2000` WHERE `EnTags` LIKE '%" . $enTag . "%' LIMIT 0,1"));
+    $RuTags = explode(',', $sql['myTags']);
+    $EnTags = explode(',', $sql['EnTags']);
+    $Tags = array_combine($RuTags, $EnTags);
+    foreach ($Tags as $key => $value) {
+        if ($value == $enTag) {
+            return $key;
+        }
+    }
+    return false;
+}
+
+/*function setTags()
+{
+    $nc_tags = new nc_tags();
+    set_time_limit(10000);
+    
+    $sql = "SELECT myTags, Message_ID, Sub_Class_ID, Subdivision_ID FROM `Message2000`";
+    $res = mysql_query($sql);
+    while ($row = mysql_fetch_assoc($res)) {
+        $nc_tags->add_message(1, $row['Subdivision_ID'], $row['Sub_Class_ID'], 2000, $row['Message_ID']);
+    }
+}*/
+
+function calcAge($date)
+{
+    $date_ts = strtotime($date);
+    $age = date('Y') - date('Y', $date_ts);
+    if (date('md') < date('md', $date_ts)) {
+        $age--;
+    }
+    return $age;
+}
+
+function metricToFoot($metric)
+{
+    $foots = intval($metric / 30.48);
+    $inches = (($metric / 30.48) - $foots) * 30.48 / 2.54;
+    $result = $foots . "'" . round($inches) . "''";
+    return $result;
+}
+
+function kgrammsToLbs($kg)
+{
+    return round($kg * 2.20462);
+}
+
+function setFightersStatistic($events, $other_fights, $type, $f_id)
+{
+    $fights = [];
+    if ($events) {
+        foreach ($events as $val) {
+            if ($val['type'] == $type) {
+                $result = $val['main_card_winner'] == $f_id ? 1 : 2;
+                
+                $o_id = $val['main_card_fighter_1'] != $f_id ? $o_id = $val['main_card_fighter_1'] : $val['main_card_fighter_2'];
+                $opponent = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $o_id));
+                
+                $fights[] = [
+                    'result' => $result,
+                    'o_name_ru' => $opponent['myName_ru'],
+                    'o_name_en' => $opponent['myName_en'],
+                    'event_name' => $val['myName'],
+                    'event_date' => $val['myDate'],
+                    'referee' => $val['referee'],
+                    'win_type' => $val['win_type'],
+                    'win_round' => $val['win_round'],
+                    'win_time' => $val['win_time'],
+                    'video' => $val['video']
+                ];
+            }
+        }
+    }
+    if ($other_fights) {
+        foreach ($other_fights as $val) {
+            if ($val['type'] == $type) {
+                $result = $val['winner'] == $f_id ? 1 : 2;
+                
+                $o_id = $val['fighter_1'] != $f_id ? $o_id = $val['fighter_1'] : $val['fighter_2'];
+                $opponent = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $o_id));
+                
+                $event = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2010 WHERE Message_ID = " . $val['event']));
+                
+                $fights[] = [
+                    'result' => $result,
+                    'o_name_ru' => $opponent['myName_ru'],
+                    'o_name_en' => $opponent['myName_en'],
+                    'event_name' => $event['myName'],
+                    'event_date' => $event['myDate'],
+                    'referee' => $val['referee'],
+                    'win_type' => $val['win_type'],
+                    'win_round' => $val['win_round'],
+                    'win_time' => $val['win_time'],
+                    'video' => $val['video']
+                ];
+            }
+        }
+    }
+    
+    return $fights;
+}
+
+function getFrameSrc($str)
+{
+    require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
+    
+    $html = str_get_html(htmlspecialchars_decode($str));
+    $frame = $html->find('iframe', 0);
+    return $frame->src;
+}
+
+function getVideoPreview($src)
+{
+    require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
+    
+    $url = parse_url($src);
+    if ($url['host'] == 'www.youtube.com') {
+        $v_name = explode('/', $url['path']);
+        return '//img.youtube.com/vi/' . $v_name[count($v_name) - 1] . '/hqdefault.jpg';
+    }
+    if ($url['host'] == 'vk.com') {
+        $html = file_get_html('https:' . $src);
+        //echo $html;
+        $img = $html->find('#video_player', 0);
+        return $img->poster;
+    }
+}
+
+function setFrameSrc($get)
+{
+    $url = parse_url($get['src']);
+    if ($url['host'] == 'www.youtube.com') {
+        return $get['src'] . "?autoplay=1";
+    }
+    if ($url['host'] == 'vk.com') {
+        return $get['src'] . "&id=" . $get['id'] . "&hash=" . $get['hash'] . "&hd=" . $get['hd'] . "&autoplay=1";
+    }
+}

@@ -40,16 +40,16 @@
         $sql_rest_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_1']));
         $sql_rest_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_2']));
         if ($showResults) {
-            $rest_fighters[] = ($row['fighter_1'] == $row['winner']) ? $sql_rest_fighter_1['myName'] . " <span class='loser'>vs. " . $sql_rest_fighter_2['myName'] . "</span>" : "<span class='loser'>" . $sql_rest_fighter_1['myName'] . " vs. </span>" . $sql_rest_fighter_2['myName'];
+            $rest_fighters[] = ($row['fighter_1'] == $row['winner']) ? $sql_rest_fighter_1['myName_ru'] . " <span class='loser'>vs. " . $sql_rest_fighter_2['myName_ru'] . "</span>" : "<span class='loser'>" . $sql_rest_fighter_1['myName_ru'] . " vs. </span>" . $sql_rest_fighter_2['myName_ru'];
         } else {
-            $rest_fighters[] = $sql_rest_fighter_1['myName'] . " vs. " . $sql_rest_fighter_2['myName'];
+            $rest_fighters[] = $sql_rest_fighter_1['myName_ru'] . " vs. " . $sql_rest_fighter_2['myName_ru'];
         }
     }
     $foto_1 = explode(':', $sql_fighter_1['myFoto']);
     $foto_2 = explode(':', $sql_fighter_2['myFoto']);
     $title = $f_myName;
     $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
-    $summary = $sql_fighter_1['myName'] . " vs. " . $sql_fighter_2['myName'];
+    $summary = $sql_fighter_1['myName_ru'] . " vs. " . $sql_fighter_2['myName_ru'];
 ?>
 
 <div class="post_c_fc">
@@ -87,9 +87,9 @@
         <span id='osnova'>Основной бой</span>
         <div class="fc_main_card">
             <?php if ($showResults): ?>
-                <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_1['myName'] . " vs. "; ?><?php if ($f_main_card_winner == $f_main_card_fighter_2): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_2['myName']; ?>
+                <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_1['myName_ru'] . " vs. "; ?><?php if ($f_main_card_winner == $f_main_card_fighter_2): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_2['myName_ru']; ?>
             <?php else: ?>
-                <?= $sql_fighter_1['myName'] . " vs. " . $sql_fighter_2['myName']; ?>
+                <?= $sql_fighter_1['myName_ru'] . " vs. " . $sql_fighter_2['myName_ru']; ?>
             <?php endif; ?>
         </div>
         <?php if ($rest_fighters): ?>

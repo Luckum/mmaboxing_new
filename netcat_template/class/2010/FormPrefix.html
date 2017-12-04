@@ -121,7 +121,6 @@
             <input type="hidden" class="fc_calendar" value="Календарь">
         </div>
         <div class="news_t events-min-menu">
-            События <span class="video_tabs">></span>
             <?php if ($current_sub['Hidden_URL'] == '/fight-calendar/mma/'): ?>
                 <a href="javascript:void(0)" class="video_tabs active_tab_min">MMA&nbsp;&#8744;</a> 
             <?php elseif ($current_sub['Hidden_URL'] == '/fight-calendar/boxing/'): ?>
@@ -137,8 +136,8 @@
                 <a href="/fight-calendar/kickboxing" class="video_tabs">Кикбоксинг</a> 
             </div>
             <div class="min-menu-links-ev" style="display: none;">
-                <a href="javascript:void(0)" class="video_tabs active_tab_min" id="menu_events_min" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>, <?= $current_sub['Hidden_URL']; ?>)">Предстоящие</a> 
-                <a href="javascript:void(0)" id="menu_results_min" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>, <?= $current_sub['Hidden_URL']; ?>)">Результаты</a>
+                <a href="javascript:void(0)" class="video_tabs active_tab_min" id="menu_events_min" onclick="change_content('events', <?= $current_sub['Subdivision_ID']; ?>, '<?= $current_sub['Hidden_URL']; ?>')">Предстоящие</a> 
+                <a href="javascript:void(0)" id="menu_results_min" class="video_tabs" onclick="change_content('results', <?= $current_sub['Subdivision_ID']; ?>, '<?= $current_sub['Hidden_URL']; ?>')">Результаты</a>
             </div>
         </div>
         <div id="events_container">
