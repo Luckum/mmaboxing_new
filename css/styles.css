@@ -1235,3 +1235,12 @@ th.f-col-1, th.f-col-2, th.f-col-3, th.f-col-4 {
 .fighter-card-mob, .f-fights-mob, .f-ama-fts-t-m, .f-mob-r-more, .f-video-mob {
 	display: none;
 }
+.f-side_video_desc {
+	position: relative;
+	bottom: -100px;;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.f-bg-side-video {
+	top: -254px;
+}

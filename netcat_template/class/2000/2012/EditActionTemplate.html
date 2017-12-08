@@ -7,6 +7,10 @@ $TagsRuTrans2 = str_replace(' ','-',$TagsRuTrans); # Заменяем пробе
 $db->query('UPDATE Message2000 SET EnTags="'.$TagsRuTrans2.'" WHERE Message_ID='.$message); # Вписываем в базу данных
 $nc_tags->update_message($catalogue,$sub, $cc, $classID, $message);
 
+$myText = str_replace('<p></p>', '', $f_myText);
+$myText = str_replace('<p><iframe', '<iframe', $myText);
+$myText = str_replace('</iframe></p>', '</iframe>', $myText);
+$db->query('UPDATE Message2000 SET myText="' . $myText . '" WHERE Message_ID=' . $message);
 
 if($inside_admin) {
     ob_end_clean();

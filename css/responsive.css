@@ -770,6 +770,9 @@
     .f_show_video {
     	left: 0;
     }
+    .f-bg-side-video {
+    	bottom: 54px;
+    }
 }
 @media all and (max-width:759px) and (min-width: 640px){
 .fc_winner_2{
@@ -1730,6 +1733,9 @@
     }
     .f_show_video {
     	left: 0;
+    }
+    .f-bg-side-video {
+    	bottom: 54px;
     }
 }
 
@@ -3139,6 +3145,9 @@ margin-bottom: 0;
     .f_show_video {
     	left: 0;
     }
+    .f-bg-side-video {
+    	bottom: 54px;
+    }
 }
 
 /*
@@ -4338,6 +4347,30 @@ position: absolute;
 .main-p-type-icon {
     top: 0;
     position: absolute;
+}
+
+.banner-m {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 100;
+}
+.banner-m img, .banner-m iframe {
+	width: 100%;
+	margin-bottom: -3px;
+}
+.banner-m iframe {
+	position: static;
+	height: 50px;
+}
+iframe img {
+	width: 100%;
+}
+.banner-m-close {
+	position: absolute;
+	right: 5px;
+	width: 4% !important;
+	cursor: pointer;
 }
 @media all and (max-width:700px) and (min-width: 300px){
 	.fc_calendar {

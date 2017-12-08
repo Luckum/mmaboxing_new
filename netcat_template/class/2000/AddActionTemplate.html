@@ -26,6 +26,11 @@ $TagsRuTrans = nc_transliterate($TagsRu);
 $TagsRuTrans2 = str_replace(' ','-',$TagsRuTrans);
 $db->query('UPDATE Message2000 SET EnTags="'.$TagsRuTrans2.'" WHERE Message_ID='.$message);
 
+$myText = str_replace('<p></p>', '', $f_myText);
+$myText = str_replace('<p><iframe', '<iframe', $myText);
+$myText = str_replace('</iframe></p>', '</iframe>', $myText);
+$db->query('UPDATE Message2000 SET myText="' . $myText . '" WHERE Message_ID=' . $message);
+
 if($inside_admin) {
     ob_end_clean();
     header('Location: '.$goBackLink.'&inside_admin=1');

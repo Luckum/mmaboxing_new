@@ -1114,3 +1114,34 @@ function setFrameSrc($get)
         return $get['src'] . "&id=" . $get['id'] . "&hash=" . $get['hash'] . "&hd=" . $get['hd'] . "&autoplay=1";
     }
 }
+
+function getVideoTitle($src)
+{
+    $url = parse_url($src);
+    if ($url['host'] == 'www.youtube.com') {
+        $v_name = explode('/', $url['path']);
+        $content = file_get_contents("http://youtube.com/get_video_info?video_id=" . $v_name[count($v_name) - 1]);
+        parse_str($content, $ytarr);
+        return $ytarr['title'];
+    }
+    if ($url['host'] == 'vk.com') {
+        $html = file_get_html('https:' . $src);
+        
+    }
+}
+
+function getBanner()
+{
+    $banner = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2052 WHERE status = 1 ORDER BY Created DESC LIMIT 0,1"));
+    //$banner = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2051 WHERE status = 1 ORDER BY Created DESC LIMIT 0,1"));
+    if ($banner) {
+        $file = explode(':', $banner['file']);
+        $res = [
+            'link' => $banner['link'],
+            'type' => $banner['type'],
+            'src' => $banner['type'] == 1 ? '/netcat_files/' . $file[3] : $banner['text'],
+        ];
+        return $res;
+    }
+    return false;
+}

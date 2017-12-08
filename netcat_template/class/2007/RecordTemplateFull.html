@@ -60,18 +60,18 @@
     if (!empty($f_video_1)) {
         $src_1 = getFrameSrc($f_video_1);
         $v_preview_1 = getVideoPreview($src_1);
+        $v_title_1 = getVideoTitle($src_1);
     }
     if (!empty($f_video_2)) {
         $src_2 = getFrameSrc($f_video_2);
         $v_preview_2 = getVideoPreview($src_2);
+        $v_title_2 = getVideoTitle($src_2);
     }
     if (!empty($f_video_3)) {
         $src_3 = getFrameSrc($f_video_3);
         $v_preview_3 = getVideoPreview($src_3);
+        $v_title_3 = getVideoTitle($src_3);
     }
-    
-    
-    
 ?>
 <div class='page-text'>
     <div class="main_dop_inner_l">
@@ -270,7 +270,8 @@
                                 <td class="f-col-1 border-r grey-sm pad-15" colspan="2"><?= $fight['win_type']; ?></td>
                                 <td class="f-col-3 border-r grey-sm pad-15"><?= date("j " . $month_arr[date("m", strtotime($fight['event_date']))] . " Y", strtotime($fight['event_date'])) . " / " . $fight['referee']; ?></td>
                                 <?php if (!empty($fight['video'])): ?>
-                                    <td class="border-t grey-sm center pad-15" colspan="2"><a class="f-video-link" href="javascript:void(0);">ВИДЕО<span class="f-play-icon"></span></a></td>
+                                    <?php $src_f = getFrameSrc($fight['video']); ?>
+                                    <td class="border-t grey-sm center pad-15" colspan="2"><a class="f-video-link f_show_video" href="/fighter-video?src=<?= $src_f; ?>">ВИДЕО<span class="f-play-icon"></span></a></td>
                                 <?php else: ?>
                                     <td class="border-r"></td>
                                     <td></td>
@@ -281,6 +282,7 @@
                 </table>
                 <?php foreach ($pro_fights as $k => $fight): ?>
                     <?php if (!empty($fight['video'])): ?>
+                        <?php $src_f = getFrameSrc($fight['video']); ?>
                         <table class="f-fights-mob">
                             <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
                                 <td colspan="4" class="pad-15"><?= $fight['event_name']; ?></td>
@@ -295,7 +297,7 @@
                                 <td class="f-col-1-m pad-10"><?= $fight['result'] == 1 ? "<span class='f-result-w'>Выиграл</span>" : "<span class='f-result-d'>Проиграл</span>"; ?></td>
                                 <td class="f-col-2-m pad-10">Р: <?= $fight['win_round']; ?></td>
                                 <td class="f-col-3-m pad-10">В: <?= $fight['win_time']; ?></td>
-                                <td class="f-col-4-m pad-10"><a class="f-video-link" href="javascript:void(0);">ВИДЕО<span class="f-play-icon"></span></a></td>
+                                <td class="f-col-4-m pad-10"><a class="f-video-link f_show_video" href="/fighter-video?src=<?= $src_f; ?>">ВИДЕО<span class="f-play-icon"></span></a></td>
                             </tr>
                             <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
                                 <td colspan="4" class="grey-sm pad-10 pad-15-b"><?= $fight['win_type']; ?></td>
@@ -359,7 +361,8 @@
                                 <td class="f-col-1 border-r grey-sm pad-15" colspan="2"><?= $fight['win_type']; ?></td>
                                 <td class="f-col-3 border-r grey-sm pad-15"><?= date("j " . $month_arr[date("m", strtotime($fight['event_date']))] . " Y", strtotime($fight['event_date'])) . " / " . $fight['referee']; ?></td>
                                 <?php if (!empty($fight['video'])): ?>
-                                    <td class="border-t grey-sm center pad-15" colspan="2"><a class="f-video-link" href="javascript:void(0);">ВИДЕО<span class="f-play-icon"></span></a></td>
+                                    <?php $src_f = getFrameSrc($fight['video']); ?>
+                                    <td class="border-t grey-sm center pad-15" colspan="2"><a class="f-video-link f_show_video" href="/fighter-video?src=<?= $src_f; ?>">ВИДЕО<span class="f-play-icon"></span></a></td>
                                 <?php else: ?>
                                     <td class="border-r"></td>
                                     <td></td>
@@ -370,6 +373,7 @@
                 </table>
                 <?php foreach ($ama_fights as $k => $fight): ?>
                     <?php if (!empty($fight['video'])): ?>
+                        <?php $src_f = getFrameSrc($fight['video']); ?>
                         <table class="f-fights-mob">
                             <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
                                 <td colspan="4" class="pad-15"><?= $fight['event_name']; ?></td>
@@ -384,7 +388,7 @@
                                 <td class="f-col-1-m pad-10"><?= $fight['result'] == 1 ? "<span class='f-result-w'>Выиграл</span>" : "<span class='f-result-d'>Проиграл</span>"; ?></td>
                                 <td class="f-col-2-m pad-10">Р: <?= $fight['win_round']; ?></td>
                                 <td class="f-col-3-m pad-10">В: <?= $fight['win_time']; ?></td>
-                                <td class="f-col-4-m pad-10"><a class="f-video-link" href="javascript:void(0);">ВИДЕО<span class="f-play-icon"></span></a></td>
+                                <td class="f-col-4-m pad-10"><a class="f-video-link f_show_video" href="/fighter-video?src=<?= $src_f; ?>">ВИДЕО<span class="f-play-icon"></span></a></td>
                             </tr>
                             <tr class="<?= $k % 2 == 0 ? 'even' : 'odd'; ?>">
                                 <td colspan="4" class="grey-sm pad-10 pad-15-b"><?= $fight['win_type']; ?></td>
@@ -422,24 +426,39 @@
                 <?php if (!empty($f_video_1)): ?>
                     <div class="side_video_l_a f-side_video_l_a-mob">
                         <div class="side_video_img">
-                            <a class="f_show_video" href="/fighter-video?src=<?= $src_1; ?>"><img src="<?= $v_preview_1; ?>" width="310" height="310"></a>
+                            <img src="<?= $v_preview_1; ?>" width="310" height="310">
                             <a href="/fighter-video?src=<?= $src_1; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                            <div class="side_small_l_bg f-bg-side-video">
+                                <div class="f-side_video_desc">
+                                    <span class="small_l_t_v"><a class="f_show_video" href="/fighter-video?src=<?= $src_1; ?>"><?= cutStr($v_title_1, 150); ?></a></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 <?php endif; ?>
                 <?php if (!empty($f_video_2)): ?>
                     <div class="side_video_l_a f-side_video_l_a-mob">
                         <div class="side_video_img">
-                            <a class="f_show_video" href="/fighter-video?src=<?= $src_2; ?>"><img src="<?= $v_preview_2; ?>" width="310" height="310"></a>
+                            <img src="<?= $v_preview_2; ?>" width="310" height="310">
                             <a href="/fighter-video?src=<?= $src_2; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                            <div class="side_small_l_bg f-bg-side-video">
+                                <div class="f-side_video_desc">
+                                    <span class="small_l_t_v"><a class="f_show_video" href="/fighter-video?src=<?= $src_2; ?>"><?= cutStr($v_title_2, 150); ?></a></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 <?php endif; ?>
                 <?php if (!empty($f_video_3)): ?>
                     <div class="side_video_l_a f-side_video_l_a-mob">
                         <div class="side_video_img">
-                            <a class="f_show_video" href="/fighter-video?src=<?= $src_3; ?>"><img src="<?= $v_preview_3; ?>" width="310" height="310"></a>
+                            <img src="<?= $v_preview_3; ?>" width="310" height="310">
                             <a href="/fighter-video?src=<?= $src_3; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                            <div class="side_small_l_bg f-bg-side-video">
+                                <div class="f-side_video_desc">
+                                    <span class="small_l_t_v"><a class="f_show_video" href="/fighter-video?src=<?= $src_3; ?>"><?= cutStr($v_title_3, 150); ?></a></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -464,24 +483,39 @@
             <?php if (!empty($f_video_1)): ?>
                 <div class="side_video_l_a">
                     <div class="side_video_img">
-                        <a class="f_show_video" href="/fighter-video?src=<?= $src_1; ?>"><img src="<?= $v_preview_1; ?>" width="310" height="310"></a>
+                        <img src="<?= $v_preview_1; ?>" width="310" height="310">
                         <a href="/fighter-video?src=<?= $src_1; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                        <div class="side_small_l_bg f-bg-side-video">
+                            <div class="f-side_video_desc">
+                                <span class="small_l_t_v"><a class="f_show_video" href="/fighter-video?src=<?= $src_1; ?>"><?= cutStr($v_title_1, 150); ?></a></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             <?php endif; ?>
             <?php if (!empty($f_video_2)): ?>
                 <div class="side_video_l_a">
                     <div class="side_video_img">
-                        <a class="f_show_video" href="/fighter-video?src=<?= $src_2; ?>"><img src="<?= $v_preview_2; ?>" width="310" height="310"></a>
+                        <img src="<?= $v_preview_2; ?>" width="310" height="310">
                         <a href="/fighter-video?src=<?= $src_2; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                        <div class="side_small_l_bg f-bg-side-video">
+                            <div class="f-side_video_desc">
+                                <span class="small_l_t_v"><a class="f_show_video" href="/fighter-video?src=<?= $src_2; ?>"><?= cutStr($v_title_2, 150); ?></a></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             <?php endif; ?>
             <?php if (!empty($f_video_3)): ?>
                 <div class="side_video_l_a">
                     <div class="side_video_img">
-                        <a class="f_show_video" href="/fighter-video?src=<?= $src_3; ?>"><img src="<?= $v_preview_3; ?>" width="310" height="310"></a>
+                        <img src="<?= $v_preview_3; ?>" width="310" height="310">
                         <a href="/fighter-video?src=<?= $src_3; ?>" class="f_side_playback f_show_video"><img src="/images/playback-start.png"></a>
+                        <div class="side_small_l_bg f-bg-side-video">
+                            <div class="f-side_video_desc">
+                                <span class="small_l_t_v"><a class="f_show_video" href="/fighter-video?src=<?= $src_3; ?>"><?= cutStr($v_title_3, 150); ?></a></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             <?php endif; ?>
