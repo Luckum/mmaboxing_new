@@ -1,0 +1,330 @@
+/* General */
+html, body {background-color:#fff; color:#333333;}
+a {color:#b6134c;}
+#middle ul li, #middle_main ul li, #middle_shop .right_content ul li {padding:5px 0px 5px 20px; background:url(/images/template1/i/images_red_wine/bull.png) no-repeat 0px 10px;}
+.tr_odd {background:#e8c9cd;}
+
+
+
+/* Header */
+#header_main {width:100%; height:559px; position:relative;}
+#header {width:100%; height:144px; position:relative; border-bottom:1px solid #e5dcc1;}
+#header_shop {width:100%; height:170px; position:relative;}
+
+#banner {width:100%; height:413px; background:#d1ccc2 url(/images/template1/i/images_red_wine/banner.jpg) no-repeat center 0px; position:absolute; top:144px; left:0px; display:none; border-top:1px solid #ededed; border-bottom:1px solid #ededed;}
+#banner_text {display:none; position:absolute; top:268px; left:119px;}
+#banner_more {display:none; position:absolute; top:442px; left:119px; outline:none; width:246px; height:44px;}
+#header_main #banner_text {display:block;}
+#header_main #banner_more {display:block;}
+#header_main #banner {display:block;}
+
+#header_block {width:920px; height:100%; margin:0px auto; position:relative;}
+#logo {display:block; outline:none; width:228px; height:54px; position:absolute; top:43px; left:33px;}
+
+#header_right_block {width:570px; position:absolute; top:41px; right:0px;}
+#header_right_block .phone {font-size:13px; font-family:Tahoma; color:#686868; text-transform:uppercase; float:right; padding:15px 0px 0px 0px;}
+#header_right_block .cart {font-size:12px; text-align:right; color:#686868; float:right; width:184px;}
+#header_right_block .login_block {background:url(/images/template1/i/images_red_wine/login.jpg) no-repeat 81px 22px; padding:19px 0px 0px 99px; line-height:14px; float:right;}
+#header_right_block .login_block .login_text {margin:0px 8px 0px 0px; float:left; text-decoration:none; border-bottom:1px dashed #b6134c;}
+#header_right_block .login_block .login_text:hover {border-bottom:none;}
+#header_right_block .login_block .register_text {padding:0px 0px 0px 10px; background:url(/images/template1/i/images_red_wine/login_border.jpg) no-repeat 0px 2px; float:left;}
+
+#menu_top {margin:0px; padding:0px; list-style-type:none; position:absolute; top:90px; right:0px; border-top:4px solid #c6b57f;}
+#header_shop #menu_top {top:116px;}
+#menu_top li {z-index: 5; float:left; margin:0px 47px 0px 0px; padding:18px 10px; font-size:11px; font-family:Tahoma; text-transform:uppercase;}
+#menu_top li a {color:#333333; text-decoration:none;}
+#menu_top li img {display:none;}
+#menu_top li li a:hover {text-decoration:underline;}
+#menu_top li img {display:none; width:100%; height:20px; position:absolute; top:48px; left:0px; z-index:2;}
+#menu_top li ul {margin:0px; padding:25px 0px 10px 0px; list-style-type:none; border-bottom-left-radius:7px; border-bottom-right-radius:7px; display:none; width:162px; background:#b6134c; position:absolute; top:51px; left:0px;}
+#menu_top li ul li {padding:0px 0px 8px 10px; font-size:13px; color:#f8ecbd; text-transform:none; margin:0px; float:none;}
+#menu_top li ul li a {color:#f8ecbd !important;}
+
+#menu_top li.last {margin:0px;}
+#menu_top li.active img, #menu_top li.hover img {display:block;}
+#menu_top li.active a, #menu_top li.hover a {color:#333;}
+#menu_top li.active, #menu_top li.hover {background:url(/images/template1/i/images_red_wine/menu_bg.png) repeat-x; position:relative;}
+#menu_top li.hover ul {display:block;}
+
+
+/* Middle */
+#middle_main {width:920px; margin:15px auto 0 auto;}
+#middle_main .left_content {float:left; width:447px; margin:0px 23px 0px 0px;}
+#middle_main .center_content {float:left; width:209px; margin:0px 32px 0px 0px;}
+#middle_main .right_content {float:left; width:209px;}
+
+#middle {width:100%; background:url(/images/template1/i/images_red_wine/bg.jpg) repeat-x center top; margin:0px 0px 90px 0px;}
+#middle_block {width:920px; margin:0px auto 0px auto;}
+#middle .left_content {float:left; width:695px;}
+#middle .right_content {float:right; width:205px;}
+
+#middle_shop {width:100%; margin:0px 0px 90px 0px;}
+#middle_shop .left_content {float:left; width:206px; position:relative;}
+#middle_shop .right_content {float:right; width:682px;}
+
+.news_block .date {font-size:11px; color:#666666;}
+.answer_block {margin:5px 0px;}
+.answer_block label {margin:0px 0px 0px 10px;}
+#subscription_title {margin:30px 0px 15px 0px; font-size:18px; font-family:Tahoma; color:#666666;}
+#subscription_field {width:160px;}
+
+#trail {color:#666666; font-size:12px; padding:30px 0px 0px 350px;}
+#middle_shop #trail {padding:0px 0px 0px 0px; margin:0px 0px -20px -8px;}
+#trail a {margin:0px 8px; color:#666666;}
+#trail span {margin:0px 8px;}
+
+#menu_right {margin:74px 0px 0px 0px !important; padding:0px; list-style-type:none;}
+#menu_right ul {margin:0px 0px 0px 0px; padding:5px 0px 0px 20px; list-style-type:none;}
+#menu_right li {text-transform:uppercase; padding:5px 0px !important; background:none !important; font-size:11px;}
+#menu_right li li {font-size:12px; color:#606060; text-transform:none;}
+#menu_right li a {color:#606060;}
+#menu_right li a:hover {color:#b6134c;}
+#menu_right li a.active {color:#b6134c; text-decoration:none;}
+
+.images_block {font-size:12px; margin:0px 0px 0px 35px;}
+.images_block .block {float:left; margin:0px 30px 30px 0px;}
+.images_block .block img {border:3px solid #c5b276; margin:0px 0px 2px 0px !important; width:124px; height:91px;}
+
+.comment {color:#666666; font-style:italic;}
+.left_50 {width:49%; float:left;}
+.right_50 {width:49%; float:right;}
+.green {color:#94661c;}
+
+.input_test_block {margin:0px 0px 10px 0px;}
+.input_test_block_2 {margin:0px 0px 20px 0px;}
+.input_test_block .input_text {width:238px;}
+.input_test_block .select {width:209px;}
+.input_test_block_check {margin:10px 0px;}
+.input_test_block_check label {margin:0px 0px 0px 5px;}
+
+#middle_shop .left_content .title {position:absolute; top:-32px; left:50px; font-size:11px; font-family:Tahoma; text-transform:uppercase;}
+#menu_left {margin:0px; padding:0px; list-style-type:none;}
+#menu_left li {background:url(/images/template1/i/images_red_wine/menu_left_square.jpg) no-repeat 0px 2px; padding:0px 0px 0px 40px; color:#333333; font-size:13px; font-family:Tahoma;}
+#menu_left li a {display:block; padding:8px 8px 0px 8px; min-height:30px; text-decoration:none; color:#333333; margin:0px 0px 1px 0px; position:relative;}
+#menu_left li a:hover {text-decoration:underline;}
+#menu_left li ul {margin:-3px 0px 16px 0px; padding:0px 0px 7px 0px; list-style-type:none; background:#b6134c; border-bottom-left-radius:7px; border-bottom-right-radius:7px;}
+#menu_left li ul li {background:none; padding:0px 10px 7px 10px;}
+#menu_left li ul li a {background:none !important; padding:0px; height:auto; display:inline; margin:0px; color:#f8ecbd !important;}
+#menu_left li.active {color:#333;}
+#menu_left li.active a {color:#333; background:url(/images/template1/i/images_red_wine/menu_left_bg.png) repeat-x;}
+#menu_left li li.active a {text-decoration:underline; color:#f8ecbd;}
+#menu_left li li.active a:hover {text-decoration:none;}
+.banner_left {width:206px; height:343px; margin:50px 0px 0px 0px;}
+
+
+
+/* Catalogue */
+.display_table {display:table; width:100%; height:100%;}
+.display_table_row {display:table-row; width:100%; height:100%;}
+.display_table_cell {display:table-cell; width:100%; height:100%; text-align:center; vertical-align:middle;}
+.display_table_cell img {max-width:100%; max-height:100%; margin:0px !important;}
+.price_product {text-align:right; font-family:Tahoma; line-height:16px;}
+.price_product .old_price_product {font-size:12px; text-decoration:line-through;}
+.price_product .new_price_product {font-size:18px;}
+.buy {background:url(/images/template1/i/images_red_wine/in_cart.png) no-repeat; width:37px; height:25px; display:block; outline:none; position:relative;}
+
+#cat_full_slider_block {margin:20px 0px 0px 0px;}
+#cat_full_slider_block .left {width:324px; height:346px; float:left;}
+#cat_full_slider_block .left .left {width:260px; height:100%; float:left;}
+#cat_full_slider_block .left .right {margin-left:270px; width:54px; height:346px; position:relative;}
+#cat_full_slider_block  .top, #cat_full_slider_block  .bottom {background-image:url(/images/template1/i/images_red_wine/arrows_slider.png); background-repeat:no-repeat; width:53px; height:10px; position:absolute; left:1px; cursor:pointer;}
+#cat_full_slider_block  .top {top:-17px; background-position:0px 0px; display:none;}
+#cat_full_slider_block  .bottom {bottom:-17px; background-position:0px -10px; display:none;}
+#cat_full_slider_block  .catalogue_full_view {width:100%; height:100%; position:relative; overflow:hidden;}
+#cat_full_slider_block  .catalogue_full_animate {width:100%; height:20000px; position:absolute; top:0px; left:0px;}
+#cat_full_slider_block  .catalogue_full_view .block {width:52px; height:52px; border:1px solid #fff; margin:0px 0px 19px 0px; cursor:pointer;}
+#cat_full_slider_block  .block.active {border:1px solid #e3cb7c;}
+
+#cat_full_slider_block .right {margin-left:355px;}
+#cat_full_slider_block .float_block {height:62px; margin:0px 0px 32px 0px;}
+#cat_full_slider_block .float_block_2 {height:42px;}
+#cat_full_slider_block .float_block .left {width:147px; height:100%; float:left; position:relative;}
+#cat_full_slider_block .float_block .right {width:148px; height:100%; float:right; position:relative; margin:0px;}
+#cat_full_slider_block .float_block .left .price {text-align:right; font-family:Tahoma; line-height:20px; padding:14px 0px 0px 0px;}
+#cat_full_slider_block .float_block .left .price .old_price {font-size:14px; text-decoration:line-through;}
+#cat_full_slider_block .float_block .left .price .new_price {font-size:24px;}
+#cat_full_slider_block .float_block .right .in_cart {background:url(/images/template1/i/images_red_wine/buy.png) no-repeat; width:128px; height:33px; position:absolute; bottom:0px; left:0px; display:block;}
+#cat_full_slider_block .float_block .vote_block {margin:1px 0px 3px 0px; height:14px; font-size:10px; color:#3a3a3a;}
+#cat_full_slider_block .float_block .star {width:15px; height:14px; float:left; cursor:pointer; background-image:url(/images/template1/i/images_red_wine/stars.png); background-repeat:no-repeat; margin:0px 3px 0px 0px;}
+#cat_full_slider_block .float_block .star_1 {background-position:-30px 0px;}
+#cat_full_slider_block .float_block .star_2 {background-position:-15px 0px;}
+#cat_full_slider_block .float_block .star_3 {background-position:-0px 0px;}
+#cat_full_slider_block .float_block .new_comment {font-size:13px; color:#666666; font-style:italic;}
+#cat_full_slider_block .float_block .new_comment a {text-decoration:none; color:#b6134c; border-bottom:1px dotted #b6134c;}
+#cat_full_slider_block .float_block .new_comment a:hover {border-bottom:none;}
+#cat_full_slider_block .block_description {margin:0px 0px 20px 0px;}
+
+#cat_full_other .title {font-size:18px; font-family:Tahoma; margin:20px 0px 10px 0px;}
+#cat_full_other ul li {background:url(/images/template1/i/images_red_wine/bull_black.png) no-repeat 0px 10px !important;}
+#cat_full_other table {margin:0px 0px 40px 0px;}
+
+.cat_4 {margin:0px;}
+.cat_4 .block {width:22%; float:left; margin:0px 3% 50px 0px;}
+.cat_4 .name {font-size:13px; color:#b6134c;}
+.cat_4 .img {width:100%; height:180px; margin:5px 0px 10px 0px;}
+.cat_4 .price_and_cart .left {margin:0px 44px 0px 0px;}
+.cat_4 .price_and_cart .right {width:37px; float:right;}
+.cat_4 .price_and_cart .right .buy {top:10px;}
+
+.comments_block .block {margin:20px 0px 35px 0px;}
+.comments_block .left {width:85px; float:left; text-align:right;}
+.comments_block .left .date {font-size:10px; color:#666666;}
+.comments_block .right {margin:0px 0px 0px 117px;}
+.comments_block .right p {margin:0px; padding:0px;}
+.comments_block .block_form {margin:0px 0px 10px 0px;}
+.comments_block .block_form label {margin:0px 0px 0px 10px;}
+.comments_block .block_form input {width:240px;}
+.captcha_field {margin:2px 0px 0px 0px;}
+.captcha_field img {float:left; margin:0px 32px 0px 0px !important;}
+.captcha_field input {width:87px !important;}
+.captcha_field .input_text {float:left;}
+
+.pagination {margin:20px 0px 0px 0px;}
+.pagination .top {margin:0px 0px 7px 0px;}
+.pagination .top span {margin:0px 0px 0px 10px;}
+.pagination .bottom {margin:7px 0px 0px 0px;}
+.pagination .bottom a {display:block; float:left; margin:0px 4px 0px 0px; padding:3px 5px; color:#b6134c;}
+.pagination .bottom a.active {background:#b6134c; border-radius:3px; color:#fff; text-decoration:none;}
+
+
+
+/* Catalogue brief 1 */
+#cat_brief_1 .block {width:50%; float:left; margin:0px 0px 50px 0px;}
+#cat_brief_1 .block .left {width:148px; float:left;}
+#cat_brief_1 .block .right {margin:0px 20px 0px 178px;}
+#cat_brief_1 .block.last .left {margin-left:20px; width:128px;}
+#cat_brief_1 .block.last .right {margin-right:0px;}
+#cat_brief_1 .block .right .title {color:#b6134c; font-size:13px; margin:0px 0px 22px 0px; display:block;}
+#cat_brief_1 .block .right .description {margin:22px 0px;}
+#cat_brief_1 .block .right .price_and_cart {margin:22px 0px 0px 0px;}
+#cat_brief_1 .block .right .price_and_cart .left_block {margin:0px 44px 0px 0px;}
+#cat_brief_1 .block .right .price_and_cart .right_block {width:37px; float:right;}
+#cat_brief_1 .block .right .price_and_cart .right_block .buy {top:10px;}
+
+
+
+/* Catalogue brief 3 */
+#cat_brief_3 .block {width:100%; margin:0px 0px 50px 0px;}
+#cat_brief_3 .block .left {width:178px; height:180px; float:left;}
+#cat_brief_3 .block .center {width:375px; float:left;}
+#cat_brief_3 .block .title {color:#b6134c; font-size:13px; margin:0px 0px 15px 0px; display:block;}
+#cat_brief_3 .block .right {width:125px; float:right;}
+#cat_brief_3 .block .right .price_and_cart {margin:50px 0px 0px 0px;}
+#cat_brief_3 .block .right .price_and_cart .buy {background:url(/images/template1/i/images_red_wine/buy_2.png) no-repeat; width:83px; height:25px; float:right; margin:8px 0px 0px 0px;}
+
+
+
+/* Catalogue main */
+.banner_right {width:680px; height:82px; margin:0px 0px 10px 0px;}
+.banner_right img {max-width:680px; max-height:82px; margin:0px !important;}
+#news {position:relative; zoom:1;}
+#news .all {position:absolute; top:-40px; right:74px; display:block;}
+#news .block {width:25%; float:left; //width:24%;}
+#news .block .padding {padding:0px 30px 0px 0px;}
+#news .block.last .padding {padding:0px;}
+#news .date {font-size:10px; color:#666666;}
+#news .title {margin:0px 0px 20px 0px; display:block;}
+#news p {margin:0px; padding:0px;}
+
+#slider_shop .left {width:444px; float:left;}
+#slider_shop .img {width:442px; height:248px; border:1px solid #d2d2d2;}
+#slider_shop .img img {max-width:100%; max-height:100%;}
+#slider_shop .button {float:right; margin:10px 0px 0px 0px;}
+#slider_shop .button a {float:left; width:11px; height:11px; background-image:url(/images/template1/i/images_red_wine/slide.png); background-repeat:no-repeat; margin:0px 0px 0px 4px; display:block;}
+#slider_shop .button a.active {background-position:0px -11px;}
+#slider_shop .right {margin:0px 0px 0px 470px;}
+#slider_shop .right .title {font-size:18px; font-family:Tahoma; color:#333333; margin:0px 0px 15px 0px;}
+.sale {display:inline-block; width:100%;}
+.sale_block {margin:0px 0px 15px 0px;}
+.sale_left {width:70px; float:left;}
+.sale_right {margin:0px 0px 0px 85px;}
+
+
+
+
+
+/* Slider */
+#slider {width:920px; margin:0px auto 90px auto;}
+#slider_block {width:629px; height:65px; position:relative; overflow:hidden; padding:0px 26px 0px 27px;}
+#slider_block .left, #slider_block .right {background-image:url(/images/template1/i/images_red_wine/arrows.png); background-repeat:no-repeat; width:12px; height:18px; position:absolute; top:26px; display:block; cursor:pointer;}
+#slider_block .left {left:0px; background-position:-12px -18px;}
+#slider_block .right {right:0px; background-position:0px 0px;}
+#slider .view {width:630px; position:relative; height:100%; overflow:hidden;}
+#slider .animate {width:20000px; height:100%; position:absolute; top:0px; left:0px;}
+#slider table {height:100%;}
+#slider table td {text-align:center; vertical-align:middle; width:126px; height:100%;}
+#slider table td img {max-width:110px; max-height:100%;}
+
+
+/* Footer */
+#footer {width:920px; height:175px; position:relative; margin:-175px auto 0px auto;}
+#adress {position:absolute; top:0px; left:0px; font-size:12px; color:#666666;}
+#contacts {position:absolute; top:72px; left:0px; font-size:12px; color:#666666;}
+#license {position:absolute; top:90px; right:0px; font-size:12px; color:#666666; text-align:right;}
+#search_form {position:absolute; top:95px; left:357px;}
+#search_form .input_text {width:140px; padding-right:20px;}
+#search_form input {font-size:12px; font-style:italic; color:#b3b3b3;}
+#top_100 {position:absolute; top:90px; left:595px;}
+#top_100 .block {float:left; margin:0px 31px 0px 0px;}
+
+#menu_bottom {margin:0px; padding:0px; list-style-type:none; position:absolute; top:23px; right:0px; border-top:1px solid #cfcfcf;}
+#menu_bottom li {float:left; padding:11px 15px 0px 15px; margin:0px 0px 0px 37px; font-size:11px; font-family:Tahoma; text-transform:uppercase;}
+#menu_bottom li.first {margin:0px;}
+#menu_bottom li.active a {color:#b6134c;}
+#menu_bottom li a {color:#333333; text-decoration:none;}
+#menu_bottom li a:hover {text-decoration:underline;}
+
+
+/* Login form */
+#login_form {position:fixed; top:50%; left:50%; width:300px; height:220px; background:#f3f3f3; margin:-144.5px 0px 0px -212px; border:1px solid #bdbdbd; border-radius:5px; padding:21px 20px 0px 32px; z-index:10; display:none;}
+#login_form .close {background:url(/images/template1/i/images_red_wine/close.jpg) no-repeat; width:9px; height:9px; position:absolute; top:27px; right:20px;}
+#login_form .title {font-size:18px; font-family:Tahoma; color:#333; margin:0px 0px 14px 0px;}
+#login_form .block {margin:0px 0px 14px 0px; width:240px;}
+#login_form label {margin:0px 0px 0px 10px; font-size:12px; color:#333;}
+#rem_pwd {font-size:12px; margin:0px 0px 0px 20px;}
+#login_social {margin:35px 0px 0px 0px;}
+#social_name {font-size:12px; margin:0px 0px 0px 10px;}
+.social_block {float:left; margin:0px 16px 0px 0px;}
+.social_block.last {margin:0px;}
+#login_form  input {width:240px;}
+#login_form input.login_submit {width:56px;}
+
+
+/* Forms */
+.input_text {background:url(/images/template1/i/images_red_wine/forms/text_bg.png) repeat-x; position:relative; height:27px; left:4px;}
+.input_text input {width:100%; margin:0px; padding:0px; position:relative; top:5px; border:none; outline:none; background:none;}
+.input_text .left {background:url(/images/template1/i/images_red_wine/forms/text_left.png) no-repeat; width:4px; height:27px; position:absolute; top:0px; left:-4px;}
+.input_text .right {background:url(/images/template1/i/images_red_wine/forms/text_right.png) no-repeat; width:4px; height:27px; position:absolute; top:0px; right:-4px;}
+
+.radio {background-image:url(/images/template1/i/images_red_wine/forms/radio.png); background-repeat:no-repeat; background-position:0px 0px; width:13px; height:14px; float:left; position:relative; top:3px; cursor:pointer;}
+.radio input {display:none;}
+
+.checkbox {background-image:url(/images/template1/i/images_red_wine/forms/checkbox.png); background-repeat:no-repeat; background-position:0px 0px; width:12px; height:12px; float:left; position:relative; top:3px; cursor:pointer;}
+.checkbox input {display:none;}
+
+.textarea {position:relative; background:url(/images/template1/i/images_red_wine/forms/textarea/bg.png); top:5px; left:5px; display:inline-block; margin:0px 0px 10px 0px;}
+.textarea_tl {background:url(/images/template1/i/images_red_wine/forms/textarea/tl.png) no-repeat; width:5px; height:5px; position:absolute; top:-5px; left:-5px;}
+.textarea_tr {background:url(/images/template1/i/images_red_wine/forms/textarea/tr.png) no-repeat; width:5px; height:5px; position:absolute; top:-5px; right:-5px;}
+.textarea_bl {background:url(/images/template1/i/images_red_wine/forms/textarea/bl.png) no-repeat; width:5px; height:5px; position:absolute; bottom:-5px; left:-5px;}
+.textarea_br {background:url(/images/template1/i/images_red_wine/forms/textarea/br.png) no-repeat; width:5px; height:5px; position:absolute; bottom:-5px; right:-5px;}
+.textarea_l {background:url(/images/template1/i/images_red_wine/forms/textarea/l.png) repeat-y; width:5px; height:100%; position:absolute; top:0px; left:-5px;}
+.textarea_r {background:url(/images/template1/i/images_red_wine/forms/textarea/r.png) repeat-y; width:5px; height:100%; position:absolute; top:0px; right:-5px;}
+.textarea_t {background:url(/images/template1/i/images_red_wine/forms/textarea/t.png) repeat-x; width:100%; height:5px; position:absolute; top:-5px; left:0px;}
+.textarea_b {background:url(/images/template1/i/images_red_wine/forms/textarea/b.png) repeat-x; width:100%; height:5px; position:absolute; bottom:-5px; left:0px;}
+.textarea textarea {border:none; outline:none; background:none;}
+
+.select {display:inline-block; position:relative; background:url(/images/template1/i/images_red_wine/forms/select/bg.png) repeat-x; height:26px; cursor:pointer; min-width:80px; left:4px;}
+.select select {display:none;}
+.select_title {width:100%; padding:4px 0px 0px 0px; height:100%;}
+.select_left {background:url(/images/template1/i/images_red_wine/forms/select/left.png) no-repeat; width:4px; height:26px; position:absolute; top:0px; left:-4px;}
+.select_right {background:url(/images/template1/i/images_red_wine/forms/select/arrow.png) no-repeat; width:25px; height:26px; position:absolute; top:0px; right:-25px;}
+.select ol {margin:0px; padding:0px; list-style-type:none; position:absolute; top:25px; left:-2px; width:100%; z-index:4; background:#fff; overflow:hidden; overflow-y:scroll; padding:0px 20px 0px 0px; max-height:200px; border:1px solid #757272; border-top:none; display:none; min-width:90px;}
+.select ol li {padding:3px 13px 3px 7px; width:100%; display:block; font-size:12px; color:#000; background:#fff; cursor:pointer;}
+.select ol li:hover {background:#E3F1BE; color:#000;}
+
+.login_submit {background:url(/images/template1/i/images_red_wine/forms/login_button.png) no-repeat; width:56px; height:29px; cursor:pointer; border:none; outline:none;}
+.question_submit {background:url(/images/template1/i/images_red_wine/forms/answer_button.png) no-repeat; width:75px; height:29px; cursor:pointer; border:none; outline:none; margin:20px 0px 10px 0px;}
+.add_comment {background:url(/images/template1/i/images_red_wine/forms/add_comment.png) no-repeat; width:118px; height:29px; cursor:pointer; border:none; outline:none; margin:-1px 0px 0px 115px; float:left;}
+.subscription_submit {background:url(/images/template1/i/images_red_wine/forms/ok_button.png) no-repeat; width:25px; height:26px; cursor:pointer; border:none; outline:none; margin:0px 14px 0px 0px; float:right;}
+.submit_button {background:url(/images/template1/i/images_red_wine/forms/submit_button.png) no-repeat; width:83px; height:29px; cursor:pointer; border:none; outline:none; margin:5px 14px 20px 0px;}
+.search_submit {background:url(/images/template1/i/images_red_wine/forms/search_icon.png) no-repeat; width:12px; height:12px; position:absolute; top:7px; right:3px; cursor:pointer; border:none; outline:none;}
