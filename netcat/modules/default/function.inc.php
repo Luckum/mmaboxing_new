@@ -1132,8 +1132,8 @@ function getVideoTitle($src)
 
 function getBanner()
 {
-    $banner = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2052 WHERE status = 1 ORDER BY Created DESC LIMIT 0,1"));
-    //$banner = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2051 WHERE status = 1 ORDER BY Created DESC LIMIT 0,1"));
+    //$banner = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2052 WHERE status = 1 ORDER BY Created DESC LIMIT 0,1"));
+    $banner = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2051 WHERE status = 1 ORDER BY Created DESC LIMIT 0,1"));
     if ($banner) {
         $file = explode(':', $banner['file']);
         $res = [
@@ -1144,4 +1144,37 @@ function getBanner()
         return $res;
     }
     return false;
+}
+
+function formatFBArticle($text)
+{
+    require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
+    $html = str_get_html(htmlspecialchars_decode($text));
+    $frames = $html->find('iframe');
+    foreach ($frames as $frame) {
+        $src = parse_url($frame->src);
+        if (!isset($src['scheme'])) {
+            $frame->src = 'https:' . $frame->src;
+        }
+        $parent = $frame->parent();
+        if ($parent->tag != 'root') {
+            while ($parent->tag != 'p') {
+                $parent = $parent->parent();
+            }
+            $parent->outertext = $frame;
+        }
+    }
+    
+    $imgs = $html->find('img');
+    foreach ($imgs as $img) {
+        $parent = $img->parent();
+        if ($parent->tag != 'root') {
+            if ($parent->tag == 'p') {
+                $parent->outertext = $img;
+            }
+        }
+    }
+    
+    $text = $html;
+    return $text;
 }

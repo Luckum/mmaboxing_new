@@ -263,6 +263,9 @@ function nc_fields_form($action, $fields = null, $class_id = 0) {
             $result .= "<form action='" . $form_action . "' method='get'>\r\n";
             $result .= "<input type='hidden' name='action' value='index' />\r\n";
             $result .= "<input type='hidden' name='admin_mode' value='\".\$admin_mode.\"' />\r\n";
+            if (isset($_GET['list_mode']) && $_GET['list_mode'] == 'select') {
+                $result .= "<input type='hidden' name='list_mode' value='select' />\r\n";
+            }
             $result .= " \".( \$inside_admin ? \"<input type='hidden' name='inside_admin' value='1' />\r\n<input type='hidden' name='cc' value='\".\$cc.\"' />\r\n\" : \"\").\" ";
             $result .= $srchFrm;
             $result .= "<input value='\".NETCAT_SEARCH_FIND_IT.\"' type='submit' />\r\n";
