@@ -1,5 +1,6 @@
 <?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
 <?php if ($current_sub["Subdivision_Name"] == 'Facebook rss'): ?><item>
+            <?php $f_myText = '<header><img src="https://' . $_SERVER["HTTP_HOST"] . getThumbNow($f_myPhoto, 680, 340, 1, false, 95, -1) . '"></header>' . '<img src="https://' . $_SERVER["HTTP_HOST"] . getThumbNow($f_myPhoto, 680, 340, 1, false, 95, -1) . '">' . $f_myText; ?>
             <title><?= htmlspecialchars($f_myTitle); ?></title>
             <link>https://<?= $_SERVER["HTTP_HOST"] . $fullLink; ?></link>
             <guid><?= md5($f_Message_ID); ?></guid>
@@ -12,9 +13,10 @@
                         <meta charset="utf-8">
                         <link rel="canonical" href="https://<?= $_SERVER["HTTP_HOST"] . $fullLink; ?>">
                         <meta property="op:markup_version" content="v1.0">
+                        <meta property="fb:article_style" content="mmaboxing">
                     </head>
                     <body>
-                        <?= $f_myText; ?>
+                        <?= formatFBArticle($f_myText); ?>
                     </body>
                 </html>]]>
             </content:encoded>

@@ -1,5 +1,93 @@
 <? echo $f_AdminCommon; ?>
 <script type="text/javascript">
+    $(document).ready(function() {
+        if ($(window).width() >= 1281) {
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_part_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-part-1").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_part_2'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-part-2").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_part_3'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-part-3").html(html);
+            }
+        } else if ($(window).width() < 640) {
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-1").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_2'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-2").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_3'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-3").html(html);
+            }
+        } else {
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_1_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-1").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_2_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-2").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_3_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-3").html(html);
+            }
+        }
+    });
+    
     function see_more_news(start, cnt, s_type)
     {
         var is_mob = $(window).width() <= 1281 ? "1" : "0";

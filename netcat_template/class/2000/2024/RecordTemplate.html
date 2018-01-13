@@ -48,8 +48,13 @@
     <div class="hr"></div>
 <?php else: ?>
     <div class="post_c" <?php if ($f_RowNum == 5): ?>style="margin-top: 45px;"<?php endif; ?>>
-        <a class="img-link-big" href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img"></a>
-        <a class="img-link-small" href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 270, 180, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img"></a>
+        
+        <?php if (!isset($is_mob)): ?>
+            <a class="img-link-big" href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img"></a>
+        <?php else: ?>
+            <a class="img-link-small" href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 270, 180, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img"></a>
+        <?php endif; ?>
+        
         <div class="lab main-p-type"><?= $f_newsType[0]; ?></div>
         <div class="post_b_label main-p-type-icon"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="post_t_desk">

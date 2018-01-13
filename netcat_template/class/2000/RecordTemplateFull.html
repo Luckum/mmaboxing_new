@@ -177,6 +177,7 @@
                     <? } ?></span>&nbsp;&nbsp;<span class="n-delim">|</span>&nbsp;&nbsp;<span class="n-name"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;<span class="n-socs"><img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span></span>
                 </div>
 <?php
+    formatFBArticle($f_myText);
     require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
     $html = str_get_html($f_myText);
     $frames = $html->find('iframe');
@@ -188,6 +189,7 @@
     }
     $f_myText = $html;
     $f_myText = trim($f_myText, ':');
+    
 ?>
                 <div class="inner_text">
                     <?= $f_myText ?>

@@ -1,5 +1,93 @@
 <!-- FormPrefix --><? echo $f_AdminCommon; ?>
 <script type="text/javascript">
+    $(document).ready(function() {
+        if ($(window).width() >= 1281) {
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_part_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-part-1").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_part_2'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-part-2").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_part_3'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-part-3").html(html);
+            }
+        } else if ($(window).width() < 640) {
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-1").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_2'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-2").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_3'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-3").html(html);
+            }
+        } else {
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_1_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-1").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_2_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-2").html(html);
+            }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_news_all_3_1'}
+            }).responseText;
+            if (html != '') {
+                $("#news-main-all-3").html(html);
+            }
+        }
+    });
+    
     function see_more_news(start, cnt, s_type)
     {
         var is_mob = $(window).width() <= 1281 ? "1" : "0";
@@ -71,8 +159,8 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 <?php if ($f_RowNum == 0): ?>
 
 <div class="big_post_c">
-    <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 732, 485, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=485&w=732")?>" alt="<?=$f_myTitle?>"></a>
-	<div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
+    <a href="<?= $fullLink ?>"><img class="item-img" src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 732, 485, 1, false, 55, -1) : "/timthumb.php?src=".$f_exFoto."&h=485&w=732")?>" alt="<?=$f_myTitle?>"></a>
+    <div class="label"><img src="images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
     <div class="big_post_bg">
         <div class="side_video_desc">
             <span class="big_post_title"><a href="<?= $fullLink ?>"><h2><?= cutStr($f_myTitle, 150); ?></h2></a></span>
@@ -88,7 +176,7 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 </div>
 
 <div class="right_p">
-    <div class="right_p_t">Новости одной строкой<span class="video_tabs">></span></div>
+    <div class="right_p_t">Главные новости<span class="video_tabs">></span></div>
 
     <?= s_list_class(3,1,"&recNum=5&nc_ctpl=2023") ?>
 </div>
@@ -170,8 +258,8 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
                 <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a>
             </span>
         </div>
-        <div class="news-main-part"><?= s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4") ?></div>
-        <div class="news-main-all"><?= s_list_class(3,1,"&recNum=12&nc_ctpl=2024&is_mob=1") ?></div>
+        <div class="news-main-part" id="news-main-part-1"></div>
+        <div class="news-main-all" id="news-main-all-1"></div>
         
         <div class="clr"></div>
     </div>
@@ -249,8 +337,8 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 
 <div class="main_dop">
     <div class="left_c">
-        <div class="news-main-part"><?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12") ?></div>
-        <div class="news-main-all"><?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12&is_mob=1") ?></div>
+        <div class="news-main-part" id="news-main-part-2"></div>
+        <div class="news-main-all" id="news-main-all-2"></div>
         
         <div class="clr"></div>
     </div>
@@ -297,8 +385,8 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 
 <div class="main_dop">
     <div class="left_c" id="see_more_news_div">
-        <div class="news-main-part"><?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18") ?></div>
-        <div class="news-main-all"><?= s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18&is_mob=1") ?></div>
+        <div class="news-main-part" id="news-main-part-3"></div>
+        <div class="news-main-all" id="news-main-all-3"></div>
         
         <div class="clr"></div>
         <button class="see_more" id="see_more_news" value="more" onclick="see_more_news(24, 8, 3)">Показать ещё</button>
