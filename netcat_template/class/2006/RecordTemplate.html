@@ -21,6 +21,7 @@
         <div class="position"><?= $f_myPos; ?></div>
         <img src="<?= getThumbNow('/netcat_files/' . $foto[3], 180, 180, 1, false, 95, -1) ?>" class="post_img_r">
         <div>
+            <?= $fullLink; ?>
             <div class="rating_post_t"><?= $sql_f['myName_ru']; ?></div>
             <div class="rating_post_desk"><?= $sql_f['myPromotion']; ?></div>
         </div>
@@ -31,7 +32,7 @@
             </div>
         <?php endif; ?>
         <div class="small_d_c_r">
-            <?= cutStr($sql_f['myBio'], 200); ?>
+            <?= cutStr($sql_f['bio'], 200); ?>
         </div>
         <ul class="results">
             <li><span>Победы </span><span><?= $sql_f['victory_ko'] + $sql_f['victory_decision'] + $sql_f['victory_submision']; ?></span><div class="hr hr-rat"></div></li>

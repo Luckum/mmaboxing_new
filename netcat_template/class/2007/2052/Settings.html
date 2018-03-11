@@ -1,0 +1,36 @@
+<?php
+
+$ignore_sub=1;
+$ignore_cc=1;
+
+$query_where = "1";
+if (isset($s_type)) {
+    $query_where .= " AND a.`Subdivision_ID` = '" . $s_type . "' AND a.`Checked` = 1";
+}
+
+if (isset($s_value) && !empty($s_value)) {
+    $query_where .= " AND (LOWER(myName_ru) LIKE '%" . strtolower(trim($s_value)) . "%' OR LOWER(myName_en) LIKE '%" . strtolower(trim($s_value)) . "%')";
+}
+
+$query_order = "views DESC";
+
+if (isset($ar_value) && !empty($ar_value)) {
+    $ignore_all = 1;
+    $query_select = "SUBSTRING_INDEX(myName_ru, ' ', -1) as s_name, a.`Message_ID`, a.`User_ID`, a.`IP`, a.`UserAgent`, a.`LastUser_ID`, a.`LastIP`, a.`LastUserAgent`, a.`Priority`, a.`Parent_Message_ID`, a.`ncTitle`, a.`ncKeywords`, a.`ncDescription`, sub.`Subdivision_ID`, CONCAT('', sub.`Hidden_URL`) AS `Hidden_URL`, cc.`Sub_Class_ID`, cc.`EnglishName`, a.`Checked`, a.`Created`, a.`Keyword`, a.`LastUpdated` + 0 AS LastUpdated, a.myName_ru, a.myName_en, a.myFoto, a.myPromotion, a.birth_place, a.birth_date, DATE_FORMAT(a.`birth_date`,'%Y') as birth_date_year, DATE_FORMAT(a.`birth_date`,'%m') as birth_date_month, DATE_FORMAT(a.`birth_date`,'%d') as birth_date_day, DATE_FORMAT(a.`birth_date`,'%H') as birth_date_hours, DATE_FORMAT(a.`birth_date`,'%i') as birth_date_minutes, DATE_FORMAT(a.`birth_date`,'%s') as birth_date_seconds, a.myGrouth, a.myWeight, a.myWeightCat_ru, a.myWeightCat_en, a.victory_ko, a.victory_decision, a.victory_submision, a.defeat_ko, a.defeat_decision, a.defeat_submision, a.draw, a.bio, a.video_1, a.video_2, a.video_3, a.views";
+    $query_from = "Message2007 AS a";
+    $query_join = "LEFT JOIN `Subdivision` AS sub ON sub.`Subdivision_ID` = a.`Subdivision_ID` LEFT JOIN `Sub_Class` AS cc ON cc.`Sub_Class_ID` = a.`Sub_Class_ID`";
+    $query_having = "LOWER(s_name) LIKE '" . strtolower($ar_value) . "%'";
+    $query_order = "s_name";
+}
+
+if (isset($ae_value) && !empty($ae_value)) {
+    $ignore_all = 1;
+    $query_select = "SUBSTRING_INDEX(myName_en, ' ', -1) as s_name, a.`Message_ID`, a.`User_ID`, a.`IP`, a.`UserAgent`, a.`LastUser_ID`, a.`LastIP`, a.`LastUserAgent`, a.`Priority`, a.`Parent_Message_ID`, a.`ncTitle`, a.`ncKeywords`, a.`ncDescription`, sub.`Subdivision_ID`, CONCAT('', sub.`Hidden_URL`) AS `Hidden_URL`, cc.`Sub_Class_ID`, cc.`EnglishName`, a.`Checked`, a.`Created`, a.`Keyword`, a.`LastUpdated` + 0 AS LastUpdated, a.myName_ru, a.myName_en, a.myFoto, a.myPromotion, a.birth_place, a.birth_date, DATE_FORMAT(a.`birth_date`,'%Y') as birth_date_year, DATE_FORMAT(a.`birth_date`,'%m') as birth_date_month, DATE_FORMAT(a.`birth_date`,'%d') as birth_date_day, DATE_FORMAT(a.`birth_date`,'%H') as birth_date_hours, DATE_FORMAT(a.`birth_date`,'%i') as birth_date_minutes, DATE_FORMAT(a.`birth_date`,'%s') as birth_date_seconds, a.myGrouth, a.myWeight, a.myWeightCat_ru, a.myWeightCat_en, a.victory_ko, a.victory_decision, a.victory_submision, a.defeat_ko, a.defeat_decision, a.defeat_submision, a.draw, a.bio, a.video_1, a.video_2, a.video_3, a.views";
+    $query_from = "Message2007 AS a";
+    $query_join = "LEFT JOIN `Subdivision` AS sub ON sub.`Subdivision_ID` = a.`Subdivision_ID` LEFT JOIN `Sub_Class` AS cc ON cc.`Sub_Class_ID` = a.`Sub_Class_ID`";
+    $query_having = "LOWER(s_name) LIKE '" . strtolower($ae_value) . "%'";
+    $query_order = "s_name";
+    $query_limit = "";
+}
+
+?>

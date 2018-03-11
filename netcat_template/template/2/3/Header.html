@@ -3,34 +3,32 @@
 <!-- HEAD -->
 <head>
     <meta charset="UTF-8">
-    <meta name='yandex-verification' content='6c6fb61a723ccbcc' />
-    <meta name="yandex-verification" content="06dd3259b5ec409f" />
-    <meta property="fb:pages" content="796113013822636" />
+    <meta name='yandex-verification' content='6c6fb61a723ccbcc'/>
+    <meta name="yandex-verification" content="06dd3259b5ec409f"/>
+    <meta property="fb:pages" content="796113013822636"/>
     <title><?= ($nc_core->page->get_title() ? $nc_core->page->get_title().(strstr($_SERVER['REQUEST_URI'],'.html') ? ' - '.$current_sub['moreTitle'] : NULL) : $current_sub['Subdivision_Name'].(strstr($_SERVER['REQUEST_URI'],'.html') ? ' - '.$current_sub['moreTitle'] : NULL)) ?></title>
     <meta name="description" content="<?= ($nc_core->page->get_description()) ;?>"/>
     <meta name="keywords" content="<?= ($nc_core->page->get_keywords()) ;?>"/>
     
-    <meta property="og:locale" content="ru_RU" />
-    <meta property="og:site_name" content="MMABOXING.ru" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="<?= ($nc_core->page->get_title() ? $nc_core->page->get_title() : $current_sub['Subdivision_Name']) ;?>" />
-    <meta property="og:description" content="<?= ($nc_core->page->get_description()) ;?>" />
-    <meta property="article:publisher" content="https://www.facebook.com/mmaboxingru2016/" />
-    <meta property="og:image" content="https://mmaboxing.ru<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 270, 180, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" />
+    <meta property="og:locale" content="ru_RU"/>
+    <meta property="og:site_name" content="MMABoxing.ru"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="<?= ($nc_core->page->get_title() ? $nc_core->page->get_title() : $current_sub['Subdivision_Name']) ;?>"/>
+    <meta property="og:description" content="<?= ($nc_core->page->get_description()) ;?>"/>
+    <meta property="article:publisher" content="https://www.facebook.com/mmaboxingru2016/"/>
     
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@MMA_Boxing_ru" />
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@MMA_Boxing_ru"/>
     <meta name="twitter:title" content="<?= ($nc_core->page->get_title()) ;?>"/>
-    <meta name="twitter:description" content="<?= ($nc_core->page->get_description()) ;?>" />
-    <meta name="twitter:image" content="https://mmaboxing.ru<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 270, 180, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" />
+    <meta name="twitter:description" content="<?= ($nc_core->page->get_description()) ;?>"/>
 
-    <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width" />
-    <meta name="msapplication-TileImage" content="/cropped-site_icon_white-270x270.png" />
-    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png" />
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width"/>
+    <meta name="msapplication-TileImage" content="/cropped-site_icon_white-270x270.png"/>
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+    
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/flexslider.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/responsive.css">
@@ -38,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="/js/scrollpane/css/jquery.jscrollpane.css"/>
     <link rel="stylesheet" type="text/css" href="/js/scrollpane/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/netcat/require/lib/mistakes/mistakes.css"/>
-    <link href="https://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+    
     <!--[if lt IE 9]>
         <script>
             var e = ("article,aside,figcaption,figure,footer,header,hgroup,nav,section,time,main").split(',');
@@ -48,33 +46,15 @@
         </script>
     <![endif]-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="/js/jquery-ui.min.js"></script>
-    <script src="/js/jquery.datepicker.extension.range.min.js"></script>
-    <script src="/js/jquery.arcticmodal.js"></script>
-    <script src="/js/jquery.flexslider-min.js"></script>
-    <script src="/js/actions.js"></script>
-    <script src="/js/share.js"></script>
-    <script src="/js/share_evt.js"></script>
-    <script src="/js/addition.js"></script>
-    <script src="/js/custom.js"></script>
-    <script type="text/javascript" src="/js/calendar.js"></script>
-    <script type="text/javascript" src="/js/tooltip.js"></script>
+    
     <!-- <script type="text/javascript" src="/js/fancybox/jquery.easing-1.3.js"></script> -->
-    <script type="text/javascript" src="/js/fancybox/jquery.fancybox-1.3.1.js"></script>
-    <script type="text/javascript" src="/js/fancy.js"></script>
-    <script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js"></script>
+    
     <script type="text/javascript" src="/js/responsive.js"></script>
-    <script type="text/javascript" src="/js/scrollpane/js/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="/js/scrollpane/js/jquery.contentcarousel.js"></script>
-    <script type="text/javascript" src="/netcat/require/lib/mistakes/mistakes.js"></script>
-    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?116"></script>
-    <script charset="UTF-8" src="//cdn.sendpulse.com/28edd3380a1c17cf65b137fe96516659/js/push/02fb85afa3a1fdc029fb19f096b9cba5_1.js" async></script>
+    
     <script type="text/javascript">
     (function($){
         $(document).ready(function()
         {
-            initToolTips();
-            genCalenTable('calendar_out',{ on: new Date, from: new Date('2013',6,18)});
             $(window).scroll(function(){
                 if ($(this).scrollTop() > 84) {
                     $('.menu_count').hide();
@@ -86,25 +66,8 @@
                     $('#bckClickertop').css({'height': '200px'});
                 }
             });
-            $('#ca-container').contentcarousel();
-            $('#ca-container-mbl').contentcarousel();
-            $('.fc_calendar').datepicker({
-                range: 'period',
-                showOn:"button", 
-                buttonText: "Календарь",
-                showButtonPanel:true,
-                dateFormat: "yy-mm-dd",
-                onSelect: function(dateText, inst, extensionRange) {
-                    see_content_by_date(extensionRange.startDateText, extensionRange.endDateText);
-                },
-                beforeShow: function(input, inst) {
-                    inst.dpDiv.css({marginTop: -input.offsetHeight + 'px', marginLeft: '-205px'});
-                }
-            });
         });
         })(jQuery);
-        share.init(".share");
-        //share_evt.init(".share-evnt");
     </script>
 
 <!-- Google Tag Manager -->
@@ -121,6 +84,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- // HEAD -->
 
 <body>
+<div class="walps"></div>
+
 
 <!-- start fb script -->
 <div id="fb-root"></div>
@@ -159,7 +124,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
             </form>
         </div>
-        <div class="send_article"><a class="send_material" href="/send"><img src="/images/mail.png" class="send_icon"><img src="/images/mail_light.png" class="send_icon_light">Прислать материал</a></div>
+        <div class="send_article">
+            <div class="soc-header"> 
+                <a href="https://t.me/mmaboxingru" target="_blank"><span class="social-tele"></span></a>
+                <a href="https://vk.com/mmaboxing_mma" target="_blank"><span class="social-vk"></span></a>
+                <a href="https://www.facebook.com/mmaboxingru2016/" target="_blank"><span class="social-fb"></span></a>
+                <a href="https://www.instagram.com/mmaboxingofficial/" target="_blank"><span class="social-inst"></span></a>
+                <a href="https://www.youtube.com/user/mmaboxingtv" target="_blank"><span class="social-tube"></span></a>
+            </div>
+        </div>
         
         <div class="clr"></div>
     </div>
@@ -175,7 +148,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li><a href="/blogs">Блоги</a></li>
                 <li><a href="/videoblogi">Видеоблоги</a></li>
                 <li><a href="/translyatsii">Трансляции</a></li>
-                <li><a href="https://1xdpg.xyz/line/Martial-Arts/?tag=s_48390m_1234c_" target="_blank">Ставки</a></li>
+                <li><a href="https://ctaddlinkcnds.net/?wm=3082970&utm_source=mmaboxing&utm_medium=cpm&utm_campaign=mainpage&utm_content=button" target="_blank">Ставки</a></li>
             </ul>
             <div class="clr"></div>
         </div>
@@ -195,7 +168,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li><a href="/blogs">Блоги</a></li>
                 <li><a href="/videoblogi">Видеоблоги</a></li>
                 <li><a href="/translyatsii">Трансляции</a></li>
-                <li><a href="https://1xdpg.xyz/line/Martial-Arts/?tag=s_48390m_1234c_" target="_blank">Ставки</a></li>
+                <li><a href="https://ctaddlinkcnds.net/?wm=3082970&utm_source=mmaboxing&utm_medium=cpm&utm_campaign=mainpage&utm_content=button" target="_blank">Ставки</a></li>
             </ul>
             <ul class="menu_3_fixed" id="menu_3_fixed">
                 <li><a href="javascript:void(0);" id="search_turn_fixed"><img src="/images/search.png" class="serche_icon"></a></li>
@@ -236,12 +209,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 $('#bckClickerleft').show();
                 $('#bckClickerright').show();
                 $('#bckClickertop').show();
-                $('body').css({'background': 'url("/netcat_files/<?= $image[3] ?>") no-repeat center top / 2000px auto fixed rgba(37,37,37,1)'});
+                //$('body').css({'background': 'url("/netcat_files/<?= $image[3] ?>") no-repeat center top / 2000px auto fixed rgba(37,37,37,1)'});
+                $(".walps").css({"position" : "fixed", "top": "0", "left": "0", "height": "100%", "width": "100%", "background-size": "2000px auto", "background-position-x": "center", "background-image": "url('/netcat_files/<?= $image[3] ?>')"});
                 $('#bckClickerleft').attr('href', '<?= $link ?>');
                 $('#bckClickerright').attr('href', '<?= $link ?>');
                 $('#bckClickertop').attr('href', '<?= $link ?>');
                 $('.main').css({'margin-top': '200px'});
                 $('#bckClickertop').show();
+                $('.user_icon_light').remove();
+                $('.serche_icon_light').remove();
+                $('.close_icon_light').remove();
+                $('.send_icon_light').remove();
             }
         </script>
 <?php
@@ -256,7 +234,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     $('#bckClickerleft').show();
                     $('#bckClickerright').show();
                     $('#bckClickertop').show();
-                    $('body').css({'background': 'url("/netcat_files/<?= $image[3] ?>") no-repeat center top / 2000px auto fixed rgba(37,37,37,1)'});
+                    //$('body').css({'background': 'url("/netcat_files/<?= $image[3] ?>") no-repeat center top / 2000px auto fixed rgba(37,37,37,1)'});
+                    $(".walps").css({"position" : "fixed", "top": "0", "left": "0", "height": "100%", "width": "100%", "background-size": "2000px auto", "background-position-x": "center", "background-image": "url('/netcat_files/<?= $image[3] ?>')"});
                     $('#bckClickerleft').attr('href', '<?= $link ?>');
                     $('#bckClickerright').attr('href', '<?= $link ?>');
                     $('#bckClickertop').attr('href', '<?= $link ?>');

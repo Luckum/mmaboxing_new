@@ -1,7 +1,7 @@
 <?php
 $nc_comments = new nc_comments($cc);
 $query_where = "1";
-if (isset($url)) {
+if (isset($url) && !empty($url)) {
     if ($url !== '0') {
         $sub = mysql_fetch_row(mysql_query("SELECT Subdivision_ID FROM Subdivision WHERE Hidden_URL like '%" . $url . "%'"));
         $query_where .= " AND a.Subdivision_ID = " . $sub[0];

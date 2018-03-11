@@ -1,0 +1,46 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+
+<? echo $f_AdminButtons; ?>
+<?php
+    $query = "SELECT * FROM Message2010 WHERE (main_card_fighter_1 = $f_Message_ID OR main_card_fighter_2 = $f_Message_ID) AND myDate > NOW() ORDER BY myDate ASC LIMIT 1";
+    $sql_n = mysql_fetch_assoc(mysql_query($query));
+    if (!$sql_n) {
+        $query = "SELECT b.* FROM Message2045 a LEFT JOIN Message2010 b ON a.event = b.Message_ID WHERE (a.fighter_1 = $f_Message_ID OR a.fighter_2 = $f_Message_ID) AND b.myDate > NOW() ORDER BY b.myDate ASC LIMIT 1";
+        $sql_n = mysql_fetch_assoc(mysql_query($query));
+    }
+    $next_f = $sql_n ? $sql_n['myName'] : '';
+?>
+<div class="brd-m" style="display: none;"></div>
+<div class="post_c_r">
+    <img src="<?= getThumbNow($f_myFoto, 180, 180, 1, false, 95, -1); ?>" class="post_img_r">
+    <div>
+        <div class="rating_post_t"><a href="<?= $fullLink; ?>"><?= $f_myName_ru; ?></a></div>
+        <div class="rating_post_desk"><?= $f_myPromotion; ?></div>
+    </div>
+    <?php if (!empty($next_f)): ?>
+        <div class="next-fight">
+            <span class="next-fight-t">Предстоящий бой</span>
+            <span class="next-fight-n"><?= $next_f; ?></span>
+        </div>
+    <?php endif; ?>
+    <div class="small_d_c_r">
+        <?= cutStr($f_bio, 200); ?>
+    </div>
+    <ul class="results">
+        <li><span>Победы </span><span><?= $f_victory_ko + $f_victory_decision + $f_victory_submision; ?></span><div class="hr hr-rat"></div></li>
+        <li><span>Поражения </span><span><?= $f_defeat_ko + $f_defeat_decision + $f_defeat_submision; ?></span><div class="hr hr-rat"></div></li>
+        <li><span>Ничьи </span><span><?= $f_draw; ?></span></li>
+    </ul>
+</div>
+<?php if ($f_RowNum == 4 || $f_RowNum == 9): ?>
+    <?php if (!$admin_mode): ?>
+        <div class="banner_hor">
+            <?= banner_rotate(1,1);?>
+        </div>
+    <?php endif; ?>
+<?php else: ?>
+    <div class="hr" style="border-bottom: solid 12px #eaeaea; margin-top: -20px;"></div>
+<?php endif; ?>
+
+
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

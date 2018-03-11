@@ -29,6 +29,16 @@
             if (html != '') {
                 $("#news-main-part-3").html(html);
             }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_slider_d'}
+            }).responseText;
+            if (html != '') {
+                $("#slider-main-d").html(html);
+            }
+            new LazyLoad();
         } else if ($(window).width() < 640) {
             var html = $.ajax({
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
@@ -57,6 +67,16 @@
             if (html != '') {
                 $("#news-main-all-3").html(html);
             }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_slider_m'}
+            }).responseText;
+            if (html != '') {
+                $("#slider-main-m").html(html);
+            }
+            $(".right_s_twit").remove();
         } else {
             var html = $.ajax({
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
@@ -85,6 +105,16 @@
             if (html != '') {
                 $("#news-main-all-3").html(html);
             }
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_slider_m'}
+            }).responseText;
+            if (html != '') {
+                $("#slider-main-m").html(html);
+            }
+            $(".right_s_twit").remove();
         }
     });
     
@@ -108,6 +138,7 @@
             $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ", " + s_type + ")");
             $("#bckClickerleft").css({"height": "+=1600px"});
             $("#bckClickerright").css({"height": "+=1600px"});
+            new LazyLoad();
             if ($(window).width() <= 601) {
                 $('.img-link-small').show();
                 $('.img-link-big').hide();

@@ -7,6 +7,10 @@
             $("#video-img").hide();
             $("#video-frame").show();
         });
+        if ($(window).width() < 1281) {
+            $("#prev-img-main").removeAttr('width');
+            $("#prev-img-main").removeAttr('height');
+        }
     });
     
     function play_in_frame(src)

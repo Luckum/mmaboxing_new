@@ -1,1 +1,128 @@
 <? echo $f_AdminCommon; ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        if ($(window).width() >= 1281) {
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_fighters_d', s_type: $("#current-sub").val()}
+            }).responseText;
+            if (html != '') {
+                $("#fighters_inner_div").html(html);
+            }
+        } else {
+            var html = $.ajax({
+                url: "/netcat/modules/default/ajax.php?isNaked=1",
+                async: false,
+                type: "POST",
+                data: {action: 'load_fighters_m', s_type: $("#current-sub").val()}
+            }).responseText;
+            if (html != '') {
+                $("#fighters_inner_div").html(html);
+            }
+        }
+        $("#f-search-text").keypress(function(e) {
+            if (e.keyCode == 13) {
+                fighters_search($("#current-sub").val());
+            }
+        });
+    });
+    function see_more_fighters(start, cnt, s_type)
+    {
+        var start_from = $(window).width() >= 1281 ? start : start - 10;
+        $("#see_more_fighters").hide();
+        $("#loading_news").show();
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {start: start_from, cnt: cnt, action: 'fighters', s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#fighters_inner_div").append(html);
+            $("#see_more_fighters").appendTo("#see_more_fighters_div");
+            $("#loading_news").appendTo("#see_more_fighters_div");
+            $("#loading_news").hide();
+            $("#see_more_fighters").show();
+            $("#see_more_fighters").attr("onclick", "see_more_fighters(" + (start+5) + ", " + cnt + ", " + s_type + ")");
+        }
+    }
+    function fighters_search(s_type)
+    {
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'fighters_search', value: $("#f-search-text").val(), s_type: s_type}
+        }).responseText;
+        if (html != '') {
+            $("#fighters_inner_div").html(html);
+            $("#see_more_fighters").hide();
+            $(".last-brd-m").css('cssText', 'display: none !important;');
+            $(".alphabet-lnk").css({'color' : '#000'});
+        }
+    }
+    function fighters_search_letters_r(obj)
+    {
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'fighters_search_letters_r', value: $(obj).attr("data-letter")}
+        }).responseText;
+        if (html != '') {
+            $("#fighters_inner_div").html(html);
+            $(".alphabet-lnk").css({'color' : '#000'});
+            $(obj).css({'color' : '#e73435'});
+            $("#see_more_fighters").hide();
+            $("#f-search-text").val('');
+        }
+    }
+    function fighters_search_letters_e(obj)
+    {
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'fighters_search_letters_e', value: $(obj).attr("data-letter")}
+        }).responseText;
+        if (html != '') {
+            $("#fighters_inner_div").html(html);
+            $(".alphabet-lnk").css({'color' : '#000'});
+            $(obj).css({'color' : '#e73435'});
+            $("#see_more_fighters").hide();
+            $("#f-search-text").val('');
+        }
+    }
+</script>
+<?php
+    $englishAlphabet = range('A', 'Z');
+    $russianAlphabet = [];
+    foreach (range(chr(0xC0), chr(0xDF)) as $a) {
+        $russianAlphabet[] = iconv('CP1251', 'UTF-8', $a);
+    }  
+ 
+?>
+<div class="main_dop_inner_l">
+    <div class="breadcrumbs-hdr" id="breadcrumbs">
+        <?= setBreadcrumbs($current_sub['Hidden_URL']); ?>
+    </div>
+    <div class="left_c" id="see_more_fighters_div">
+        <div class="news_t rat-cur-menu">
+            <a href="/fighters/mma" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fighters/mma/'): ?> active_tab<?php endif; ?>">MMA</a> 
+            <a href="/fighters/boxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fighters/boxing/'): ?> active_tab<?php endif; ?>">Бокс</a> 
+            <a href="/fighters/kickboxing" class="video_tabs<?php if ($current_sub['Hidden_URL'] == '/fighters/kickboxing/'): ?> active_tab<?php endif; ?>">Кикбоксинг</a>
+        </div>
+        <div class="news_t rat-min-menu">
+            <div class="min-menu-links">
+                <a href="/fighters/mma" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/fighters/mma/'): ?>active_tab<?php endif; ?>">MMA</a> 
+                <a href="/fighters/boxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/fighters/boxing/'): ?>active_tab<?php endif; ?>">Бокс</a> 
+                <a href="/fighters/kickboxing" class="video_tabs <?php if ($current_sub['Hidden_URL'] == '/fighters/kickboxing/'): ?>active_tab<?php endif; ?>">Кикбоксинг</a>
+            </div>
+        </div>
+        <div class="fighter-search">
+            <span class='f-search-title'>Поиск по разделу</span>
+            <input type="text" class="f-search-text" id="f-search-text" placeholder="Введите имя бойца">
+            <button id="f-search-btn" class="f-search-btn" onclick="fighters_search(<?= $current_sub['Subdivision_ID']; ?>);">Найти</button>
+        </div>

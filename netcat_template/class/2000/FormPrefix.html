@@ -17,6 +17,8 @@
             $("#loading_news").hide();
             $("#see_more_articles").show();
             $("#see_more_articles").attr("onclick", "see_more_articles(" + (start+8) + ", " + cnt + ", " + s_type + ")");
+            var images = document.querySelectorAll(".lazyload");
+            lazyload(images);
             if ($(window).width() <= 601) {
                 $('.img-link-small').show();
                 $('.img-link-big').hide();
@@ -41,6 +43,8 @@
             $("#loading_news").hide();
             $("#see_more_news").show();
             $("#see_more_news").attr("onclick", "see_more_news(" + (start+8) + ", " + cnt + ", " + s_type + ", '" + srch + "', '" + tag + "')");
+            var images = document.querySelectorAll(".lazyload");
+            lazyload(images);
         }
     }
     function see_more_blogs(start, cnt, s_type)

@@ -3,26 +3,44 @@
 <!-- HEAD -->
 <head>
 	<meta charset="UTF-8">
-    <meta name='yandex-verification' content='6c6fb61a723ccbcc' />
-    <meta name="yandex-verification" content="06dd3259b5ec409f" />
+    <meta name='yandex-verification' content='6c6fb61a723ccbcc'/>
+    <meta name="yandex-verification" content="06dd3259b5ec409f"/>
+    <meta property="fb:pages" content="796113013822636"/>
 	<title><?= ($nc_core->page->get_title() ? $nc_core->page->get_title().(strstr($_SERVER['REQUEST_URI'],'.html') ? ' - '.$current_sub['moreTitle'] : NULL) : $current_sub['Subdivision_Name'].(strstr($_SERVER['REQUEST_URI'],'.html') ? ' - '.$current_sub['moreTitle'] : NULL)) ?></title>
-    <?=( ($nc_core->page->get_keywords()) ? "<meta name='keywords' content='".$nc_core->page->get_keywords()."' />" : "" ) ?>
-    <?=( ($nc_core->page->get_description()) ? "<meta name='description' content='".$nc_core->page->get_description()."' />" : "" ) ?>
-    <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width" />
+    <meta name="description" content="<?= ($nc_core->page->get_description()) ;?>"/>
+    <meta name="keywords" content="<?= ($nc_core->page->get_keywords()) ;?>"/>
+    
+	<meta property="og:locale" content="ru_RU"/>
+	<meta property="og:site_name" content="MMABoxing.ru"/>
+	<meta property="og:type" content="website"/>
+    <meta property="og:title" content="<?= ($nc_core->page->get_title() ? $nc_core->page->get_title() : $current_sub['Subdivision_Name']) ;?>"/>
+    <meta property="og:description" content="<?= ($nc_core->page->get_description()) ;?>"/>
+    <meta property="article:publisher" content="https://www.facebook.com/mmaboxingru2016/"/>
+    <meta property="og:image" content="https://mmaboxing.ru<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 320, 230, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>"/>
+    <meta property="article:published_time" content="<?= ($f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>"/>
 
-    <link rel="canonical" href="https://mmaboxing.ru/">
-    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="/css/jquery-ui.min.css">
-	<link rel="stylesheet" href="/css/base.css">
-	<link rel="stylesheet" href="/css/flexslider.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/responsive.css">
-	<link rel="stylesheet" href="/js/fancybox/jquery.fancybox-1.3.1.css">
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="@MMA_Boxing_ru"/>
+    <meta name="twitter:title" content="<?= ($nc_core->page->get_title()) ;?>"/>
+    <meta name="twitter:description" content="<?= ($nc_core->page->get_description()) ;?>"/>
+    <meta name="twitter:image" content="https://mmaboxing.ru<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 320, 230, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>"/>
+
+    <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width"/>
+    <meta name="msapplication-TileImage" content="/cropped-site_icon_white-270x270.png"/>
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+    <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="/css/base.css"/>
+    <link rel="stylesheet" href="/css/flexslider.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/styles.css"/>
+    <link rel="stylesheet" href="/css/responsive.css"/>
+    <link rel="stylesheet" href="/js/fancybox/jquery.fancybox-1.3.1.css"/>
     <link rel="stylesheet" type="text/css" href="/js/scrollpane/css/jquery.jscrollpane.css"/>
     <link rel="stylesheet" type="text/css" href="/js/scrollpane/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/netcat/require/lib/mistakes/mistakes.css"/>
-    <link href="https://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+    <link href="https://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css"/>
+    
 	<!--[if lt IE 9]>
         <script>
             var e = ("article,aside,figcaption,figure,footer,header,hgroup,nav,section,time,main").split(',');
@@ -38,13 +56,13 @@
 	<script src="/js/jquery.flexslider-min.js"></script>
     <script src="/js/actions.js"></script>
     <script src="/js/share.js"></script>
-	<script src="/js/share_evt.js"></script>
+    <script src="/js/share_evt.js"></script>
 	<script src="/js/share_fgt.js"></script>
     <script src="/js/addition.js"></script>
     <script src="/js/custom.js"></script>
     <script type="text/javascript" src="/js/calendar.js"></script>
     <script type="text/javascript" src="/js/tooltip.js"></script>
-    <script type="text/javascript" src="/js/fancybox/jquery.easing-1.3.js"></script>
+    <!-- <script type="text/javascript" src="/js/fancybox/jquery.easing-1.3.js"></script> -->
     <script type="text/javascript" src="/js/fancybox/jquery.fancybox-1.3.1.js"></script>
     <script type="text/javascript" src="/js/fancy.js"></script>
     <script type="text/javascript" src="/js/jquery.ui.datepicker-ru.js"></script>
@@ -53,6 +71,7 @@
     <script type="text/javascript" src="/js/scrollpane/js/jquery.contentcarousel.js"></script>
     <script type="text/javascript" src="/netcat/require/lib/mistakes/mistakes.js"></script>
     <script type="text/javascript" src="https://vk.com/js/api/openapi.js?116"></script>
+    <script charset="UTF-8" src="//cdn.sendpulse.com/28edd3380a1c17cf65b137fe96516659/js/push/02fb85afa3a1fdc029fb19f096b9cba5_1.js" async></script>
     <script type="text/javascript">
 	(function($){
         $(document).ready(function()
@@ -85,13 +104,18 @@
                     inst.dpDiv.css({marginTop: -input.offsetHeight + 'px', marginLeft: '-205px'});
                 }
             });
+            if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+                $(".small_l_c_l").css({'float': 'none'});
+                
+                $(".menu_2_fixed li a").css({'font-weight': 'normal'});
+            }
         });
 		})(jQuery);
         share.init(".share");
         share_fgt.init(".f-share");
+        //share_evt.init(".share-evnt");
     </script>
-    <!-- <script type="text/javascript" src="//lordlink.ru/code/brending/6273311" async ></script> -->
-
+    
 <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MGDSP9"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -107,24 +131,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <body>
 
-<!-- addtocalendar script -->
-<script type="text/javascript">
-(function () {
-    if (window.addtocalendar)
-        if (typeof window.addtocalendar.start == "function")
-            return;
-    if (window.ifaddtocalendar == undefined) { 
-        window.ifaddtocalendar = 1;
-        var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-        s.type = 'text/javascript';
-        s.charset = 'UTF-8';
-        s.async = true;
-        s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
-        var h = d[g]('body')[0];h.appendChild(s);
-    }
-})();
-</script>
-<!-- addtocalendar script -->
+
 
 <!-- start fb script -->
 <div id="fb-root"></div>
@@ -163,7 +170,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
             </form>
         </div>
-        <div class="send_article"><a class="send_material" href="/send"><img src="/images/mail.png" class="send_icon"><img src="/images/mail_light.png" class="send_icon_light">Прислать материал</a></div>
+        <div class="send_article">
+            <div class="soc-header"> 
+                <a href="https://t.me/mmaboxingru" target="_blank"><span class="social-tele"></span></a>
+                <a href="https://vk.com/mmaboxing_mma" target="_blank"><span class="social-vk"></span></a>
+                <a href="https://www.facebook.com/mmaboxingru2016/" target="_blank"><span class="social-fb"></span></a>
+                <a href="https://www.instagram.com/mmaboxingofficial/" target="_blank"><span class="social-inst"></span></a>
+                <a href="https://www.youtube.com/user/mmaboxingtv" target="_blank"><span class="social-tube"></span></a>
+            </div>
+        </div>
         
         <div class="clr"></div>
     </div>
@@ -178,8 +193,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li><a href="/ratings">Рейтинги</a></li>
                 <li><a href="/blogs">Блоги</a></li>
                 <li><a href="/videoblogi">Видеоблоги</a></li>
-                <li><a href="/floyd-vs-konor">Флойд vs. Конор</a></li>
-                <!-- <li><a href="">Ставки</a></li> -->
+                <li><a href="/translyatsii">Трансляции</a></li>
+                <li><a href="https://ctaddlinkcnds.net/?wm=3082970&utm_source=mmaboxing&utm_medium=cpm&utm_campaign=mainpage&utm_content=button" target="_blank">Ставки</a></li>
             </ul>
             <div class="clr"></div>
         </div>
@@ -198,8 +213,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li><a href="/ratings">Рейтинги</a></li>
                 <li><a href="/blogs">Блоги</a></li>
                 <li><a href="/videoblogi">Видеоблоги</a></li>
-                <li><a href="/floyd-vs-konor">Флойд vs. Конор</a></li>
-                <!-- <li><a href="">Ставки</a></li> -->
+                <li><a href="/translyatsii">Трансляции</a></li>
+                <li><a href="https://ctaddlinkcnds.net/?wm=3082970&utm_source=mmaboxing&utm_medium=cpm&utm_campaign=mainpage&utm_content=button" target="_blank">Ставки</a></li>
             </ul>
             <ul class="menu_3_fixed" id="menu_3_fixed">
                 <li><a href="javascript:void(0);" id="search_turn_fixed"><img src="/images/search.png" class="serche_icon"></a></li>

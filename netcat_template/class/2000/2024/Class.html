@@ -27,7 +27,7 @@
 
 <?php if ($f_RowNum == 2 && !isset($is_mob)): ?>
     <div class="post_c_b">
-        <a href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 680, 340, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=340&w=680")?>" class="post_img"></a>
+        <a href="<?= $fullLink ?>"><img width="680" height="340" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 680, 340, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=340&w=680")?>" class="post_img lazyload" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
         <div class="post_b_label"><img src="/images/sporticons/<?= $f_newsType_id[0]; ?>.png"></div>
         <div class="b_p"><a href="<?= $fullLink ?>"><h2><?=$f_myTitle?></h2></a></div>
         <div class="b_p_t">
@@ -53,9 +53,9 @@
     <div class="post_c" <?php if ($f_RowNum == 5): ?>style="margin-top: 45px;"<?php endif; ?>>
         
         <?php if (!isset($is_mob)): ?>
-            <a class="img-link-big" href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img"></a>
+            <a class="img-link-big" href="<?= $fullLink ?>"><img data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 142, 142, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img lazyload" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
         <?php else: ?>
-            <a class="img-link-small" href="<?= $fullLink ?>"><img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 270, 180, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img"></a>
+            <a class="img-link-small" href="<?= $fullLink ?>"><img data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 270, 180, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=142&w=142")?>" class="post_img lazyload" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
         <?php endif; ?>
         
         <div class="lab main-p-type"><?= $f_newsType[0]; ?></div>
@@ -86,7 +86,7 @@
             <? } ?> &nbsp;|&nbsp; <span class="author-link"><?=$user_name['ForumName']?></span>&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $likes_cnt; ?></span>
         </div>
         <?php if (in_array($f_Subdivision_ID, $video_subs)): ?>
-            <div class="playback_video_page"><a href="<?= $fullLink ?>"><img src="/images/playback-start.png"></a></div>
+            <div class="playback_video_page"><a href="<?= $fullLink ?>"><img data-src="/images/playback-start.png" class="lazyload" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a></div>
         <?php endif; ?>
     </div>
     <div class="hr hr-mob"></div>

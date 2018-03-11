@@ -21,8 +21,8 @@
 ?>
 <div class="small_video_l_a">
     <div class="small_video_img">
-        <img src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 90, 90, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=90&w=90")?>" title="<?=$f_myTitle?>" alt="<?=$f_myTitle?>">
-        <div class="playback_angle"><a href="<?= $fullLink ?>"><img src="/images/playback-start_angle.png"></a></div>
+        <img class="lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 90, 90, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=90&w=90")?>" title="<?=$f_myTitle?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=">
+        <div class="playback_angle"><a href="<?= $fullLink ?>"><img class="lazyload" data-src="/images/playback-start_angle.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a></div>
     </div>
     <div class="small_video_descr">
         <div class="v_label"><?= $f_SubName; ?></div>
