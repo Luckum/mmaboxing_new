@@ -99,13 +99,13 @@
     foreach ($frames as $k => $frame) {
         $src = $frame->src;
         if ($k == 0) {
-            $src_first_preview = getVideoPreview($src);
+            $src_first_preview = getVideoPreview($src, $f_myPhoto);
             $src_first = $src;
             $frame->outertext = '';
         } else {
             $frame->outertext = '<div class="inner_img" style="overflow:hidden;">
                                     <input type="hidden" value="' . $src . '" id="frame-src-' . $k . '">
-                                    <img class="v-preview-img" data-id="' . $k . '" id="img-' . $k . '" src="' . getVideoPreview($src) . '" width="100%" height="100%" style="cursor: pointer;">
+                                    <img class="v-preview-img" data-id="' . $k . '" id="img-' . $k . '" src="' . getVideoPreview($src, $f_myPhoto) . '" width="100%" height="100%" style="cursor: pointer;">
                                     <iframe id="v-iframe-' . $k . '" allowfullscreen="" frameborder="0" height="415" scrolling="no" src="" width="100%" style="display: none;"></iframe>
                                     <div class="playback-video-inner" data-id="' . $k . '" id="playback-' . $k . '"><img src="/images/playback-start.png"></div>
                                 </div>';

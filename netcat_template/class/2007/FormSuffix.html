@@ -1,13 +1,16 @@
     
 <?php if (!$admin_mode): ?>
         <input type="hidden" id="current-sub" value="<?= $current_sub['Subdivision_ID']; ?>">
+        <input type="hidden" id="search-letter-pos" value="15">
+        <input type="hidden" id="search-letter" value="">
+        <input type="hidden" id="search-letter-lang" value="">
         <div id="fighters_inner_div"></div>
         <div class="brd-m last-brd-m" style="display: none;"></div>
         <button style="margin-top: 70px; margin-bottom: 70px; width: 220px; height: 60px;" class="see_more" id="see_more_fighters" value="more" onclick="see_more_fighters(15, 5, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
     <div id='rar'>
-        <div class="right_s" style="height: 290px; margin-bottom: 10px;">
+        <!--<div class="right_s" style="height: 290px; margin-bottom: 10px;">
             <div class="right_p_t">Поиск по алфавиту<span class="video_tabs">></span></div>
             <div class="right_list_c">
                 <div class="ru-alphabet">
@@ -23,7 +26,7 @@
                     <?php endforeach; ?>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="right_s">
             <div class="right_p_t"><a href="/fight-calendar" class="a-black">Результаты</a><span class="video_tabs">></span></div>
             <div class="right_list_c">

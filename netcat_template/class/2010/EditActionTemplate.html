@@ -1,0 +1,20 @@
+<?php
+    $newkey = $f_myName;
+    $newkey = str_replace('ь','',$newkey);
+    $newkey = preg_replace('~[^-a-z0-9а-яА-ЯA-Z_]+~u', '-', $newkey);
+    $newkey = $db->escape(str_replace(' ','-',trim(nc_transliterate($newkey))).'-'.$message);
+    $newkey = str_replace("'",'',$newkey);
+    $newkey = str_replace("`",'',$newkey);
+    $newkey = str_replace("~",'',$newkey);
+    $newkey = str_replace('"','',$newkey);
+    $newkey = str_replace('!','',$newkey);
+    $newkey = str_replace('?','',$newkey);
+    $newkey = str_replace('[','',$newkey);
+    $newkey = str_replace('--','-',$newkey);
+    $newkey = str_replace(' ','',$newkey);
+    $newkey = str_replace(']','',$newkey);
+    $keyword = $newkey;
+
+    $db->query("UPDATE `Message".$classID."` SET Keyword ='".$keyword."' WHERE `Message_ID`=".$message);
+
+?>

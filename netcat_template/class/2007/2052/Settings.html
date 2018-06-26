@@ -4,6 +4,10 @@ $ignore_sub=1;
 $ignore_cc=1;
 
 $query_where = "1";
+$ignore_all = "1";
+$query_select = "a.*";
+$query_from = "Message2007 AS a";
+
 if (isset($s_type)) {
     $query_where .= " AND a.`Subdivision_ID` = '" . $s_type . "' AND a.`Checked` = 1";
 }
@@ -30,7 +34,16 @@ if (isset($ae_value) && !empty($ae_value)) {
     $query_join = "LEFT JOIN `Subdivision` AS sub ON sub.`Subdivision_ID` = a.`Subdivision_ID` LEFT JOIN `Sub_Class` AS cc ON cc.`Sub_Class_ID` = a.`Sub_Class_ID`";
     $query_having = "LOWER(s_name) LIKE '" . strtolower($ae_value) . "%'";
     $query_order = "s_name";
-    $query_limit = "";
+}
+
+if (isset($recNum) && $recNum != 0) {
+    if (isset($curPos)) {
+        $query_limit = $curPos . ", " . $recNum;
+    } else {
+        $query_limit = "0, " . $recNum;
+    }
+} else {
+    $query_limit = "0, 15";
 }
 
 ?>

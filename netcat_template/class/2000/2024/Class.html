@@ -21,6 +21,7 @@
     );
     $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
     $video_subs = array(20, 117, 118, 226, 227, 228, 229);
+    
     $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
     $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
 ?>
@@ -92,7 +93,13 @@
     <div class="hr hr-mob"></div>
     <?php if ($f_RowNum == 4): ?>
         <div class="banner_hor">
-            <?= banner_rotate(1,1);?>
+            <?php if ($curPos == 4): ?>
+                <?= banner_rotate(1,1);?>
+            <?php elseif ($curPos == 12): ?>
+                <?= banner_rotate(3,1);?>
+            <?php elseif ($curPos == 18): ?>
+                <?= banner_rotate(4,1);?>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 <?php endif; ?>

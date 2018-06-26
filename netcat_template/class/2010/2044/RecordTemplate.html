@@ -32,89 +32,83 @@
     $rest_fighters = array();
     $sql_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $f_main_card_fighter_1));
     $sql_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $f_main_card_fighter_2));
-    $sql_rest_fights = $db->get_results("SELECT * FROM Message2045 WHERE event = " . $f_RowID, ARRAY_A);
+    $sql_fighter_1_sub = mysql_fetch_assoc(mysql_query("SELECT * FROM Subdivision WHERE Subdivision_ID = " . $sql_fighter_1['Subdivision_ID']));
+    $sql_fighter_2_sub = mysql_fetch_assoc(mysql_query("SELECT * FROM Subdivision WHERE Subdivision_ID = " . $sql_fighter_2['Subdivision_ID']));
+    $fighter_link_1 = $sql_fighter_1_sub['Hidden_URL'] . $sql_fighter_1['Keyword'] . ".html";
+    $fighter_link_2 = $sql_fighter_2_sub['Hidden_URL'] . $sql_fighter_2['Keyword'] . ".html";
+    
+    $sql_rest_fights = $db->get_results("SELECT * FROM Message2045 WHERE event = " . $f_RowID . " LIMIT 0, 8", ARRAY_A);
     foreach ($sql_rest_fights as $row) {
         $sql_rest_fighter_1 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_1']));
         $sql_rest_fighter_2 = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE Message_ID = " . $row['fighter_2']));
-        if ($showResults) {
-            $rest_fighters[] = ($row['fighter_1'] == $row['winner']) ? $sql_rest_fighter_1['myName_ru'] . " <span class='loser'>vs. " . $sql_rest_fighter_2['myName_ru'] . "</span>" : "<span class='loser'>" . $sql_rest_fighter_1['myName_ru'] . " vs. </span>" . $sql_rest_fighter_2['myName_ru'];
-        } else {
-            $rest_fighters[] = $sql_rest_fighter_1['myName_ru'] . " vs. " . $sql_rest_fighter_2['myName_ru'];
-        }
+        $sql_rest_fighter_1_sub = mysql_fetch_assoc(mysql_query("SELECT * FROM Subdivision WHERE Subdivision_ID = " . $sql_rest_fighter_1['Subdivision_ID']));
+        $sql_rest_fighter_2_sub = mysql_fetch_assoc(mysql_query("SELECT * FROM Subdivision WHERE Subdivision_ID = " . $sql_rest_fighter_2['Subdivision_ID']));
+        $rest_fighter_link_1 = $sql_rest_fighter_1_sub['Hidden_URL'] . $sql_rest_fighter_1['Keyword'] . ".html";
+        $rest_fighter_link_2 = $sql_rest_fighter_2_sub['Hidden_URL'] . $sql_rest_fighter_2['Keyword'] . ".html";
+        $rest_fighters[] = '<a class="a-black" href="' . $rest_fighter_link_1 . '">' . $sql_rest_fighter_1['myName_en'] . '</a> vs. <a class="a-black" href="' . $rest_fighter_link_2 . '">' . $sql_rest_fighter_2['myName_en'] . '</a>';
     }
     $foto_1 = explode(':', $sql_fighter_1['myFoto']);
     $foto_2 = explode(':', $sql_fighter_2['myFoto']);
     $title = $f_myName;
     $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
-    $summary = $sql_fighter_1['myName_ru'] . " vs. " . $sql_fighter_2['myName_ru'];
+    $summary = $sql_fighter_1['myName_en'] . " vs. " . $sql_fighter_2['myName_en'];
 ?>
 
 <div class="post_c_fc">
-	<div id='img_fight_left'>
-        <a href="<?= $fullLink ?>"><img src="<?= getThumbNow('/netcat_files/' . $foto_1[3], 150, 300, 1, false, 95, -1) ?>" class="post_img_ev"></a>
-        <?php if ($showResults): ?>
-            <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?>
-                <div class="fc_winner_1">
-                    Победитель
-                    <span><?= $f_win_type ?></span>
-                </div>
-            <?php endif; ?>
-        <?php endif; ?>
-        <a href="<?= $fullLink ?>"><img src="<?= getThumbNow('/netcat_files/' . $foto_2[3], 150, 300, 1, false, 95, -1) ?>" class="post_img_ev" style="margin-right: 30px;"></a>
-        <?php if ($showResults): ?>
-            <?php if ($f_main_card_winner == $f_main_card_fighter_2): ?>
-                <div class="fc_winner_2">
-                    Победитель
-                    <span><?= $f_win_type ?></span>
-                </div>
-            <?php endif; ?>
-        <?php endif; ?>
-        <div class="vs_label"><img src="/images/VS.png"></div>
-	</div>
-	<div id='content_fight_right'>
-        <div class="fc_date">
-            <div id='dday' <?php if (!$showResults): ?> style="background-color: #e73435; color: #fff;" <?php endif; ?>>
-                <?= $f_myDate_day . "</div><div id='mmonth'> " . $month_arr[$f_myDate_month]; ?>
-            </div>
-        </div>
-        <div class="fc_s_type"><span id='fight_type'><?= $f_myType; ?></span>&nbsp;&nbsp;<span id='country_fight'><?= $f_myCity . ", " . $f_myCountry; ?></span></div>
-        <div class="fc_desc"><a href="<?= $fullLink ?>" class="a-black"><p><?= $f_myName?><?= !empty($f_myText) ? ": " . strip_tags($f_myText) : ""; ?></p></a></div>
-    </div>
-    <div class="fights-container">
-        <span id='osnova'>Основной бой</span>
-        <div class="fc_main_card">
-            <?php if ($showResults): ?>
-                <?php if ($f_main_card_winner == $f_main_card_fighter_1): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_1['myName_ru'] . " vs. "; ?><?php if ($f_main_card_winner == $f_main_card_fighter_2): ?><img src="/images/star.png"><?php endif; ?><?= $sql_fighter_2['myName_ru']; ?>
+	<div class="post_c_fc_inner">
+        <div id='img_fight_left' class="img_fight_left_cont">
+            <?php if (!empty($f_poster)): ?>
+                <a href="<?= $fullLink ?>"><img src="<?= getThumbNow($f_poster, 415, 300, 1, false, 95, -1) ?>" class="post_img_ev post_img_ev_100" style="margin-right: 25px;"></a>
             <?php else: ?>
-                <?= $sql_fighter_1['myName_ru'] . " vs. " . $sql_fighter_2['myName_ru']; ?>
+                <a href="<?= $fullLink ?>"><img src="<?= getThumbNow('/netcat_files/' . $foto_1[3], 200, 300, 1, false, 95, -1) ?>" class="post_img_ev post_img_ev_left" style="margin-right: 15px;"></a>
+                
+                <a href="<?= $fullLink ?>"><img src="<?= getThumbNow('/netcat_files/' . $foto_2[3], 200, 300, 1, false, 95, -1) ?>" class="post_img_ev post_img_ev_right" style="margin-right: 25px;"></a>
+                
+                <div class="vs_label"><img src="/images/VS.png"></div>
+            <?php endif; ?>
+	    </div>
+	    <div id='content_fight_right'>
+            <div class="fc_date">
+                <div id='dday' <?php if (!$showResults): ?> style="background-color: #e73435; color: #fff;" <?php endif; ?>>
+                    <?= $f_myDate_day . "</div><div id='mmonth'> " . $month_arr[$f_myDate_month] . "</div>" ?>
+                    <div id='yyear' <?php if (!$showResults): ?> style="background-color: #e73435; color: #fff;" <?php endif; ?>><?= $f_myDate_year ?>
+                </div>
+            </div>
+            <div class="fc_s_type"><span id='fight_type'><?= $f_myType; ?></span>&nbsp;&nbsp;<span id='country_fight'><?= $f_myCity . ", " . $f_myCountry; ?></span></div>
+            <div class="fc_desc"><a href="<?= $fullLink ?>" class="a-black"><p><?= cutStr($f_myName, 110) ?><?= !empty($f_myText) ? ": " . strip_tags($f_myText) : ""; ?></p></a></div>
+        </div>
+        <div class="fights-container">
+            <span id='osnova'>Основной бой</span>
+            <div class="fc_main_card">
+                <a class="a-black" href="<?= $fighter_link_1 ?>"><?= $sql_fighter_1['myName_en'] ?></a> <span style='color: #e73435;'>vs.</span> <a class="a-black" href="<?= $fighter_link_2 ?>"><?= $sql_fighter_2['myName_en']; ?></a>
+            </div>
+            <?php if ($rest_fighters): ?>
+                <span id='ostalnie'>Остальные бои</span>
+                <div class="fc_rest_card">
+                    <?php foreach ($rest_fighters as $row):?>
+                        <?= $row; ?><br />
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
-        <?php if ($rest_fighters): ?>
-            <span id='ostalnie'>Остальные бои</span>
-            <div class="fc_rest_card">
-                <?php foreach ($rest_fighters as $row):?>
-                    <?= $row; ?><br />
-                <?php endforeach; ?>
+        <?php if (!$showResults): ?>
+            <div class="fc_add_alert">
+                <span class="addtocalendar atc-style-menu-wb">
+                    <img src="/images/star_empty.png">
+                    <a class="atcb-link">Добавить напоминание</a>
+                    <var class="atc_event">
+                        <var class="atc_date_start"><?= $f_myDate_year . '-' . $f_myDate_month . '-' . $f_myDate_day ?></var>
+                        <var class="atc_date_end"><?= $f_myDate_year . '-' . $f_myDate_month . '-' . $f_myDate_day ?></var>
+                        <var class="atc_timezone">Europe/Moscow</var>
+                        <var class="atc_title"><?= $f_myName?></var>
+                        <var class="atc_description"><?= !empty($f_myText) ? ": " . $f_myText : ""; ?></var>
+                        <var class="atc_location"><?= $f_myCity . ", " . $f_myCountry; ?></var>
+                        <var class="atc_organizer"></var>
+                        <var class="atc_organizer_email"></var>
+                    </var>
+                </span>
             </div>
         <?php endif; ?>
-    </div>
-    <?php if (!$showResults): ?>
-        <div class="fc_add_alert">
-            <span class="addtocalendar atc-style-menu-wb">
-                <img src="/images/star_empty.png">
-                <a class="atcb-link">Добавить напоминание</a>
-                <var class="atc_event">
-                    <var class="atc_date_start"><?= $f_myDate_year . '-' . $f_myDate_month . '-' . $f_myDate_day ?></var>
-                    <var class="atc_date_end"><?= $f_myDate_year . '-' . $f_myDate_month . '-' . $f_myDate_day ?></var>
-                    <var class="atc_timezone">Europe/Moscow</var>
-                    <var class="atc_title"><?= $f_myName?></var>
-                    <var class="atc_description"><?= !empty($f_myText) ? ": " . $f_myText : ""; ?></var>
-                    <var class="atc_location"><?= $f_myCity . ", " . $f_myCountry; ?></var>
-                    <var class="atc_organizer"></var>
-                    <var class="atc_organizer_email"></var>
-                </var>
-            </span>
-        </div>
         <div class="share-evnt">
             <div data-share-data='{"url": "<?= $url; ?>", "img": "", "title": "<?= $title; ?>", "text": "<?= $summary; ?>", "id": "<?= $f_RowID; ?>"}'>
                 <div onclick="share_evt.facebook($(this))" class="facebook">
@@ -131,7 +125,7 @@
                 </div>
             </div>
         </div>
-    <?php endif; ?>
+    </div>
 </div>
 
 <?php endif; ?>

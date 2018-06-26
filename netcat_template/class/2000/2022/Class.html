@@ -116,6 +116,7 @@
             }
             $(".right_s_twit").remove();
         }
+            new LazyLoad();
     });
     
     function see_more_news(start, cnt, s_type)
@@ -364,7 +365,7 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
     <?php endif; ?>
     
     <div class="banner1_2">
-        <?= banner_rotate(2,1, false, 'banner-img');?>
+        <?= banner_rotate(5,1, false, 'banner-img');?>
     </div>
 </div>
 
@@ -404,7 +405,7 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
         </script>    
     </div>
     <!-- <div class="banner1">
-        <?= banner_rotate(2,1, false, 'banner-img');?>
+        <?= banner_rotate(6,1, false, 'banner-img');?>
     </div> -->
     <div class="right_s_twit">
         <div class="right_p_twit">Twitter<span class="video_tabs">></span></div>

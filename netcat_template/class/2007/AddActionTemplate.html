@@ -1,13 +1,18 @@
 <?php
-$newkey = $res = mb_strtolower($f_myName_en);
-if (($pos_s = strpos($newkey, '"')) !== false) {
-    $res = substr($newkey, 0, $pos_s - 2) . substr($newkey, strrpos($newkey, '"') + 1);
+if (empty($f_Keyword)) {
+    $newkey = $res = mb_strtolower($f_myName_en);
+    if (($pos_s = strpos($newkey, '"')) !== false) {
+        $res = substr($newkey, 0, $pos_s - 2) . substr($newkey, strrpos($newkey, '"') + 1);
+    }
+    if (($pos_s = strpos($newkey, "'")) !== false) {
+        $res = substr($newkey, 0, $pos_s - 2) . substr($newkey, strrpos($newkey, "'") + 1);
+    }
+    $newkey = $res;
+    $keyword = str_replace(' ', '-', $newkey);
+} else {
+    $keyword = $f_Keyword;
 }
-if (($pos_s = strpos($newkey, "'")) !== false) {
-    $res = substr($newkey, 0, $pos_s - 2) . substr($newkey, strrpos($newkey, "'") + 1);
-}
-$newkey = $res;
-$keyword = str_replace(' ', '-', $newkey);
+
 
 $db->query("UPDATE `Message" . $classID . "` SET Keyword = '" . $keyword . "' WHERE `Message_ID` = " . $message);
 

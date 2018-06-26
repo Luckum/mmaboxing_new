@@ -7,5 +7,4 @@ $subs_arr = nc_get_sub_children('14');
 $subs = nc_array_to_string($subs_arr,array('element' => '%ELEMENT','divider' => ','));
 $query_where = "a.Subdivision_ID NOT IN(20, 117, 118, 226, 227, 228, 229, 273) AND NOW() >= Date";
 $query_order = "Date DESC";
-
 ?>

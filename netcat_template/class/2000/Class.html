@@ -93,6 +93,14 @@
             $("#blogs_all_div").show();
         }
     }
+    function toggle_blogs_min()
+    {
+        if ($("#blogs_all_div_min").is(":visible")) {
+            $("#blogs_all_div_min").hide();
+        } else {
+            $("#blogs_all_div_min").show();
+        }
+    }
 </script>
 
 <?php
@@ -168,23 +176,25 @@
             </div>
             <div class="news_t blogs-min-menu">
                 <?php $sel_link = false; ?>
-                <?php foreach ($subs_arr as $sub): ?>
+                <?php foreach ($subs_arr as $k => $sub): ?>
                     <?php if ($sub['Subdivision_ID'] != 41): ?>
-                        <?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?>
-                            <a href="javascript:void(0)" class="video_tabs active_tab_min"><?= $sub['Subdivision_Name'] ?>&nbsp;&#8744;</a>
-                            <?php $sel_link = true; ?>
+                        <?php if ($k < 3): ?>
+                            <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs<?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?> active_tab<?php endif; ?>"><?= $sub['Subdivision_Name'] ?></a>
+                        <?php else: ?>
+                            <a href="javascript:void(0)" class="video_tabs<?php if ($subs_arr[0]['Hidden_URL'] != $current_sub['Hidden_URL'] && $subs_arr[1]['Hidden_URL'] != $current_sub['Hidden_URL'] && $subs_arr[2]['Hidden_URL'] != $current_sub['Hidden_URL']): ?> active_tab<?php endif; ?>" onclick="toggle_blogs_min()">Ещё</a>
+                            <?php break; ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                <?php if (!$sel_link): ?>
-                    <a href="javascript:void(0)" class="video_tabs active_tab_min">Все&nbsp;&#8744;</a>
-                <?php endif; ?>
-                <div class="min-menu-links" style="display: none;">
-                    <?php foreach ($subs_arr as $sub): ?>
-                        <?php if ($sub['Subdivision_ID'] != 41): ?>
-                            <a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs<?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?> active_tab_min<?php endif; ?>"><?= $sub['Subdivision_Name'] ?></a>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+            </div>
+            <div class="blogs_all" id="blogs_all_div_min" style="display: none;">
+                <p>Все блоги</p>
+                <div class="blogs_columns">
+                <?php foreach ($subs_arr as $sub): ?>
+                    <?php if ($sub['Subdivision_ID'] != 41): ?>
+                        <p><a href="<?= $sub['Hidden_URL'] ?>" class="video_tabs blogs_tabs<?php if ($sub['Hidden_URL'] == $current_sub['Hidden_URL']): ?> active_tab<?php endif; ?>"><?= $sub['Subdivision_Name'] ?></a></p>
+                    <?php endif; ?>
+                <?php endforeach; ?>
                 </div>
             </div>
         <?php endif; ?>
@@ -296,11 +306,20 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
         </div>
     </div>
     <div class="hr hr-mob"></div>
-    <?php if (($f_RowNum == 4) || ($f_RowNum == 12)): ?>
+    <?php if ($f_RowNum == 4): ?>
         <?php if (!$admin_mode): ?>
             <!-- баннер 728х90 раздел новости -->
             <div class="banner_hor">
                 <?= banner_rotate(1,1);?>
+            </div>
+            <!-- баннер 728х90 раздел новости -->
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if ($f_RowNum == 12): ?>
+        <?php if (!$admin_mode): ?>
+            <!-- баннер 728х90 раздел новости -->
+            <div class="banner_hor">
+                <?= banner_rotate(3,1);?>
             </div>
             <!-- баннер 728х90 раздел новости -->
         <?php endif; ?>
@@ -456,7 +475,7 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
             </div>
             <!-- баннер 300х600-2 раздел новости -->
             <!-- <div class="banner1">
-                <?= banner_rotate(2,1, false, 'banner-img');?>
+                <?= banner_rotate(5,1, false, 'banner-img');?>
             </div> -->
         <?php endif; ?>
         <?php if (!$admin_mode): ?>

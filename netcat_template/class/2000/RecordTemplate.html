@@ -102,11 +102,20 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
         </div>
     </div>
     <div class="hr hr-mob"></div>
-    <?php if (($f_RowNum == 4) || ($f_RowNum == 12)): ?>
+    <?php if ($f_RowNum == 4): ?>
         <?php if (!$admin_mode): ?>
             <!-- баннер 728х90 раздел новости -->
             <div class="banner_hor">
                 <?= banner_rotate(1,1);?>
+            </div>
+            <!-- баннер 728х90 раздел новости -->
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if ($f_RowNum == 12): ?>
+        <?php if (!$admin_mode): ?>
+            <!-- баннер 728х90 раздел новости -->
+            <div class="banner_hor">
+                <?= banner_rotate(3,1);?>
             </div>
             <!-- баннер 728х90 раздел новости -->
         <?php endif; ?>

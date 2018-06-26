@@ -10,6 +10,9 @@ if (($pos_s = strpos($newkey, "'")) !== false) {
 $newkey = $res;
 $keyword = str_replace(' ', '-', $newkey);
 
+if (!empty($f_Keyword) && $f_Keyword != $keyword) {
+    $keyword = $f_Keyword;
+}
 $db->query("UPDATE `Message" . $classID . "` SET Keyword = '" . $keyword . "' WHERE `Message_ID` = " . $message);
 
 if($inside_admin) {

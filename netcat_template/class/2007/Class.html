@@ -30,6 +30,14 @@
     });
     function see_more_fighters(start, cnt, s_type)
     {
+        var s_value = "";
+        var s_lang = "";
+        if ($("#search-letter").val() !== "") {
+            s_value = $("#search-letter").val();
+            s_lang = $("#search-letter-lang").val();
+            start = $("#search-letter-pos").val();
+            $("#search-letter-pos").val(parseInt($("#search-letter-pos").val()) + 5);
+        }
         var start_from = $(window).width() >= 1281 ? start : start - 10;
         $("#see_more_fighters").hide();
         $("#loading_news").show();
@@ -37,7 +45,7 @@
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start_from, cnt: cnt, action: 'fighters', s_type: s_type}
+            data: {start: start_from, cnt: cnt, action: 'fighters', s_type: s_type, s_value: s_value, s_lang: s_lang}
         }).responseText;
         if (html != '') {
             $("#fighters_inner_div").append(html);
@@ -75,7 +83,8 @@
             $("#fighters_inner_div").html(html);
             $(".alphabet-lnk").css({'color' : '#000'});
             $(obj).css({'color' : '#e73435'});
-            $("#see_more_fighters").hide();
+            $("#search-letter").val($(obj).attr("data-letter"));
+            $("#search-letter-lang").val("r");
             $("#f-search-text").val('');
         }
     }
@@ -91,7 +100,8 @@
             $("#fighters_inner_div").html(html);
             $(".alphabet-lnk").css({'color' : '#000'});
             $(obj).css({'color' : '#e73435'});
-            $("#see_more_fighters").hide();
+            $("#search-letter").val($(obj).attr("data-letter"));
+            $("#search-letter-lang").val("e");
             $("#f-search-text").val('');
         }
     }
@@ -139,13 +149,16 @@
 <!-- FormSuffix -->    
 <?php if (!$admin_mode): ?>
         <input type="hidden" id="current-sub" value="<?= $current_sub['Subdivision_ID']; ?>">
+        <input type="hidden" id="search-letter-pos" value="15">
+        <input type="hidden" id="search-letter" value="">
+        <input type="hidden" id="search-letter-lang" value="">
         <div id="fighters_inner_div"></div>
         <div class="brd-m last-brd-m" style="display: none;"></div>
         <button style="margin-top: 70px; margin-bottom: 70px; width: 220px; height: 60px;" class="see_more" id="see_more_fighters" value="more" onclick="see_more_fighters(15, 5, <?= $current_sub['Subdivision_ID']; ?>)">Показать ещё</button>
         <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
     </div>
     <div id='rar'>
-        <div class="right_s" style="height: 290px; margin-bottom: 10px;">
+        <!--<div class="right_s" style="height: 290px; margin-bottom: 10px;">
             <div class="right_p_t">Поиск по алфавиту<span class="video_tabs">></span></div>
             <div class="right_list_c">
                 <div class="ru-alphabet">
@@ -161,7 +174,7 @@
                     <?php endforeach; ?>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="right_s">
             <div class="right_p_t"><a href="/fight-calendar" class="a-black">Результаты</a><span class="video_tabs">></span></div>
             <div class="right_list_c">

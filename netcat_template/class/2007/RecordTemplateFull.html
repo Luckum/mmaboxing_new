@@ -30,7 +30,7 @@
 <?php
     $db->query("UPDATE `Message$classID` SET views = views + 1 WHERE `Message_ID` = $f_RowID");
     $c_country = mysql_fetch_assoc(mysql_query("SELECT * FROM Classificator_country_en WHERE country_en_ID = " . $f_myCountry_id));
-    $events = $db->get_results("SELECT * FROM Message2010 WHERE main_card_fighter_1 = " . $f_RowID . " OR main_card_fighter_2 = " . $f_RowID, ARRAY_A);
+    $events = $db->get_results("SELECT * FROM Message2010 WHERE (main_card_fighter_1 = " . $f_RowID . " OR main_card_fighter_2 = " . $f_RowID . ") AND NOW() > myDate", ARRAY_A);
     $other_fights = $db->get_results("SELECT * FROM Message2045 WHERE fighter_1 = " . $f_RowID . " OR fighter_2 = " . $f_RowID, ARRAY_A);
     
     $pro_fights = setFightersStatistic($events, $other_fights, 1, $f_RowID);
@@ -73,35 +73,41 @@
         $v_preview_3 = getVideoPreview($src_3);
         $v_title_3 = getVideoTitle($src_3);
     }
+    $nickname = !empty($f_nickname) ? ' "' . $f_nickname . '" ' : ' ';
+    $flag = '/images/flags/d_flag.jpg';
+    if (!empty($f_myCountry)) {
+        $cl_country = mysql_fetch_assoc(mysql_query("SELECT * FROM Classificator_Country_en WHERE country_en_ID = " . $f_myCountry_id));
+        print_r($cl_country);
+        if ($cl_country) {
+            $flag = $cl_country['Value'];
+        }
+    }
 ?>
 <div class='page-text'>
     <div class="main_dop_inner_l">
         <div class="breadcrumbs-hdr">
-            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true, $f_myName_ru . ' / ' . $f_myName_en); ?>
+            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true, $f_f_name_ru . ' ' . $f_l_name_ru . ' / ' . $f_f_name_en . $nickname . $f_l_name_en); ?>
         </div>
         <div class="fighter-card">
-            <div class="f-promotion">
-                <span class="f-title">Промоушен</span>
-                <span class="f-descr f-reds"><?= $f_myPromotion; ?></span>
+            <div class="f-photo">
+                <img src="<?= !empty($f_myFoto) ? getThumbNow($f_myFoto, 270, 405, 0, false, 95, -1) : '/images/f_default.jpg' ?>">
             </div>
-            <div class="f-birthdate">
-                <span class="f-title">Дата рождения</span>
-                <span class="f-descr"><?= date("Y-m-d", strtotime($f_birth_date)); ?></span>
-            </div>
-            <div class="f-age">
-                <span class="f-title">Возраст</span>
-                <span class="f-descr"><?= calcAge($f_birth_date); ?></span>
-            </div>
-            <div class="f-flag">
-                <img src="/images/flags/<?= $c_country['Value']; ?>">
-            </div>
-            <div class="f-country">
-                <span class="f-title"><?= !empty($f_birth_place) ? $f_birth_place : '&nbsp;'; ?></span>
-                <span class="f-descr f-country-country"><?= $c_country['country_en_Name']; ?></span>
-            </div>
-            <div class="f-row">
-                <div class="f-photo">
-                    <img src="<?= getThumbNow($f_myFoto, 390, 289, 0, false, 95, -1); ?>">
+            <div class="f-col">
+                <div class="f-birthdate">
+                    <span class="f-title">Дата рождения</span>
+                    <span class="f-descr"><?= $f_birth_date == 0 ? 'N/A' : date("Y-m-d", strtotime($f_birth_date)); ?></span>
+                </div>
+                <div class="f-age">
+                    <span class="f-title">Возраст</span>
+                    <span class="f-descr"><?= $f_birth_date == 0 ? 'N/A' : calcAge($f_birth_date); ?></span>
+                </div>
+                <div class="f-flag">
+                    <!--<img src="/images/flags/<?= $c_country['Value']; ?>">-->
+                    <img src="/images/flags/<?= $flag ?>">
+                </div>
+                <div class="f-country">
+                    <span class="f-title"><?= !empty($f_birth_place) ? $f_birth_place : '&nbsp;'; ?></span>
+                    <span class="f-descr f-country-country"><?= !empty($f_myCountry) ? $f_myCountry : (!empty($f_country_name) ? $f_country_name : "") ?></span>
                 </div>
                 <div class="f-other">
                     <div class="row-1">
@@ -143,35 +149,36 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="f-row">
+                
+                
+            </div>
         </div>
         <div class="fighter-card-mob">
             <div class="f-mob-row-1">
-                <div class="f-promotion">
-                    <span class="f-title">Промоушен</span>
-                    <span class="f-descr f-reds"><?= $f_myPromotion; ?></span>
-                </div>
                 <div class="f-photo">
-                    <img src="<?= getThumbNow($f_myFoto, 270, 208, 1, false, 95, -1); ?>">
+                    <img src="<?= !empty($f_myFoto) ? getThumbNow($f_myFoto, 270, 405, 0, false, 95, -1) : '/images/f_default.jpg' ?>">
                 </div>
             </div>
             <div class="f-mob-row-2">
                 <div class="f-mob-row-20">
                     <div class="f-flag">
-                        <img src="/images/flags/<?= $c_country['Value']; ?>">
+                        <img src="/images/flags/d_flag.jpg">
                     </div>
                     <div class="f-country">
                         <span class="f-title"><?= !empty($f_birth_place) ? $f_birth_place : '&nbsp;'; ?></span>
-                        <span class="f-descr f-country-country"><?= $c_country['country_en_Name']; ?></span>
+                        <span class="f-descr f-country-country"><?= !empty($f_country_name) ? $f_country_name : "" ?></span>
                     </div>
                 </div>
                 <div class="f-mob-row-21">
                     <div class="f-birthdate">
                         <span class="f-title">Дата рождения</span>
-                        <span class="f-descr f-mob-bg"><?= date("Y-m-d", strtotime($f_birth_date)); ?></span>
+                        <span class="f-descr f-mob-bg"><?= $f_birth_date == 0 ? 'N/A' : date("Y-m-d", strtotime($f_birth_date)); ?></span>
                     </div>
                     <div class="f-age">
                         <span class="f-title">Возраст</span>
-                        <span class="f-descr f-mob-bg"><?= calcAge($f_birth_date); ?></span>
+                        <span class="f-descr f-mob-bg"><?= $f_birth_date == 0 ? 'N/A' : calcAge($f_birth_date); ?></span>
                     </div>
                 </div>
                 <div class="f-mob-row-22">
@@ -522,17 +529,19 @@
             <?php endif; ?>
         </div>
     <?php endif; ?>
-    <div class="banner1" <?php if (empty($f_video_1) && empty($f_video_2) && empty($f_video_3)): ?>style="margin-top: 0;"<?php endif; ?>>
-        <?= banner_rotate(2,1, false, 'banner-img');?>
-    </div>
-    <div class="right_s" style="height: 482px;">
-        <div class="right_p_t"><a href="/video/archive" class="a-black">Архив боёв</a><span class="video_tabs">></span></div>
-        <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
-    </div>
-    <div class="right_s" style="margin-top: 10px;">
-        <div class="right_p_t">Теги<span class="video_tabs">></span></div>
-        <div class="right_list_c">
-            <?= nc_tag_cloud_all($catalogue, "<a class='tag-cloud-link' href='/tag/%TAG_LINK'>%TAG_NAME</a>", 31); ?>
+    <div class="right_s" style="height: auto;">
+        <div class="banner1" <?php if (empty($f_video_1) && empty($f_video_2) && empty($f_video_3)): ?>style="margin-top: 0;"<?php endif; ?>>
+            <?= banner_rotate(2,1, false, 'banner-img');?>
+        </div>
+        <div class="right_s" style="height: 482px; border-top: solid 10px #eaeaea;">
+            <div class="right_p_t"><a href="/video/archive" class="a-black">Архив боёв</a><span class="video_tabs">></span></div>
+            <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2026") ?>
+        </div>
+        <div class="right_s" style="border-top: solid 10px #eaeaea;">
+            <div class="right_p_t">Теги<span class="video_tabs">></span></div>
+            <div class="right_list_c">
+                <?= nc_tag_cloud_all($catalogue, "<a class='tag-cloud-link' href='/tag/%TAG_LINK'>%TAG_NAME</a>", 31); ?>
+            </div>
         </div>
     </div>
 </div>

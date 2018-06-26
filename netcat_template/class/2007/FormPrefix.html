@@ -30,6 +30,14 @@
     });
     function see_more_fighters(start, cnt, s_type)
     {
+        var s_value = "";
+        var s_lang = "";
+        if ($("#search-letter").val() !== "") {
+            s_value = $("#search-letter").val();
+            s_lang = $("#search-letter-lang").val();
+            start = $("#search-letter-pos").val();
+            $("#search-letter-pos").val(parseInt($("#search-letter-pos").val()) + 5);
+        }
         var start_from = $(window).width() >= 1281 ? start : start - 10;
         $("#see_more_fighters").hide();
         $("#loading_news").show();
@@ -37,7 +45,7 @@
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start_from, cnt: cnt, action: 'fighters', s_type: s_type}
+            data: {start: start_from, cnt: cnt, action: 'fighters', s_type: s_type, s_value: s_value, s_lang: s_lang}
         }).responseText;
         if (html != '') {
             $("#fighters_inner_div").append(html);
@@ -75,7 +83,8 @@
             $("#fighters_inner_div").html(html);
             $(".alphabet-lnk").css({'color' : '#000'});
             $(obj).css({'color' : '#e73435'});
-            $("#see_more_fighters").hide();
+            $("#search-letter").val($(obj).attr("data-letter"));
+            $("#search-letter-lang").val("r");
             $("#f-search-text").val('');
         }
     }
@@ -91,7 +100,8 @@
             $("#fighters_inner_div").html(html);
             $(".alphabet-lnk").css({'color' : '#000'});
             $(obj).css({'color' : '#e73435'});
-            $("#see_more_fighters").hide();
+            $("#search-letter").val($(obj).attr("data-letter"));
+            $("#search-letter-lang").val("e");
             $("#f-search-text").val('');
         }
     }

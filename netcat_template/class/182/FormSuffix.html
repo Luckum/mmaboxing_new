@@ -8,14 +8,14 @@
                 <option value="<?= $tag->href; ?>" <?php if ($tag->href == $sel_url): ?> selected <?php endif; ?>><?= $tag->innertext; ?></option>
             <?php endforeach; ?>
         </select>
-        <span class='ves_cat'>Боец</span>
-        <select name="archvie_fighter" id="archive_fighter">
+        <span class='ves_cat m-hid'>Боец</span>
+        <select name="archvie_fighter" id="archive_fighter" class="m-hid">
             <option value="0">Все бойцы</option>
             <?php foreach ($fighters as $fighter): ?>
                 <option value="<?= $fighter; ?>"><?= $fighter; ?></option>
             <?php endforeach; ?>
         </select>
-        <button id="show_archive_selected" class="vote-button" onclick="show_selected(0, 9);">Показать</button>
+        <button id="show_archive_selected" class="vote-button arch-show-btn" onclick="show_selected(0, 9);">Показать</button>
     </div>
     <div id="loading_selected" class="loading_news_arch_sel" style="display: none;"><img src="/images/loading.gif"></div>
     <div id="show_selected_div_1" class="arch-container">

@@ -12,10 +12,9 @@
 ?>
 <div class="brd-m" style="display: none;"></div>
 <div class="post_c_r">
-    <img src="<?= getThumbNow($f_myFoto, 180, 180, 1, false, 95, -1); ?>" class="post_img_r">
+    <img src="<?= !empty($f_myFoto) ? getThumbNow($f_myFoto, 180, 180, 3, false, 95, -1) : getThumbNow('/images/f_default.jpg', 180, 180, 1, false, 95, -1); ?>" class="post_img_r">
     <div>
         <div class="rating_post_t"><a href="<?= $fullLink; ?>"><?= $f_myName_ru; ?></a></div>
-        <div class="rating_post_desk"><?= $f_myPromotion; ?></div>
     </div>
     <?php if (!empty($next_f)): ?>
         <div class="next-fight">
@@ -32,15 +31,7 @@
         <li><span>Ничьи </span><span><?= $f_draw; ?></span></li>
     </ul>
 </div>
-<?php if ($f_RowNum == 4 || $f_RowNum == 9): ?>
-    <?php if (!$admin_mode): ?>
-        <div class="banner_hor">
-            <?= banner_rotate(1,1);?>
-        </div>
-    <?php endif; ?>
-<?php else: ?>
-    <div class="hr" style="border-bottom: solid 12px #eaeaea; margin-top: -20px;"></div>
-<?php endif; ?>
+<div class="hr" style="border-bottom: solid 12px #eaeaea; margin-top: -20px;"></div>
 
 
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

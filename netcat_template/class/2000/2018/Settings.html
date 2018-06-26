@@ -6,9 +6,9 @@ $tagArr = explode(',',$searchTags);
 
 foreach ($tagArr as $key=>$val) { 
     if ($key == 0) {
-        $likeStr .= " myTags LIKE '%" . trim(strip_tags($val)) . "%'";
+        $likeStr .= ' myTags LIKE "%' . trim(strip_tags($val)) . '%"';
     } else {
-        $likeStr .= " OR myTags LIKE '%" . trim(strip_tags($val)) . "%'";
+        $likeStr .= ' OR myTags LIKE "%' . trim(strip_tags($val)) . '%"';
     }
 }
 
