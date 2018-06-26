@@ -8,9 +8,35 @@
         $('#archive_tournament').styler();
 		$('#archive_fighter').styler();
 		var ev = $('.header').html();
-		if ($(window).width() <= 414) {
+		if ($(window).width() <= 1281) {
 		    $('#imgfc2').after($('.fc_main_fighter_1'));
 		}
+
+        if ($(window).width() <= 1102) {
+            $(".otherfight_container").each(function() {
+                var inc_after = $(this).find(".imgfc2-rest");
+                var inc_obj = $(this).find(".fc_rest_fighter_1");
+                $(inc_after).after(inc_obj);
+            });
+            
+            $(".otherfight_container").each(function() {
+                var inc_after = $(this).find(".fc_rest_fighter_2");
+                var inc_obj = $(this).find(".fc_rest_los_details_1");
+                $(inc_after).after(inc_obj);
+            });
+            
+            $(".otherfight_container").each(function() {
+                var inc_after = $(this).find(".fc_rest_fighter_2");
+                var inc_obj = $(this).find(".fc_rest_win_details_1");
+                $(inc_after).after(inc_obj);
+            });
+            
+            var win_width = $(window).width();
+            $(".fc_rest_los_details_data_hdr, .fc_rest_win_details_data_hdr").css({left: 20/(40/(win_width - 320)) + 169});
+            $(".fc_rest_win_details_1 .fc_rest_win_details_data_hdr, .fc_rest_los_details_1 .fc_rest_los_details_data_hdr").css({left: 19/(40/(win_width - 320)) + 31});
+            
+        }
+
 		if ($(window).width() <= 1281 && $('#adp_menu').length == '0') {
 			$('.header').prepend('<div id="adp_menu"></div>');
 			$('#adp_menu').append($('.menu_count, .head'));
@@ -43,6 +69,10 @@
 		$(window).resize(function() {
 		    if ($(window).width() >= 1281) {
 			    $('.header').html(ev);
+                if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+                    $(".small_l_c_l").css({'float': 'none'});
+                    $(".menu_2_fixed li a").css({'font-weight': 'normal'});
+                }
 		    } else if ($(window).width() <= 1280 && $('#adp_menu').length == '0') {
 				$('.header').prepend('<div id="adp_menu"></div>');
 				$('#adp_menu').append($('.menu_count, .head'));
@@ -62,11 +92,32 @@
 				};
 			}
 			
-			if ($(window).width() <= 414) {
-			    $('#imgfc2').after($('.fc_main_fighter_1'));
-			} else {
-			    $('.fc_main_fighter_1').after($('#imgfc2'));
-			}
+			if ($(window).width() <= 1102) {
+                $(".otherfight_container").each(function() {
+                    var inc_after = $(this).find(".imgfc2-rest");
+                    var inc_obj = $(this).find(".fc_rest_fighter_1");
+                    $(inc_after).after(inc_obj);
+                });
+                
+                $(".otherfight_container").each(function() {
+                    var inc_after = $(this).find(".fc_rest_fighter_2");
+                    var inc_obj = $(this).find(".fc_rest_los_details_1");
+                    $(inc_after).after(inc_obj);
+                });
+                
+                $(".otherfight_container").each(function() {
+                    var inc_after = $(this).find(".fc_rest_fighter_2");
+                    var inc_obj = $(this).find(".fc_rest_win_details_1");
+                    $(inc_after).after(inc_obj);
+                });
+                
+                var win_width = $(window).width();
+                $(".fc_rest_los_details_data_hdr, .fc_rest_win_details_data_hdr").css({left: 20/(40/(win_width - 320)) + 169})
+                $(".fc_rest_win_details_1 .fc_rest_win_details_data_hdr, .fc_rest_los_details_1 .fc_rest_los_details_data_hdr").css({left: 19/(40/(win_width - 320)) + 31});
+                
+            }
+
+
             if ($(window).width() <= 1281) {
                 $('.bckClickerleft').hide();
                 $('.bckClickerright').hide();
