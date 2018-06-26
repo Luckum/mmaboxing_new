@@ -540,7 +540,10 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
             // [MERGE] not used, not in API
             // $cond_catalogue_add = " AND a.`Subdivision_ID` = sub.`Subdivision_ID` ";
             // $cond_catalogue_addtable = ", `Subdivision` AS sub ";
-
+        
+        if (isset($isFightersSearch)) {
+            $ignore_cc = $ignore_sub = true;
+        }
         $cond_sub = !$ignore_sub ? " AND a.`Subdivision_ID` = '" . $sub . "' " : "";
         $cond_cc = !$ignore_cc ? " AND a.`Sub_Class_ID` = '" . $cc . "' " : "";
         $cond_user = !$ignore_user ? " AND a.`User_ID` = '" . $AUTH_USER_ID . "' " : "";
@@ -1600,7 +1603,6 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
             if ($date_field && ${"f_{$date_field}"}) {
                 $dateLink = ${"f_{$date_field}_year"} . "/" . ${"f_{$date_field}_month"} . "/" . ${"f_{$date_field}_day"} . "/";
             }
-
             if ($routing_module_enabled) {
                 $_add_domain = ($catalogue != $current_catalogue['Catalogue_ID']);
 

@@ -72,10 +72,11 @@ if ($entries) {
 
         echo "<url>",
         "<loc>", $url_prefix, $path, "</loc>",
-        "<lastmod>", $url["LastModified"], $tz, "</lastmod>", //2012-12-23T18:00:15+03:00
-        "<changefreq>", $url["SitemapChangefreq"], "</changefreq>",
+//        "<lastmod>", $url["LastModified"], $tz, "</lastmod>", //2012-12-23T18:00:15+03:00
+//        "<changefreq>", $url["SitemapChangefreq"], "</changefreq>",
         // 0.5 is the default value for <priority>
-        ($url["SitemapPriority"] != "0.5" ? "<priority>$url[SitemapPriority]</priority>" : ""),
+        //($url["SitemapPriority"] != "0.5" ? "<priority>$url[SitemapPriority]</priority>" : ""),
+        (($path == '/' ? "<priority>1.0</priority>" : (strpos($path, '.html') !== false) ? "<priority>0.7</priority>" : "<priority>0.8</priority>")),
         "</url>\n";
     }
 }

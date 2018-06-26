@@ -331,6 +331,7 @@ function nc_resolve_url($url, $method = null, $site_id = null) {
     // Имя «файла»
     $req_file = strrchr($url->get_parsed_url('path'), '/');
 
+    echo $req_file;
     // Определяем раздел по пути
     $result['folder_id'] = $nc_core->subdivision->get_by_uri($url->get_parsed_url('path'), $site_id, 'Subdivision_ID', true, true);
 

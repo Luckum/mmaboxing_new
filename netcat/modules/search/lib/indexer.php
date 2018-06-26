@@ -580,6 +580,7 @@ class nc_search_indexer {
     protected function save_broken_links() {
         $this->flush_referrer_cache();
         $this->query_db("DELETE FROM `Search_BrokenLink` WHERE `ToDelete` = 1");
+        $this->query_db("SET SQL_BIG_SELECTS=1");
         $this->query_db("INSERT INTO `Search_BrokenLink` (`URL`, `Referrer_URL`, `Referrer_Document_ID`)
                          SELECT DISTINCT
                                 `target`.`URL` AS `URL`,

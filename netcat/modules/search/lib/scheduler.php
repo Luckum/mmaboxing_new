@@ -48,7 +48,7 @@ class nc_search_scheduler {
             return false;
         }
 
-        $intent = nc_search::load('nc_search_scheduler_intent',
+        /*$intent = nc_search::load('nc_search_scheduler_intent',
                         'SELECT * FROM `%t%`'.
                         ' WHERE `StartTime` <= '.time().// UNIX_TIMESTAMP(NOW())
                         // imho возможна проблема с TZ, если разные настройки в php и mysql ↑
@@ -68,10 +68,10 @@ class nc_search_scheduler {
         }
 
         // информация принята к сведению и больше не нужна
-        $intent->delete();
+        $intent->delete();*/
 
         // запуск индексации
-        $provider->index_area($intent->get('area_string'), $indexer_strategy);
+        $provider->index_area(7, $indexer_strategy);
     }
 
 }

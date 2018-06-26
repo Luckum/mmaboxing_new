@@ -72,7 +72,7 @@ function addArrogRes($vid, $check, $class_id, $vote_check)
 #  1 — вписывает   в указанные размеры с обрезкой; 
 #  3 — аналогично 1, но с приоритетов по ширине; 
 #  4 — аналогично 1 но с приоритетом по высоте;
-function getThumbNow($src, $width, $height, $mode=0, $nocache = false, $quality = 100, $rgb = 0xFFFFFF) {
+function getThumbNow($src, $width, $height, $mode=0, $nocache = false, $quality = 85, $rgb = 0xFFFFFF) {
     global $HTTP_IMAGES_PATH, $INCLUDE_FOLDER;
     
     $imageFile =     $_SERVER['DOCUMENT_ROOT'].$src;
@@ -81,15 +81,15 @@ if(!is_file($imageFile)) return false; // Если файла не сущест�
 	$ext = pathinfo($imageFile, PATHINFO_EXTENSION);
     
     $im = imagecreatefromjpeg($imageFile);
-            $stamp = imagecreatefrompng($_SERVER['DOCUMENT_ROOT'].'/images/watermark_light.png');
+            //$stamp = imagecreatefrompng($_SERVER['DOCUMENT_ROOT'].'/images/watermark_light.png');
             // Установка полей для штампа и получение высоты/ширины штампа
-            $marge_right = 10;
-            $marge_bottom = 10;
-            $sx = imagesx($stamp);
-            $sy = imagesy($stamp);
+            //$marge_right = 10;
+            //$marge_bottom = 10;
+            //$sx = imagesx($stamp);
+            //$sy = imagesy($stamp);
             // Копирование изображения штампа на фотографию с помощью смещения края
             // и ширины фотографии для расчета позиционирования штампа. 
-            imagecopy($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
+            //imagecopy($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
             imagepng($im,$imageFile);
     
     
@@ -99,6 +99,7 @@ if(!is_file($imageFile)) return false; // Если файла не сущест�
     if(!$dh=opendir($_SERVER['DOCUMENT_ROOT'].$folder)) {mkdir($_SERVER['DOCUMENT_ROOT'].$folder, 0777);} else closedir($dh); // создаем папке, если нет
 
     $newFile = $_SERVER['DOCUMENT_ROOT'].$folder.$newFileName;
+    
     
     if(!is_file($newFile) || $nocache) 
     {
@@ -852,7 +853,13 @@ function setBreadcrumbs($cur_url, $action = '', $inner = false, $title = '')
                     $page_title = '<h1>' . $title . '</h1>';
                 }
             } else {
-                
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fighters" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Бойцы</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
             }
         break;
         case '/fighters/boxing/':
@@ -868,7 +875,13 @@ function setBreadcrumbs($cur_url, $action = '', $inner = false, $title = '')
                     $page_title = '<h1>' . $title . '</h1>';
                 }
             } else {
-                
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fighters" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Бойцы</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
             }
         break;
         case '/fighters/kickboxing/':
@@ -884,7 +897,13 @@ function setBreadcrumbs($cur_url, $action = '', $inner = false, $title = '')
                     $page_title = '<h1>' . $title . '</h1>';
                 }
             } else {
-                
+                $page_title = '<h1>' . $header['Value'] . '</h1>';
+                $breadcrumbs_inner .= '<span class="path-arrow' . $add_arrow_class . '"></span>';
+                $breadcrumbs_inner .= '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="path-item' . $add_path_class . '">';
+                $breadcrumbs_inner .= '<a href="/fighters" itemprop="url" class="' . $add_link_class . '">';
+                $breadcrumbs_inner .= '<span itemprop="title">Бойцы</span>';
+                $breadcrumbs_inner .= '</a>';
+                $breadcrumbs_inner .= '</div>';
             }
         break;
         default:
@@ -1059,18 +1078,20 @@ function setFightersStatistic($events, $other_fights, $type, $f_id)
                 
                 $event = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2010 WHERE Message_ID = " . $val['event']));
                 
-                $fights[] = [
-                    'result' => $result,
-                    'o_name_ru' => $opponent['myName_ru'],
-                    'o_name_en' => $opponent['myName_en'],
-                    'event_name' => $event['myName'],
-                    'event_date' => $event['myDate'],
-                    'referee' => $val['referee'],
-                    'win_type' => $val['win_type'],
-                    'win_round' => $val['win_round'],
-                    'win_time' => $val['win_time'],
-                    'video' => $val['video']
-                ];
+                if ($event['myDate'] < date("Y-m-d H:i:s")) {
+                    $fights[] = [
+                        'result' => $result,
+                        'o_name_ru' => $opponent['myName_ru'],
+                        'o_name_en' => $opponent['myName_en'],
+                        'event_name' => $event['myName'],
+                        'event_date' => $event['myDate'],
+                        'referee' => $val['referee'],
+                        'win_type' => $val['win_type'],
+                        'win_round' => $val['win_round'],
+                        'win_time' => $val['win_time'],
+                        'video' => $val['video']
+                    ];
+                }
             }
         }
     }
@@ -1087,21 +1108,26 @@ function getFrameSrc($str)
     return $frame->src;
 }
 
-function getVideoPreview($src)
+function getVideoPreview($src, $photo = "")
 {
     require_once $_SERVER['DOCUMENT_ROOT']."/netcat/require/lib/simple_html_dom.php";
     
     $url = parse_url($src);
     if ($url['host'] == 'www.youtube.com') {
         $v_name = explode('/', $url['path']);
-        return '//img.youtube.com/vi/' . $v_name[count($v_name) - 1] . '/hqdefault.jpg';
+        $res = '//img.youtube.com/vi/' . $v_name[count($v_name) - 1] . '/hqdefault.jpg';
     }
     if ($url['host'] == 'vk.com') {
-        $html = file_get_html('https:' . $src);
-        //echo $html;
+        $html = file_get_html('https:' . trim($src));
         $img = $html->find('#video_player', 0);
-        return $img->poster;
+        $res = $img->poster;
     }
+    
+    if (empty($res) && !empty($photo)) {
+        $res = $photo;
+    }
+    
+    return $res;
 }
 
 function setFrameSrc($get)

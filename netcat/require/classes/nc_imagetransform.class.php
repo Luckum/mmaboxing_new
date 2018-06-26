@@ -253,7 +253,7 @@ class nc_ImageTransform extends nc_System {
      * @param int $quality  [optional] Качество сжатия изображения (0-100) при $format=='jpg'
      * @return mixed В случае ошибки возвратит false иначе возвратит путь к созданному файлу
      */
-    public static function imgResize($src_img, $dest_img, $width, $height, $mode = 0, $format = NULL, $quality = 90, $message_id = 0, $field = 0) {
+    public static function imgResize($src_img, $dest_img, $width, $height, $mode = 0, $format = NULL, $quality = 80, $message_id = 0, $field = 0) {
 
         global $classID, $systemTableID;
         $nc_core = nc_Core::get_object();
@@ -325,10 +325,10 @@ class nc_ImageTransform extends nc_System {
         if (($format == 'png') || ($format == 'gif')) {
             //self::setTransparency($gd_dest_img, $gd_src_img);
             /*PNG FIX 17.06.2012*/
-            imagealphablending($gd_dest_img, false);
+            /*imagealphablending($gd_dest_img, false);
             imagesavealpha($gd_dest_img, true);
             $transparent = imagecolorallocatealpha($gd_dest_img, 255, 255, 255, 127);
-            imagefilledrectangle($gd_dest_img, 0, 0, $new_width, $new_height, $transparent);
+            imagefilledrectangle($gd_dest_img, 0, 0, $new_width, $new_height, $transparent);*/
             /*PNG FIX END*/
         }
 
@@ -338,7 +338,7 @@ class nc_ImageTransform extends nc_System {
                 imagegif($gd_dest_img, $dest_img);
                 break;
             case 'png':
-                imagepng($gd_dest_img, $dest_img);
+                imagepng($gd_dest_img, $dest_img, 9);
                 break;
             case 'bmp':
                 imagebmp($gd_dest_img, $dest_img);

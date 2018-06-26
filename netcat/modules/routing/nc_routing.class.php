@@ -59,6 +59,7 @@ class nc_routing {
 
         $stored = $get_disabled ? 'all_routes' : 'enabled_routes';
 
+        
         if ($reload || !isset(self::${$stored}[$site_id])) {
             $query = "SELECT * FROM `%t%` WHERE `Site_ID` = " . (int)$site_id;
             if (!$get_disabled) { $query .= " AND `Enabled` = 1"; }

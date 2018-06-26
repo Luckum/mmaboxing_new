@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+//if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
     require_once '../../../vars.inc.php';
     require_once '../../../index.php';
     require_once 'function.inc.php';
@@ -10,7 +10,7 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
     $s_type = isset($_POST['s_type']) ? $_POST['s_type'] : 0;
     $weight_cat = isset($_POST['cat']) ? $_POST['cat'] : 0;
     $url = isset($_POST['url']) ? $_POST['url'] : '';
-    $fighter = isset($_POST['fighter']) ? $_POST['fighter'] : '';
+    $fighter = isset($_POST['fighter']) ? $_POST['fighter'] : 0;
     $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : '';
     $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : '';
     $search = isset($_POST['search']) ? "&search=" . $_POST['search'] : '';
@@ -140,5 +140,69 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             $result = getBanner();
             echo json_encode($result);
         break;
+        case "load_news_part_1":
+            echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4");
+        break;
+        case "load_news_part_2":
+            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12");
+        break;
+        case "load_news_part_3":
+            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18");
+        break;
+        case "load_news_all_1":
+            echo s_list_class(3,1,"&recNum=12&nc_ctpl=2024&is_mob=1");
+        break;
+        case "load_news_all_2":
+            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12&is_mob=1");
+        break;
+        case "load_news_all_3":
+            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18&is_mob=1");
+        break;
+        case "load_news_all_1_1":
+            echo s_list_class(3,1,"&recNum=12&nc_ctpl=2024");
+        break;
+        case "load_news_all_2_1":
+            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12");
+        break;
+        case "load_news_all_3_1":
+            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18");
+        break;
+        case "load_slider_d":
+            echo '<div class="right_p_t_b vid">
+                    <a href="/videoblogi" class="a-white">Видеоблоги</a><span class="video_tabs">></span>
+                    <span class="soc-slider">
+                        MMABoxing.ru в соцсетях:
+                        <a href="https://t.me/mmaboxingru" target="_blank"><span class="social-tele-w"></span></a>
+                        <a href="https://vk.com/mmaboxing_mma" target="_blank"><span class="social-vk-w"></span></a>
+                        <a href="https://www.facebook.com/mmaboxingru2016/" target="_blank"><span class="social-fb-w"></span></a>
+                        <a href="https://www.instagram.com/mmaboxingofficial/" target="_blank"><span class="social-inst-w"></span></a>
+                        <a href="https://www.youtube.com/user/mmaboxingtv" target="_blank"><span class="social-tube-w"></span></a>
+                    </span>
+                </div>' .
+                s_list_class(233,243,"&recNum=8&nc_ctpl=2027");
+        break;
+        case "load_slider_m":
+            echo '<div class="right_p_t_b vid"><a href="/videoblogi" class="a-white">Видеоблоги</a><span class="video_tabs">></span></div>' .
+                s_list_class(233,243,"&recNum=4&nc_ctpl=2027");
+        break;
+        case 'fighters':
+            echo s_list_class(23,24,"&recNum=" . $cnt . "&nc_ctpl=2052&curPos=" . $start . "&s_type=" . $s_type . $is_mob);
+        break;
+        case 'fighters_search':
+            echo s_list_class(23,24,"&nc_ctpl=2052&s_value=" . $_POST['value'] . "&s_type=" . $s_type);
+        break;
+        case 'fighters_search_letters_r':
+            echo s_list_class(23,24,"&nc_ctpl=2052&ar_value=" . $_POST['value']);
+        break;
+        case 'fighters_search_letters_e':
+            echo s_list_class(23,24,"&nc_ctpl=2052&ae_value=" . $_POST['value']);
+        break;
+        case 'load_fighters_d':
+            echo s_list_class(23,24,"&nc_ctpl=2052&recNum=15&s_type=" . $s_type);
+        break;
+        case 'load_fighters_m':
+            echo s_list_class(23,24,"&nc_ctpl=2052&recNum=5&s_type=" . $s_type);
+        break;
     }
-}
+//}
+return true;

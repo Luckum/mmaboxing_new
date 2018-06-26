@@ -34,7 +34,7 @@ class nc_search_document extends nc_search_data_persistent {
             'sitemap_include' => false,
             'sitemap_changefreq' => '',
             'sitemap_priority' => 0,
-            'last_updated' => null, // время обновления в индексе
+            'last_updated' => date(), // время обновления в индексе
             'last_modified' => null, // значение http-заголовка last-modified
             'to_delete' => false,
             'hash' => null,

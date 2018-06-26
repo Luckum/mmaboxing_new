@@ -229,6 +229,7 @@ else {
     }
 
     if ($routing_result === false) {
+        
         // Страница не найдена
         $page_not_found = true;
     }
@@ -387,6 +388,7 @@ if ($cc && in_array($sub, nc_preg_split("/\s*,\s*/", $nc_core->get_settings('mod
 if (!$sub || ($sub == $e404_sub && $title_sub != $sub)) {
     $page_not_found = true;
 }
+
 if ($page_not_found) {
     $sub = $e404_sub;
     $nc_core->subdivision->set_current_by_id($sub);

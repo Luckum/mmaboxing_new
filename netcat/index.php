@@ -89,7 +89,12 @@ switch (true) {
         $current_cc = $nc_core->sub_class->set_current_by_id($cc_array[0]);
         break;
     case $cc || $user_table_mode:
-        $nc_main_content = nc_objects_list($sub, $cc, $nc_core->url->get_parsed_url('query').( isset($date) ? "&date=".$date : "")."&isMainContent=1");
+        if ($cc == 24) {
+            $nc_main_content = nc_objects_list($sub, $cc, $nc_core->url->get_parsed_url('query').( isset($date) ? "&date=".$date : "")."&isMainContent=1&isFightersSearch=1");
+        } else {
+            $nc_main_content = nc_objects_list($sub, $cc, $nc_core->url->get_parsed_url('query').( isset($date) ? "&date=".$date : "")."&isMainContent=1");
+        }
+        
         break;
 }
 
