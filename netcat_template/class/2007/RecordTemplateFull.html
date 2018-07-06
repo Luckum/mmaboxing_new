@@ -86,7 +86,7 @@
 <div class='page-text'>
     <div class="main_dop_inner_l">
         <div class="breadcrumbs-hdr">
-            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true, $f_f_name_ru . ' ' . $f_l_name_ru . ' / ' . $f_f_name_en . $nickname . $f_l_name_en); ?>
+            <?= setBreadcrumbs($current_sub['Hidden_URL'], '', true, !empty($f_f_name_ru) ? $f_f_name_ru . ' ' . $f_l_name_ru . ' / ' . $f_f_name_en . $nickname . $f_l_name_en : $f_f_name_en . $nickname . $f_l_name_en); ?>
         </div>
         <div class="fighter-card">
             <div class="f-photo">

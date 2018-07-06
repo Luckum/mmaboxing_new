@@ -49,6 +49,8 @@
     }
     $foto_1 = explode(':', $sql_fighter_1['myFoto']);
     $foto_2 = explode(':', $sql_fighter_2['myFoto']);
+    $f_image_1 = !empty($foto_1[3]) ? '/netcat_files/' . $foto_1[3] : (!empty($sql_fighter_1['image']) ? '/images/fighters/' . $sql_fighter_1['image'] : '/images/f_default.jpg');
+    $f_image_2 = !empty($foto_2[3]) ? '/netcat_files/' . $foto_2[3] : (!empty($sql_fighter_2['image']) ? '/images/fighters/' . $sql_fighter_2['image'] : '/images/f_default.jpg');
     $title = $f_myName;
     $url = 'http://' . $nc_core->HTTP_HOST . $fullLink;
     $summary = $sql_fighter_1['myName_en'] . " vs. " . $sql_fighter_2['myName_en'];
@@ -60,9 +62,9 @@
             <?php if (!empty($f_poster)): ?>
                 <a href="<?= $fullLink ?>"><img src="<?= getThumbNow($f_poster, 415, 300, 1, false, 95, -1) ?>" class="post_img_ev post_img_ev_100" style="margin-right: 25px;"></a>
             <?php else: ?>
-                <a href="<?= $fullLink ?>"><img src="<?= getThumbNow('/netcat_files/' . $foto_1[3], 200, 300, 1, false, 95, -1) ?>" class="post_img_ev post_img_ev_left" style="margin-right: 15px;"></a>
+                <a href="<?= $fullLink ?>"><img src="<?= getThumbNow($f_image_1, 200, 300, 1, false, 95, -1) ?>" class="post_img_ev post_img_ev_left" style="margin-right: 15px;"></a>
                 
-                <a href="<?= $fullLink ?>"><img src="<?= getThumbNow('/netcat_files/' . $foto_2[3], 200, 300, 1, false, 95, -1) ?>" class="post_img_ev post_img_ev_right" style="margin-right: 25px;"></a>
+                <a href="<?= $fullLink ?>"><img src="<?= getThumbNow($f_image_2, 200, 300, 1, false, 95, -1) ?>" class="post_img_ev post_img_ev_right" style="margin-right: 25px;"></a>
                 
                 <div class="vs_label"><img src="/images/VS.png"></div>
             <?php endif; ?>
@@ -74,7 +76,7 @@
                     <div id='yyear' <?php if (!$showResults): ?> style="background-color: #e73435; color: #fff;" <?php endif; ?>><?= $f_myDate_year ?>
                 </div>
             </div>
-            <div class="fc_s_type"><span id='fight_type'><?= $f_myType; ?></span>&nbsp;&nbsp;<span id='country_fight'><?= $f_myCity . ", " . $f_myCountry; ?></span></div>
+            <div class="fc_s_type"><span id='fight_type'><?= $f_myType; ?></span>&nbsp;&nbsp;<span id='country_fight'><?= $f_myCountry_name ?></span></div>
             <div class="fc_desc"><a href="<?= $fullLink ?>" class="a-black"><p><?= cutStr($f_myName, 110) ?><?= !empty($f_myText) ? ": " . strip_tags($f_myText) : ""; ?></p></a></div>
         </div>
         <div class="fights-container">
