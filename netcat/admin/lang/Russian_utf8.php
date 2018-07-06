@@ -40,10 +40,10 @@ function nc_transliterate($text, $use_url_rules = false) {
 
 // Include deprecated strings if $NC_DEPRECATED_DISABLED is set to 0
 if (isset($NC_DEPRECATED_DISABLED) && $NC_DEPRECATED_DISABLED==0) {
-	$deprecated_file = preg_replace('/\.php/', '_old.php', __FILE__);
-	if (file_exists($deprecated_file)) {
-		include_once $deprecated_file;
-	}
+    $deprecated_file = preg_replace('/\.php/', '_old.php', __FILE__);
+    if (file_exists($deprecated_file)) {
+        include_once $deprecated_file;
+    }
 }
 # MAIN
 define("MAIN_DIR", "ltr");
@@ -156,6 +156,7 @@ define("NETCAT_MODULE_FILEMANAGER", "Файл-менеджер");
 define("NETCAT_MODULE_CACHE", "Кэширование");
 define("NETCAT_MODULE_MINISHOP", "Минимагазин");
 define("NETCAT_MODULE_ROUTING", "Маршрутизация");
+define("NETCAT_MODULE_PARSER_NAME", "Парсер");
 
 define("NETCAT_MODULE_NETSHOP_MODULEUNCHECKED", "Модуль \"Интернет-магазин\" не установлен или выключен!");
 # /MODULES LIST
