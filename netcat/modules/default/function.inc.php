@@ -1226,6 +1226,8 @@ function getExclusive()
         
         $exc_type = explode(",", $exc['newsType']);
         $exc['newsType_id'] = $exc_type[1];
+        $news_type = mysql_fetch_assoc(mysql_query("SELECT newsType_Name FROM Classificator_newsType WHERE newsType_ID = " . $exc_type[1]));
+        $exc['newsType'] = $news_type['newsType_Name'];
         
         $exc['Date_year'] = date('Y', strtotime($exc['Date']));
         $exc['Date_month'] = date('m', strtotime($exc['Date']));
