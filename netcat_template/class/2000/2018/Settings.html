@@ -13,8 +13,9 @@ foreach ($tagArr as $key=>$val) {
 }
 
 //$likeStr = "myTags LIKE '%".(trim($tagArr[1]) ? trim($tagArr[1]) : trim($tagArr[0]))."%'";
+$exclusive = isset($exclusive) ? " AND Message_ID != " . $exclusive : "";
 $query_where = "Message_ID!=".$curID." AND (".$likeStr.")";
-$query_where .= " AND NOW() >= Date";
+$query_where .= " AND NOW() >= Date" . $exclusive;
 //$query_where = "Message_ID < ".$curID."";
 $query_order = "Date DESC";
 ?>

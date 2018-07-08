@@ -1,6 +1,6 @@
 <div class='page-text'>
     <script type="text/javascript">
-        function see_more_read_also(start, cnt, tags, m_id)
+        function see_more_read_also(start, cnt, tags, m_id, e_id)
         {
             $("#see_more_read_also").hide();
             $("#loading_news").show();
@@ -8,7 +8,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {start: start, cnt: cnt, tags: tags, id: m_id, action: 'read_also'}
+                data: {start: start, cnt: cnt, tags: tags, id: m_id, action: 'read_also', exclusive: e_id}
             }).responseText;
             if (html != '') {
                 $("#see_more_read_also_div").append(html);
@@ -16,7 +16,7 @@
                 $("#loading_news").appendTo("#see_more_read_also_div");
                 $("#loading_news").hide();
                 $("#see_more_read_also").show();
-                $("#see_more_read_also").attr("onclick", "see_more_read_also(" + (start+5) + ", " + cnt + ", '" + tags + "', " + m_id + ")");
+                $("#see_more_read_also").attr("onclick", "see_more_read_also(" + (start+5) + ", " + cnt + ", '" + tags + "', " + m_id + ", " + e_id + ")");
             }
         }
         function toggle_blogs()
@@ -189,7 +189,7 @@
     }
     $f_myText = $html;
     $f_myText = trim($f_myText, ':');
-    
+    $exclusive_id = 0;
 ?>
                 <div class="inner_text">
                     <?= $f_myText ?>
@@ -235,11 +235,51 @@
             
             <div class="comments-inner-cnt"><?= $nc_comments->wall($f_RowID); ?></div>
             <div id='fb-root'></div>
+            
+            <?php if (isExclusive()): ?>
+                <?php $exclusive = getExclusive(); ?>
+                <?php $exclusive_id = $exclusive['Message_ID'] ?>
+                <?php if ($exclusive_id != $f_RowID): ?>
+                    <div class="exclusive-container">
+                        <div class="news_t">Эксклюзив</div>
+                        <div class="post_c">
+                            <a href="<?= $exclusive['fullLink'] ?>">
+                                <img src="<?= getThumbNow($exclusive['myPhoto'], 142, 142, 1, false, 95, -1) ?>" class="post_img img-link-big">
+                                <img src="<?= getThumbNow($exclusive['myPhoto'], 270, 180, 1, false, 95, -1) ?>" class="post_img img-link-small">
+                            </a>
+                            <div class="lab main-p-type"><?= $exclusive['newsType']; ?></div>
+                            <div class="post_b_label main-p-type-icon inner-type-icon"><img src="/images/sporticons/<?= $exclusive['newsType_id'] ?>.png"></div>
+                            <div class="post_t_desk">
+                                <div class="post_t"><a href="<?= $exclusive['fullLink'] ?>"><h2><?=$exclusive['myTitle']?></h2></a></div>
+                                <div class="post_desk">
+                                    <?php if (!empty($exclusive['ncDescription']) && strlen($exclusive['ncDescription']) < 300 && (strlen($exclusive['myTitle']) < 100)): ?>
+                                        <?= $exclusive['ncDescription']; ?>
+                                    <?php else: ?>
+                                        <?php if (strlen($exclusive['myTitle']) > 100): ?>
+                                            <?= cutStr(strip_tags($exclusive['myText']), 100); ?>
+                                        <?php else: ?>
+                                            <?= cutStr(strip_tags($exclusive['myText']), 300); ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="small_d_c">
+                                <? if($exclusive['Date'] != 0) { ?>
+                                    <?= ($exclusive['Date_year'].$exclusive['Date_month'].$exclusive['Date_day']==date("Ymd") ? 'Сегодня' : $exclusive['Date_day'] . " " . $month_arr[$exclusive['Date_month']] . " " . $exclusive['Date_year'])?> в <?= $exclusive['Date_hours'].':'.$exclusive['Date_minutes'] ?>
+                                <? }else{ ?>
+                                    <?= ($exclusive['Created_year'].$exclusive['Created_month'].$exclusive['Created_day']==date("Ymd") ? 'Сегодня' : $exclusive['Created_year'].".".$exclusive['Created_month'].".".$exclusive['Created_day'])?>, <?= $exclusive['Created_hours'].':'.$exclusive['Created_minutes'] ?>
+                                <? } ?> &nbsp;|&nbsp; <span class="author-link"><?= $exclusive['user_name'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/w.png">&nbsp;<?= $exclusive['myViews'] ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($exclusive['Message_ID']); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $exclusive['likes_cnt']; ?></span>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+            
             <?php if ($current_sub['Parent_Sub_ID'] != 153): ?>
             <div class="read-more-container">
                 <div class="news_t">Читайте также</div>
-                <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_myTags."&curID=".$f_Message_ID) ?>
-                <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(5, 5, '<?= $f_myTags ?>', <?= $f_Message_ID ?>)">Показать ещё</button>
+                <?= s_list_class(3,1,"&nc_ctpl=2018&recNum=5&searchTags=".$f_myTags."&curID=".$f_Message_ID . "&exclusive=" . $exclusive_id) ?>
+                <button class="see_more" id="see_more_read_also" value="more" onclick="see_more_read_also(5, 5, '<?= $f_myTags ?>', <?= $f_Message_ID ?>, <?= $exclusive_id ?>)">Показать ещё</button>
                 <div id="loading_news" class="loading_news" style="display: none;"><img src="/images/loading.gif"></div>
             </div>
         </div>
@@ -256,7 +296,7 @@
         
         <div class="right_s_video" style="width: 360px;">
             <div class="right_p_t"><a href="/news">Новости</a><span class="video_tabs">></span></div>
-            <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID) ?>
+            <?= s_list_class(3,1,"&recNum=3&nc_ctpl=2032&current=" . $f_RowID . "&exclusive=" . $exclusive_id) ?>
         </div>
         <?php else: ?>
             </div>
