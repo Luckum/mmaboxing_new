@@ -19,88 +19,238 @@ $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE Use
 $sql_post = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM Message2009 WHERE message_link=".$f_RowID));
 $url = 'https://' . $nc_core->HTTP_HOST . $fullLink;
 $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
+
+if (isExclusive()) {
+    $records[$f_RowNum]['f_RowID'] = $f_RowID;
+    $records[$f_RowNum]['fullLink'] = $fullLink;
+    $records[$f_RowNum]['f_myPhoto'] = $f_myPhoto;
+    $records[$f_RowNum]['f_myTitle'] = $f_myTitle;
+    $records[$f_RowNum]['f_newsType_id'] = $f_newsType_id[0];
+    $records[$f_RowNum]['f_Date'] = $f_Date;
+    $records[$f_RowNum]['f_Date_year'] = $f_Date_year;
+    $records[$f_RowNum]['f_Date_month'] = $f_Date_month;
+    $records[$f_RowNum]['f_Date_day'] = $f_Date_day;
+    $records[$f_RowNum]['f_Date_hours'] = $f_Date_hours;
+    $records[$f_RowNum]['f_Date_minutes'] = $f_Date_minutes;
+    $records[$f_RowNum]['f_Created_year'] = $f_Created_year;
+    $records[$f_RowNum]['f_Created_month'] = $f_Created_month;
+    $records[$f_RowNum]['f_Created_day'] = $f_Created_day;
+    $records[$f_RowNum]['f_Created_hours'] = $f_Created_hours;
+    $records[$f_RowNum]['f_Created_minutes'] = $f_Created_minutes;
+    $records[$f_RowNum]['f_myViews'] = $f_myViews;
+    $records[$f_RowNum]['likes_cnt'] = $likes_cnt;
+}
 ?>
 
-<?php if ($f_RowNum == 0): ?>
-
-<div class="big_post_c">
-    <a href="<?= $fullLink ?>"><img class="item-img lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 732, 485, 1, false, 55, -1) : "/timthumb.php?src=".$f_exFoto."&h=485&w=732")?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
-    <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $f_newsType_id[0]; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
-    <div class="big_post_bg">
-        <div class="side_video_desc">
-            <span class="big_post_title"><a href="<?= $fullLink ?>"><h2><?= cutStr($f_myTitle, 150); ?></h2></a></span>
-            <span class="big_post_date">
-                <? if($f_Date != 0) { ?>
-                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
-                <? }else{ ?>
-                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <span class="author-link"><?=$user_name['ForumName']?></span> <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
-            </span>
-        </div>
-    </div>
-</div>
-
-<div class="right_p">
-    <div class="right_p_t">Главные новости<span class="video_tabs">></span></div>
-
-    <?= s_list_class(3,1,"&recNum=5&nc_ctpl=2023") ?>
-</div>
-
-<div class="clr"></div>
-<?php endif; ?>
-<?php if ($f_RowNum == 1): ?>
-<div class="small_post_c">
-<?php endif; ?>
-    <?php if ($f_RowNum == 1): ?>
-    <div class="small_l_c">
-        <a href="<?= $fullLink ?>"><img class="item-img lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
-        <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $f_newsType_id[0]; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
-        <div class="small_l_bg">
-            <div class="small_l_t"><a href="<?= $fullLink ?>"><h2><?=cutStr($f_myTitle, 120);?></h2></a></div>
-            <div class="small_d_c">
-                <? if($f_Date != 0) { ?>
-                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
-                <? }else{ ?>
-                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
+<?php if (isExclusive()): ?>
+    <?php if ($f_RowNum == 0): ?>
+        <div class="right_p exclusive-mob">
+            <div class="right_p_t">Эксклюзив<span class="video_tabs">></span></div>
+            <div class="post_c">
+                <a class="img-link-small" href="<?= $exclusive['fullLink'] ?>"><img data-src="<?= getThumbNow($exclusive['myPhoto'], 270, 180, 1, false, 95, -1) ?>" class="post_img lazyload" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+                <div class="lab main-p-type"><?= $f_newsType[0]; ?></div>
+                <div class="post_b_label main-p-type-icon"><img src="/images/sporticons/<?= $exclusive['newsType_id'] ?>.png"></div>
+                <div class="post_t_desk">
+                    <div class="post_t"><a href="<?= $exclusive['fullLink'] ?>"><h2><?=$exclusive['myTitle']?></h2></a></div>
+                    <div class="post_desk">
+                        <?php if (!empty($exclusive['ncDescription']) && strlen($exclusive['ncDescription']) < 300): ?>
+                            <?php if (strlen($exclusive['myTitle']) > 100): ?>
+                                <?= cutStr(strip_tags($exclusive['ncDescription']), 100); ?>
+                            <?php else: ?>
+                                <?= $exclusive['ncDescription'] ?>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php if (strlen($exclusive['myTitle']) > 100): ?>
+                                <?= cutStr(strip_tags($exclusive['myText']), 100); ?>
+                            <?php else: ?>
+                                <?= cutStr(strip_tags($exclusive['myText']), 300); ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="small_d_c">
+                    <? if($exclusive['Date'] != 0) { ?>
+                        <?= ($exclusive['Date_year'].$exclusive['Date_month'].$exclusive['Date_day']==date("Ymd") ? 'Сегодня' : $exclusive['Date_day'] . " " . $month_arr[$exclusive['Date_month']] . " " . $exclusive['Date_year'])?> в <?= $exclusive['Date_hours'].':'.$exclusive['Date_minutes'] ?>
+                    <? }else{ ?>
+                        <?= ($exclusive['Created_year'].$exclusive['Created_month'].$exclusive['Created_day']==date("Ymd") ? 'Сегодня' : $exclusive['Created_year'].".".$exclusive['Created_month'].".".$exclusive['Created_day'])?>, <?= $exclusive['Created_hours'].':'.$exclusive['Created_minutes'] ?>
+                    <? } ?> &nbsp;|&nbsp; <span class="author-link"><?= $exclusive['user_name'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp; <img src="/images/w.png">&nbsp;<?= $exclusive['myViews'] ?>&nbsp;&nbsp;&nbsp;<img src="/images/c.png">&nbsp;<?= $nc_comments->count($exclusive['Message_ID']); ?>&nbsp;&nbsp;&nbsp;<img src="/images/r.png" /> <span><?= $exclusive['likes_cnt']; ?></span>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="big_post_c">
+            <a href="<?= $exclusive['fullLink'] ?>"><img class="item-img lazyload" data-src="<?= getThumbNow($exclusive['myPhoto'], 732, 485, 1, false, 55, -1) ?>" alt="<?=$exclusive['myTitle']?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+            <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $exclusive['newsType_id']; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
+            <div class="big_post_bg">
+                <div class="side_video_desc">
+                    <span class="big_post_title"><a href="<?= $exclusive['fullLink'] ?>"><h2><?= cutStr($exclusive['myTitle'], 150) ?></h2></a></span>
+                    <span class="big_post_date">
+                        <? if($exclusive['Date'] != 0) { ?>
+                            <?= ($exclusive['Date_year'].$exclusive['Date_month'].$exclusive['Date_day']==date("Ymd") ? 'Сегодня' : $exclusive['Date_day'] . " " . $month_arr[$exclusive['Date_month']] . " " . $exclusive['Date_year'])?> в <?= $exclusive['Date_hours'].':'.$exclusive['Date_minutes'] ?>
+                        <? }else{ ?>
+                            <?= ($exclusive['Created_year'].$exclusive['Created_month'].$exclusive['Created_day']==date("Ymd") ? 'Сегодня' : $exclusive['Created_year'].".".$exclusive['Created_month'].".".$exclusive['Created_day'])?>, <?= $exclusive['Created_hours'].':'.$exclusive['Created_minutes'] ?>
+                        <? } ?> | <span class="author-link"><?=$exclusive['user_name']?></span> <img src="images/w.png">&nbsp;<?= $exclusive['myViews'] ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($exclusive['Message_ID']); ?>&nbsp;<img src="images/r.png" /> <span><?= $exclusive['likes_cnt']; ?></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="right_p">
+            <div class="right_p_t">Главные новости<span class="video_tabs">></span></div>
+                <?= s_list_class(3,1,"&recNum=5&nc_ctpl=2023") ?>
+            </div>
+        <div class="clr"></div>
+    <?php endif; ?>
+    <?php if ($f_RowNum == 1): ?>
+        <div class="small_post_c">
+    <?php endif; ?>
+    <?php if ($f_RowNum == 1): ?>
+        <?php if ($records[0]['f_RowID'] != $exclusive['Message_ID']): ?>
+            <?php $record = $records[0]; ?>
+        <?php else: ?>
+            <?php $record = $records[1]; ?>
+        <?php endif; ?>
+        <div class="small_l_c">
+            <a href="<?= $record['fullLink'] ?>"><img class="item-img lazyload" data-src="<?= getThumbNow($record['f_myPhoto'], 360, 360, 1, false, 95, -1) ?>" alt="<?=$record['f_myTitle']?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+            <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $record['f_newsType_id']; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
+            <div class="small_l_bg">
+                <div class="small_l_t"><a href="<?= $record['fullLink'] ?>"><h2><?=cutStr($record['f_myTitle'], 120);?></h2></a></div>
+                <div class="small_d_c">
+                    <? if($record['f_Date'] != 0) { ?>
+                        <?= ($record['f_Date_year'].$record['f_Date_month'].$record['f_Date_day']==date("Ymd") ? 'Сегодня' : $record['f_Date_day'] . " " . $month_arr[$record['f_Date_month']] . " " . $record['f_Date_year'])?> в <?= $record['f_Date_hours'].':'.$record['f_Date_minutes'] ?>
+                    <? }else{ ?>
+                        <?= ($record['f_Created_year'].$record['f_Created_month'].$record['f_Created_day']==date("Ymd") ? 'Сегодня' : $record['f_Created_year'].".".$record['f_Created_month'].".".$record['f_Created_day'])?>, <?= $record['f_Created_hours'].':'.$record['f_Created_minutes'] ?>
+                    <? } ?> | <img src="images/w.png">&nbsp;<?= $record['f_myViews'] ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($record['f_RowID']); ?>&nbsp;<img src="images/r.png" /> <span><?= $record['likes_cnt']; ?></span>
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
     <?php if ($f_RowNum == 2): ?>
-    <div class="small_l_c">
-        <a href="<?= $fullLink ?>"><img class="item-img lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
-        <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $f_newsType_id[0]; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
-        <div class="small_l_bg">
-            <div class="small_l_t"><a href="<?= $fullLink ?>"><h2><?=cutStr($f_myTitle, 120);?></h2></a></div>
-            <div class="small_d_c">
-                <? if($f_Date != 0) { ?>
-                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
-                <? }else{ ?>
-                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
+        <?php if ($records[0]['f_RowID'] != $exclusive['Message_ID'] && $records[1]['f_RowID'] != $exclusive['Message_ID']): ?>
+            <?php $record = $records[1]; ?>
+        <?php else: ?>
+            <?php $record = $records[2]; ?>
+        <?php endif; ?>
+        <div class="small_l_c">
+            <a href="<?= $record['fullLink'] ?>"><img class="item-img lazyload" data-src="<?= getThumbNow($record['f_myPhoto'], 360, 360, 1, false, 95, -1) ?>" alt="<?=$record['f_myTitle']?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+            <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $record['f_newsType_id']; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
+            <div class="small_l_bg">
+                <div class="small_l_t"><a href="<?= $record['fullLink'] ?>"><h2><?=cutStr($record['f_myTitle'], 120);?></h2></a></div>
+                <div class="small_d_c">
+                    <? if($record['f_Date'] != 0) { ?>
+                        <?= ($record['f_Date_year'].$record['f_Date_month'].$record['f_Date_day']==date("Ymd") ? 'Сегодня' : $record['f_Date_day'] . " " . $month_arr[$record['f_Date_month']] . " " . $record['f_Date_year'])?> в <?= $record['f_Date_hours'].':'.$record['f_Date_minutes'] ?>
+                    <? }else{ ?>
+                        <?= ($record['f_Created_year'].$record['f_Created_month'].$record['f_Created_day']==date("Ymd") ? 'Сегодня' : $record['f_Created_year'].".".$record['f_Created_month'].".".$record['f_Created_day'])?>, <?= $record['f_Created_hours'].':'.$record['f_Created_minutes'] ?>
+                    <? } ?> | <img src="images/w.png">&nbsp;<?= $record['f_myViews'] ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($record['f_RowID']); ?>&nbsp;<img src="images/r.png" /> <span><?= $record['likes_cnt']; ?></span>
+                </div>
             </div>
         </div>
-    </div>
     <?php endif; ?>
     <?php if ($f_RowNum == 3): ?>
-    <div class="small_l_c_l">
-        <a href="<?= $fullLink ?>"><img class="item-img lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+        <?php if ($records[0]['f_RowID'] != $exclusive['Message_ID'] && $records[1]['f_RowID'] != $exclusive['Message_ID'] && $records[2]['f_RowID'] != $exclusive['Message_ID']): ?>
+            <?php $record = $records[2]; ?>
+        <?php else: ?>
+            <?php $record = $records[3]; ?>
+        <?php endif; ?>
+        <div class="small_l_c_l">
+            <a href="<?= $record['fullLink'] ?>"><img class="item-img lazyload" data-src="<?= getThumbNow($record['f_myPhoto'], 360, 360, 1, false, 95, -1) ?>" alt="<?=$record['f_myTitle']?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+            <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $record['f_newsType_id']; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
+            <div class="small_l_bg">
+                <div class="small_l_t"><a href="<?= $record['fullLink'] ?>"><h2><?=cutStr($record['f_myTitle'], 120);?></h2></a></div>
+                <div class="small_d_c">
+                    <? if($record['f_Date'] != 0) { ?>
+                        <?= ($record['f_Date_year'].$record['f_Date_month'].$record['f_Date_day']==date("Ymd") ? 'Сегодня' : $record['f_Date_day'] . " " . $month_arr[$record['f_Date_month']] . " " . $record['f_Date_year'])?> в <?= $record['f_Date_hours'].':'.$record['f_Date_minutes'] ?>
+                    <? }else{ ?>
+                        <?= ($record['f_Created_year'].$record['f_Created_month'].$record['f_Created_day']==date("Ymd") ? 'Сегодня' : $record['f_Created_year'].".".$record['f_Created_month'].".".$record['f_Created_day'])?>, <?= $record['f_Created_hours'].':'.$record['f_Created_minutes'] ?>
+                    <? } ?> | <img src="images/w.png">&nbsp;<?= $record['f_myViews'] ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($record['f_RowID']); ?>&nbsp;<img src="images/r.png" /> <span><?= $record['likes_cnt']; ?></span>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php if ($f_RowNum == 3): ?>
+            <div class="clr"></div>
+        </div>
+    <?php endif; ?>
+<?php else: ?>                   
+    <?php if ($f_RowNum == 0): ?>
+
+    <div class="big_post_c">
+        <a href="<?= $fullLink ?>"><img class="item-img lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 732, 485, 1, false, 55, -1) : "/timthumb.php?src=".$f_exFoto."&h=485&w=732")?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
         <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $f_newsType_id[0]; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
-        <div class="small_l_bg">
-            <div class="small_l_t"><a href="<?= $fullLink ?>"><h2><?=cutStr($f_myTitle, 120);?></h2></a></div>
-            <div class="small_d_c">
-                <? if($f_Date != 0) { ?>
-                    <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
-                <? }else{ ?>
-                    <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
-                <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
+        <div class="big_post_bg">
+            <div class="side_video_desc">
+                <span class="big_post_title"><a href="<?= $fullLink ?>"><h2><?= cutStr($f_myTitle, 150) ?></h2></a></span>
+                <span class="big_post_date">
+                    <? if($f_Date != 0) { ?>
+                        <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                    <? }else{ ?>
+                        <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                    <? } ?> | <span class="author-link"><?=$user_name['ForumName']?></span> <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
+                </span>
             </div>
         </div>
     </div>
-    <?php endif; ?>
-<?php if ($f_RowNum == 3): ?>
+
+    <div class="right_p">
+        <div class="right_p_t">Главные новости<span class="video_tabs">></span></div>
+
+        <?= s_list_class(3,1,"&recNum=5&nc_ctpl=2023") ?>
+    </div>
+
     <div class="clr"></div>
-</div>
+    <?php endif; ?>
+    <?php if ($f_RowNum == 1): ?>
+    <div class="small_post_c">
+    <?php endif; ?>
+        <?php if ($f_RowNum == 1): ?>
+        <div class="small_l_c">
+            <a href="<?= $fullLink ?>"><img class="item-img lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+            <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $f_newsType_id[0]; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
+            <div class="small_l_bg">
+                <div class="small_l_t"><a href="<?= $fullLink ?>"><h2><?=cutStr($f_myTitle, 120);?></h2></a></div>
+                <div class="small_d_c">
+                    <? if($f_Date != 0) { ?>
+                        <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                    <? }else{ ?>
+                        <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                    <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+        <?php if ($f_RowNum == 2): ?>
+        <div class="small_l_c">
+            <a href="<?= $fullLink ?>"><img class="item-img lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+            <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $f_newsType_id[0]; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
+            <div class="small_l_bg">
+                <div class="small_l_t"><a href="<?= $fullLink ?>"><h2><?=cutStr($f_myTitle, 120);?></h2></a></div>
+                <div class="small_d_c">
+                    <? if($f_Date != 0) { ?>
+                        <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                    <? }else{ ?>
+                        <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                    <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+        <?php if ($f_RowNum == 3): ?>
+        <div class="small_l_c_l">
+            <a href="<?= $fullLink ?>"><img class="item-img lazyload" data-src="<?= ($f_myPhoto ? getThumbNow($f_myPhoto, 360, 360, 1, false, 95, -1) : "/timthumb.php?src=".$f_exFoto."&h=360&w=360")?>" alt="<?=$f_myTitle?>" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
+            <div class="label"><img class="lazyload" data-src="images/sporticons/<?= $f_newsType_id[0]; ?>.png" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
+            <div class="small_l_bg">
+                <div class="small_l_t"><a href="<?= $fullLink ?>"><h2><?=cutStr($f_myTitle, 120);?></h2></a></div>
+                <div class="small_d_c">
+                    <? if($f_Date != 0) { ?>
+                        <?= ($f_Date_year.$f_Date_month.$f_Date_day==date("Ymd") ? 'Сегодня' : $f_Date_day . " " . $month_arr[$f_Date_month] . " " . $f_Date_year)?> в <?= $f_Date_hours.':'.$f_Date_minutes ?>
+                    <? }else{ ?>
+                        <?= ($f_Created_year.$f_Created_month.$f_Created_day==date("Ymd") ? 'Сегодня' : $f_Created_year.".".$f_Created_month.".".$f_Created_day)?>, <?= $f_Created_hours.':'.$f_Created_minutes ?>
+                    <? } ?> | <img src="images/w.png">&nbsp;<?= $f_myViews ?>&nbsp;<img src="images/c.png">&nbsp;<?= $nc_comments->count($f_RowID); ?>&nbsp;<img src="images/r.png" /> <span><?= $likes_cnt; ?></span>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+    <?php if ($f_RowNum == 3): ?>
+        <div class="clr"></div>
+    </div>
+    <?php endif; ?>
 <?php endif; ?>
 <?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

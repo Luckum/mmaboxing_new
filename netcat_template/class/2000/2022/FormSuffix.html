@@ -1,4 +1,3 @@
-
 <div class="video_c">
     <div class="right_p_t_b vid"><a href="/video" class="a-white">Видео</a><span class="video_tabs">></span><a href="/video/mma" class="video_tabs">MMA</a> <a href="/video/boxing" class="video_tabs">Бокс</a> <a href="/video/kickboxing" class="video_tabs">Кикбоксинг</a></div>
     
@@ -6,6 +5,17 @@
 </div>
 
 <div class="main_dop">
+    <?php if (isExclusive()): ?>
+        <input type="hidden" id="exclisive-row" value="<?= $exclusive['Message_ID'] ?>">
+        <?php if ($records[0]['f_RowID'] != $exclusive['Message_ID'] && $records[1]['f_RowID'] != $exclusive['Message_ID'] && $records[2]['f_RowID'] != $exclusive['Message_ID'] && $records[3]['f_RowID'] != $exclusive['Message_ID']): ?>
+            <input type="hidden" id="exclisive-row-head" value="0">
+        <?php else: ?>
+            <input type="hidden" id="exclisive-row-head" value="1">
+        <?php endif; ?>
+    <?php else: ?>
+        <input type="hidden" id="exclisive-row" value="0">
+        <input type="hidden" id="exclisive-row-head" value="0">
+    <?php endif; ?>
     <div class="left_c">
         <div class="news_t">
             <a href="/news" class="a-black">Новости</a> <span class="video_tabs">></span>
@@ -15,6 +25,7 @@
                 <a href="/news/news-kickboxing" class="video_tabs">Кикбоксинг</a>
             </span>
         </div>
+        
         <div class="news-main-part" id="news-main-part-1"></div>
         <div class="news-main-all" id="news-main-all-1"></div>
         

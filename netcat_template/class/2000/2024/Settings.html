@@ -15,6 +15,9 @@ if (isset($s_type) && $s_type != 3) {
         }
         $ids = substr($ids, 0, -1);
         $query_where = "a.Message_ID NOT IN(" . $ids . ") AND NOW() >= Date";
+        if (isset($exclusive_row)) {
+            $query_where .= " AND Message_ID != " . $exclusive_row;
+        }
     }
 }
 

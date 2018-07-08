@@ -6,7 +6,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_part_1'}
+                data: {action: 'load_news_part_1', exclusive_row: $('#exclisive-row').val(), exclusive_row_head: $('#exclisive-row-head').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-part-1").html(html);
@@ -15,7 +15,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_part_2'}
+                data: {action: 'load_news_part_2', exclusive_row: $('#exclisive-row').val(), exclusive_row_head: $('#exclisive-row-head').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-part-2").html(html);
@@ -24,7 +24,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_part_3'}
+                data: {action: 'load_news_part_3', exclusive_row: $('#exclisive-row').val(), exclusive_row_head: $('#exclisive-row-head').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-part-3").html(html);
@@ -44,7 +44,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_all_1'}
+                data: {action: 'load_news_all_1', exclusive_row: $('#exclisive-row').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-all-1").html(html);
@@ -53,7 +53,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_all_2'}
+                data: {action: 'load_news_all_2', exclusive_row: $('#exclisive-row').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-all-2").html(html);
@@ -62,7 +62,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_all_3'}
+                data: {action: 'load_news_all_3', exclusive_row: $('#exclisive-row').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-all-3").html(html);
@@ -128,7 +128,7 @@
             url: "/netcat/modules/default/ajax.php?isNaked=1",
             async: false,
             type: "POST",
-            data: {start: start, cnt: cnt, action: 'news', s_type: s_type, is_mob: is_mob}
+            data: {start: start, cnt: cnt, action: 'news', s_type: s_type, is_mob: is_mob, exclusive_row: $('#exclisive-row').val(), exclusive_row_head: $('#exclisive-row-head').val()}
         }).responseText;
         if (html != '') {
             $("#see_more_news_div").append(html);
@@ -164,3 +164,10 @@
         $("#ans-" + vote_check).css({"border-color": "#e73435"});
     }
 </script>
+<?php
+    if (isExclusive()) {
+        $exclusive = getExclusive();
+        //print_r($exclusive);
+        $records = [];
+    }
+?>
