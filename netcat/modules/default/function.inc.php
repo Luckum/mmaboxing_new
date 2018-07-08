@@ -1204,3 +1204,45 @@ function formatFBArticle($text)
     $text = $html;
     return $text;
 }
+
+function isExclusive()
+{
+    $exc = mysql_fetch_assoc(mysql_query("SELECT Message_ID FROM Message2000 WHERE exclusive = 1"));
+    if ($exc) {
+        return true;
+    }
+    return false;
+}
+
+function getExclusive()
+{
+    $exc = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2000 WHERE exclusive = 1 ORDER BY LastUpdated DESC LIMIT 0,1"));
+    if ($exc) {
+        $sub = mysql_fetch_assoc(mysql_query("SELECT Hidden_URL FROM Subdivision WHERE Subdivision_ID = " . $exc['Subdivision_ID']));
+        $exc['fullLink'] = $sub['Hidden_URL'] . $exc['Keyword'] . ".html";
+        
+        $exc_photo = explode(":", $exc['myPhoto']);
+        $exc['myPhoto'] = '/netcat_files/' . $exc_photo[3];
+        
+        $exc_type = explode(",", $exc['newsType']);
+        $exc['newsType_id'] = $exc_type[1];
+        
+        $exc['Date_year'] = date('Y', strtotime($exc['Date']));
+        $exc['Date_month'] = date('m', strtotime($exc['Date']));
+        $exc['Date_day'] = date('d', strtotime($exc['Date']));
+        $exc['Date_hours'] = date('H', strtotime($exc['Date']));
+        $exc['Date_minutes'] = date('i', strtotime($exc['Date']));
+        $exc['Created_year'] = date('Y', strtotime($exc['Created']));
+        $exc['Created_month'] = date('m', strtotime($exc['Created']));
+        $exc['Created_day'] = date('d', strtotime($exc['Created']));
+        $exc['Created_hours'] = date('H', strtotime($exc['Created']));
+        $exc['Created_minutes'] = date('i', strtotime($exc['Created']));
+        
+        $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID = " . $exc['User_ID'] . " LIMIT 0,1"));
+        $exc['user_name'] = $user_name['ForumName'];
+        
+        $exc['likes_cnt'] = $exc['fb_cnt'] + $exc['vk_cnt'] + $exc['twits_cnt'];
+        return $exc;
+    }
+    return false;
+}

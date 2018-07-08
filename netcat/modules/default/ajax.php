@@ -20,7 +20,19 @@
     
     switch ($action) {
         case "news":
-            echo s_list_class(3,1,"&recNum=" . $cnt . "&nc_ctpl=2024&curPos=" . $start . "&s_type=" . $s_type . $search . $is_mob . $cur_type . $tag);
+            if (isset($_POST['exclusive_row'])) {
+                if ($_POST['exclusive_row'] == 0) {
+                    echo s_list_class(3,1,"&recNum=" . $cnt . "&nc_ctpl=2024&curPos=" . $start . "&s_type=" . $s_type . $search . $is_mob . $cur_type . $tag);
+                } else {
+                    if ($_POST['exclusive_row_head'] == 1) {
+                        echo s_list_class(3,1,"&recNum=" . $cnt . "&nc_ctpl=2024&curPos=" . $start . "&s_type=" . $s_type . $search . $is_mob . $cur_type . $tag);
+                    } else {
+                        echo s_list_class(3,1,"&recNum=" . $cnt . "&nc_ctpl=2024&curPos=" . ($start - 1) . "&s_type=" . $s_type . $search . $is_mob . $cur_type . $tag . "&exclusive_row=" . $_POST['exclusive_row']);
+                    }
+                }
+            } else {
+                echo s_list_class(3,1,"&recNum=" . $cnt . "&nc_ctpl=2024&curPos=" . $start . "&s_type=" . $s_type . $search . $is_mob . $cur_type . $tag);
+            }
         break;
         case "read_also":
             $tags = $_POST['tags'];
@@ -141,13 +153,37 @@
             echo json_encode($result);
         break;
         case "load_news_part_1":
-            echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4");
+            if ($_POST['exclusive_row'] == 0) {
+                echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4");
+            } else {
+                if ($_POST['exclusive_row_head'] == 1) {
+                    echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=4");
+                } else {
+                    echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=3&exclusive_row=" . $_POST['exclusive_row']);
+                }
+            }
         break;
         case "load_news_part_2":
-            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12");
+            if ($_POST['exclusive_row'] == 0) {
+                echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=12");
+            } else {
+                if ($_POST['exclusive_row_head'] == 1) {
+                    echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=11");
+                } else {
+                    echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=11&exclusive_row=" . $_POST['exclusive_row']);
+                }
+            }
         break;
         case "load_news_part_3":
-            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18");
+            if ($_POST['exclusive_row'] == 0) {
+                echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=18");
+            } else {
+                if ($_POST['exclusive_row_head'] == 1) {
+                    echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=17");
+                } else {
+                    echo s_list_class(3,1,"&recNum=8&nc_ctpl=2024&curPos=17&exclusive_row=" . $_POST['exclusive_row']);
+                }
+            }
         break;
         case "load_news_all_1":
             echo s_list_class(3,1,"&recNum=12&nc_ctpl=2024&is_mob=1");
