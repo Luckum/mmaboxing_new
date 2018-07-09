@@ -1,3 +1,15 @@
+<script type="text/javascript">
+    function clearExclusive()
+    {
+        var html = $.ajax({
+            url: "/netcat/modules/default/ajax.php?isNaked=1",
+            async: false,
+            type: "POST",
+            data: {action: 'clear_exclusive'}
+        }).responseText;
+        $("#clear-exc").val("Очищено");
+    }
+</script>
 <?=( $warnText ? "<div class='warnText'>$warnText</div>" : NULL )?>
 <form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' method='post' action='<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>add.php'>
 <div id='nc_moderate_form'>
@@ -14,6 +26,8 @@
 <?= nc_bool_field('toSlider', "", ($class_id ? $class_id : $classID ), 1) ?><br />
 <br />
 <?= nc_bool_field('myPop', "", ($class_id ? $class_id : $classID ), 1) ?><br />
+<br />
+<input type="button" id="clear-exc" value="Очистить блок эксклюзив" onclick="clearExclusive();"><br />
 <br />
 <?= nc_bool_field('exclusive', "", ($class_id ? $class_id : $classID ), 1) ?><br />
 <br />

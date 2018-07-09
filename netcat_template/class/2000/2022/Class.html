@@ -82,7 +82,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_all_1_1'}
+                data: {action: 'load_news_all_1_1', exclusive_row: $('#exclisive-row').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-all-1").html(html);
@@ -91,7 +91,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_all_2_1'}
+                data: {action: 'load_news_all_2_1', exclusive_row: $('#exclisive-row').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-all-2").html(html);
@@ -100,7 +100,7 @@
                 url: "/netcat/modules/default/ajax.php?isNaked=1",
                 async: false,
                 type: "POST",
-                data: {action: 'load_news_all_3_1'}
+                data: {action: 'load_news_all_3_1', exclusive_row: $('#exclisive-row').val()}
             }).responseText;
             if (html != '') {
                 $("#news-main-all-3").html(html);

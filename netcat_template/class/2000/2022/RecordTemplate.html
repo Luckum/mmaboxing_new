@@ -48,7 +48,7 @@ if (isExclusive()) {
             <div class="right_p_t">Эксклюзив<span class="video_tabs">></span></div>
             <div class="post_c">
                 <a class="img-link-small" href="<?= $exclusive['fullLink'] ?>"><img data-src="<?= getThumbNow($exclusive['myPhoto'], 270, 180, 1, false, 95, -1) ?>" class="post_img lazyload" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></a>
-                <div class="lab main-p-type"><?= $f_newsType[0]; ?></div>
+                <div class="lab main-p-type"><?= $exclusive['newsType']; ?></div>
                 <div class="post_b_label main-p-type-icon"><img src="/images/sporticons/<?= $exclusive['newsType_id'] ?>.png"></div>
                 <div class="post_t_desk">
                     <div class="post_t"><a href="<?= $exclusive['fullLink'] ?>"><h2><?=$exclusive['myTitle']?></h2></a></div>
