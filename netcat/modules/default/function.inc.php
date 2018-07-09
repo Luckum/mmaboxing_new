@@ -1248,3 +1248,10 @@ function getExclusive()
     }
     return false;
 }
+
+function clearExclusive()
+{
+    $sql = "UPDATE Message2000 SET exclusive = 0 WHERE exclusive = 1";
+    mysql_query($sql);
+    return true;
+}
