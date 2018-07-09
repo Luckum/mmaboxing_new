@@ -200,13 +200,16 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18&is_mob=1" . $exclusive);
         break;
         case "load_news_all_1_1":
-            echo s_list_class(3,1,"&recNum=12&nc_ctpl=2024");
+            $exclusive = $_POST['exclusive_row'] == 0 ? "" : "&exclusive_row=" . $_POST['exclusive_row'];
+            echo s_list_class(3,1,"&recNum=12&nc_ctpl=2024" . $exclusive);
         break;
         case "load_news_all_2_1":
-            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12");
+            $exclusive = $_POST['exclusive_row'] == 0 ? "" : "&exclusive_row=" . $_POST['exclusive_row'];
+            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=12" . $exclusive);
         break;
         case "load_news_all_3_1":
-            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18");
+            $exclusive = $_POST['exclusive_row'] == 0 ? "" : "&exclusive_row=" . $_POST['exclusive_row'];
+            echo s_list_class(3,1,"&recNum=6&nc_ctpl=2024&curPos=18" . $exclusive);
         break;
         case "load_slider_d":
             echo '<div class="right_p_t_b vid">
@@ -253,6 +256,9 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
         break;
         case 'load_fighters_m':
             echo s_list_class(23,24,"&nc_ctpl=2052&recNum=5&s_type=" . $s_type);
+        break;
+        case 'clear_exclusive':
+            clearExclusive();
         break;
     }
 }
