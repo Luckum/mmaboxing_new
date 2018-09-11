@@ -134,7 +134,7 @@ function getEvent($link)
     return true;
 }
 
-function getFighter($link)
+function getFighter($link, $m_id = '')
 {
     global $MODULE_VARS, $INCLUDE_FOLDER;
     require_once $INCLUDE_FOLDER . "lib/simple_html_dom.php";
@@ -316,8 +316,11 @@ function getFighter($link)
     }
     
     if (count($fighter)) {
-        return saveFighter($fighter);
-        
+        if (empty($m_id)) {
+            return saveFighter($fighter);
+        } else {
+            updateFighter($m_id, $fighter);
+        }
     }
     return true;
 }
@@ -379,6 +382,8 @@ function saveFighter($fighter)
         $country_id = 0;
         $country_name = $fighter['country'];
     }
+    $weight_cat_ru_db = $db->get_row("SELECT * FROM `Classificator_weight_cat_en_ru` WHERE LOWER(`weight_cat_en_ru_Name`) = '" . strtolower($fighter['weight_cat']) . "'", ARRAY_A);
+    $weight_cat_ru = $weight_cat_ru_db['Value'];
     $weight = $fighter['weight'];
     $height = $fighter['height'];
     $fullname = $fighter['name'];
@@ -456,7 +461,7 @@ function saveFighter($fighter)
             '',
             $country_id,
             1,
-            '',
+            '$weight_cat_ru',
             $weight,
             $height,
             '$fullname',
@@ -481,10 +486,12 @@ function saveFighter($fighter)
     //echo $sql;
     $db->query($sql);
     
-    $res = $db->get_row("SELECT LAST_INSERT_ID() AS last_id;", ARRAY_A);
+    $res = $db->get_row("SELECT MAX(Message_ID) AS last_id FROM Message2007", ARRAY_A);
     $ins_id = $res['last_id'];
     
     $sql = "UPDATE Message2007 SET Keyword = '" . $keyword . "-" . $ins_id . "' WHERE Message_ID = " . $ins_id;
+    $db->query($sql);
+    $sql = "UPDATE Message2007 SET Priority = " . ($ins_id - 501) . " WHERE Message_ID = " . $ins_id;
     $db->query($sql);
     return $ins_id;
 }
@@ -518,6 +525,17 @@ function getSavedFighter($sh_id)
     return false; 
 }
 
+function getSavedEvent($sh_id)
+{
+    global $db;
+    
+    $res = $db->get_row("SELECT m_id FROM event_number WHERE sh_id = $sh_id", ARRAY_A);
+    if (!empty($res)) {
+        return $res['m_id'];
+    }
+    return false; 
+}
+
 function saveEvent($event)
 {
     global $db, $MODULE_VARS;
@@ -540,6 +558,9 @@ function saveEvent($event)
     $fighter_2 = $event['fighter_2'];
     $location = $event['location'];
     
+    $res = $db->get_row("SELECT MAX(Priority) AS max_p FROM Message2010;", ARRAY_A);
+    $max_p = $res['max_p'] + 1;
+    
     $sql = "
         INSERT INTO Message2010 (
             User_ID,
@@ -556,7 +577,8 @@ function saveEvent($event)
             myType,
             main_card_fighter_1,
             main_card_fighter_2,
-            myCountry_name
+            myCountry_name,
+            Priority
         ) VALUES (
             5,
             11,
@@ -572,13 +594,14 @@ function saveEvent($event)
             1,
             $fighter_1,
             $fighter_2,
-            '$location'
+            '$location',
+            $max_p
         );
     ";
     
     $db->query($sql);
     
-    $res = $db->get_row("SELECT LAST_INSERT_ID() AS last_id;", ARRAY_A);
+    $res = $db->get_row("SELECT MAX(Message_ID) AS last_id FROM Message2010", ARRAY_A);
     $ins_id = $res['last_id'];
     
     $sql = "UPDATE Message2010 SET Keyword = '" . $keyword . "-" . $ins_id . "' WHERE Message_ID = " . $ins_id;
@@ -593,7 +616,7 @@ function saveOtherFight($event)
     $created = date("Y-m-d H:i:s");
     $fighter_1 = $event['fighter_1'];
     $fighter_2 = $event['fighter_2'];
-    $event = $event['event'];
+    $event_id = $event['event'];
     
     $sql = "
         INSERT INTO Message2045 (
@@ -607,6 +630,7 @@ function saveOtherFight($event)
             fighter_2,
             event,
             type
+            " . (isset($event['Checked']) ? ",Checked" : "") . "
         ) VALUES (
             5,
             231,
@@ -616,10 +640,494 @@ function saveOtherFight($event)
             5,
             $fighter_1,
             $fighter_2,
-            $event,
+            $event_id,
             1
+            " . (isset($event['Checked']) ? "," . $event['Checked'] : "") . "
         );
     ";
     
+    $db->query($sql);
+}
+
+function getRecentEvents()
+{
+    global $MODULE_VARS, $INCLUDE_FOLDER;
+    require_once $INCLUDE_FOLDER . "lib/simple_html_dom.php";
+    
+    extract($MODULE_VARS['parser']);
+    
+    if ($event_parsing_count > 10) {
+        $event_parsing_count = 10;
+    }
+    $events_links = $events_ids = [];
+    
+    $html = file_get_html($event_url);
+    if ($html) {
+        $table = $html->find("#recentfights_tab", 1);
+        if ($table) {
+            $trs = $table->find("tr");
+            foreach ($trs as $tr) {
+                $link = $tr->find("[itemprop=url]", 0);
+                if (isset($link)) {
+                    $l_arr = explode("-", $link->href);
+                    $numb = array_pop($l_arr);
+                    
+                    if (eventCompleted($link->href)) {
+                        if (!eventExists($numb)) {
+                            getEvent($link->href);
+                        }
+                        if (!eventFilled($numb)) {
+                            $events_links[] = $link->href;
+                            $events_ids[] = getSavedEvent($numb);
+                            if (count($events_links) == $event_parsing_count) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    //$event_link = '/events/Professional-Fighters-League-PFL-5-2018-Regular-Season-67139';
+    if (count($events_links)) {
+        foreach ($events_links as $k => $event_link) {
+            getRecentEvent($event_link, $events_ids[$k]);
+        }
+    }
+    
+    return true;
+}
+
+function getRecentEvent($link, $m_id)
+{
+    global $MODULE_VARS, $INCLUDE_FOLDER;
+    require_once $INCLUDE_FOLDER . "lib/simple_html_dom.php";
+    
+    extract($MODULE_VARS['parser']);
+    
+    $html = file_get_html($parse_base_url . $link);
+    if ($html) {
+        $main_section = $html->find("[itemprop=subEvent]", 0);
+        if (isset($main_section)) {
+            $event = [];
+            $left_side = $main_section->find(".left_side", 0);
+            $result = $left_side->find(".final_result", 0);
+            if (trim($result->plaintext) !== 'win' && trim($result->plaintext) !== 'loss' && trim($result->plaintext) !== 'draw') {
+                return false;
+            }
+            $f_1_link = $left_side->find("[itemprop=url]", 0);
+            $l_arr = explode("-", $f_1_link->href);
+            $f_1_numb = array_pop($l_arr);
+            if (!fighterExists($f_1_numb)) {
+                $inserted_f_1 = getFighter($f_1_link->href);
+                saveFighterNumber($f_1_numb, $inserted_f_1);
+            }
+            if (trim($result->plaintext) == 'win') {
+                $event['winner'] = getSavedFighter($f_1_numb);
+            }
+            
+            $right_side = $main_section->find(".right_side", 0);
+            $result = $right_side->find(".final_result", 0);
+            if (trim($result->plaintext) !== 'win' && trim($result->plaintext) !== 'loss' && trim($result->plaintext) !== 'draw') {
+                return false;
+            }
+            $f_2_link = $right_side->find("[itemprop=url]", 0);
+            $l_arr = explode("-", $f_2_link->href);
+            $f_2_numb = array_pop($l_arr);
+            if (!fighterExists($f_2_numb)) {
+                $inserted_f_2 = getFighter($f_2_link->href);
+                saveFighterNumber($f_2_numb, $inserted_f_2);
+            }
+            if (trim($result->plaintext) == 'win') {
+                $event['winner'] = getSavedFighter($f_2_numb);
+            }
+            
+            if (trim($result->plaintext) == 'draw') {
+                $event['winner'] = '0';
+            }
+            
+            $resume = $main_section->find(".resume", 0);
+            $res = $resume->find('td', 1);
+            $event['win_type'] = trim($res->plaintext, 'Method');
+            
+            $res = $resume->find('td', 2);
+            $event['referee'] = trim($res->plaintext, 'Referee');
+            
+            $res = $resume->find('td', 3);
+            $event['win_round'] = trim($res->plaintext, 'Round');
+            
+            $res = $resume->find('td', 4);
+            $event['win_time'] = trim($res->plaintext, 'Time');
+            
+            updateEvent($m_id, $event);
+            getFighter($f_1_link->href, getSavedFighter($f_1_numb));
+            getFighter($f_2_link->href, getSavedFighter($f_2_numb));
+            
+            $other_fights = $html->find(".event_match", 0);
+            if ($other_fights) {
+                $trs = $other_fights->find("[itemprop=subEvent]");
+                foreach ($trs as $tr) {
+                    $event = [];
+                    $f_1_link = $tr->find("[itemprop=url]", 0);
+                    if (isset($f_1_link)) {
+                        $l_arr = explode("-", $f_1_link->href);
+                        $numb_1 = array_pop($l_arr);
+                        
+                        if (!fighterExists($numb_1)) {
+                            $inserted_f_1 = getFighter($f_1_link->href);
+                            saveFighterNumber($numb_1, $inserted_f_1);
+                        }
+                    }
+                    
+                    $f_2_link = $tr->find("[itemprop=url]", 1);
+                    if (isset($f_2_link)) {
+                        $l_arr = explode("-", $f_2_link->href);
+                        $numb_2 = array_pop($l_arr);
+                        
+                        if (!fighterExists($numb_2)) {
+                            $inserted_f_2 = getFighter($f_2_link->href);
+                            saveFighterNumber($numb_2, $inserted_f_2);
+                        }
+                    }
+                    
+                    $result = $tr->find(".final_result", 0);
+                    if (trim($result->plaintext) == 'win') {
+                        $event['winner'] = getSavedFighter($numb_1);
+                    } else if (trim($result->plaintext) == 'loss') {
+                        $event['winner'] = getSavedFighter($numb_2);
+                    } else if (trim($result->plaintext) == 'draw') {
+                        $event['winner'] = getSavedFighter($numb_1);
+                    } else {
+                        continue;
+                    }
+                    
+                    $res = $tr->find('td', 4);
+                    $res1 = $tr->find('.sub_line', 0);
+                    $event['win_type'] = trim($res->plaintext, $res1->plaintext);
+                    $event['referee'] = $res1->plaintext;
+                    
+                    $res = $tr->find('td', 5);
+                    $event['win_round'] = $res->plaintext;
+                    
+                    $res = $tr->find('td', 6);
+                    $event['win_time'] = $res->plaintext;
+                    
+                    updateOtherFight($m_id, $event);
+                    getFighter($f_1_link->href, getSavedFighter($numb_1));
+                    getFighter($f_2_link->href, getSavedFighter($numb_2));
+                }
+            }
+        }
+    }
+}
+
+function eventFilled($number)
+{
+    global $db;
+    
+    $event_number = $db->get_row("SELECT * FROM `event_number` WHERE `sh_id` = " . $number, ARRAY_A);
+
+    if (!empty($event_number)) {
+        $in_base = $db->get_row("SELECT * FROM `Message2010` WHERE `Message_ID` = " . $event_number['m_id'], ARRAY_A);
+        if (!empty($in_base) && !empty($in_base['main_card_winner'])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function updateEvent($m_id, $event)
+{
+    global $db;
+    
+    $winner = $event['winner'];
+    $win_type = trim($event['win_type']);
+    $referee = trim($event['referee']);
+    $win_round = $event['win_round'];
+    $win_time = trim($event['win_time']);
+    
+    $sql = "
+        UPDATE Message2010 SET
+            main_card_winner = $winner,
+            win_type = '$win_type',
+            referee = '$referee',
+            win_round = $win_round,
+            win_time = '$win_time'
+        WHERE Message_ID = $m_id
+    ";
+    
+    $db->query($sql);
+}
+
+function updateOtherFight($m_id, $event)
+{
+    global $db;
+    
+    $winner = $event['winner'];
+    $win_type = trim($event['win_type']);
+    $referee = trim($event['referee']);
+    $win_round = $event['win_round'];
+    $win_time = trim($event['win_time']);
+    
+    if (strpos(strtolower($win_type), 'draw') === false) {
+        $winner_s = $winner;
+    } else {
+        $winner_s = 0;
+    }
+    
+    $sql = "
+        UPDATE Message2045 SET
+            winner = $winner_s,
+            win_type = '$win_type',
+            referee = '$referee',
+            win_round = $win_round,
+            win_time = '$win_time'
+        WHERE event = $m_id AND (fighter_1 = $winner OR fighter_2 = $winner)
+    ";
+    
+    $db->query($sql);
+}
+
+function updateFighter($m_id, $fighter)
+{
+    global $db;
+    
+    $victory_ko = $fighter['victory_ko'];
+    $victory_decision = $fighter['victory_decision'];
+    $victory_submision = $fighter['victory_submision'];
+    $defeat_ko = $fighter['defeat_ko'];
+    $defeat_decision = $fighter['defeat_decision'];
+    $defeat_submision = $fighter['defeat_submision'];
+    $draw = $fighter['draw'];
+    
+    $sql = "
+        UPDATE Message2007 SET
+            victory_ko = $victory_ko,
+            victory_decision = $victory_decision,
+            victory_submision = $victory_submision,
+            defeat_ko = $defeat_ko,
+            defeat_decision = $defeat_decision,
+            defeat_submision = $defeat_submision,
+            draw = $draw
+        WHERE Message_ID = $m_id
+    ";
+    
+    $db->query($sql);
+}
+
+function eventCompleted($link)
+{
+    global $MODULE_VARS, $INCLUDE_FOLDER;
+    require_once $INCLUDE_FOLDER . "lib/simple_html_dom.php";
+    
+    extract($MODULE_VARS['parser']);
+    
+    $html = file_get_html($parse_base_url . $link);
+    if ($html) {
+        $main_section = $html->find("[itemprop=subEvent]", 0);
+        if (isset($main_section)) {
+            $left_side = $main_section->find(".left_side", 0);
+            $result = $left_side->find(".final_result", 0);
+            if (trim($result->plaintext) == 'win' || trim($result->plaintext) == 'loss') {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+function checkEvents()
+{
+    $date = date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d") + 1, date("Y")));
+    //$date = "2018-09-13 00:00:00";
+    if ($events = getEventsByDate($date)) {
+        foreach ($events as $event) {
+            if ($sh_id = getShEventNumber($event['Message_ID'])) {
+                $sh_link = trim($event['Keyword'], $event['Message_ID']) . $sh_id;
+                getEventFighters($sh_link, $event['Message_ID']);
+                clearOtherFights($event['Message_ID']);
+            }
+        }
+        return "completed";
+    }
+    
+    return "no data";
+}
+
+function getEventsByDate($date)
+{
+    global $db;
+    
+    $events = $db->get_results("SELECT * FROM `Message2010` WHERE `myDate` = '$date'", ARRAY_A);
+    if ($events) {
+        return $events;
+    }
+    return false;
+}
+
+function getShEventNumber($m_id)
+{
+    global $db;
+    
+    $res = $db->get_row("SELECT sh_id FROM event_number WHERE m_id = $m_id", ARRAY_A);
+    if (!empty($res)) {
+        return $res['sh_id'];
+    }
+    return false;
+}
+
+function getEventFighters($link, $m_id)
+{
+    global $MODULE_VARS, $INCLUDE_FOLDER;
+    require_once $INCLUDE_FOLDER . "lib/simple_html_dom.php";
+    
+    extract($MODULE_VARS['parser']);
+    
+    $html = file_get_html($event_url . "/" . $link);
+    if ($html) {
+        $main_section = $html->find("[itemprop=subEvent]", 0);
+        if (isset($main_section)) {
+            $left_side = $main_section->find(".left_side", 0);
+            $f_1_link = $left_side->find("[itemprop=url]", 0);
+            $l_arr = explode("-", $f_1_link->href);
+            $f_1_numb = array_pop($l_arr);
+            if (!fighterExists($f_1_numb)) {
+                $inserted_f_1 = getFighter($f_1_link->href);
+                saveFighterNumber($f_1_numb, $inserted_f_1);
+            }
+            
+            $right_side = $main_section->find(".right_side", 0);
+            $f_2_link = $right_side->find("[itemprop=url]", 0);
+            $l_arr = explode("-", $f_2_link->href);
+            $f_2_numb = array_pop($l_arr);
+            if (!fighterExists($f_2_numb)) {
+                $inserted_f_2 = getFighter($f_2_link->href);
+                saveFighterNumber($f_2_numb, $inserted_f_2);
+            }
+            
+            $fighter_1 = getSavedFighter($f_1_numb);
+            $fighter_2 = getSavedFighter($f_2_numb);
+            
+            checkSavedEventFighters('2010', $m_id, $fighter_1, $fighter_2);
+            
+            $other_fights = $html->find(".event_match", 0);
+            if ($other_fights) {
+                $trs = $other_fights->find("[itemprop=subEvent]");
+                foreach ($trs as $tr) {
+                    $link = $tr->find("[itemprop=url]", 0);
+                    if (isset($link)) {
+                        $l_arr = explode("-", $link->href);
+                        $numb_1 = array_pop($l_arr);
+                        
+                        if (!fighterExists($numb_1)) {
+                            $inserted_f_1 = getFighter($link->href);
+                            saveFighterNumber($numb_1, $inserted_f_1);
+                        }
+                    }
+                    
+                    $link = $tr->find("[itemprop=url]", 1);
+                    if (isset($link)) {
+                        $l_arr = explode("-", $link->href);
+                        $numb_2 = array_pop($l_arr);
+                        
+                        if (!fighterExists($numb_2)) {
+                            $inserted_f_2 = getFighter($link->href);
+                            saveFighterNumber($numb_2, $inserted_f_2);
+                        }
+                    }
+                    
+                    $fighter_1 = getSavedFighter($numb_1);
+                    $fighter_2 = getSavedFighter($numb_2);
+                    checkSavedEventFighters('2045', $m_id, $fighter_1, $fighter_2);
+                }
+            }
+        }
+    }
+}
+
+function checkSavedEventFighters($m_tbl, $m_id, $f_1, $f_2)
+{
+    global $db;
+    
+    $sql = "
+        SELECT * FROM Message" . $m_tbl . " 
+        WHERE " . ($m_tbl == '2010' ? "Message_ID" : "event") . " = $m_id 
+        AND " . ($m_tbl == '2010' ? "main_card_fighter_1" : "fighter_1") . " = $f_1 
+        AND " . ($m_tbl == '2010' ? "main_card_fighter_2" : "fighter_2") . " = $f_2";
+    
+    $res = $db->get_row($sql, ARRAY_A);
+    if (!empty($res)) {
+        $sql = "
+            UPDATE Message" . $m_tbl . " SET 
+                Checked = 2
+            WHERE Message_ID = " . $res['Message_ID'];
+        $db->query($sql);
+        return true;
+    } else {
+        $sql = "
+            SELECT * FROM Message" . $m_tbl . " 
+            WHERE " . ($m_tbl == '2010' ? "Message_ID" : "event") . " = $m_id 
+            AND (" . ($m_tbl == '2010' ? "main_card_fighter_1" : "fighter_1") . " = $f_1 
+            OR " . ($m_tbl == '2010' ? "main_card_fighter_2" : "fighter_2") . " = $f_1)";
+            
+        $res = $db->get_row($sql, ARRAY_A);
+        if (!empty($res)) {
+            $sql = "
+                UPDATE Message" . $m_tbl . " SET "
+                    . ($m_tbl == '2010' ? "main_card_fighter_1" : "fighter_1") . " = $f_1,"
+                    . ($m_tbl == '2010' ? "main_card_fighter_2" : "fighter_2") . " = $f_2,
+                    Checked = 2 
+                WHERE Message_ID = " . $res['Message_ID'];
+            $db->query($sql);
+            return true;
+        } else {
+            $sql = "
+                SELECT * FROM Message" . $m_tbl . " 
+                WHERE " . ($m_tbl == '2010' ? "Message_ID" : "event") . " = $m_id 
+                AND (" . ($m_tbl == '2010' ? "main_card_fighter_1" : "fighter_1") . " = $f_2 
+                OR " . ($m_tbl == '2010' ? "main_card_fighter_2" : "fighter_2") . " = $f_2)";
+                
+            $res = $db->get_row($sql, ARRAY_A);
+            if (!empty($res)) {
+                $sql = "
+                    UPDATE Message" . $m_tbl . " SET "
+                        . ($m_tbl == '2010' ? "main_card_fighter_1" : "fighter_1") . " = $f_1,"
+                        . ($m_tbl == '2010' ? "main_card_fighter_2" : "fighter_2") . " = $f_2,
+                        Checked = 2
+                    WHERE Message_ID = " . $res['Message_ID'];
+                $db->query($sql);
+                return true;
+            } else {
+                if ($m_tbl == '2045') {
+                    $event = [];
+                    $event['fighter_1'] = $f_1;
+                    $event['fighter_2'] = $f_2;
+                    $event['event'] = $m_id;
+                    $event['Checked'] = 2;
+                    saveOtherFight($event);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function clearOtherFights($event_id)
+{
+    global $db;
+    $sql = "
+        DELETE FROM Message2045
+        WHERE event = $event_id AND Checked = 1
+    ";
+    $db->query($sql);
+    
+    $sql = "
+        UPDATE Message2045 SET
+            Checked = 1
+        WHERE event = $event_id
+    ";
     $db->query($sql);
 }

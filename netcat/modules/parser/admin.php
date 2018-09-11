@@ -24,8 +24,22 @@ if (isset($_POST['submit_btn'])) {
     }
 }
 
+if (isset($_POST['submit_recent_btn'])) {
+    set_time_limit(10000);
+    if (getRecentEvents()) {
+        echo "Парсинг завершен"; 
+    }
+    //echo checkEvents();
+}
+
 echo 
 "<form method='post'>
     <input type='hidden' name='hidden' value='1'>
     <input name='submit_btn' value='Начать парсинг' type='submit'>
+</form>";
+
+echo 
+"<form method='post'>
+    <input type='hidden' name='hidden' value='1'>
+    <input name='submit_recent_btn' value='Начать парсинг прошедших событий' type='submit'>
 </form>";
