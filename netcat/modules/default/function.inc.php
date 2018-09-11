@@ -1096,6 +1096,10 @@ function setFightersStatistic($events, $other_fights, $type, $f_id)
         }
     }
     
+    usort($fights, function($a, $b){
+        return (strtotime($a['event_date']) < strtotime($b['event_date']));
+    });
+    
     return $fights;
 }
 
@@ -1196,9 +1200,14 @@ function formatFBArticle($text)
         $parent = $img->parent();
         if ($parent->tag != 'root') {
             if ($parent->tag == 'p') {
-                $parent->outertext = $img;
+                $parent->outertext = '<figure>' . $img . '</figure>';
+            } else {
+                $img = '<figure>' . $img . '</figure>';
             }
+        } else {
+            $img = '<figure>' . $img . '</figure>';
         }
+        
     }
     
     $text = $html;
