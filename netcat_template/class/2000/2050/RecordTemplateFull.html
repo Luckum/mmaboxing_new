@@ -40,6 +40,7 @@
     $f_myText = trim($f_myText, ':');
     
     $db->query("UPDATE `Message$classID` SET myViews = myViews + 1 WHERE `Message_ID` = $f_RowID");
+    setMessageView($f_RowID);
     $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
     $month_arr = array(
         '01'=>'января',

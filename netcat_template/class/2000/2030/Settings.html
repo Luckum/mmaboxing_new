@@ -1,7 +1,8 @@
 <?php
 $nc_comments = new nc_comments($cc);
 $ignore_all = 1;
-$query_select = "a.*, DATE_FORMAT(a.`Date`,'%Y') as Date_year, DATE_FORMAT(a.`Date`,'%m') as Date_month,
+
+/*$query_select = "a.*, DATE_FORMAT(a.`Date`,'%Y') as Date_year, DATE_FORMAT(a.`Date`,'%m') as Date_month,
     DATE_FORMAT(a.`Date`,'%d') as Date_day, DATE_FORMAT(a.`Date`,'%H') as Date_hours, DATE_FORMAT(a.`Date`,'%i') as Date_minutes, DATE_FORMAT(a.`Date`,'%s') as Date_seconds";
 $query_from = "Comments_Count cc";
 $query_join = " LEFT JOIN Message2000 a ON cc.Message_ID = a.Message_ID";
@@ -23,7 +24,16 @@ if ($current_sub['Subdivision_ID'] == 3 || $current_sub['Subdivision_ID'] == 1) 
     $query_where .= "a.Subdivision_ID = " . $s_type;
 }
 
-$query_order = "(cc.CountComments + cc.CountReplies) DESC";
+$query_order = "(cc.CountComments + cc.CountReplies) DESC";*/
+
+$today = date("Y-m-d");
+
+$query_select = "a.*, DATE_FORMAT(a.`Date`,'%Y') as Date_year, DATE_FORMAT(a.`Date`,'%m') as Date_month,
+    DATE_FORMAT(a.`Date`,'%d') as Date_day, DATE_FORMAT(a.`Date`,'%H') as Date_hours, DATE_FORMAT(a.`Date`,'%i') as Date_minutes, DATE_FORMAT(a.`Date`,'%s') as Date_seconds";
+$query_from = "Message2000_view av";
+$query_join = " LEFT JOIN Message2000 a ON av.m_id = a.Message_ID";
+$query_where = "av.view_date = '$today'";
+$query_order = "av.view_total DESC";
 $query_limit = $recNum;
 
 ?>

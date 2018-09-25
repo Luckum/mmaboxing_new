@@ -383,28 +383,12 @@ $likes_cnt = $f_fb_cnt + $f_vk_cnt + $f_twits_cnt;
         
 <!-- блоки с комментариями -->        
         <div class="main_dop_s to-slide">
-            <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
-                <div class="right_p_t_b vid">Самые обсуждаемые новости<span class="video_tabs">></span></div>
-            <?php endif; ?>
-            <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
-                <div class="right_p_t_b vid">Самые обсуждаемые статьи<span class="video_tabs">></span></div>
-            <?php endif; ?>
-            <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
-                <div class="right_p_t_b vid">Самые обсуждаемые записи в блогах<span class="video_tabs">></span></div>
-            <?php endif; ?>
+            <div class="right_p_t_b vid">Популярное за сутки<span class="video_tabs">></span></div>
             <?= s_list_class(3,1,"&recNum=8&nc_ctpl=2030&s_type=" . ($current_sub['Subdivision_ID'] == 55 ? 3 : $current_sub['Subdivision_ID'])) ?>
         </div>
 
         <div class="main_dop_s not-slide" style="display: none;">
-            <?php if (in_array($current_sub['Hidden_URL'], $newsUrls)): ?>
-                <div class="right_p_t_b vid">Самые обсуждаемые новости<span class="video_tabs">></span></div>
-            <?php endif; ?>
-            <?php if (in_array($current_sub['Hidden_URL'], $articlesUrls)): ?>
-                <div class="right_p_t_b vid">Самые обсуждаемые статьи<span class="video_tabs">></span></div>
-            <?php endif; ?>
-            <?php if (in_array($current_sub['Subdivision_ID'], $blogsUrls)): ?>
-                <div class="right_p_t_b vid">Самые обсуждаемые записи в блогах<span class="video_tabs">></span></div>
-            <?php endif; ?>
+            <div class="right_p_t_b vid">Популярное за сутки<span class="video_tabs">></span></div>
             <?= s_list_class(3,1,"&recNum=4&nc_ctpl=2030&s_type=" . ($current_sub['Subdivision_ID'] == 55 ? 3 : $current_sub['Subdivision_ID'])) ?>
         </div>
 <!-- блоки с комментариями --> 

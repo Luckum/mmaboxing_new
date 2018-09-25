@@ -29,6 +29,7 @@
 </script>
 <?php
     $db->query("UPDATE `Message$classID` SET views = views + 1 WHERE `Message_ID` = $f_RowID");
+    setMessageView($f_RowID);
     $c_country = mysql_fetch_assoc(mysql_query("SELECT * FROM Classificator_country_en WHERE country_en_ID = " . $f_myCountry_id));
     $events = $db->get_results("SELECT * FROM Message2010 WHERE main_card_fighter_1 = " . $f_RowID . " OR main_card_fighter_2 = " . $f_RowID, ARRAY_A);
     $other_fights = $db->get_results("SELECT * FROM Message2045 WHERE fighter_1 = " . $f_RowID . " OR fighter_2 = " . $f_RowID, ARRAY_A);
