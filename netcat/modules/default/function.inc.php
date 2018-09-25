@@ -1,5 +1,4 @@
 <?php
-
 // Данные по пользвателю
 
 function getUserData($uid)
@@ -1262,5 +1261,42 @@ function clearExclusive()
 {
     $sql = "UPDATE Message2000 SET exclusive = 0 WHERE exclusive = 1";
     mysql_query($sql);
+    return true;
+}
+
+function getFighterByName($f_name)
+{
+    $rec = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2007 WHERE LOWER(myName_ru) like '%" . strtolower($f_name) . "%'"));
+    if ($rec) {
+        $f_sub = mysql_fetch_assoc(mysql_query("SELECT Hidden_URL FROM Subdivision WHERE Subdivision_ID = " . $rec['Subdivision_ID']));
+        $foto = explode(':', $rec['myFoto']);
+        $ret = [];
+        $ret['id'] = $rec['Message_ID'];
+        $ret['victories'] = $rec['victory_ko'] + $rec['victory_decision'] + $rec['victory_submision'];
+        $ret['losses'] = $rec['defeat_ko'] + $rec['defeat_decision'] + $rec['defeat_submision'];
+        $ret['draws'] = $rec['draw'];
+        $ret['link'] = $f_sub['Hidden_URL'] . $rec['Keyword'] . ".html";
+        $ret['image'] = !empty($rec['image']) ? '/images/fighters/' . $rec['image'] : (isset($foto[3]) ? getThumbNow($foto[3], 270, 405, 1, false, 95, -1) : '/images/f_default.jpg');
+        return $ret;
+    }
+    return false;
+}
+
+function setMessageView($m_id)
+{
+    $today = date("Y-m-d");
+    $yesterday = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")));
+    
+    $rec = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2000_view WHERE view_date = '$yesterday'"));
+    if ($rec) {
+        mysql_query("DELETE FROM Message2000_view WHERE view_date = '$yesterday'");
+    }
+    
+    $rec = mysql_fetch_assoc(mysql_query("SELECT * FROM Message2000_view WHERE view_date = '$today' AND m_id = $m_id"));
+    if ($rec) {
+        mysql_query("UPDATE Message2000_view SET view_total = view_total + 1 WHERE view_date = '$today' AND m_id = $m_id");
+    } else {
+        mysql_query("INSERT INTO Message2000_view (m_id, view_date, view_total) VALUES ($m_id, '$today', 1)");
+    }
     return true;
 }
