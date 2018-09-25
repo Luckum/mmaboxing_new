@@ -929,7 +929,7 @@ function eventCompleted($link)
         if (isset($main_section)) {
             $left_side = $main_section->find(".left_side", 0);
             $result = $left_side->find(".final_result", 0);
-            if (trim($result->plaintext) == 'win' || trim($result->plaintext) == 'loss') {
+            if (trim($result->plaintext) == 'win' || trim($result->plaintext) == 'loss' || trim($result->plaintext) == 'draw') {
                 return true;
             }
         }
