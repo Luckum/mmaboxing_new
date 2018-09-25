@@ -531,6 +531,15 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
             $full_search_query = $full_search_params['query'];
             $full_search_url = $full_search_params['link'];
         }
+        
+        if ($cc_env['Sub_Class_ID'] == 240 && $cc_env['TableViewMode'] == 1 && $inside_admin && count($srchPat)) {
+            if (!empty($srchPat[0])) {
+                $full_search_query .= " AND (a07_1.myName_en LIKE '%" . $srchPat[0] . "%' OR a07_2.myName_en LIKE '%" . $srchPat[0] . "%')";
+            }
+            if (!empty($srchPat[1])) {
+                $full_search_query .= " AND a10.myName LIKE '%" . $srchPat[1] . "%'";
+            }
+        }
 
         // *** Подготовка запроса к БД ***
 
@@ -621,6 +630,15 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
         }
 
         if (!$ignore_all) {
+            if ($cc_env['Sub_Class_ID'] == 240 && $cc_env['TableViewMode'] == 1 && $inside_admin) {
+                $query_join .= " LEFT JOIN Message2007 as a07_1 ON a.fighter_1 = a07_1.Message_ID";
+                $query_join .= " LEFT JOIN Message2007 as a07_2 ON a.fighter_2 = a07_2.Message_ID";
+                $query_join .= " LEFT JOIN Message2010 as a10 ON a.event = a10.Message_ID";
+                $field_names .= ", a07_1.myName_ru AS name_ru_1, a07_1.myName_en AS name_en_1";
+                $field_names .= ", a07_2.myName_ru AS name_ru_2, a07_2.myName_en AS name_en_2";
+                $field_names .= ", a10.myName AS name_event";
+            }
+            
             $message_select =
                 "SELECT" . (!$ignore_calc ? " SQL_CALC_FOUND_ROWS" : "") . " " .
                            $cond_distinct . " " . $field_names . $cond_select . "
@@ -835,9 +853,24 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
     // Системная форма поиска (фильтр)
     }
     elseif ($inside_admin) {
-        $filter_view_data = array(
+        if ($cc_env['Sub_Class_ID'] == 240 && $cc_env['TableViewMode'] == 1) {
+            $form = "<form action='" . ($admin_mode ? $HTTP_ROOT_PATH . "index.php?" : nc_infoblock_path($current_cc['Sub_Class_ID'])) . "' method='get'>
+                <input type='hidden' name='action' value='index' />
+                <input type='hidden' name='admin_mode' value='".$admin_mode."' />
+                ".( $inside_admin ? "<input type='hidden' name='inside_admin' value='1' />
+                <input type='hidden' name='cc' value='".$cc."' />" : "").
+                " <div>Имя фамилия бойца (английский): <br><input type='text' name='srchPat[0]' size='50' maxlength='255' value=''></div>
+                <div>Событие: <br><input type='text' name='srchPat[1]' size='50' maxlength='255' value=''></div>
+                <br>
+                <input value='".NETCAT_SEARCH_FIND_IT."' type='submit' />
+            </form>";
+        } else {
+            $form = $component->search_form(0);
+        }
+        //echo '<pre>' . htmlspecialchars($component->search_form(0)) . '</pre>';
+        $filter_view_data = array(                     
             'cc'      => $cc,
-            'form'    => eval('return "' . $component->search_form(0) . '";'),
+            'form'    => eval('return "' . $form . '";'),
             'fields'  => $component->get_fields(),
             'is_open' => (bool)$nc_core->input->fetch_get('srchPat'),
         );
@@ -851,6 +884,7 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
 
     $db->last_error = "";
 
+    $db->query("SET SQL_BIG_SELECTS=1");
     if ($message_select) {
         $res = $db->get_results($message_select, ARRAY_A);
     }
@@ -1272,7 +1306,7 @@ function nc_objects_list($sub, $cc, $query_string = "", $show_in_admin_mode = fa
         }
         unset($_variable_name);
     }
-
+    
     // Прежние названия переменных в fetch_row (v4): f_UserID, f_LastUserID, f_UserGroup, Hidden_URL
     $nc_compatibility_variable_map = array(
         'f_User_ID' => 'f_UserID',
