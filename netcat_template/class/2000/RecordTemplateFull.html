@@ -69,6 +69,31 @@
                     document.getElementById('fb-root').appendChild(e);
                 }());
             }
+            
+            $(".backlight-lnk").each( function () {
+                var name = $(this).html();
+                var elm = this;
+                $.ajax({
+                    url: "/netcat/modules/default/ajax.php?isNaked=1",
+                    async: false,
+                    type: "POST",
+                    data: {action: 'get_f_name', name: name},
+                    success: function(data) {
+                        var a = JSON.parse(data);
+                        if ($("div").is("#tooltip_tmpls")) {
+                            
+                        } else {
+                            $("body").append("<div class='tooltip_tmpls' id='tooltip_tmpls' style='display: none;'></div>");
+                        }
+                        $("#tooltip_tmpls").append("<div id='tooltip-cnt-" + a.id + "'><a href='" + a.link + "'>Перейти на карточку</a></div>");
+                        $(elm).addClass("tooltip");
+                        $(elm).attr("data-tooltip-content", "#tooltip-cnt-" + a.id);
+                        $('.tooltip').tooltipster({
+                            interactive: 'true'
+                        });
+                    }
+                })
+            });
         });
     </script>
     <script src='https://vk.com/js/api/openapi.js' type='text/javascript'></script>
@@ -84,6 +109,7 @@
     <?=nc_browse_path($browse_template)?>		
     <?php
         $db->query("UPDATE `Message$classID` SET myViews = myViews + 1 WHERE `Message_ID` = $f_RowID");
+        setMessageView($f_RowID);
         $user_name = mysql_fetch_assoc(mysql_query("SELECT ForumName FROM User WHERE User_ID=$f_User_ID LIMIT 0,1"));
         $month_arr = array(
             '01'=>'января',
